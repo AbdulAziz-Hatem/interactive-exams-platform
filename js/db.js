@@ -2,6 +2,7 @@
  * طبقة إدارة البيانات والاتصال السحابي فائق المرونة (Resilient Data Access Layer)
  * تجمع بين: الاتصال السحابي المباشر عبر REST API (بدون تبعيات)،
  * ومكتبة Supabase JS (إن وجدت)، والمحاكاة الذاتية في وضع عدم الاتصال.
+ * مخصصة حصرياً لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
  */
 
 class DatabaseManager {
@@ -53,10 +54,9 @@ class DatabaseManager {
   }
 
   // ==========================================
-  // المواد والمقررات الدراسية (Subjects)
+  // المواد والمقررات التخصصية (Subjects)
   // ==========================================
   async getSubjects() {
-    // 1. محاولة الجلب السحابي المباشر فائق السرعة عبر REST
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
         const data = await this.fetchRest('subjects?select=*&is_active=eq.true&order=created_at.asc');
@@ -65,7 +65,6 @@ class DatabaseManager {
         console.warn('فشل طلب REST السحابي للمقررات، جاري المحاولة عبر العميل أو التخزين الاحتياطي:', err);
       }
 
-      // 2. محاولة عبر عميل Supabase
       if (this.client) {
         try {
           const { data, error } = await this.client
@@ -80,7 +79,6 @@ class DatabaseManager {
       }
     }
 
-    // 3. الرجوع للمحاكاة والتخزين المحلي في حال انقطاع الشبكة
     return JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
   }
 
@@ -110,7 +108,7 @@ class DatabaseManager {
   }
 
   // ==========================================
-  // الاختبارات (Exams)
+  // النماذج الاختبارية (Exams)
   // ==========================================
   async getExamsBySubject(subjectId) {
     if (window.CONFIG.isSupabaseConfigured()) {
@@ -162,7 +160,7 @@ class DatabaseManager {
     const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
     return exams.map(e => ({
       ...e,
-      subjects: { title: subjects.find(s => s.id === e.subject_id)?.title || 'مادة عامة' }
+      subjects: { title: subjects.find(s => s.id === e.subject_id)?.title || 'مقرر تخصصي' }
     }));
   }
 
@@ -171,7 +169,6 @@ class DatabaseManager {
   // ==========================================
   async getExamForStudent(examId) {
     if (window.CONFIG.isSupabaseConfigured()) {
-      // 1. محاولة عبر دالة RPC المباشرة
       try {
         const data = await this.fetchRest('rpc/get_exam_for_student', 'POST', {
           p_exam_id: examId
@@ -181,7 +178,6 @@ class DatabaseManager {
         console.warn('RPC fetch failed via REST, attempting client:', e);
       }
 
-      // 2. محاولة عبر عميل Supabase
       if (this.client) {
         try {
           const { data, error } = await this.client.rpc('get_exam_for_student', {
@@ -192,10 +188,9 @@ class DatabaseManager {
       }
     }
 
-    // 3. الرجوع للمحاكاة المحلية
     const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
     const exam = exams.find(e => e.id === examId);
-    if (!exam) throw new Error('الاختبار غير موجود');
+    if (!exam) throw new Error('النموذج الاختباري غير متوفر');
 
     const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]')
       .filter(q => q.exam_id === examId)
@@ -258,9 +253,8 @@ class DatabaseManager {
       }
     }
 
-    // محاكاة محلية
     const user = window.authManager.getUser();
-    if (!user) throw new Error('يجب تسجيل الدخول أولاً');
+    if (!user) throw new Error('يجب تسجيل الدخول أولاً لتسليم الاختبار');
 
     const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
     const exam = exams.find(e => e.id === examId);
@@ -289,7 +283,7 @@ class DatabaseManager {
         selected_choice_id: studentAnswer ? studentAnswer.choice_id : null,
         correct_choice_id: correctChoice ? correctChoice.id : null,
         correct_choice_text: correctChoice ? correctChoice.choice_text : 'غير محدد',
-        explanation: q.explanation || 'لا يوجد تعليق إضافي لهذا السؤال.'
+        explanation: q.explanation || 'لا يوجد تعليق إضافي لهذه المسألة.'
       });
     }
 
@@ -351,8 +345,8 @@ class DatabaseManager {
         return {
           ...s,
           exams: {
-            title: ex?.title || 'اختبار غير معروف',
-            subjects: { title: sb?.title || 'عام' }
+            title: ex?.title || 'نموذج اختباري',
+            subjects: { title: sb?.title || 'مقرر تخصصي' }
           }
         };
       });
@@ -451,7 +445,7 @@ class DatabaseManager {
     const defaultSubject = {
       id: 'sub_demo_1',
       title: 'مناهج المفسرين (المستوى الرابع)',
-      description: 'مقرر مناهج المفسرين لطلاب قسم القرآن الكريم والدراسات الإسلامية - المستوى الرابع (سنة التخرج). شامل لأصول التفسير بالمأثور وبالرأي.',
+      description: 'مقرر مناهج المفسرين لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء — المستوى الرابع (سنة التخرج). شامل لأصول التفسير بالمأثور وبالرأي وضوابطهما.',
       code: 'MANAHIJ_4',
       icon: 'book',
       is_active: true,
@@ -461,7 +455,7 @@ class DatabaseManager {
       id: 'b0000000-0000-0000-0000-000000000001',
       subject_id: 'sub_demo_1',
       title: 'الاختبار التجريبي الأول لمناهج المفسرين',
-      description: 'اختبار تدريبي تفاعلي يغطي أصول ومناهج التفسير بالمأثور وبالرأي وضوابطهما وفق المقرر المعتمد.',
+      description: 'نموذج اختباري تدريبي معتمد لطلبة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء، يغطي النطاق المحدد للاختبار النهائي وفق كتاب المقرر.',
       duration_minutes: 20,
       passing_percentage: 60,
       is_published: true,

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة الطالب وسجل الاختبارات | منصة مدارج</title>
+  <title>لوحة الطالب الأكاديمية | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الموحد -->
+  <!-- شريط التنقل العلوي الأكاديمي -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
       <div class="nav-right">
@@ -21,7 +21,10 @@
         </button>
         <a href="index.html" class="brand">
           <span class="brand-badge">مدارج</span>
-          <span>منصة الاختبارات</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
         </a>
       </div>
       <div class="nav-left">
@@ -46,49 +49,55 @@
       <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
     </nav>
     <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
     </div>
   </aside>
 
   <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     
-    <!-- بطاقة الترحيب بالطالب والإحصائيات -->
+    <!-- بطاقة الترحيب بطلبة القسم والإحصائيات التراكمية -->
     <section class="card" aria-labelledby="dash-welcome">
       <div class="card-header">
         <div>
-          <h1 id="dash-welcome" style="font-size: 1.6rem; font-weight: 800;">لوحة الطالب الشخصية</h1>
-          <p id="dash-user-email" class="text-muted" style="font-size: 0.95rem; margin-top: 0.25rem;">جاري التحميل...</p>
+          <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
+            <span>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</span>
+          </div>
+          <h1 id="dash-welcome" style="font-size: 1.7rem; font-weight: 800;">سجل الطالب الأكاديمي</h1>
+          <p id="dash-user-email" class="text-muted" style="font-size: 0.95rem; margin-top: 0.25rem;">جاري مزامنة الملف الشخصي...</p>
         </div>
         <div>
           <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات والاختبارات ❯</a>
         </div>
       </div>
 
-      <!-- إحصائيات سريعة -->
-      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin: 1rem 0 0 0;">
-        <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); text-align: center;">
-          <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">إجمالي الاختبارات المنجزة</span>
-          <strong id="stat-total-exams" style="font-size: 2rem; color: var(--primary);">0</strong>
+      <!-- إحصائيات التحصيل الأكاديمي السريعة -->
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 1rem 0 0 0;">
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">إجمالي الاختبارات المنجزة بالقسم</span>
+          <strong id="stat-total-exams" style="font-size: 2.2rem; color: var(--primary);">0</strong>
         </div>
-        <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); text-align: center;">
-          <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">الاختبارات المجتازة</span>
-          <strong id="stat-passed-exams" style="font-size: 2rem; color: var(--success);">0</strong>
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">الاختبارات المجتازة بنجاح</span>
+          <strong id="stat-passed-exams" style="font-size: 2.2rem; color: var(--success);">0</strong>
         </div>
-        <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); text-align: center;">
-          <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">متوسط النسبة المئوية</span>
-          <strong id="stat-avg-score" style="font-size: 2rem; color: var(--text-main);">0%</strong>
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">متوسط النسبة التراكمية</span>
+          <strong id="stat-avg-score" style="font-size: 2.2rem; color: var(--text-main);">0%</strong>
         </div>
       </div>
     </section>
 
-    <!-- سجل الاختبارات السابقة -->
+    <!-- سجل الاختبارات السابقة والتحصيل العلمي -->
     <section class="card" aria-labelledby="history-heading">
       <div class="card-header">
-        <h2 id="history-heading" style="font-size: 1.35rem; font-weight: 800;">سجل الاختبارات والنتائج السابقة</h2>
+        <div>
+          <h2 id="history-heading" style="font-size: 1.4rem; font-weight: 800;">سجل المحاولات والمراجعات الأكاديمية</h2>
+          <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">يعرض كافة الاختبارات التي خضتها مع إمكانية مراجعة التعليلات العلمية لكل مسألة.</p>
+        </div>
       </div>
 
       <div id="history-container" role="region" aria-live="polite">
-        <p class="text-muted">جاري تحميل السجل من السحابة...</p>
+        <p class="text-muted">جاري تحميل سجل الاختبارات من الخادم السحابي...</p>
       </div>
     </section>
 
@@ -96,7 +105,7 @@
 
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
     </div>
   </footer>
 
@@ -116,8 +125,8 @@
 
       window.db.init();
 
-      document.getElementById('dash-welcome').textContent = `أهلاً بك، ${user.fullName}`;
-      document.getElementById('dash-user-email').textContent = `البريد المسجل: ${user.email} | الدور: ${user.role === 'admin' ? 'مدير نظام' : 'طالب'}`;
+      document.getElementById('dash-welcome').textContent = `أهلاً بك، الطالب/ ${user.fullName}`;
+      document.getElementById('dash-user-email').textContent = `البريد الأكاديمي: ${user.email} | الصفة: ${user.role === 'admin' ? 'مدير ومشرف أكاديمي' : 'طالب بقسم القرآن الكريم وعلومه'}`;
 
       loadUserHistory(user.id);
     });
@@ -140,8 +149,8 @@
         if (total === 0) {
           container.innerHTML = `
             <div style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
-              <p style="font-size: 1.05rem;">لم تقم بخوض أي اختبار حتى الآن.</p>
-              <a href="index.html#subjects-section" class="btn btn-primary btn-sm" style="margin-top: 1rem;">ابدأ أول اختبار لك الآن ❯</a>
+              <p style="font-size: 1.05rem;">لم تقم بخوض أي نموذج اختباري حتى الآن.</p>
+              <a href="index.html#subjects-section" class="btn btn-primary btn-sm" style="margin-top: 1rem;">خوض أول اختبار تجريبي لمقررات القسم ❯</a>
             </div>
           `;
           return;
@@ -153,7 +162,7 @@
               <thead>
                 <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.9rem;">
                   <th style="padding: 0.75rem 0.5rem;">اسم الاختبار</th>
-                  <th style="padding: 0.75rem 0.5rem;">المادة</th>
+                  <th style="padding: 0.75rem 0.5rem;">المقرر التخصصي</th>
                   <th style="padding: 0.75rem 0.5rem;">الدرجة</th>
                   <th style="padding: 0.75rem 0.5rem;">النسبة</th>
                   <th style="padding: 0.75rem 0.5rem;">الحالة</th>
@@ -171,20 +180,20 @@
                     : '<span class="badge badge-danger">راسب ✗</span>';
 
                   return `
-                    <tr style="border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-                      <td style="padding: 0.85rem 0.5rem; font-weight: 600;">
+                    <tr style="border-bottom: 1px solid var(--border-light); font-size: 0.95rem;">
+                      <td style="padding: 0.9rem 0.5rem; font-weight: 700;">
                         ${window.authManager.escapeHtml(item.exams?.title || 'اختبار')}
                       </td>
-                      <td style="padding: 0.85rem 0.5rem; color: var(--text-muted);">
+                      <td style="padding: 0.9rem 0.5rem; color: var(--text-muted);">
                         ${window.authManager.escapeHtml(item.exams?.subjects?.title || 'عام')}
                       </td>
-                      <td style="padding: 0.85rem 0.5rem;">${item.score} / ${item.total_points}</td>
-                      <td style="padding: 0.85rem 0.5rem; font-weight: 700;">${item.percentage}%</td>
-                      <td style="padding: 0.85rem 0.5rem;">${statusBadge}</td>
-                      <td style="padding: 0.85rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
-                      <td style="padding: 0.85rem 0.5rem;">
+                      <td style="padding: 0.9rem 0.5rem; font-weight: 600;">${item.score} / ${item.total_points}</td>
+                      <td style="padding: 0.9rem 0.5rem; font-weight: 800; color: var(--primary);">${item.percentage}%</td>
+                      <td style="padding: 0.9rem 0.5rem;">${statusBadge}</td>
+                      <td style="padding: 0.9rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
+                      <td style="padding: 0.9rem 0.5rem;">
                         <a href="result.html?submission_id=${item.id}" class="btn btn-secondary btn-sm" aria-label="عرض مراجعة نتيجة اختبار ${window.authManager.escapeHtml(item.exams?.title || '')}">
-                          عرض المراجعة
+                          عرض المراجعة والتعليل
                         </a>
                       </td>
                     </tr>

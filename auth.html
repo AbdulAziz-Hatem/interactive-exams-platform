@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الدخول وإنشاء حساب | منصة مدارج</title>
+  <title>تسجيل الدخول | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الموحد -->
+  <!-- شريط التنقل العلوي الأكاديمي -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
       <div class="nav-right">
@@ -21,7 +21,10 @@
         </button>
         <a href="index.html" class="brand">
           <span class="brand-badge">مدارج</span>
-          <span>منصة الاختبارات</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
         </a>
       </div>
       <div class="nav-left">
@@ -30,7 +33,7 @@
     </div>
   </header>
 
-  <!-- خلفية التعتيم والقائمة الجانبية الموحدة -->
+  <!-- خلفية التعتيم والقائمة الجانبية -->
   <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
   <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
     <div class="sidebar-header">
@@ -45,40 +48,45 @@
       <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
     </nav>
     <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
     </div>
   </aside>
 
-  <main id="main-content" class="container" role="main" style="max-width: 480px; margin-top: 3rem; margin-bottom: 4rem;">
-    <div class="card" style="box-shadow: var(--shadow-md);">
-      <div class="card-header" style="justify-content: center; text-align: center; border: none; padding-bottom: 0;">
-        <h1 id="auth-heading" style="font-size: 1.6rem; font-weight: 800;">تسجيل الدخول</h1>
+  <main id="main-content" class="container" role="main" style="max-width: 490px; margin-top: 3rem; margin-bottom: 4rem;">
+    <div class="card" style="box-shadow: var(--shadow-md); border-top: 4px solid var(--primary);">
+      
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">بوابة طلبة القسم</span>
+        <h1 id="auth-heading" style="font-size: 1.65rem; font-weight: 800; color: var(--text-main);">تسجيل الدخول</h1>
+        <p class="text-muted" style="font-size: 0.88rem; margin-top: 0.25rem;">
+          مخصصة لطلبة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء
+        </p>
       </div>
 
-      <div id="auth-error-alert" class="alert alert-danger" style="display: none;" role="alert" aria-live="assertive"></div>
-      <div id="auth-success-alert" class="alert alert-success" style="display: none;" role="status" aria-live="polite"></div>
+      <div id="auth-error-alert" class="alert alert-danger" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--danger-light); color: var(--danger); margin-bottom: 1rem; font-size: 0.92rem;" role="alert" aria-live="assertive"></div>
+      <div id="auth-success-alert" class="alert alert-success" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--success-light); color: var(--success); margin-bottom: 1rem; font-size: 0.92rem;" role="status" aria-live="polite"></div>
 
       <!-- تبويبات التبديل بين الدخول والتسجيل -->
-      <div style="display: flex; gap: 0.5rem; margin: 1.25rem 0 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem;">
         <button type="button" id="tab-login" class="btn btn-outline btn-sm" style="flex: 1;" aria-selected="true">تسجيل الدخول</button>
-        <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب جديد</button>
+        <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب طالب</button>
       </div>
 
       <!-- نموذج الدخول / التسجيل -->
       <form id="auth-form" novalidate>
         
         <div id="group-fullname" class="form-group" style="display: none;">
-          <label for="fullname" class="form-label">الاسم الكامل (الاسم الثلاثي أو الرباعي)</label>
-          <input type="text" id="fullname" class="form-input" placeholder="مثال: عبد العزيز أمين" autocomplete="name">
+          <label for="fullname" class="form-label">الاسم الكامل (الاسم الثلاثي أو الرباعي كما في الكشف الجامعي) *</label>
+          <input type="text" id="fullname" class="form-input" placeholder="مثال: عبد العزيز أمين راجح حاتم" autocomplete="name">
         </div>
 
         <div class="form-group">
-          <label for="email" class="form-label">البريد الإلكتروني</label>
-          <input type="email" id="email" class="form-input" placeholder="name@example.com" dir="ltr" autocomplete="email" required>
+          <label for="email" class="form-label">البريد الإلكتروني *</label>
+          <input type="email" id="email" class="form-input" placeholder="student@example.com" dir="ltr" autocomplete="email" required>
         </div>
 
         <div class="form-group">
-          <label for="password" class="form-label">كلمة المرور</label>
+          <label for="password" class="form-label">كلمة المرور *</label>
           <input type="password" id="password" class="form-input" placeholder="••••••••" dir="ltr" autocomplete="current-password" required>
           <span id="password-hint" style="font-size: 0.8rem; color: var(--text-muted); display: none; margin-top: 4px;">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
         </div>
@@ -89,9 +97,9 @@
       </form>
 
       <div style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
-        <span id="auth-switch-text">ليس لديك حساب بعد؟</span>
-        <button type="button" id="btn-toggle-mode" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: underline; font-family: inherit;">
-          إنشاء حساب الآن
+        <span id="auth-switch-text">طالب جديد في القسم؟</span>
+        <button type="button" id="btn-toggle-mode" style="background: none; border: none; color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; font-family: inherit;">
+          تسجيل حساب الآن
         </button>
       </div>
     </div>
@@ -99,7 +107,7 @@
 
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
     </div>
   </footer>
 
@@ -149,23 +157,23 @@
       hideAlerts();
 
       if (mode === 'signup') {
-        heading.textContent = 'إنشاء حساب طالب جديد';
+        heading.textContent = 'تسجيل طالب جديد بالقسم';
         groupFullName.style.display = 'block';
-        submitBtn.textContent = 'إنشاء الحساب';
-        switchText.textContent = 'لديك حساب بالفعل؟';
+        submitBtn.textContent = 'إنشاء وتفعيل الحساب';
+        switchText.textContent = 'لديك حساب مسجل بالفعل؟';
         toggleBtn.textContent = 'تسجيل الدخول';
         tabSignup.className = 'btn btn-primary btn-sm';
         tabSignup.setAttribute('aria-selected', 'true');
         tabLogin.className = 'btn btn-secondary btn-sm';
         tabLogin.setAttribute('aria-selected', 'false');
         pwdHint.style.display = 'block';
-        window.a11y.announce('تم التبديل إلى نموذج إنشاء حساب جديد');
+        window.a11y.announce('تم التبديل إلى نموذج تسجيل طالب جديد');
       } else {
         heading.textContent = 'تسجيل الدخول إلى حسابك';
         groupFullName.style.display = 'none';
         submitBtn.textContent = 'تسجيل الدخول';
-        switchText.textContent = 'ليس لديك حساب بعد؟';
-        toggleBtn.textContent = 'إنشاء حساب الآن';
+        switchText.textContent = 'طالب جديد في القسم؟';
+        toggleBtn.textContent = 'تسجيل حساب الآن';
         tabLogin.className = 'btn btn-primary btn-sm';
         tabLogin.setAttribute('aria-selected', 'true');
         tabSignup.className = 'btn btn-secondary btn-sm';
@@ -190,12 +198,12 @@
       }
 
       if (currentMode === 'signup' && !fullname) {
-        showError('يرجى كتابة الاسم الكامل.');
+        showError('يرجى كتابة الاسم الكامل للطالب.');
         return;
       }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = 'جاري المعالجة...';
+      submitBtn.textContent = 'جاري التحقق والمعالجة...';
 
       try {
         if (currentMode === 'signup') {
@@ -203,19 +211,19 @@
           if (res.requiresEmailConfirmation) {
             showSuccess('تم إنشاء الحساب بنجاح! تم إرسال رابط تأكيد إلى بريدك الإلكتروني.');
           } else {
-            showSuccess('تم إنشاء الحساب بنجاح! جاري تحويلك...');
+            showSuccess('تم تفعيل حسابك الأكاديمي بنجاح! جاري توجيهك إلى لوحة الطالب...');
             redirectAfterAuth();
           }
         } else {
           await window.authManager.signIn(email, password);
-          showSuccess('تم تسجيل الدخول بنجاح! جاري تحويلك...');
+          showSuccess('مرحباً بك! تم تسجيل الدخول بنجاح، جاري التوجيه...');
           redirectAfterAuth();
         }
       } catch (err) {
         console.error(err);
         showError(err.message || 'حدث خطأ أثناء المصادقة.');
         submitBtn.disabled = false;
-        submitBtn.textContent = currentMode === 'signup' ? 'إنشاء الحساب' : 'تسجيل الدخول';
+        submitBtn.textContent = currentMode === 'signup' ? 'إنشاء وتفعيل الحساب' : 'تسجيل الدخول';
       }
     }
 
@@ -224,7 +232,7 @@
       const redirect = params.get('redirect') || 'dashboard.html';
       setTimeout(() => {
         window.location.href = redirect;
-      }, 700);
+      }, 650);
     }
 
     function showError(msg) {

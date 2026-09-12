@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خوض الاختبار | منصة مدارج</title>
+  <title>خوض الاختبار | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
@@ -16,7 +16,10 @@
       <div class="nav-right">
         <a href="index.html" class="brand" id="btn-exit-exam" aria-label="مغادرة الاختبار والعودة للرئيسية">
           <span class="brand-badge">مدارج</span>
-          <span id="exam-nav-brand">جلسة الاختبار</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title" id="exam-nav-brand">جلسة الاختبار التفاعلي</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
         </a>
       </div>
 
@@ -37,8 +40,8 @@
       <!-- شريط تفاصيل الاختبار وحالة التقدم -->
       <header class="exam-header" aria-labelledby="exam-title">
         <div>
-          <h1 id="exam-title" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.35rem;">جاري تحميل الاختبار من السحابة...</h1>
-          <span style="font-size: 0.95rem; color: var(--text-muted);">
+          <h1 id="exam-title" style="font-size: 1.55rem; font-weight: 800; margin-bottom: 0.35rem;">جاري تحميل الاختبار من السحابة...</h1>
+          <span style="font-size: 0.96rem; color: var(--text-muted); font-weight: 600;">
             السؤال <strong id="current-question-num" style="color: var(--primary);">1</strong> من إجمالي <strong id="total-questions-count">...</strong>
           </span>
         </div>
@@ -78,7 +81,7 @@
         </button>
 
         <button id="btn-submit-exam" class="btn btn-success" style="display: none;" aria-label="إنهاء وتسليم الاختبار">
-          ✅ إنهاء وتسليم الاختبار
+          ✅ إنهاء وتسليم الاختبار الأكاديمي
         </button>
       </nav>
 
@@ -87,7 +90,7 @@
 
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
     </div>
   </footer>
 
@@ -98,11 +101,11 @@
   <script src="js/exam.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
       
       // تأكيد الخروج أثناء جلسة الاختبار لتفادي ضياع الإجابات
-      document.getElementById('btn-exit-exam').addEventListener('click', (e) => {
-        if (!confirm('تنبيه: هل أنت متأكد من رغبتك في مغادرة الاختبار الحالي؟ لن تُحفظ الإجابات غير المسلمة.')) {
+      document.getElementById('btn-exit-exam')?.addEventListener('click', (e) => {
+        if (!confirm('تنبيه أكاديمي: هل أنت متأكد من رغبتك في مغادرة جلسة الاختبار الحالية؟ لن تُحتسب الإجابات غير المسلمة.')) {
           e.preventDefault();
         }
       });

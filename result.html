@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نتيجة الاختبار والمراجعة | منصة مدارج</title>
+  <title>نتيجة الاختبار والمراجعة الأكاديمية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الموحد -->
+  <!-- شريط التنقل العلوي الأكاديمي -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
       <div class="nav-right">
@@ -21,7 +21,10 @@
         </button>
         <a href="index.html" class="brand">
           <span class="brand-badge">مدارج</span>
-          <span>منصة الاختبارات</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
         </a>
       </div>
       <div class="nav-left">
@@ -46,21 +49,21 @@
       <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
     </nav>
     <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
     </div>
   </aside>
 
   <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     <div id="result-app">
-      <div class="card" style="text-align: center; padding: 3rem;">
-        <p class="text-muted">جاري جلب النتيجة والتغذية الراجعة من السحابة...</p>
+      <div class="card" style="text-align: center; padding: 3.5rem;">
+        <p class="text-muted">جاري احتساب النتيجة وجلب التغذية الراجعة من السحابة...</p>
       </div>
     </div>
   </main>
 
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
     </div>
   </footer>
 
@@ -70,7 +73,7 @@
   <script src="js/db.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
       await window.authManager.init();
       window.db.init();
@@ -91,7 +94,7 @@
       try {
         const sub = await window.db.getSubmissionById(submissionId);
         if (!sub) {
-          alert('تعذر العثور على سجل النتيجة!');
+          alert('تعذر العثور على سجل النتيجة الأكاديمية!');
           window.location.href = 'index.html';
           return;
         }
@@ -114,22 +117,22 @@
           return `
             <article class="review-item ${itemClass}" aria-labelledby="rev-q-${index}">
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.5rem;">
-                <h4 id="rev-q-${index}" style="font-size: 1.15rem; font-weight: 700;">
-                  السؤال ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
+                <h4 id="rev-q-${index}" style="font-size: 1.2rem; font-weight: 800;">
+                  المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
                 </h4>
                 ${badgeHtml}
               </div>
 
-              <div style="margin: 0.75rem 0; font-size: 1rem;">
-                <p style="margin-bottom: 0.25rem;">
+              <div style="margin: 0.85rem 0; font-size: 1.02rem;">
+                <p style="margin-bottom: 0.35rem;">
                   <strong>الإجابة النموذجية الصحيحة:</strong> 
-                  <span style="color: var(--success); font-weight: 700;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
+                  <span style="color: var(--success); font-weight: 800;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
                 </p>
               </div>
 
               ${d.explanation ? `
                 <div class="explanation-box">
-                  <strong>💡 التعليل العلمي المنهجي:</strong> ${window.authManager.escapeHtml(d.explanation)}
+                  <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(d.explanation)}
                 </div>
               ` : ''}
             </article>
@@ -137,29 +140,32 @@
         }).join('');
 
         app.innerHTML = `
-          <section class="result-banner ${bannerClass}" role="region" aria-label="ملخص النتيجة">
-            <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">${statusText}</h1>
+          <section class="result-banner ${bannerClass}" role="region" aria-label="ملخص النتيجة الأكاديمية">
+            <h1 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 0.5rem;">${statusText}</h1>
             <div class="score-display">${sub.percentage}%</div>
-            <p style="font-size: 1.2rem; font-weight: 600;">
+            <p style="font-size: 1.25rem; font-weight: 700;">
               الدرجة المحققة: ${sub.score} من أصل ${sub.total_points} نقطة
             </p>
-            <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9;">
-              درجة الاجتياز المطلوبة: ${sub.passing_percentage || 50}%
+            <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.95;">
+              درجة النجاح المقررة: ${sub.passing_percentage || 50}%
             </p>
 
             <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap;">
-              <a href="exam.html?id=${sub.exam_id}" class="btn btn-primary btn-sm">إعادة المحاولة (بترتيب جديد) ↺</a>
+              <a href="exam.html?id=${sub.exam_id}" class="btn btn-primary btn-sm">إعادة المحاولة (بترتيب عشوائي جديد) ↺</a>
               <a href="dashboard.html" class="btn btn-secondary btn-sm">سجل اختباراتي 📋</a>
-              <a href="index.html#subjects-section" class="btn btn-outline btn-sm">تصفح المقررات 🏠</a>
+              <a href="index.html#subjects-section" class="btn btn-outline btn-sm">مقررات القسم 🏠</a>
             </div>
           </section>
 
           <section aria-labelledby="review-section-title">
             <div class="card-header">
-              <h2 id="review-section-title" style="font-size: 1.5rem; font-weight: 800;">
-                المراجعة التفصيلية والتعليلات العلمية
-              </h2>
-              <span class="text-muted">${details.length} أسئلة</span>
+              <div>
+                <h2 id="review-section-title" style="font-size: 1.55rem; font-weight: 800;">
+                  المراجعة التأصيلية والتعليلات العلمية
+                </h2>
+                <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">بيان وجه الصواب وتوثيق مسائل الاختبار وفق مفردات المقرر المعتمد.</p>
+              </div>
+              <span class="badge badge-primary">${details.length} مسائل</span>
             </div>
 
             <div class="reviews-list">

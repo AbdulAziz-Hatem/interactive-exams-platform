@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة إدارة الاختبارات والمقررات | منصة مدارج</title>
+  <title>لوحة الإدارة الأكاديمية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الموحد -->
+  <!-- شريط التنقل العلوي الأكاديمي -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
       <div class="nav-right">
@@ -20,8 +20,11 @@
           <span class="hamburger-bar" aria-hidden="true"></span>
         </button>
         <a href="index.html" class="brand">
-          <span class="brand-badge">إدارة مدارج</span>
-          <span>لوحة التحكم</span>
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">لوحة الإدارة الأكاديمية</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
         </a>
       </div>
       <div class="nav-left">
@@ -46,7 +49,7 @@
       <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
     </nav>
     <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
     </div>
   </aside>
 
@@ -54,91 +57,94 @@
     
     <div class="card-header" style="border: none;">
       <div>
-        <h1 style="font-size: 1.85rem; font-weight: 800;">لوحة إدارة ونشر بنوك الأسئلة السحابية</h1>
-        <p class="text-muted" style="margin-top: 0.25rem;">إضافة المقررات، إنشاء الاختبارات، وتغذية بنوك الأسئلة يدوياً أو دفعة واحدة.</p>
+        <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
+          <span>كلية التربية — جامعة صنعاء | إدارة قسم القرآن الكريم وعلومه</span>
+        </div>
+        <h1 style="font-size: 1.85rem; font-weight: 800;">إدارة بنوك الأسئلة والمقررات التخصصية</h1>
+        <p class="text-muted" style="margin-top: 0.25rem;">إضافة المقررات، إنشاء النماذج الاختبارية، وتغذية بنوك الأسئلة يدوياً أو دفعة واحدة لطلبة القسم.</p>
       </div>
-      <span class="badge badge-warning">صلاحيات المدير الأكاديمي</span>
+      <span class="badge badge-warning">صلاحيات الإشراف الأكاديمي</span>
     </div>
 
-    <!-- بطاقة 1: إضافة مقرر دراسي جديد -->
+    <!-- بطاقة 1: إضافة مقرر تخصصي جديد -->
     <section class="card" aria-labelledby="sec-add-subject">
       <div class="card-header">
-        <h2 id="sec-add-subject" style="font-size: 1.3rem; font-weight: 700;">1. إضافة مقرر / مادة دراسية جديدة</h2>
+        <h2 id="sec-add-subject" style="font-size: 1.3rem; font-weight: 800;">1. إضافة مقرر دراسي تخصصي جديد بالقسم</h2>
       </div>
       <form id="form-add-subject">
         <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
           <div class="form-group">
-            <label for="subj-title" class="form-label">اسم المقرر الدراسي *</label>
+            <label for="subj-title" class="form-label">اسم المقرر التخصصي *</label>
             <input type="text" id="subj-title" class="form-input" placeholder="مثال: علوم القرآن الكريم" required>
           </div>
           <div class="form-group">
-            <label for="subj-code" class="form-label">رمز المادة / الكود</label>
+            <label for="subj-code" class="form-label">رمز المادة / الكود الأكاديمي</label>
             <input type="text" id="subj-code" class="form-input" placeholder="مثال: QURAN_SCI" dir="ltr">
           </div>
         </div>
         <div class="form-group">
-          <label for="subj-description" class="form-label">نبذة عن المادة والمفردات المعتمدة</label>
-          <textarea id="subj-description" class="form-textarea" rows="2" placeholder="اكتب وصفاً موجزاً للمادة ومفرداتها..."></textarea>
+          <label for="subj-description" class="form-label">توصيف المقرر ومفردات الخطة الدراسية المعتمدة</label>
+          <textarea id="subj-description" class="form-textarea" rows="2" placeholder="اكتب نبذة عن مفردات المقرر والنطاق المطلوب للاختبار..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">حفظ ونشر المادة سحابياً</button>
+        <button type="submit" class="btn btn-primary btn-sm">حفظ ونشر المقرر سحابياً</button>
       </form>
     </section>
 
-    <!-- بطاقة 2: إنشاء اختبار جديد تحت مقرر -->
+    <!-- بطاقة 2: إنشاء اختبار جديد لمقرر -->
     <section class="card" aria-labelledby="sec-add-exam">
       <div class="card-header">
-        <h2 id="sec-add-exam" style="font-size: 1.3rem; font-weight: 700;">2. إنشاء اختبار جديد لمقرر</h2>
+        <h2 id="sec-add-exam" style="font-size: 1.3rem; font-weight: 800;">2. إنشاء نموذج اختباري جديد لمقرر</h2>
       </div>
       <form id="form-add-exam">
         <div class="form-group">
-          <label for="exam-select-subject" class="form-label">المادة التابع لها الاختبار *</label>
+          <label for="exam-select-subject" class="form-label">المقرر الدراسي التابع له النموذج *</label>
           <select id="exam-select-subject" class="form-select" required>
             <option value="">-- اختر المقرر الدراسي --</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="exam-title-input" class="form-label">عنوان الاختبار *</label>
-          <input type="text" id="exam-title-input" class="form-input" placeholder="مثال: الاختبار النصفي لمناهج المفسرين" required>
+          <label for="exam-title-input" class="form-label">عنوان النموذج الاختباري *</label>
+          <input type="text" id="exam-title-input" class="form-input" placeholder="مثال: الاختبار النهائي لمناهج المفسرين" required>
         </div>
         <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
           <div class="form-group">
-            <label for="exam-duration" class="form-label">المدة الزمنية (بالدقائق - 0 يعني مفتوح)</label>
+            <label for="exam-duration" class="form-label">المدة الزمنية (بالدقائق - 0 تعني مفتوح دون وقت)</label>
             <input type="number" id="exam-duration" class="form-input" value="30" min="0" required>
           </div>
           <div class="form-group">
-            <label for="exam-passing" class="form-label">نسبة الاجتياز والنجاح (%)</label>
+            <label for="exam-passing" class="form-label">نسبة الاجتياز والنجاح المقررة (%)</label>
             <input type="number" id="exam-passing" class="form-input" value="60" min="1" max="100" required>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">إنشاء ونشر الاختبار</button>
+        <button type="submit" class="btn btn-primary btn-sm">إنشاء ونشر النموذج الاختباري</button>
       </form>
     </section>
 
     <!-- بطاقة 3: إضافة سؤال يدوي مع خياراته -->
     <section class="card" aria-labelledby="sec-add-question">
       <div class="card-header">
-        <h2 id="sec-add-question" style="font-size: 1.3rem; font-weight: 700;">3. إضافة سؤال فردي إلى اختبار</h2>
+        <h2 id="sec-add-question" style="font-size: 1.3rem; font-weight: 800;">3. إضافة مسألة فردية مع خياراتها وتعليلها العلمي</h2>
       </div>
       <form id="form-add-question">
         <div class="form-group">
-          <label for="q-select-exam" class="form-label">اختر الاختبار المستهدف *</label>
+          <label for="q-select-exam" class="form-label">اختر النموذج الاختباري المستهدف *</label>
           <select id="q-select-exam" class="form-select" required>
             <option value="">-- اختر الاختبار --</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="q-text" class="form-label">نص السؤال *</label>
-          <textarea id="q-text" class="form-textarea" rows="2" placeholder="اكتب نص السؤال بدقة..." required></textarea>
+          <label for="q-text" class="form-label">نص المسألة / السؤال الأكاديمي *</label>
+          <textarea id="q-text" class="form-textarea" rows="2" placeholder="اكتب نص المسألة بدقة تأصيلية..." required></textarea>
         </div>
 
         <div class="form-group">
-          <label for="q-explanation" class="form-label">التعليل العلمي والشرح (يظهر للطالب بعد إنهاء الاختبار لبيان سبب الصواب)</label>
-          <textarea id="q-explanation" class="form-textarea" rows="2" placeholder="اكتب تعليل الإجابة الصحيحة والمرجع العلمي إن وجد..."></textarea>
+          <label for="q-explanation" class="form-label">التعليل العلمي وتأصيل المسألة (يظهر للطالب عقب إنهاء الاختبار لبيان مأخذ الحكم)</label>
+          <textarea id="q-explanation" class="form-textarea" rows="2" placeholder="اكتب وجه الصواب والتوثيق من كتاب أستاذ المادة المعتمد..."></textarea>
         </div>
 
         <fieldset style="border: 1px solid var(--border); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
-          <legend style="font-weight: 700; padding: 0 0.5rem;">خيارات الإجابة (حدد الإجابة الصحيحة عبر زر الراديو)</legend>
+          <legend style="font-weight: 800; padding: 0 0.5rem;">خيارات الإجابة (حدد الإجابة الصحيحة عبر زر الراديو)</legend>
           
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -160,30 +166,41 @@
           </div>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary btn-sm">حفظ وإضافة السؤال سحابياً</button>
+        <button type="submit" class="btn btn-primary btn-sm">حفظ وإضافة المسألة سحابياً</button>
       </form>
     </section>
 
     <!-- بطاقة 4: الاستيراد السريع لبنوك الأسئلة (Bulk JSON Import) -->
     <section class="card" aria-labelledby="sec-bulk-import">
       <div class="card-header">
-        <h2 id="sec-bulk-import" style="font-size: 1.3rem; font-weight: 700;">4. الاستيراد السريع لبنك الأسئلة دفعة واحدة (Bulk JSON)</h2>
+        <h2 id="sec-bulk-import" style="font-size: 1.3rem; font-weight: 800;">4. الاستيراد السريع لبنك الأسئلة دفعة واحدة (Bulk JSON)</h2>
       </div>
       <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
-        يمكنك استيراد عشرات أو مئات الأسئلة في ثانية واحدة بلصق مصفوفة JSON معدة مسبقاً.
+        يمكنك استيراد عشرات أو مئات الأسئلة التخصصية في ثوانٍ بلصق مصفوفة JSON معدة مسبقاً.
       </p>
       <form id="form-bulk-import">
         <div class="form-group">
-          <label for="bulk-select-exam" class="form-label">الاختبار المراد إضافة الأسئلة إليه *</label>
+          <label for="bulk-select-exam" class="form-label">النموذج المراد إضافة الأسئلة إليه *</label>
           <select id="bulk-select-exam" class="form-select" required>
             <option value="">-- اختر الاختبار --</option>
           </select>
         </div>
         <div class="form-group">
           <label for="bulk-json" class="form-label">مصفوفة الأسئلة بتنسيق JSON *</label>
-          <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[\n  {\n    \"question_text\": \"ما هو المصدر الأول لتفسير القرآن الكريم؟\",\n    \"explanation\": \"القرآن يفسر بعضه بعضاً وهو أعلى مراتب التفسير.\",\n    \"choices\": [\n      { \"text\": \"تفسير القرآن بالقرآن\", \"isCorrect\": true },\n      { \"text\": \"أقوال التابعين\", \"isCorrect\": false }\n    ]\n  }\n]' required></textarea>
+          <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[
+  {
+    "question_text": "ما هو المصدر الأول لتفسير القرآن الكريم عند المفسرين؟",
+    "explanation": "تفسير القرآن بالقرآن هو أعلى مراتب التفسير وأولاها بالاعتماد.",
+    "choices": [
+      { "text": "تفسير القرآن بالقرآن", "isCorrect": true },
+      { "text": "أقوال التابعين", "isCorrect": false },
+      { "text": "الاجتهاد اللغوي المجرد", "isCorrect": false },
+      { "text": "الإسرائيليات", "isCorrect": false }
+    ]
+  }
+]' required></textarea>
         </div>
-        <button type="submit" class="btn btn-success btn-sm">بدء استيراد الأسئلة سحابياً ⚡</button>
+        <button type="submit" class="btn btn-success btn-sm">بدء استيراد بنك الأسئلة سحابياً ⚡</button>
       </form>
     </section>
 
@@ -191,7 +208,7 @@
 
   <footer class="footer" role="contentinfo">
     <div class="container">
-      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
     </div>
   </footer>
 
@@ -201,13 +218,13 @@
   <script src="js/db.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
       const user = await window.authManager.init();
       window.db.init();
 
       if (!user) {
-        alert('يجب تسجيل الدخول أولاً للوصول للوحة الإدارة.');
+        alert('يجب تسجيل الدخول أولاً للوصول للوحة الإدارة الأكاديمية.');
         window.location.href = 'auth.html?redirect=admin.html';
         return;
       }
@@ -225,12 +242,12 @@
       const exams = await window.db.getAllExams();
 
       const subjSelect = document.getElementById('exam-select-subject');
-      subjSelect.innerHTML = '<option value="">-- اختر المقرر --</option>' + 
+      subjSelect.innerHTML = '<option value="">-- اختر المقرر الدراسي --</option>' + 
         subjects.map(s => `<option value="${s.id}">${window.authManager.escapeHtml(s.title)}</option>`).join('');
 
       const examSelectQ = document.getElementById('q-select-exam');
       const examSelectBulk = document.getElementById('bulk-select-exam');
-      const examsOptions = '<option value="">-- اختر الاختبار --</option>' + 
+      const examsOptions = '<option value="">-- اختر النموذج الاختباري --</option>' + 
         exams.map(e => `<option value="${e.id}">${window.authManager.escapeHtml(e.title)} (${e.subjects?.title || ''})</option>`).join('');
 
       examSelectQ.innerHTML = examsOptions;
@@ -245,11 +262,11 @@
 
       try {
         await window.db.createSubject(title, desc, code);
-        alert('تمت إضافة المقرر بنجاح إلى السحابة!');
+        alert('تمت إضافة المقرر التخصصي بنجاح إلى السحابة!');
         document.getElementById('form-add-subject').reset();
         await refreshSelects();
       } catch (err) {
-        alert('خطأ أثناء إضافة المادة: ' + err.message);
+        alert('خطأ أثناء إضافة المقرر: ' + err.message);
       }
     }
 
@@ -262,7 +279,7 @@
 
       try {
         await window.db.createExam(subjectId, title, '', duration, passing, true);
-        alert('تم إنشاء الاختبار بنجاح ونشره سحابياً!');
+        alert('تم إنشاء النموذج الاختباري بنجاح ونشره سحابياً!');
         document.getElementById('form-add-exam').reset();
         await refreshSelects();
       } catch (err) {
@@ -289,13 +306,13 @@
       }
 
       if (choices.length < 2) {
-        alert('يجب إدخال خيارين على الأقل للسؤال!');
+        alert('يجب إدخال خيارين على الأقل للمسألة!');
         return;
       }
 
       try {
         await window.db.addQuestionWithChoices(examId, qText, explanation, 1, choices);
-        alert('تمت إضافة السؤال وخياراته بنجاح!');
+        alert('تمت إضافة المسألة وخياراتها بنجاح!');
         document.getElementById('q-text').value = '';
         document.getElementById('q-explanation').value = '';
         for (let i = 0; i < 4; i++) {
@@ -332,7 +349,7 @@
           }
         }
 
-        alert(`تم بنجاح استيراد وإضافة ${count} سؤال إلى بنك أسئلة الاختبار!`);
+        alert(`تم بنجاح استيراد وإضافة ${count} مسألة إلى بنك أسئلة الاختبار!`);
         document.getElementById('bulk-json').value = '';
       } catch (err) {
         alert('خطأ في تنسيق JSON أو أثناء الاستيراد: ' + err.message);
