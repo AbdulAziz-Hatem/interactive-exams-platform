@@ -1,6 +1,7 @@
 /**
  * محرك الاختبار التفاعلي (Interactive Exam Engine)
  * يتولى إدارة الجلسة، المؤقت التنازلي، تتبع الإجابات، وقارئات الشاشة
+ * يدعم خلط الأسئلة والخيارات عشوائياً عند كل محاولة (Anti-cheating Randomization)
  */
 
 class ExamEngine {
@@ -12,6 +13,16 @@ class ExamEngine {
     this.answers = {}; // { [question_id]: choice_id }
     this.timerInterval = null;
     this.secondsRemaining = 0;
+  }
+
+  // خوارزمية خلط فيشر-ياتس (Fisher-Yates Shuffle) العشوائية
+  shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
   async init() {
@@ -37,14 +48,20 @@ class ExamEngine {
     try {
       const data = await window.db.getExamForStudent(this.examId);
       this.examData = data.exam;
-      this.questions = data.questions;
+      
+      // خلط الأسئلة والخيارات عشوائياً لكل طالب في كل جلسة
+      const rawQuestions = data.questions || [];
+      this.questions = this.shuffleArray(rawQuestions).map(q => ({
+        ...q,
+        choices: this.shuffleArray(q.choices || [])
+      }));
 
       if (!this.questions || this.questions.length === 0) {
         document.getElementById('exam-app').innerHTML = `
-          <div class=\"card\" style=\"text-align: center;\">
+          <div class="card" style="text-align: center;">
             <h2>لا توجد أسئلة متاحة في هذا الاختبار حالياً</h2>
-            <p style=\"margin: 1rem 0;\">يرجى مراجعة المسؤول لإضافة الأسئلة.</p>
-            <a href=\"index.html\" class=\"btn btn-primary\">العودة للرئيسية</a>
+            <p style="margin: 1rem 0;">يرجى مراجعة المسؤول لإضافة الأسئلة.</p>
+            <a href="index.html" class="btn btn-primary">العودة للرئيسية</a>
           </div>
         `;
         return;
@@ -133,19 +150,19 @@ class ExamEngine {
       const inputId = `choice_${q.id}_${c.id}`;
 
       return `
-        <li class=\"choice-item\">
+        <li class="choice-item">
           <input 
-            type=\"radio\" 
-            name=\"question_${q.id}\" 
-            id=\"${inputId}\" 
-            value=\"${c.id}\" 
-            class=\"choice-input\" 
+            type="radio" 
+            name="question_${q.id}" 
+            id="${inputId}" 
+            value="${c.id}" 
+            class="choice-input" 
             ${isChecked ? 'checked' : ''}
-            data-qid=\"${q.id}\"
-            data-cid=\"${c.id}\"
+            data-qid="${q.id}"
+            data-cid="${c.id}"
           />
-          <label for=\"${inputId}\" class=\"choice-label\">
-            <span class=\"choice-custom-radio\" aria-hidden=\"true\"></span>
+          <label for="${inputId}" class="choice-label">
+            <span class="choice-custom-radio" aria-hidden="true"></span>
             <span>${this.escapeHtml(c.choice_text)}</span>
           </label>
         </li>
@@ -153,13 +170,13 @@ class ExamEngine {
     }).join('');
 
     container.innerHTML = `
-      <div class=\"question-card\" role=\"region\" aria-labelledby=\"q-legend-${q.id}\">
-        <fieldset class=\"question-fieldset\">
-          <legend id=\"q-legend-${q.id}\" class=\"question-legend\">
-            <span class=\"badge badge-primary\" style=\"margin-left: 0.5rem;\">السؤال ${index + 1} من ${this.questions.length}</span>
+      <div class="question-card" role="region" aria-labelledby="q-legend-${q.id}">
+        <fieldset class="question-fieldset">
+          <legend id="q-legend-${q.id}" class="question-legend">
+            <span class="badge badge-primary" style="margin-left: 0.5rem;">السؤال ${index + 1} من ${this.questions.length}</span>
             ${this.escapeHtml(q.question_text)}
           </legend>
-          <ul class=\"choices-list\" role=\"radiogroup\" aria-labelledby=\"q-legend-${q.id}\">
+          <ul class="choices-list" role="radiogroup" aria-labelledby="q-legend-${q.id}">
             ${choicesHtml}
           </ul>
         </fieldset>
@@ -217,10 +234,10 @@ class ExamEngine {
     const total = this.questions.length;
     const unanswered = total - answeredCount;
 
-    let msg = `هل أنت متأكد من رغبتك في إنهاء وتسليم الاختبار؟\\n\\n`;
-    msg += `• عدد الأسئلة المجابة: ${answeredCount} من ${total}\\n`;
+    let msg = `هل أنت متأكد من رغبتك في إنهاء وتسليم الاختبار؟\n\n`;
+    msg += `• عدد الأسئلة المجابة: ${answeredCount} من ${total}\n`;
     if (unanswered > 0) {
-      msg += `• تنبيه: يوجد ${unanswered} سؤال لم تقم بالإجابة عليها بعد!\\n`;
+      msg += `• تنبيه: يوجد ${unanswered} سؤال لم تقم بالإجابة عليها بعد!\n`;
     }
 
     if (confirm(msg)) {
@@ -262,12 +279,12 @@ class ExamEngine {
   }
 
   escapeHtml(str) {
-    return str ? str.replace(/[&<>'\"]/g, tag => ({
+    return str ? str.replace(/[&<>'"]/g, tag => ({
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
-      \"'\": '&#39;',
-      '\"': '&quot;'
+      "'": '&#39;',
+      '"': '&quot;'
     }[tag] || tag)) : '';
   }
 }

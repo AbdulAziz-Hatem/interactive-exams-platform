@@ -1,12 +1,12 @@
 /**
  * إعدادات منصة الاختبارات التفاعلية
- * تدعم الربط المباشر مع Supabase أو العمل التلقائي في وضع المحاكاة والتجربة (Demo Mode)
+ * متصلة مباشرة بقاعدة البيانات السحابية الحقيقية (Supabase Live Backend)
  */
 
 const CONFIG = {
-  // مفاتيح مشروع Supabase الخاص بك (يمكن وضعها هنا أو إدخالها من لوحة الإعدادات في المتصفح)
-  SUPABASE_URL: localStorage.getItem('EDUTEST_SUPABASE_URL') || '',
-  SUPABASE_ANON_KEY: localStorage.getItem('EDUTEST_SUPABASE_KEY') || '',
+  // مفاتيح مشروع Supabase السحابي الحقيقي المباشر
+  SUPABASE_URL: localStorage.getItem('EDUTEST_SUPABASE_URL') || 'https://lkcuktpyeutrrxjuenzb.supabase.co',
+  SUPABASE_ANON_KEY: localStorage.getItem('EDUTEST_SUPABASE_KEY') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrY3VrdHB5ZXV0cnJ4anVlbnpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyMTE0MjgsImV4cCI6MjEwNDc4NzQyOH0.lDEA3HTrD75Yt8Lw9nlUOkCL60cdBl4a9kmn9RfNcFQ',
   
   // اسم المنصة
   APP_NAME: 'منصة مدارج للاختبارات التفاعلية',
@@ -27,12 +27,12 @@ const CONFIG = {
     return true;
   },
 
-  // مسح الإعدادات والعودة لوضع التجربة
+  // مسح الإعدادات والعودة للافتراضي
   clearCredentials() {
     localStorage.removeItem('EDUTEST_SUPABASE_URL');
     localStorage.removeItem('EDUTEST_SUPABASE_KEY');
-    this.SUPABASE_URL = '';
-    this.SUPABASE_ANON_KEY = '';
+    this.SUPABASE_URL = 'https://lkcuktpyeutrrxjuenzb.supabase.co';
+    this.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrY3VrdHB5ZXV0cnJ4anVlbnpiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyMTE0MjgsImV4cCI6MjEwNDc4NzQyOH0.lDEA3HTrD75Yt8Lw9nlUOkCL60cdBl4a9kmn9RfNcFQ';
   }
 };
 
