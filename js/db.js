@@ -1,6 +1,7 @@
 /**
- * طبقة إدارة البيانات والاتصال بقاعدة البيانات (Data Access Layer)
- * تدعم Supabase برمجياً مع التقييم السحابي، وتوفر محاكاة متكاملة في وضع التجربة
+ * طبقة إدارة البيانات والاتصال السحابي فائق المرونة (Resilient Data Access Layer)
+ * تجمع بين: الاتصال السحابي المباشر عبر REST API (بدون تبعيات)،
+ * ومكتبة Supabase JS (إن وجدت)، والمحاكاة الذاتية في وضع عدم الاتصال.
  */
 
 class DatabaseManager {
@@ -10,271 +11,371 @@ class DatabaseManager {
   }
 
   init() {
-    if (window.CONFIG.isSupabaseConfigured() && window.supabase) {
-      this.client = window.supabase.createClient(
-        window.CONFIG.SUPABASE_URL,
-        window.CONFIG.SUPABASE_ANON_KEY
-      );
+    if (window.CONFIG.isSupabaseConfigured() && window.supabase && typeof window.supabase.createClient === 'function') {
+      try {
+        this.client = window.supabase.createClient(
+          window.CONFIG.SUPABASE_URL,
+          window.CONFIG.SUPABASE_ANON_KEY
+        );
+      } catch (e) {
+        console.warn('تعذر تهيئة عميل Supabase، سيتم الاعتماد على REST API المباشر:', e);
+      }
     }
   }
 
+  /**
+   * استدعاء واجهة Supabase REST API مباشرة بسرعة وأمان دون الاعتماد على مكتبات خارجية
+   */
+  async fetchRest(path, method = 'GET', body = null) {
+    if (!window.CONFIG.isSupabaseConfigured()) return null;
+
+    const url = `${window.CONFIG.SUPABASE_URL}/rest/v1/${path}`;
+    const user = window.authManager?.getUser();
+    const token = user?.token || window.CONFIG.SUPABASE_ANON_KEY;
+
+    const headers = {
+      'apikey': window.CONFIG.SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    };
+
+    const options = { method, headers };
+    if (body) {
+      options.body = JSON.stringify(body);
+    }
+
+    const res = await fetch(url, options);
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`خطأ في طلب السحابة (${res.status}): ${errText}`);
+    }
+    return await res.json();
+  }
+
   // ==========================================
-  // المواد الدراسية (Subjects)
+  // المواد والمقررات الدراسية (Subjects)
   // ==========================================
   async getSubjects() {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('subjects')
-        .select('*')
-        .eq('is_active', true)
-        .order('created_at', { ascending: true });
-      if (error) throw error;
-      return data;
-    } else {
-      return JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    // 1. محاولة الجلب السحابي المباشر فائق السرعة عبر REST
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest('subjects?select=*&is_active=eq.true&order=created_at.asc');
+        if (Array.isArray(data)) return data;
+      } catch (err) {
+        console.warn('فشل طلب REST السحابي للمقررات، جاري المحاولة عبر العميل أو التخزين الاحتياطي:', err);
+      }
+
+      // 2. محاولة عبر عميل Supabase
+      if (this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('subjects')
+            .select('*')
+            .eq('is_active', true)
+            .order('created_at', { ascending: true });
+          if (!error && Array.isArray(data)) return data;
+        } catch (e) {
+          console.warn('فشل عميل Supabase أيضاً:', e);
+        }
+      }
     }
+
+    // 3. الرجوع للمحاكاة والتخزين المحلي في حال انقطاع الشبكة
+    return JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
   }
 
   async getSubjectById(id) {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('subjects')
-        .select('*')
-        .eq('id', id)
-        .single();
-      if (error) throw error;
-      return data;
-    } else {
-      const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-      return list.find(s => s.id === id);
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest(`subjects?id=eq.${id}&select=*`);
+        if (Array.isArray(data) && data.length > 0) return data[0];
+      } catch (e) {
+        console.warn('REST error for subject:', e);
+      }
+
+      if (this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('subjects')
+            .select('*')
+            .eq('id', id)
+            .single();
+          if (!error && data) return data;
+        } catch (e) {}
+      }
     }
+
+    const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    return list.find(s => s.id === id);
   }
 
   // ==========================================
   // الاختبارات (Exams)
   // ==========================================
   async getExamsBySubject(subjectId) {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('exams')
-        .select('*')
-        .eq('subject_id', subjectId)
-        .eq('is_published', true)
-        .order('created_at', { ascending: true });
-      if (error) throw error;
-      return data;
-    } else {
-      const list = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-      return list.filter(e => e.subject_id === subjectId && e.is_published);
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest(`exams?subject_id=eq.${subjectId}&is_published=eq.true&order=created_at.asc&select=*`);
+        if (Array.isArray(data)) return data;
+      } catch (e) {
+        console.warn('REST error for exams:', e);
+      }
+
+      if (this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('exams')
+            .select('*')
+            .eq('subject_id', subjectId)
+            .eq('is_published', true)
+            .order('created_at', { ascending: true });
+          if (!error && Array.isArray(data)) return data;
+        } catch (e) {}
+      }
     }
+
+    const list = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    return list.filter(e => e.subject_id === subjectId && e.is_published);
   }
 
   async getAllExams() {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('exams')
-        .select('*, subjects(title)')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      return data;
-    } else {
-      const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-      const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-      return exams.map(e => ({
-        ...e,
-        subjects: { title: subjects.find(s => s.id === e.subject_id)?.title || 'مادة عامة' }
-      }));
-    }
-  }
-
-  // ==========================================
-  // جلب الاختبار للطالب (آمن ضد الغش)
-  // ==========================================
-  async getExamForStudent(examId) {
-    if (this.client) {
-      // استدعاء دالة RPC الآمنة التي تعيد الأسئلة دون كشف الإجابات الصحيحة
-      const { data, error } = await this.client.rpc('get_exam_for_student', {
-        p_exam_id: examId
-      });
-      if (error) throw error;
-      return data;
-    } else {
-      const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-      const exam = exams.find(e => e.id === examId);
-      if (!exam) throw new Error('الاختبار غير موجود');
-
-      const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]')
-        .filter(q => q.exam_id === examId)
-        .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
-
-      const choices = JSON.parse(localStorage.getItem('edutest_demo_choices') || '[]');
-
-      // تجريد الإجابات الصحيحة من البيانات المرسلة للواجهة (لمنع الغش عبر فحص الصفحة)
-      const safeQuestions = questions.map(q => {
-        const qChoices = choices
-          .filter(c => c.question_id === q.id)
-          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
-          .map(c => ({
-            id: c.id,
-            choice_text: c.choice_text,
-            sort_order: c.sort_order
-          }));
-
-        return {
-          id: q.id,
-          question_text: q.question_text,
-          points: q.points || 1,
-          sort_order: q.sort_order,
-          choices: qChoices
-        };
-      });
-
-      return {
-        exam: {
-          id: exam.id,
-          title: exam.title,
-          description: exam.description,
-          duration_minutes: exam.duration_minutes,
-          passing_percentage: exam.passing_percentage
-        },
-        questions: safeQuestions
-      };
-    }
-  }
-
-  // ==========================================
-  // تصحيح الاختبار وتسجيل النتيجة
-  // ==========================================
-  async submitExam(examId, answers) {
-    // answers = [{ question_id: '...', choice_id: '...' }]\n    if (this.client) {
-      const { data, error } = await this.client.rpc('submit_exam_answers', {
-        p_exam_id: examId,
-        p_answers: answers
-      });
-      if (error) throw error;
-      return data;
-    } else {
-      const user = window.authManager.getUser();
-      if (!user) throw new Error('يجب تسجيل الدخول أولاً');
-
-      const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-      const exam = exams.find(e => e.id === examId);
-      const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]')
-        .filter(q => q.exam_id === examId);
-      const choices = JSON.parse(localStorage.getItem('edutest_demo_choices') || '[]');
-
-      let totalPoints = 0;
-      let earnedScore = 0;
-      const reviewDetails = [];
-
-      for (const q of questions) {
-        const qPoints = q.points || 1;
-        totalPoints += qPoints;
-
-        const studentAnswer = answers.find(a => a.question_id === q.id);
-        const correctChoice = choices.find(c => c.question_id === q.id && c.is_correct);
-        const isCorrect = Boolean(studentAnswer && correctChoice && studentAnswer.choice_id === correctChoice.id);
-
-        if (isCorrect) {
-          earnedScore += qPoints;
-        }
-
-        reviewDetails.push({
-          question_id: q.id,
-          question_text: q.question_text,
-          is_correct: isCorrect,
-          selected_choice_id: studentAnswer ? studentAnswer.choice_id : null,
-          correct_choice_id: correctChoice ? correctChoice.id : null,
-          correct_choice_text: correctChoice ? correctChoice.choice_text : 'غير محدد',
-          explanation: q.explanation || 'لا يوجد تعليق إضافي لهذا السؤال.'
-        });
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest('exams?select=*,subjects(title)&order=created_at.desc');
+        if (Array.isArray(data)) return data;
+      } catch (e) {
+        console.warn('REST error for all exams:', e);
       }
 
-      const percentage = Math.round((earnedScore / (totalPoints || 1)) * 100);
-      const passed = percentage >= (exam?.passing_percentage || 50);
-
-      const submission = {
-        id: 'sub_' + Date.now(),
-        exam_id: examId,
-        user_id: user.id,
-        user_name: user.fullName,
-        score: earnedScore,
-        total_points: totalPoints,
-        percentage: percentage,
-        passed: passed,
-        passing_percentage: exam?.passing_percentage || 50,
-        completed_at: new Date().toISOString(),
-        review_details: reviewDetails
-      };
-
-      const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
-      submissions.unshift(submission);
-      localStorage.setItem('edutest_demo_submissions', JSON.stringify(submissions));
-
-      return submission;
+      if (this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('exams')
+            .select('*, subjects(title)')
+            .order('created_at', { ascending: false });
+          if (!error && Array.isArray(data)) return data;
+        } catch (e) {}
+      }
     }
+
+    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    return exams.map(e => ({
+      ...e,
+      subjects: { title: subjects.find(s => s.id === e.subject_id)?.title || 'مادة عامة' }
+    }));
+  }
+
+  // ==========================================
+  // جلب أسئلة الاختبار للطالب (آمن ضد الغش)
+  // ==========================================
+  async getExamForStudent(examId) {
+    if (window.CONFIG.isSupabaseConfigured()) {
+      // 1. محاولة عبر دالة RPC المباشرة
+      try {
+        const data = await this.fetchRest('rpc/get_exam_for_student', 'POST', {
+          p_exam_id: examId
+        });
+        if (data && data.exam && data.questions) return data;
+      } catch (e) {
+        console.warn('RPC fetch failed via REST, attempting client:', e);
+      }
+
+      // 2. محاولة عبر عميل Supabase
+      if (this.client) {
+        try {
+          const { data, error } = await this.client.rpc('get_exam_for_student', {
+            p_exam_id: examId
+          });
+          if (!error && data) return data;
+        } catch (e) {}
+      }
+    }
+
+    // 3. الرجوع للمحاكاة المحلية
+    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const exam = exams.find(e => e.id === examId);
+    if (!exam) throw new Error('الاختبار غير موجود');
+
+    const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]')
+      .filter(q => q.exam_id === examId)
+      .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+    const choices = JSON.parse(localStorage.getItem('edutest_demo_choices') || '[]');
+
+    const safeQuestions = questions.map(q => {
+      const qChoices = choices
+        .filter(c => c.question_id === q.id)
+        .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+        .map(c => ({
+          id: c.id,
+          choice_text: c.choice_text,
+          sort_order: c.sort_order
+        }));
+
+      return {
+        id: q.id,
+        question_text: q.question_text,
+        points: q.points || 1,
+        sort_order: q.sort_order,
+        choices: qChoices
+      };
+    });
+
+    return {
+      exam: {
+        id: exam.id,
+        title: exam.title,
+        description: exam.description,
+        duration_minutes: exam.duration_minutes,
+        passing_percentage: exam.passing_percentage
+      },
+      questions: safeQuestions
+    };
+  }
+
+  // ==========================================
+  // تصحيح الاختبار سحابياً وتسجيل النتيجة
+  // ==========================================
+  async submitExam(examId, answers) {
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest('rpc/submit_exam_answers', 'POST', {
+          p_exam_id: examId,
+          p_answers: answers
+        });
+        if (data) return data;
+      } catch (e) {
+        console.warn('RPC submit failed via REST:', e);
+      }
+
+      if (this.client) {
+        const { data, error } = await this.client.rpc('submit_exam_answers', {
+          p_exam_id: examId,
+          p_answers: answers
+        });
+        if (!error && data) return data;
+      }
+    }
+
+    // محاكاة محلية
+    const user = window.authManager.getUser();
+    if (!user) throw new Error('يجب تسجيل الدخول أولاً');
+
+    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const exam = exams.find(e => e.id === examId);
+    const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]')
+      .filter(q => q.exam_id === examId);
+    const choices = JSON.parse(localStorage.getItem('edutest_demo_choices') || '[]');
+
+    let totalPoints = 0;
+    let earnedScore = 0;
+    const reviewDetails = [];
+
+    for (const q of questions) {
+      const qPoints = q.points || 1;
+      totalPoints += qPoints;
+
+      const studentAnswer = answers.find(a => a.question_id === q.id);
+      const correctChoice = choices.find(c => c.question_id === q.id && c.is_correct);
+      const isCorrect = Boolean(studentAnswer && correctChoice && studentAnswer.choice_id === correctChoice.id);
+
+      if (isCorrect) earnedScore += qPoints;
+
+      reviewDetails.push({
+        question_id: q.id,
+        question_text: q.question_text,
+        is_correct: isCorrect,
+        selected_choice_id: studentAnswer ? studentAnswer.choice_id : null,
+        correct_choice_id: correctChoice ? correctChoice.id : null,
+        correct_choice_text: correctChoice ? correctChoice.choice_text : 'غير محدد',
+        explanation: q.explanation || 'لا يوجد تعليق إضافي لهذا السؤال.'
+      });
+    }
+
+    const percentage = Math.round((earnedScore / (totalPoints || 1)) * 100);
+    const passed = percentage >= (exam?.passing_percentage || 50);
+
+    const submission = {
+      id: 'sub_' + Date.now(),
+      exam_id: examId,
+      user_id: user.id,
+      user_name: user.fullName,
+      score: earnedScore,
+      total_points: totalPoints,
+      percentage: percentage,
+      passed: passed,
+      passing_percentage: exam?.passing_percentage || 50,
+      completed_at: new Date().toISOString(),
+      review_details: reviewDetails
+    };
+
+    const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
+    submissions.unshift(submission);
+    localStorage.setItem('edutest_demo_submissions', JSON.stringify(submissions));
+
+    return submission;
   }
 
   // ==========================================
   // سجل نتائج الطالب
   // ==========================================
   async getUserSubmissions(userId) {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('submissions')
-        .select('*, exams(title, subject_id, subjects(title))')
-        .eq('user_id', userId)
-        .order('completed_at', { ascending: false });
-      if (error) throw error;
-      return data;
-    } else {
-      const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
-      const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-      const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest(`submissions?user_id=eq.${userId}&select=*,exams(title,subject_id,subjects(title))&order=completed_at.desc`);
+        if (Array.isArray(data)) return data;
+      } catch (e) {}
 
-      return submissions
-        .filter(s => s.user_id === userId)
-        .map(s => {
-          const ex = exams.find(e => e.id === s.exam_id);
-          const sb = subjects.find(sub => sub.id === ex?.subject_id);
-          return {
-            ...s,
-            exams: {
-              title: ex?.title || 'اختبار غير معروف',
-              subjects: { title: sb?.title || 'عام' }
-            }
-          };
-        });
+      if (this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('submissions')
+            .select('*, exams(title, subject_id, subjects(title))')
+            .eq('user_id', userId)
+            .order('completed_at', { ascending: false });
+          if (!error && Array.isArray(data)) return data;
+        } catch (e) {}
+      }
     }
+
+    const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
+    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+
+    return submissions
+      .filter(s => s.user_id === userId)
+      .map(s => {
+        const ex = exams.find(e => e.id === s.exam_id);
+        const sb = subjects.find(sub => sub.id === ex?.subject_id);
+        return {
+          ...s,
+          exams: {
+            title: ex?.title || 'اختبار غير معروف',
+            subjects: { title: sb?.title || 'عام' }
+          }
+        };
+      });
   }
 
   async getSubmissionById(submissionId) {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('submissions')
-        .select('*, exams(title, description, passing_percentage)')
-        .eq('id', submissionId)
-        .single();
-      if (error) throw error;
-
-      // جلب تفاصيل الإجابات
-      const { data: answers } = await this.client
-        .from('submission_answers')
-        .select('*, questions(question_text, explanation), choices(choice_text)')
-        .eq('submission_id', submissionId);
-
-      return {
-        ...data,
-        answers
-      };
-    } else {
-      const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
-      return submissions.find(s => s.id === submissionId);
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const subs = await this.fetchRest(`submissions?id=eq.${submissionId}&select=*,exams(title,description,passing_percentage)`);
+        if (Array.isArray(subs) && subs.length > 0) {
+          const sub = subs[0];
+          const answers = await this.fetchRest(`submission_answers?submission_id=eq.${submissionId}&select=*,questions(question_text,explanation),choices(choice_text)`);
+          return { ...sub, answers };
+        }
+      } catch (e) {}
     }
+
+    const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
+    return submissions.find(s => s.id === submissionId);
   }
 
   // ==========================================
-  // عمليات الإدارة (Admin Operations)
+  // عمليات الإدارة
   // ==========================================
   async createSubject(title, description, code, icon = 'book') {
     if (this.client) {
@@ -285,68 +386,36 @@ class DatabaseManager {
         .single();
       if (error) throw error;
       return data;
-    } else {
-      const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-      const newSubject = {
-        id: 'subj_' + Date.now(),
-        title,
-        description,
-        code: code || 'SUBJ_' + Date.now(),
-        icon,
-        is_active: true,
-        created_at: new Date().toISOString()
-      };
-      subjects.push(newSubject);
-      localStorage.setItem('edutest_demo_subjects', JSON.stringify(subjects));
-      return newSubject;
     }
+    const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    const newSubject = { id: 'subj_' + Date.now(), title, description, code: code || 'SUBJ_' + Date.now(), icon, is_active: true, created_at: new Date().toISOString() };
+    subjects.push(newSubject);
+    localStorage.setItem('edutest_demo_subjects', JSON.stringify(subjects));
+    return newSubject;
   }
 
   async createExam(subjectId, title, description, durationMinutes, passingPercentage, isPublished = true) {
     if (this.client) {
       const { data, error } = await this.client
         .from('exams')
-        .insert([{
-          subject_id: subjectId,
-          title,
-          description,
-          duration_minutes: durationMinutes,
-          passing_percentage: passingPercentage,
-          is_published: isPublished
-        }])
+        .insert([{ subject_id: subjectId, title, description, duration_minutes: durationMinutes, passing_percentage: passingPercentage, is_published: isPublished }])
         .select()
         .single();
       if (error) throw error;
       return data;
-    } else {
-      const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-      const newExam = {
-        id: 'exam_' + Date.now(),
-        subject_id: subjectId,
-        title,
-        description,
-        duration_minutes: parseInt(durationMinutes, 10) || 30,
-        passing_percentage: parseInt(passingPercentage, 10) || 50,
-        is_published: Boolean(isPublished),
-        created_at: new Date().toISOString()
-      };
-      exams.push(newExam);
-      localStorage.setItem('edutest_demo_exams', JSON.stringify(exams));
-      return newExam;
     }
+    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const newExam = { id: 'exam_' + Date.now(), subject_id: subjectId, title, description, duration_minutes: parseInt(durationMinutes, 10) || 30, passing_percentage: parseInt(passingPercentage, 10) || 50, is_published: Boolean(isPublished), created_at: new Date().toISOString() };
+    exams.push(newExam);
+    localStorage.setItem('edutest_demo_exams', JSON.stringify(exams));
+    return newExam;
   }
 
   async addQuestionWithChoices(examId, questionText, explanation, points, choicesList) {
-    // choicesList = [{ text: '...', isCorrect: true|false }]
     if (this.client) {
       const { data: q, error: qErr } = await this.client
         .from('questions')
-        .insert([{
-          exam_id: examId,
-          question_text: questionText,
-          explanation,
-          points: parseInt(points, 10) || 1
-        }])
+        .insert([{ exam_id: examId, question_text: questionText, explanation, points: parseInt(points, 10) || 1 }])
         .select()
         .single();
       if (qErr) throw qErr;
@@ -361,119 +430,45 @@ class DatabaseManager {
       const { error: cErr } = await this.client.from('choices').insert(choicesToInsert);
       if (cErr) throw cErr;
       return q;
-    } else {
-      const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]');
-      const choices = JSON.parse(localStorage.getItem('edutest_demo_choices') || '[]');
-
-      const newQ = {
-        id: 'q_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
-        exam_id: examId,
-        question_text: questionText,
-        explanation,
-        points: parseInt(points, 10) || 1,
-        sort_order: questions.filter(q => q.exam_id === examId).length,
-        created_at: new Date().toISOString()
-      };
-      questions.push(newQ);
-
-      choicesList.forEach((c, idx) => {
-        choices.push({
-          id: 'c_' + Date.now() + '_' + idx,
-          question_id: newQ.id,
-          choice_text: c.text,
-          is_correct: Boolean(c.isCorrect),
-          sort_order: idx
-        });
-      });
-
-      localStorage.setItem('edutest_demo_questions', JSON.stringify(questions));
-      localStorage.setItem('edutest_demo_choices', JSON.stringify(choices));
-      return newQ;
     }
+
+    const questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]');
+    const choices = JSON.parse(localStorage.getItem('edutest_demo_choices') || '[]');
+    const newQ = { id: 'q_' + Date.now() + '_' + Math.floor(Math.random() * 1000), exam_id: examId, question_text: questionText, explanation, points: parseInt(points, 10) || 1, sort_order: questions.filter(q => q.exam_id === examId).length, created_at: new Date().toISOString() };
+    questions.push(newQ);
+
+    choicesList.forEach((c, idx) => {
+      choices.push({ id: 'c_' + Date.now() + '_' + idx, question_id: newQ.id, choice_text: c.text, is_correct: Boolean(c.isCorrect), sort_order: idx });
+    });
+
+    localStorage.setItem('edutest_demo_questions', JSON.stringify(questions));
+    localStorage.setItem('edutest_demo_choices', JSON.stringify(choices));
+    return newQ;
   }
 
-  // ==========================================
-  // بيانات المحاكاة الافتراضية (Seeding)
-  // ==========================================
   initMockData() {
     if (localStorage.getItem('edutest_demo_subjects')) return;
-
-    // تهيئة مادة افتراضية مع اختبار وأسئلة واقعية للتجربة المباشرة
     const defaultSubject = {
       id: 'sub_demo_1',
-      title: 'مادة تجريبية: مدخل إلى مناهج المفسرين وعلوم القرآن',
-      description: 'نموذج لاختبار البنية التحتية التفاعلية وقارئات الشاشة وحساب النتائج الفورية.',
-      code: 'DEMO_QURAN_01',
+      title: 'مناهج المفسرين (المستوى الرابع)',
+      description: 'مقرر مناهج المفسرين لطلاب قسم القرآن الكريم والدراسات الإسلامية - المستوى الرابع (سنة التخرج). شامل لأصول التفسير بالمأثور وبالرأي.',
+      code: 'MANAHIJ_4',
       icon: 'book',
       is_active: true,
       created_at: new Date().toISOString()
     };
-
     const defaultExam = {
-      id: 'exam_demo_1',
+      id: 'b0000000-0000-0000-0000-000000000001',
       subject_id: 'sub_demo_1',
-      title: 'الاختبار التجريبي الشامل (فحص البنية)',
-      description: 'اختبار مصمم لفحص تدفق الأسئلة، المؤقت التنازلي، التقييم، وتوافقية الوصول.',
-      duration_minutes: 15,
+      title: 'الاختبار التجريبي الأول لمناهج المفسرين',
+      description: 'اختبار تدريبي تفاعلي يغطي أصول ومناهج التفسير بالمأثور وبالرأي وضوابطهما وفق المقرر المعتمد.',
+      duration_minutes: 20,
       passing_percentage: 60,
       is_published: true,
       created_at: new Date().toISOString()
     };
-
-    const q1Id = 'q_demo_1';
-    const q2Id = 'q_demo_2';
-    const q3Id = 'q_demo_3';
-
-    const defaultQuestions = [
-      {
-        id: q1Id,
-        exam_id: 'exam_demo_1',
-        question_text: 'ما هو المصدر الأول والأعلى رتبة في تفسير القرآن الكريم وفق المنهجية المعتمدة؟',
-        explanation: 'تفسير القرآن بالقرآن هو أعلى مراتب التفسير وأولاها، حيث يُجمل في موضع ويُفصل في موضع آخر.',
-        points: 1,
-        sort_order: 0,
-        created_at: new Date().toISOString()
-      },
-      {
-        id: q2Id,
-        exam_id: 'exam_demo_1',
-        question_text: 'أيٌّ من التفاسير الآتية يُعد من أبرز أمهات التفسير بالمأثور؟',
-        explanation: 'جامع البيان عن تأويل آي القرآن للإمام ابن جرير الطبري هو إمام وأصل كتب التفسير بالمأثور.',
-        points: 1,
-        sort_order: 1,
-        created_at: new Date().toISOString()
-      },
-      {
-        id: q3Id,
-        exam_id: 'exam_demo_1',
-        question_text: 'هل يُعتمد التفسير بالرأي المحمود إذا انضبط بضوابط لغة العرب وقواعد الشريعة؟',
-        explanation: 'نعم، التفسير بالرأي ينقسم إلى محمود ومذموم، فما وافق قواعد الشريعة وأصول لسان العرب فهو مقبول.',
-        points: 1,
-        sort_order: 2,
-        created_at: new Date().toISOString()
-      }
-    ];
-
-    const defaultChoices = [
-      // Q1
-      { id: 'c_1_1', question_id: q1Id, choice_text: 'تفسير القرآن بالقرآن', is_correct: true, sort_order: 0 },
-      { id: 'c_1_2', question_id: q1Id, choice_text: 'أقوال التابعين', is_correct: false, sort_order: 1 },
-      { id: 'c_1_3', question_id: q1Id, choice_text: 'الاجتهاد اللغوي المجرد', is_correct: false, sort_order: 2 },
-      { id: 'c_1_4', question_id: q1Id, choice_text: 'الإسرائيليات', is_correct: false, sort_order: 3 },
-      // Q2
-      { id: 'c_2_1', question_id: q2Id, choice_text: 'تفسير الطبري (جامع البيان)', is_correct: true, sort_order: 0 },
-      { id: 'c_2_2', question_id: q2Id, choice_text: 'الكشاف للزمخشري', is_correct: false, sort_order: 1 },
-      { id: 'c_2_3', question_id: q2Id, choice_text: 'مفاتيح الغيب للرازي', is_correct: false, sort_order: 2 },
-      { id: 'c_2_4', question_id: q2Id, choice_text: 'أنوار التنزيل للبيضاوي', is_correct: false, sort_order: 3 },
-      // Q3
-      { id: 'c_3_1', question_id: q3Id, choice_text: 'صواب', is_correct: true, sort_order: 0 },
-      { id: 'c_3_2', question_id: q3Id, choice_text: 'خطأ', is_correct: false, sort_order: 1 }
-    ];
-
     localStorage.setItem('edutest_demo_subjects', JSON.stringify([defaultSubject]));
     localStorage.setItem('edutest_demo_exams', JSON.stringify([defaultExam]));
-    localStorage.setItem('edutest_demo_questions', JSON.stringify(defaultQuestions));
-    localStorage.setItem('edutest_demo_choices', JSON.stringify(defaultChoices));
   }
 }
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>لوحة إدارة الاختبارات والمقررات | منصة مدارج</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
@@ -181,16 +181,7 @@
         </div>
         <div class="form-group">
           <label for="bulk-json" class="form-label">مصفوفة الأسئلة بتنسيق JSON *</label>
-          <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[
-  {
-    "question_text": "ما هو المصدر الأول لتفسير القرآن الكريم؟",
-    "explanation": "القرآن يفسر بعضه بعضاً وهو أعلى مراتب التفسير.",
-    "choices": [
-      { "text": "تفسير القرآن بالقرآن", "isCorrect": true },
-      { "text": "أقوال التابعين", "isCorrect": false }
-    ]
-  }
-]' required></textarea>
+          <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[\n  {\n    \"question_text\": \"ما هو المصدر الأول لتفسير القرآن الكريم؟\",\n    \"explanation\": \"القرآن يفسر بعضه بعضاً وهو أعلى مراتب التفسير.\",\n    \"choices\": [\n      { \"text\": \"تفسير القرآن بالقرآن\", \"isCorrect\": true },\n      { \"text\": \"أقوال التابعين\", \"isCorrect\": false }\n    ]\n  }\n]' required></textarea>
         </div>
         <button type="submit" class="btn btn-success btn-sm">بدء استيراد الأسئلة سحابياً ⚡</button>
       </form>

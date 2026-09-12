@@ -6,7 +6,8 @@
   <title>منصة مدارج | الاختبارات التفاعلية والتقييم الذاتي</title>
   <meta name="description" content="المنصة الأكاديمية الأولى للاختبارات التفاعلية لطلاب الدراسات الإسلامية وعلوم القرآن، مع تصحيح سحابي آمن وتوافق كامل مع قارئات الشاشة.">
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase Client JS (UMD Bundle) -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- رابط التخطي السريع لقارئات الشاشة ولوحة المفاتيح -->
@@ -62,13 +63,24 @@
 
     <!-- بطاقة المستخدم في القائمة الجانبية -->
     <div id="sidebar-user-area" class="sidebar-user-card">
-      <p class="text-muted" style="font-size: 0.9rem;">جاري التحقق من الحساب...</p>
+      <p class="text-muted" style="font-size: 0.9rem;">مرحباً بك كزائر!</p>
     </div>
 
     <!-- روابط التنقل -->
     <nav role="navigation" aria-label="روابط القائمة">
       <ul id="sidebar-nav-links" class="sidebar-nav">
-        <!-- تملأ ديناميكياً عبر js/auth.js -->
+        <li>
+          <a href="index.html" class="sidebar-link active">
+            <span class="sidebar-link-icon" aria-hidden="true">🏠</span>
+            <span>الصفحة الرئيسية</span>
+          </a>
+        </li>
+        <li>
+          <a href="#subjects-section" class="sidebar-link">
+            <span class="sidebar-link-icon" aria-hidden="true">📚</span>
+            <span>المقررات والاختبارات</span>
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -161,7 +173,7 @@
           <h2 id="subjects-title" style="font-size: 1.8rem; font-weight: 800;">المقررات والمواد الدراسية</h2>
           <p class="text-muted" style="margin-top: 0.25rem;">اختر المادة المطلوبة للاطلاع على بنوك الأسئلة والاختبارات التفاعلية التابعة لها.</p>
         </div>
-        <span class="badge badge-primary" id="subjects-count-badge">جاري التحميل...</span>
+        <span class="badge badge-primary" id="subjects-count-badge">مقرر معتمد</span>
       </div>
 
       <!-- حقل البحث المباشر في المواد -->
@@ -179,7 +191,7 @@
       <!-- شبكة عرض المواد -->
       <div id="subjects-grid" class="grid" role="region" aria-live="polite">
         <div class="card" style="text-align: center; padding: 2.5rem; grid-column: 1 / -1;">
-          <p class="text-muted">جاري الاتصال بالسحابة وتحميل المواد المعتمدة...</p>
+          <p class="text-muted">جاري تحميل المواد المعتمدة...</p>
         </div>
       </div>
     </section>
@@ -191,9 +203,9 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
+        <button type="button" class="faq-question" aria-expanded="false">
           <span>كيف يمكنني التسجيل والبدء بخوض الاختبار؟</span>
-          <span aria-hidden="true">+</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer" style="display: none;">
           التسجيل فوري ومجاني بالكامل! اضغط على "إنشاء حساب"، أدخل اسمك وبريدك الإلكتروني وكلمة المرور، وسيتم تفعيل حسابك فوراً دون الحاجة لانتظار رسائل تفعيل، ويمكنك البدء بالاختبار مباشرة.
@@ -201,9 +213,9 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
+        <button type="button" class="faq-question" aria-expanded="false">
           <span>كيف تضمن المنصة عدم تكرار نفس نمط الأسئلة؟</span>
-          <span aria-hidden="true">+</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer" style="display: none;">
           تعتمد المنصة خوارزمية Fisher-Yates العالمية لخلط الأسئلة والخيارات عشوائياً عند كل محاولة، بحيث يحصل كل طالب على ترتيب مختلف تماماً يختبر فهمه الحقيقي.
@@ -211,9 +223,9 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
+        <button type="button" class="faq-question" aria-expanded="false">
           <span>هل درجاتي ومحاولاتي السابقة محفوظة؟</span>
-          <span aria-hidden="true">+</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer" style="display: none;">
           نعم، بمجرد تسجيل دخولك، تُحفظ كافة محاولاتك ونسب النجاح والتواريخ في قاعدة بيانات سحابية موثوقة، ويمكنك الرجوع إليها في أي وقت عبر صفحة "لوحتي الشخصية".
@@ -221,9 +233,9 @@
       </div>
 
       <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
+        <button type="button" class="faq-question" aria-expanded="false">
           <span>هل المنصة مجهزة للطلاب مستخدمي قارئات الشاشة؟</span>
-          <span aria-hidden="true">+</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer" style="display: none;">
           نعم، صُممت المنصة وفق معايير الإتاحة العالمية WCAG 2.1 AA، مع دعم كامل للنطق الفوري لرقم السؤال، والخيارات، والمؤقت، والنتيجة النهائية عبر قارئات الشاشة (TalkBack وغيرها).
@@ -266,58 +278,97 @@
   <script>
     let allSubjects = [];
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      // تفعيل زر تبديل المظهر
-      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
-      document.getElementById('sidebar-theme-btn').addEventListener('click', () => window.a11y.toggleTheme());
+    // ربط كافة عناصر الواجهة بشكل فوري ومباشر دون انتظار أي شبكة
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. تفعيل المظهر (ليلي / نهاري)
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
+      document.getElementById('sidebar-theme-btn')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
-      // تهيئة الحساب وقاعدة البيانات السحابية
-      await window.authManager.init();
-      window.db.init();
+      // 2. تفعيل الأسئلة الشائعة فوراً (FAQ Accordion)
+      setupFaqAccordion();
 
-      // جلب المواد من السحابة
-      await loadLiveSubjects();
-
-      // تفعيل البحث اللحظي في المواد
+      // 3. تفعيل البحث اللحظي في المقررات
       const searchInput = document.getElementById('subject-search-input');
       searchInput?.addEventListener('input', (e) => {
         filterSubjects(e.target.value);
       });
 
-      // تفعيل الأسئلة الشائعة (Accordion)
-      document.querySelectorAll('.faq-question').forEach(btn => {
-        btn.addEventListener('click', () => {
+      // 4. تشغيل التهيئة السحابية في الخلفية دون تعطيل الواجهة
+      initAppAsync();
+    });
+
+    function setupFaqAccordion() {
+      const faqButtons = document.querySelectorAll('.faq-question');
+      faqButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
           const isExpanded = btn.getAttribute('aria-expanded') === 'true';
           const answer = btn.nextElementSibling;
-          btn.setAttribute('aria-expanded', !isExpanded);
-          btn.querySelector('[aria-hidden="true"]').textContent = isExpanded ? '+' : '−';
-          answer.style.display = isExpanded ? 'none' : 'block';
+          const icon = btn.querySelector('.faq-icon');
+
+          btn.setAttribute('aria-expanded', String(!isExpanded));
+          if (icon) icon.textContent = isExpanded ? '+' : '−';
+          if (answer) answer.style.display = isExpanded ? 'none' : 'block';
+          
+          if (!isExpanded) {
+            window.a11y?.announce('تم عرض الإجابة');
+          }
         });
       });
-    });
+    }
+
+    async function initAppAsync() {
+      // تهيئة القائمة الجانبية والحساب
+      try {
+        await window.authManager.init();
+      } catch (e) {
+        console.warn('Auth init note:', e);
+      }
+
+      window.db.init();
+
+      // جلب المقررات فوراً
+      await loadLiveSubjects();
+    }
 
     async function loadLiveSubjects() {
       const grid = document.getElementById('subjects-grid');
       try {
-        allSubjects = await window.db.getSubjects();
-        document.getElementById('stat-subjects-count').textContent = allSubjects.length;
-        document.getElementById('subjects-count-badge').textContent = `${allSubjects.length} مقررات متاحة`;
+        // جلب المقررات مع مهلة أقصاها 4 ثوانٍ لمنع أي تعليق
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('تجاوزت مهلة الاتصال')), 4000)
+        );
+        allSubjects = await Promise.race([window.db.getSubjects(), timeoutPromise]);
+
+        const countEl = document.getElementById('stat-subjects-count');
+        if (countEl) countEl.textContent = allSubjects.length;
+
+        const badgeEl = document.getElementById('subjects-count-badge');
+        if (badgeEl) badgeEl.textContent = `${allSubjects.length} مقررات متاحة`;
 
         renderSubjects(allSubjects);
-        window.a11y?.announce(`تم تحميل ${allSubjects.length} مقررات دراسية من السحابة`);
+        window.a11y?.announce(`تم تحميل ${allSubjects.length} مقررات دراسية`);
       } catch (err) {
-        console.error(err);
-        grid.innerHTML = `
-          <div class="card" style="text-align: center; padding: 2rem; color: var(--danger); grid-column: 1 / -1;">
-            <p>تعذر الاتصال بالسحابة: ${err.message}</p>
-          </div>
-        `;
+        console.warn('حدث تأخير أو خطأ في الاتصال بالسحابة، جاري استخدام التخزين البديل:', err);
+        allSubjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+        if (allSubjects.length > 0) {
+          renderSubjects(allSubjects);
+        } else {
+          grid.innerHTML = `
+            <div class="card" style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
+              <p style="color: var(--text-muted); margin-bottom: 1rem;">جاري مزامنة المقررات من الخادم السحابي...</p>
+              <button onclick="loadLiveSubjects()" class="btn btn-primary btn-sm">إعادة المحاولة ↺</button>
+            </div>
+          `;
+        }
       }
     }
 
     function renderSubjects(subjects) {
       const grid = document.getElementById('subjects-grid');
-      if (subjects.length === 0) {
+      if (!grid) return;
+
+      if (!subjects || subjects.length === 0) {
         grid.innerHTML = `
           <div class="card" style="text-align: center; padding: 2.5rem; grid-column: 1 / -1;">
             <p class="text-muted">لا توجد مقررات مطابقة للبحث حالياً.</p>

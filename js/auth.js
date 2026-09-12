@@ -11,40 +11,53 @@ class AuthManager {
   }
 
   async init() {
-    if (window.CONFIG.isSupabaseConfigured() && window.supabase) {
-      this.client = window.supabase.createClient(
-        window.CONFIG.SUPABASE_URL,
-        window.CONFIG.SUPABASE_ANON_KEY
-      );
+    // 1. تهيئة القائمة الجانبية وتحديث الواجهة فوراً دون انتظار أي شبكة
+    this.initSidebar();
+    this.updateNavUI();
 
-      const { data: { session } } = await this.client.auth.getSession();
-      if (session?.user) {
-        const { data: profile } = await this.client
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
+    // 2. محاولة جلب الجلسة من Supabase مع مهلة زمنية صارمة (Timeout)
+    if (window.CONFIG.isSupabaseConfigured() && window.supabase && typeof window.supabase.createClient === 'function') {
+      try {
+        this.client = window.supabase.createClient(
+          window.CONFIG.SUPABASE_URL,
+          window.CONFIG.SUPABASE_ANON_KEY
+        );
 
-        this.currentUser = {
-          id: session.user.id,
-          email: session.user.email,
-          fullName: profile?.full_name || session.user.user_metadata?.full_name || 'طالب',
-          role: profile?.role || 'student'
-        };
+        const sessionPromise = this.client.auth.getSession();
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve({ data: { session: null } }), 2000));
+        const { data: { session } } = await Promise.race([sessionPromise, timeoutPromise]);
+
+        if (session?.user) {
+          const { data: profile } = await this.client
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+
+          this.currentUser = {
+            id: session.user.id,
+            email: session.user.email,
+            fullName: profile?.full_name || session.user.user_metadata?.full_name || 'طالب',
+            role: profile?.role || 'student',
+            token: session.access_token
+          };
+          this.updateNavUI();
+        }
+      } catch (e) {
+        console.warn('تعذر استرداد جلسة Supabase، سيتم الاستمرار كزائر:', e);
       }
     } else {
       const saved = localStorage.getItem('edutest_current_user');
       if (saved) {
         try {
           this.currentUser = JSON.parse(saved);
+          this.updateNavUI();
         } catch (e) {
           this.currentUser = null;
         }
       }
     }
 
-    this.initSidebar();
-    this.updateNavUI();
     return this.currentUser;
   }
 
@@ -80,8 +93,10 @@ class AuthManager {
           id: data.user.id,
           email: data.user.email,
           fullName: fullName,
-          role: 'student'
+          role: 'student',
+          token: data.session.access_token
         };
+        this.updateNavUI();
       }
       return { success: true, user: data.user, requiresEmailConfirmation: !data.session };
     } else {
@@ -133,7 +148,8 @@ class AuthManager {
         id: data.user.id,
         email: data.user.email,
         fullName: profile?.full_name || data.user.user_metadata?.full_name || 'طالب',
-        role: profile?.role || 'student'
+        role: profile?.role || 'student',
+        token: data.session?.access_token
       };
 
       this.updateNavUI();
@@ -160,7 +176,9 @@ class AuthManager {
 
   async signOut() {
     if (window.CONFIG.isSupabaseConfigured() && this.client) {
-      await this.client.auth.signOut();
+      try {
+        await this.client.auth.signOut();
+      } catch (e) {}
     }
     this.currentUser = null;
     localStorage.removeItem('edutest_current_user');
@@ -168,7 +186,9 @@ class AuthManager {
     window.location.href = 'index.html';
   }
 
-  // ====================================================================\n  // إدارة القائمة الجانبية السلسة (Hamburger Menu & Drawer)\n  // ====================================================================
+  // ====================================================================
+  // إدارة القائمة الجانبية السلسة (Hamburger Menu & Drawer)
+  // ====================================================================
   initSidebar() {
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const sidebar = document.getElementById('mobile-sidebar');
@@ -176,6 +196,10 @@ class AuthManager {
     const closeBtn = document.getElementById('sidebar-close-btn');
 
     if (!hamburgerBtn || !sidebar || !overlay) return;
+
+    // منع تكرار ربط الأحداث
+    if (hamburgerBtn._hasInit) return;
+    hamburgerBtn._hasInit = true;
 
     const openDrawer = () => {
       this.isSidebarOpen = true;
@@ -205,7 +229,6 @@ class AuthManager {
     closeBtn?.addEventListener('click', closeDrawer);
     overlay.addEventListener('click', closeDrawer);
 
-    // إغلاق بمفتاح Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && this.isSidebarOpen) {
         closeDrawer();
@@ -220,7 +243,6 @@ class AuthManager {
 
     const user = this.currentUser;
 
-    // 1. تحديث شريط التنقل العلوي للشاشات الكبيرة
     if (navAuthContainer) {
       if (user) {
         navAuthContainer.innerHTML = `
@@ -244,7 +266,6 @@ class AuthManager {
       }
     }
 
-    // 2. تحديث محتوى القائمة الجانبية (Drawer Content)
     if (sidebarUserArea) {
       if (user) {
         sidebarUserArea.innerHTML = `
