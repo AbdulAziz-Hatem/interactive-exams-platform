@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استعراض الاختبارات | منصة مدارج</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">مدارج</span>
+        <span>منصة الاختبارات</span>
+      </a>
+
+      <nav role="navigation" aria-label="التنقل الرئيسي">
+        <div id="nav-auth-container"></div>
+      </nav>
+
+      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+    </div>
+  </header>
+
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 3rem;">
+    
+    <!-- زر الرجوع -->
+    <div style="margin-bottom: 1.5rem;">
+      <a href="index.html" class="btn btn-secondary btn-sm">→ العودة لقائمة المقررات</a>
+    </div>
+
+    <!-- بطاقة تفاصيل المادة -->
+    <section class="card" aria-labelledby="subj-heading">
+      <div class="card-header">
+        <div>
+          <span id="subj-code" class="badge badge-primary" style="margin-bottom: 0.5rem;">جاري التحميل...</span>
+          <h1 id="subj-heading" style="font-size: 1.75rem; font-weight: 800;">جاري تحميل المادة...</h1>
+        </div>
+      </div>
+      <p id="subj-desc" style="color: var(--text-muted); font-size: 1.05rem;">...</p>
+    </section>
+
+    <!-- قائمة الاختبارات المتاحة للمادة -->
+    <section aria-labelledby="exams-list-title" style="margin-top: 2rem;">
+      <h2 id="exams-list-title" style="font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem;">
+        الاختبارات المتوفرة لهذه المادة
+      </h2>
+
+      <div id="exams-container" class="grid" style="grid-template-columns: 1fr;" role="region" aria-live="polite">
+        <p class="text-muted">جاري تحميل الاختبارات...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+
+      await window.authManager.init();
+      window.db.init();
+
+      const params = new URLSearchParams(window.location.search);
+      const subjectId = params.get('id');
+
+      if (!subjectId) {
+        alert('لم يتم تحديد المادة!');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      loadSubjectAndExams(subjectId);
+    });
+
+    async function loadSubjectAndExams(subjectId) {
+      try {
+        const subject = await window.db.getSubjectById(subjectId);
+        if (!subject) {
+          alert('المادة غير موجودة!');
+          window.location.href = 'index.html';
+          return;
+        }
+
+        document.getElementById('subj-code').textContent = subject.code || 'مقرر دراسي';
+        document.getElementById('subj-heading').textContent = subject.title;
+        document.getElementById('subj-desc').textContent = subject.description || 'لا يوجد وصف متاح.';
+
+        // جلب الاختبارات
+        const exams = await window.db.getExamsBySubject(subjectId);
+        const container = document.getElementById('exams-container');
+
+        if (exams.length === 0) {
+          container.innerHTML = `
+            <div class="card" style="text-align: center; color: var(--text-muted);">
+              <p>لا توجد اختبارات منشورة لهذه المادة في الوقت الحالي.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = exams.map(exam => `
+          <article class="card" aria-labelledby="exam-title-${exam.id}">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div style="flex: 1; min-width: 250px;">
+                <h3 id="exam-title-${exam.id}" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">
+                  ${window.authManager.escapeHtml(exam.title)}
+                </h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+                  ${window.authManager.escapeHtml(exam.description || 'اختبار تقييم ذاتي للمادة.')}
+                </p>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                  <span class="badge badge-primary">⏱️ المدة: ${exam.duration_minutes > 0 ? exam.duration_minutes + ' دقيقة' : 'مفتوح'}</span>
+                  <span class="badge badge-success">🎯 نسبة النجاح: ${exam.passing_percentage}%</span>
+                </div>
+              </div>
+              <div>
+                <a href="exam.html?id=${exam.id}" class="btn btn-primary" aria-label="بدء اختبار ${window.authManager.escapeHtml(exam.title)}">
+                  بدء الاختبار الآن ❯
+                </a>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        window.a11y.announce(`تم عرض ${exams.length} اختبارات للمادة`);
+      } catch (err) {
+        console.error(err);
+        alert('حدث خطأ أثناء تحميل البيانات: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

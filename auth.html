@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول وإنشاء حساب | منصة مدارج</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">مدارج</span>
+        <span>منصة الاختبارات</span>
+      </a>
+      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+    </div>
+  </header>
+
+  <main id="main-content" class="container" role="main" style="max-width: 480px; margin-top: 3rem; margin-bottom: 3rem;">
+    <div class="card">
+      <div class="card-header" style="justify-content: center; text-align: center;">
+        <h1 id="auth-heading" style="font-size: 1.5rem; font-weight: 800;">تسجيل الدخول</h1>
+      </div>
+
+      <div id="auth-error-alert" class="alert alert-danger" style="display: none;" role="alert" aria-live="assertive"></div>
+      <div id="auth-success-alert" class="alert alert-success" style="display: none;" role="status" aria-live="polite"></div>
+
+      <!-- تبويبات التبديل بين الدخول والتسجيل -->
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+        <button type="button" id="tab-login" class="btn btn-outline btn-sm" style="flex: 1;" aria-selected="true">تسجيل الدخول</button>
+        <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب جديد</button>
+      </div>
+
+      <!-- نموذج الدخول / التسجيل -->
+      <form id="auth-form" novalidate>
+        
+        <div id="group-fullname" class="form-group" style="display: none;">
+          <label for="fullname" class="form-label">الاسم الكامل (الاسم الثلاثي أو الرباعي)</label>
+          <input type="text" id="fullname" class="form-input" placeholder="مثال: عبد العزيز أمين" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">البريد الإلكتروني</label>
+          <input type="email" id="email" class="form-input" placeholder="name@example.com" dir="ltr" autocomplete="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">كلمة المرور</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••" dir="ltr" autocomplete="current-password" required>
+          <span id="password-hint" style="font-size: 0.8rem; color: var(--text-muted); display: none;">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
+        </div>
+
+        <button type="submit" id="btn-submit-auth" class="btn btn-primary btn-block" style="margin-top: 1rem;">
+          تسجيل الدخول
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+        <span id="auth-switch-text">ليس لديك حساب بعد؟</span>
+        <button type="button" id="btn-toggle-mode" style="background: none; border: none; color: var(--primary); font-weight: 700; cursor: pointer; text-decoration: underline; font-family: inherit;">
+          إنشاء حساب الآن
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    let currentMode = 'login'; // 'login' | 'signup'
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+
+      await window.authManager.init();
+      if (window.authManager.isAuthenticated()) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('mode') === 'signup') {
+        setMode('signup');
+      } else {
+        setMode('login');
+      }
+
+      document.getElementById('tab-login').addEventListener('click', () => setMode('login'));
+      document.getElementById('tab-signup').addEventListener('click', () => setMode('signup'));
+      document.getElementById('btn-toggle-mode').addEventListener('click', () => {
+        setMode(currentMode === 'login' ? 'signup' : 'login');
+      });
+
+      document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
+    });
+
+    function setMode(mode) {
+      currentMode = mode;
+      const heading = document.getElementById('auth-heading');
+      const groupFullName = document.getElementById('group-fullname');
+      const submitBtn = document.getElementById('btn-submit-auth');
+      const switchText = document.getElementById('auth-switch-text');
+      const toggleBtn = document.getElementById('btn-toggle-mode');
+      const tabLogin = document.getElementById('tab-login');
+      const tabSignup = document.getElementById('tab-signup');
+      const pwdHint = document.getElementById('password-hint');
+
+      hideAlerts();
+
+      if (mode === 'signup') {
+        heading.textContent = 'إنشاء حساب طالب جديد';
+        groupFullName.style.display = 'block';
+        submitBtn.textContent = 'إنشاء الحساب';
+        switchText.textContent = 'لديك حساب بالفعل؟';
+        toggleBtn.textContent = 'تسجيل الدخول';
+        tabSignup.className = 'btn btn-primary btn-sm';
+        tabSignup.setAttribute('aria-selected', 'true');
+        tabLogin.className = 'btn btn-secondary btn-sm';
+        tabLogin.setAttribute('aria-selected', 'false');
+        pwdHint.style.display = 'block';
+        window.a11y.announce('تم التبديل إلى نموذج إنشاء حساب جديد');
+      } else {
+        heading.textContent = 'تسجيل الدخول إلى حسابك';
+        groupFullName.style.display = 'none';
+        submitBtn.textContent = 'تسجيل الدخول';
+        switchText.textContent = 'ليس لديك حساب بعد؟';
+        toggleBtn.textContent = 'إنشاء حساب الآن';
+        tabLogin.className = 'btn btn-primary btn-sm';
+        tabLogin.setAttribute('aria-selected', 'true');
+        tabSignup.className = 'btn btn-secondary btn-sm';
+        tabSignup.setAttribute('aria-selected', 'false');
+        pwdHint.style.display = 'none';
+        window.a11y.announce('تم التبديل إلى نموذج تسجيل الدخول');
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const fullname = document.getElementById('fullname').value.trim();
+      const submitBtn = document.getElementById('btn-submit-auth');
+
+      if (!email || !password) {
+        showError('يرجى ملء جميع الحقول المطلوبة.');
+        return;
+      }
+
+      if (currentMode === 'signup' && !fullname) {
+        showError('يرجى كتابة الاسم الكامل.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري المعالجة...';
+
+      try {
+        if (currentMode === 'signup') {
+          const res = await window.authManager.signUp(fullname, email, password);
+          if (res.requiresEmailConfirmation) {
+            showSuccess('تم إنشاء الحساب بنجاح! تم إرسال رابط تأكيد إلى بريدك الإلكتروني.');
+          } else {
+            showSuccess('تم إنشاء الحساب بنجاح! جاري تحويلك...');
+            redirectAfterAuth();
+          }
+        } else {
+          await window.authManager.signIn(email, password);
+          showSuccess('تم تسجيل الدخول بنجاح! جاري تحويلك...');
+          redirectAfterAuth();
+        }
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'حدث خطأ أثناء المصادقة.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = currentMode === 'signup' ? 'إنشاء الحساب' : 'تسجيل الدخول';
+      }
+    }
+
+    function redirectAfterAuth() {
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect') || 'dashboard.html';
+      setTimeout(() => {
+        window.location.href = redirect;
+      }, 700);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('auth-error-alert');
+      el.textContent = msg;
+      el.style.display = 'block';
+      window.a11y.announce(msg, 'assertive');
+    }
+
+    function showSuccess(msg) {
+      const el = document.getElementById('auth-success-alert');
+      el.textContent = msg;
+      el.style.display = 'block';
+      window.a11y.announce(msg, 'polite');
+    }
+
+    function hideAlerts() {
+      document.getElementById('auth-error-alert').style.display = 'none';
+      document.getElementById('auth-success-alert').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

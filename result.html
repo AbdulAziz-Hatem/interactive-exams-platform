@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نتيجة الاختبار والمراجعة | منصة مدارج</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <a href="index.html" class="brand">
+        <span class="brand-badge">مدارج</span>
+        <span>منصة الاختبارات</span>
+      </a>
+
+      <nav role="navigation" aria-label="التنقل الرئيسي">
+        <div id="nav-auth-container"></div>
+      </nav>
+
+      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+    </div>
+  </header>
+
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 3rem;">
+    <div id="result-app">
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <p class="text-muted">جاري تحميل النتيجة والتغذية الراجعة...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>منصة مدارج للاختبارات التفاعلية © 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+
+      await window.authManager.init();
+      window.db.init();
+
+      const params = new URLSearchParams(window.location.search);
+      const submissionId = params.get('submission_id');
+
+      if (!submissionId) {
+        alert('لم يتم تحديد معرف النتيجة!');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      loadResult(submissionId);
+    });
+
+    async function loadResult(submissionId) {
+      try {
+        const sub = await window.db.getSubmissionById(submissionId);
+        if (!sub) {
+          alert('تعذر العثور على سجل النتيجة!');
+          window.location.href = 'index.html';
+          return;
+        }
+
+        const app = document.getElementById('result-app');
+        const isPassed = sub.passed;
+        const bannerClass = isPassed ? 'passed' : 'failed';
+        const statusText = isPassed ? 'مبارك! تم اجتياز الاختبار بنجاح 🎉' : 'للأسف لم يتم اجتياز الاختبار هذه المرة ⚠️';
+
+        // إعلان النتيجة صوتياً عبر قارئ الشاشة
+        const voiceAnnounce = `تم الانتهاء من الاختبار. ${statusText}. درجتك هي: ${sub.percentage} بالمائة. حصلت على ${sub.score} من إجمالي ${sub.total_points} نقطة.`;
+        window.a11y.announce(voiceAnnounce, 'assertive');
+
+        // استعراض تفاصيل الأسئلة (Review Details)
+        const details = sub.review_details || [];
+        const reviewItemsHtml = details.map((d, index) => {
+          const itemClass = d.is_correct ? 'correct' : 'wrong';
+          const badgeHtml = d.is_correct 
+            ? '<span class="badge badge-success">إجابة صحيحة ✓</span>'
+            : '<span class="badge badge-danger">إجابة غير صحيحة ✗</span>';
+
+          return `
+            <article class="review-item ${itemClass}" aria-labelledby="rev-q-${index}">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.5rem;">
+                <h4 id="rev-q-${index}" style="font-size: 1.15rem; font-weight: 700;">
+                  السؤال ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
+                </h4>
+                ${badgeHtml}
+              </div>
+
+              <div style="margin: 0.75rem 0; font-size: 1rem;">
+                <p style="margin-bottom: 0.25rem;">
+                  <strong>الإجابة النموذجية الصحيحة:</strong> 
+                  <span style="color: var(--success); font-weight: 700;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
+                </p>
+              </div>
+
+              ${d.explanation ? `
+                <div class="explanation-box">
+                  <strong>💡 التعليل والشرح العلمي:</strong> ${window.authManager.escapeHtml(d.explanation)}
+                </div>
+              ` : ''}
+            </article>
+          `;
+        }).join('');
+
+        app.innerHTML = `
+          <!-- لافتة ملخص النتيجة -->
+          <section class="result-banner ${bannerClass}" role="region" aria-label="ملخص النتيجة">
+            <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">${statusText}</h1>
+            <div class="score-display">${sub.percentage}%</div>
+            <p style="font-size: 1.15rem; font-weight: 600;">
+              الدرجة المحققة: ${sub.score} من أصل ${sub.total_points} نقطة
+            </p>
+            <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9;">
+              درجة النجاح المطلوبة: ${sub.passing_percentage || 50}%
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+              <a href="exam.html?id=${sub.exam_id}" class="btn btn-primary btn-sm">إعادة خوض الاختبار ↺</a>
+              <a href="dashboard.html" class="btn btn-secondary btn-sm">سجل اختباراتي 📋</a>
+              <a href="index.html" class="btn btn-outline btn-sm">العودة للرئيسية 🏠</a>
+            </div>
+          </section>
+
+          <!-- التغذية الراجعة ومراجعة الأسئلة -->
+          <section aria-labelledby="review-section-title">
+            <div class="card-header">
+              <h2 id="review-section-title" style="font-size: 1.4rem; font-weight: 800;">
+                المراجعة التفصيلية والتغذية الراجعة
+              </h2>
+              <span class="text-muted">${details.length} أسئلة</span>
+            </div>
+
+            <div class="reviews-list">
+              ${reviewItemsHtml || '<p class="text-muted">لا تتوفر تفاصيل إضافية لهذا السجل.</p>'}
+            </div>
+          </section>
+        `;
+
+        window.a11y.focusElement('#review-section-title');
+      } catch (err) {
+        console.error(err);
+        alert('حدث خطأ أثناء عرض النتيجة: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
