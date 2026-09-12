@@ -10,25 +10,50 @@
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
+  <!-- شريط التنقل العلوي الموحد -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
-      <a href="index.html" class="brand">
-        <span class="brand-badge">مدارج</span>
-        <span>منصة الاختبارات</span>
-      </a>
-
-      <nav role="navigation" aria-label="التنقل الرئيسي">
-        <div id="nav-auth-container"></div>
-      </nav>
-
-      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <span>منصة الاختبارات</span>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
     </div>
   </header>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 3rem;">
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     <div id="result-app">
-      <div class="card" style="text-align: center; padding: 2rem;">
-        <p class="text-muted">جاري تحميل النتيجة والتغذية الراجعة...</p>
+      <div class="card" style="text-align: center; padding: 3rem;">
+        <p class="text-muted">جاري جلب النتيجة والتغذية الراجعة من السحابة...</p>
       </div>
     </div>
   </main>
@@ -76,11 +101,9 @@
         const bannerClass = isPassed ? 'passed' : 'failed';
         const statusText = isPassed ? 'مبارك! تم اجتياز الاختبار بنجاح 🎉' : 'للأسف لم يتم اجتياز الاختبار هذه المرة ⚠️';
 
-        // إعلان النتيجة صوتياً عبر قارئ الشاشة
         const voiceAnnounce = `تم الانتهاء من الاختبار. ${statusText}. درجتك هي: ${sub.percentage} بالمائة. حصلت على ${sub.score} من إجمالي ${sub.total_points} نقطة.`;
-        window.a11y.announce(voiceAnnounce, 'assertive');
+        window.a11y?.announce(voiceAnnounce, 'assertive');
 
-        // استعراض تفاصيل الأسئلة (Review Details)
         const details = sub.review_details || [];
         const reviewItemsHtml = details.map((d, index) => {
           const itemClass = d.is_correct ? 'correct' : 'wrong';
@@ -106,7 +129,7 @@
 
               ${d.explanation ? `
                 <div class="explanation-box">
-                  <strong>💡 التعليل والشرح العلمي:</strong> ${window.authManager.escapeHtml(d.explanation)}
+                  <strong>💡 التعليل العلمي المنهجي:</strong> ${window.authManager.escapeHtml(d.explanation)}
                 </div>
               ` : ''}
             </article>
@@ -114,40 +137,38 @@
         }).join('');
 
         app.innerHTML = `
-          <!-- لافتة ملخص النتيجة -->
           <section class="result-banner ${bannerClass}" role="region" aria-label="ملخص النتيجة">
-            <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem;">${statusText}</h1>
+            <h1 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">${statusText}</h1>
             <div class="score-display">${sub.percentage}%</div>
-            <p style="font-size: 1.15rem; font-weight: 600;">
+            <p style="font-size: 1.2rem; font-weight: 600;">
               الدرجة المحققة: ${sub.score} من أصل ${sub.total_points} نقطة
             </p>
             <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.9;">
-              درجة النجاح المطلوبة: ${sub.passing_percentage || 50}%
+              درجة الاجتياز المطلوبة: ${sub.passing_percentage || 50}%
             </p>
 
-            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
-              <a href="exam.html?id=${sub.exam_id}" class="btn btn-primary btn-sm">إعادة خوض الاختبار ↺</a>
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap;">
+              <a href="exam.html?id=${sub.exam_id}" class="btn btn-primary btn-sm">إعادة المحاولة (بترتيب جديد) ↺</a>
               <a href="dashboard.html" class="btn btn-secondary btn-sm">سجل اختباراتي 📋</a>
-              <a href="index.html" class="btn btn-outline btn-sm">العودة للرئيسية 🏠</a>
+              <a href="index.html#subjects-section" class="btn btn-outline btn-sm">تصفح المقررات 🏠</a>
             </div>
           </section>
 
-          <!-- التغذية الراجعة ومراجعة الأسئلة -->
           <section aria-labelledby="review-section-title">
             <div class="card-header">
-              <h2 id="review-section-title" style="font-size: 1.4rem; font-weight: 800;">
-                المراجعة التفصيلية والتغذية الراجعة
+              <h2 id="review-section-title" style="font-size: 1.5rem; font-weight: 800;">
+                المراجعة التفصيلية والتعليلات العلمية
               </h2>
               <span class="text-muted">${details.length} أسئلة</span>
             </div>
 
             <div class="reviews-list">
-              ${reviewItemsHtml || '<p class="text-muted">لا تتوفر تفاصيل إضافية لهذا السجل.</p>'}
+              ${reviewItemsHtml || '<p class="text-muted">لا تتوفر تفاصيل مراجعة إضافية لهذا السجل.</p>'}
             </div>
           </section>
         `;
 
-        window.a11y.focusElement('#review-section-title');
+        window.a11y?.focusElement('#review-section-title');
       } catch (err) {
         console.error(err);
         alert('حدث خطأ أثناء عرض النتيجة: ' + err.message);

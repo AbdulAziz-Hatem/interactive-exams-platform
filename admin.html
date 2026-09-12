@@ -10,62 +10,90 @@
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
+  <!-- شريط التنقل العلوي الموحد -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
-      <a href="index.html" class="brand">
-        <span class="brand-badge">إدارة مدارج</span>
-        <span>التحكم في الاختبارات</span>
-      </a>
-
-      <nav role="navigation" aria-label="التنقل">
-        <div id="nav-auth-container"></div>
-      </nav>
-
-      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">إدارة مدارج</span>
+          <span>لوحة التحكم</span>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
     </div>
   </header>
+
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+    </div>
+  </aside>
 
   <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     
     <div class="card-header" style="border: none;">
-      <h1 style="font-size: 1.75rem; font-weight: 800;">لوحة إدارة ونشر بنوك الأسئلة</h1>
-      <span class="badge badge-warning">صلاحيات المسؤول</span>
+      <div>
+        <h1 style="font-size: 1.85rem; font-weight: 800;">لوحة إدارة ونشر بنوك الأسئلة السحابية</h1>
+        <p class="text-muted" style="margin-top: 0.25rem;">إضافة المقررات، إنشاء الاختبارات، وتغذية بنوك الأسئلة يدوياً أو دفعة واحدة.</p>
+      </div>
+      <span class="badge badge-warning">صلاحيات المدير الأكاديمي</span>
     </div>
 
-    <!-- بطاقة 1: إضافة مادة دراسية جديدة -->
+    <!-- بطاقة 1: إضافة مقرر دراسي جديد -->
     <section class="card" aria-labelledby="sec-add-subject">
       <div class="card-header">
-        <h2 id="sec-add-subject" style="font-size: 1.25rem; font-weight: 700;">1. إضافة مقرر / مادة دراسية جديدة</h2>
+        <h2 id="sec-add-subject" style="font-size: 1.3rem; font-weight: 700;">1. إضافة مقرر / مادة دراسية جديدة</h2>
       </div>
       <form id="form-add-subject">
         <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
           <div class="form-group">
             <label for="subj-title" class="form-label">اسم المقرر الدراسي *</label>
-            <input type="text" id="subj-title" class="form-input" placeholder="مثال: مناهج المفسرين (المستوى الرابع)" required>
+            <input type="text" id="subj-title" class="form-input" placeholder="مثال: علوم القرآن الكريم" required>
           </div>
           <div class="form-group">
             <label for="subj-code" class="form-label">رمز المادة / الكود</label>
-            <input type="text" id="subj-code" class="form-input" placeholder="مثال: MANAHIJ_4" dir="ltr">
+            <input type="text" id="subj-code" class="form-input" placeholder="مثال: QURAN_SCI" dir="ltr">
           </div>
         </div>
         <div class="form-group">
           <label for="subj-description" class="form-label">نبذة عن المادة والمفردات المعتمدة</label>
-          <textarea id="subj-description" class="form-textarea" rows="2" placeholder="اكتب وصفاً موجزاً للمادة..."></textarea>
+          <textarea id="subj-description" class="form-textarea" rows="2" placeholder="اكتب وصفاً موجزاً للمادة ومفرداتها..."></textarea>
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">حفظ ونشر المادة</button>
+        <button type="submit" class="btn btn-primary btn-sm">حفظ ونشر المادة سحابياً</button>
       </form>
     </section>
 
-    <!-- بطاقة 2: إنشاء اختبار جديد تحت مادة -->
+    <!-- بطاقة 2: إنشاء اختبار جديد تحت مقرر -->
     <section class="card" aria-labelledby="sec-add-exam">
       <div class="card-header">
-        <h2 id="sec-add-exam" style="font-size: 1.25rem; font-weight: 700;">2. إنشاء اختبار جديد</h2>
+        <h2 id="sec-add-exam" style="font-size: 1.3rem; font-weight: 700;">2. إنشاء اختبار جديد لمقرر</h2>
       </div>
       <form id="form-add-exam">
         <div class="form-group">
           <label for="exam-select-subject" class="form-label">المادة التابع لها الاختبار *</label>
           <select id="exam-select-subject" class="form-select" required>
-            <option value="">-- اختر المادة --</option>
+            <option value="">-- اختر المقرر الدراسي --</option>
           </select>
         </div>
         <div class="form-group">
@@ -82,18 +110,18 @@
             <input type="number" id="exam-passing" class="form-input" value="60" min="1" max="100" required>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-sm">إنشاء الاختبار</button>
+        <button type="submit" class="btn btn-primary btn-sm">إنشاء ونشر الاختبار</button>
       </form>
     </section>
 
     <!-- بطاقة 3: إضافة سؤال يدوي مع خياراته -->
     <section class="card" aria-labelledby="sec-add-question">
       <div class="card-header">
-        <h2 id="sec-add-question" style="font-size: 1.25rem; font-weight: 700;">3. إضافة سؤال فردي إلى اختبار</h2>
+        <h2 id="sec-add-question" style="font-size: 1.3rem; font-weight: 700;">3. إضافة سؤال فردي إلى اختبار</h2>
       </div>
       <form id="form-add-question">
         <div class="form-group">
-          <label for="q-select-exam" class="form-label">اختر الاختبار المطلوب *</label>
+          <label for="q-select-exam" class="form-label">اختر الاختبار المستهدف *</label>
           <select id="q-select-exam" class="form-select" required>
             <option value="">-- اختر الاختبار --</option>
           </select>
@@ -101,15 +129,15 @@
 
         <div class="form-group">
           <label for="q-text" class="form-label">نص السؤال *</label>
-          <textarea id="q-text" class="form-textarea" rows="2" placeholder="اكتب نص السؤال بوضوح..." required></textarea>
+          <textarea id="q-text" class="form-textarea" rows="2" placeholder="اكتب نص السؤال بدقة..." required></textarea>
         </div>
 
         <div class="form-group">
           <label for="q-explanation" class="form-label">التعليل العلمي والشرح (يظهر للطالب بعد إنهاء الاختبار لبيان سبب الصواب)</label>
-          <textarea id="q-explanation" class="form-textarea" rows="2" placeholder="اكتب تعليل الإجابة الصحيحة والمرجع إن وجد..."></textarea>
+          <textarea id="q-explanation" class="form-textarea" rows="2" placeholder="اكتب تعليل الإجابة الصحيحة والمرجع العلمي إن وجد..."></textarea>
         </div>
 
-        <fieldset style="border: 1px solid var(--border); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
+        <fieldset style="border: 1px solid var(--border); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
           <legend style="font-weight: 700; padding: 0 0.5rem;">خيارات الإجابة (حدد الإجابة الصحيحة عبر زر الراديو)</legend>
           
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
@@ -132,17 +160,17 @@
           </div>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary btn-sm">حفظ وإضافة السؤال</button>
+        <button type="submit" class="btn btn-primary btn-sm">حفظ وإضافة السؤال سحابياً</button>
       </form>
     </section>
 
     <!-- بطاقة 4: الاستيراد السريع لبنوك الأسئلة (Bulk JSON Import) -->
     <section class="card" aria-labelledby="sec-bulk-import">
       <div class="card-header">
-        <h2 id="sec-bulk-import" style="font-size: 1.25rem; font-weight: 700;">4. الاستيراد السريع لبنك الأسئلة (Bulk JSON)</h2>
+        <h2 id="sec-bulk-import" style="font-size: 1.3rem; font-weight: 700;">4. الاستيراد السريع لبنك الأسئلة دفعة واحدة (Bulk JSON)</h2>
       </div>
       <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
-        يمكنك استيراد عشرات أو مئات الأسئلة دفعة واحدة بنسخ ولصق مصفوفة JSON معدة مسبقاً.
+        يمكنك استيراد عشرات أو مئات الأسئلة في ثانية واحدة بلصق مصفوفة JSON معدة مسبقاً.
       </p>
       <form id="form-bulk-import">
         <div class="form-group">
@@ -152,19 +180,19 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="bulk-json" class="form-label">مصفوفة الأسئلة (JSON Format) *</label>
+          <label for="bulk-json" class="form-label">مصفوفة الأسئلة بتنسيق JSON *</label>
           <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[
   {
-    "question_text": "ما هو المصدر الأول لتفسير القرآن؟",
-    "explanation": "القرآن يفسر بعضه بعضاً.",
+    "question_text": "ما هو المصدر الأول لتفسير القرآن الكريم؟",
+    "explanation": "القرآن يفسر بعضه بعضاً وهو أعلى مراتب التفسير.",
     "choices": [
-      { "text": "القرآن بالقرآن", "isCorrect": true },
+      { "text": "تفسير القرآن بالقرآن", "isCorrect": true },
       { "text": "أقوال التابعين", "isCorrect": false }
     ]
   }
 ]' required></textarea>
         </div>
-        <button type="submit" class="btn btn-success btn-sm">بدء استيراد الأسئلة فوراً ⚡</button>
+        <button type="submit" class="btn btn-success btn-sm">بدء استيراد الأسئلة سحابياً ⚡</button>
       </form>
     </section>
 
@@ -187,7 +215,6 @@
       const user = await window.authManager.init();
       window.db.init();
 
-      // التحقق من صلاحيات المدير
       if (!user) {
         alert('يجب تسجيل الدخول أولاً للوصول للوحة الإدارة.');
         window.location.href = 'auth.html?redirect=admin.html';
@@ -196,7 +223,6 @@
 
       await refreshSelects();
 
-      // أحداث النماذج
       document.getElementById('form-add-subject').addEventListener('submit', handleAddSubject);
       document.getElementById('form-add-exam').addEventListener('submit', handleAddExam);
       document.getElementById('form-add-question').addEventListener('submit', handleAddQuestion);
@@ -207,12 +233,10 @@
       const subjects = await window.db.getSubjects();
       const exams = await window.db.getAllExams();
 
-      // قائمة المواد
       const subjSelect = document.getElementById('exam-select-subject');
-      subjSelect.innerHTML = '<option value="">-- اختر المادة --</option>' + 
+      subjSelect.innerHTML = '<option value="">-- اختر المقرر --</option>' + 
         subjects.map(s => `<option value="${s.id}">${window.authManager.escapeHtml(s.title)}</option>`).join('');
 
-      // قائمة الاختبارات
       const examSelectQ = document.getElementById('q-select-exam');
       const examSelectBulk = document.getElementById('bulk-select-exam');
       const examsOptions = '<option value="">-- اختر الاختبار --</option>' + 
@@ -230,7 +254,7 @@
 
       try {
         await window.db.createSubject(title, desc, code);
-        alert('تمت إضافة المادة بنجاح!');
+        alert('تمت إضافة المقرر بنجاح إلى السحابة!');
         document.getElementById('form-add-subject').reset();
         await refreshSelects();
       } catch (err) {
@@ -247,7 +271,7 @@
 
       try {
         await window.db.createExam(subjectId, title, '', duration, passing, true);
-        alert('تم إنشاء الاختبار بنجاح!');
+        alert('تم إنشاء الاختبار بنجاح ونشره سحابياً!');
         document.getElementById('form-add-exam').reset();
         await refreshSelects();
       } catch (err) {
@@ -280,7 +304,7 @@
 
       try {
         await window.db.addQuestionWithChoices(examId, qText, explanation, 1, choices);
-        alert('تمت إضافة السؤال بنجاح!');
+        alert('تمت إضافة السؤال وخياراته بنجاح!');
         document.getElementById('q-text').value = '';
         document.getElementById('q-explanation').value = '';
         for (let i = 0; i < 4; i++) {

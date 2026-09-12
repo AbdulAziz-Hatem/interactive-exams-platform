@@ -10,27 +10,56 @@
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
+  <!-- شريط التنقل العلوي الموحد -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
-      <a href="index.html" class="brand">
-        <span class="brand-badge">مدارج</span>
-        <span>منصة الاختبارات</span>
-      </a>
-      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <span>منصة الاختبارات</span>
+        </a>
+      </div>
+      <div class="nav-left">
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
     </div>
   </header>
 
-  <main id="main-content" class="container" role="main" style="max-width: 480px; margin-top: 3rem; margin-bottom: 3rem;">
-    <div class="card">
-      <div class="card-header" style="justify-content: center; text-align: center;">
-        <h1 id="auth-heading" style="font-size: 1.5rem; font-weight: 800;">تسجيل الدخول</h1>
+  <!-- خلفية التعتيم والقائمة الجانبية الموحدة -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="max-width: 480px; margin-top: 3rem; margin-bottom: 4rem;">
+    <div class="card" style="box-shadow: var(--shadow-md);">
+      <div class="card-header" style="justify-content: center; text-align: center; border: none; padding-bottom: 0;">
+        <h1 id="auth-heading" style="font-size: 1.6rem; font-weight: 800;">تسجيل الدخول</h1>
       </div>
 
       <div id="auth-error-alert" class="alert alert-danger" style="display: none;" role="alert" aria-live="assertive"></div>
       <div id="auth-success-alert" class="alert alert-success" style="display: none;" role="status" aria-live="polite"></div>
 
       <!-- تبويبات التبديل بين الدخول والتسجيل -->
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
+      <div style="display: flex; gap: 0.5rem; margin: 1.25rem 0 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">
         <button type="button" id="tab-login" class="btn btn-outline btn-sm" style="flex: 1;" aria-selected="true">تسجيل الدخول</button>
         <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب جديد</button>
       </div>
@@ -51,7 +80,7 @@
         <div class="form-group">
           <label for="password" class="form-label">كلمة المرور</label>
           <input type="password" id="password" class="form-input" placeholder="••••••••" dir="ltr" autocomplete="current-password" required>
-          <span id="password-hint" style="font-size: 0.8rem; color: var(--text-muted); display: none;">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
+          <span id="password-hint" style="font-size: 0.8rem; color: var(--text-muted); display: none; margin-top: 4px;">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
         </div>
 
         <button type="submit" id="btn-submit-auth" class="btn btn-primary btn-block" style="margin-top: 1rem;">
@@ -79,7 +108,7 @@
   <script src="js/auth.js"></script>
   <script src="js/db.js"></script>
   <script>
-    let currentMode = 'login'; // 'login' | 'signup'
+    let currentMode = 'login';
 
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());

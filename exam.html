@@ -10,15 +10,18 @@
 <body>
   <a href="#question-render-area" class="sr-only">تخطي إلى السؤال الحالي</a>
 
+  <!-- شريط جلسة الاختبار المخصص والمحمي -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
-      <a href="index.html" class="brand">
-        <span class="brand-badge">مدارج</span>
-        <span id="exam-nav-brand">جلسة الاختبار</span>
-      </a>
+      <div class="nav-right">
+        <a href="index.html" class="brand" id="btn-exit-exam" aria-label="مغادرة الاختبار والعودة للرئيسية">
+          <span class="brand-badge">مدارج</span>
+          <span id="exam-nav-brand">جلسة الاختبار</span>
+        </a>
+      </div>
 
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <!-- صندوق المؤقت التنازلي -->
+      <div class="nav-left">
+        <!-- مؤقت الاختبار الصوتي والمرئي -->
         <div id="timer-box" class="timer-box" role="timer" aria-label="الوقت المتبقي للاختبار">
           <span aria-hidden="true">⏱️</span>
           <span id="timer-time">00:00</span>
@@ -28,16 +31,19 @@
     </div>
   </header>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 3rem;">
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     <div id="exam-app">
       
-      <!-- شريط معلومات الاختبار والتقدم -->
+      <!-- شريط تفاصيل الاختبار وحالة التقدم -->
       <header class="exam-header" aria-labelledby="exam-title">
         <div>
-          <h1 id="exam-title" style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.25rem;">جاري تحميل الاختبار...</h1>
+          <h1 id="exam-title" style="font-size: 1.45rem; font-weight: 800; margin-bottom: 0.35rem;">جاري تحميل الاختبار من السحابة...</h1>
           <span style="font-size: 0.95rem; color: var(--text-muted);">
-            السؤال <strong id="current-question-num">1</strong> من إجمالي <strong id="total-questions-count">...</strong>
+            السؤال <strong id="current-question-num" style="color: var(--primary);">1</strong> من إجمالي <strong id="total-questions-count">...</strong>
           </span>
+        </div>
+        <div>
+          <span class="badge badge-primary">عشوائي: تم خلط الأسئلة والخيارات</span>
         </div>
       </header>
 
@@ -54,14 +60,14 @@
         <div id="exam-progress-bar" class="progress-bar" style="width: 0%;"></div>
       </div>
 
-      <!-- منطقة عرض السؤال الحالي -->
+      <!-- منطقة عرض السؤال الحالي المحمية -->
       <div id="question-render-area" tabindex="-1">
-        <div class="card" style="text-align: center; padding: 3rem;">
-          <p class="text-muted">جاري إعداد الأسئلة...</p>
+        <div class="card" style="text-align: center; padding: 3.5rem;">
+          <p class="text-muted">جاري سحب الأسئلة وتجهيز الجلسة...</p>
         </div>
       </div>
 
-      <!-- أزرار التنقل بين الأسئلة وتسليم الاختبار -->
+      <!-- أزرار التنقل وتسليم الاختبار المتاحة -->
       <nav class="exam-nav" aria-label="التنقل بين أسئلة الاختبار">
         <button id="btn-prev" class="btn btn-secondary" disabled aria-label="الانتقال إلى السؤال السابق">
           ← السؤال السابق
@@ -93,6 +99,14 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+      
+      // تأكيد الخروج أثناء جلسة الاختبار لتفادي ضياع الإجابات
+      document.getElementById('btn-exit-exam').addEventListener('click', (e) => {
+        if (!confirm('تنبيه: هل أنت متأكد من رغبتك في مغادرة الاختبار الحالي؟ لن تُحفظ الإجابات غير المسلمة.')) {
+          e.preventDefault();
+        }
+      });
+
       window.examEngine.init();
     });
   </script>

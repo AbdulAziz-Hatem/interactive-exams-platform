@@ -1,12 +1,13 @@
 /**
- * وحدة إدارة الحسابات والمصادقة (Authentication Controller)
- * تدعم Supabase Auth مع fallback سلس في وضع التجربة
+ * وحدة إدارة الحسابات والمصادقة والقائمة الجانبية الموحدة
+ * (Authentication & Responsive Navigation Controller)
  */
 
 class AuthManager {
   constructor() {
     this.currentUser = null;
     this.client = null;
+    this.isSidebarOpen = false;
   }
 
   async init() {
@@ -18,7 +19,6 @@ class AuthManager {
 
       const { data: { session } } = await this.client.auth.getSession();
       if (session?.user) {
-        // جلب بيانات البروفايل من جدول Profiles
         const { data: profile } = await this.client
           .from('profiles')
           .select('*')
@@ -33,7 +33,6 @@ class AuthManager {
         };
       }
     } else {
-      // وضع التجربة المحلي (Local Demo Mode)
       const saved = localStorage.getItem('edutest_current_user');
       if (saved) {
         try {
@@ -44,6 +43,7 @@ class AuthManager {
       }
     }
 
+    this.initSidebar();
     this.updateNavUI();
     return this.currentUser;
   }
@@ -75,7 +75,6 @@ class AuthManager {
 
       if (error) throw error;
       
-      // إذا كان تأكيد البريد معطلاً أو تم الدخول مباشرة
       if (data.session?.user) {
         this.currentUser = {
           id: data.user.id,
@@ -86,7 +85,6 @@ class AuthManager {
       }
       return { success: true, user: data.user, requiresEmailConfirmation: !data.session };
     } else {
-      // محاكاة محلية
       const users = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
       if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
         throw new Error('البريد الإلكتروني مسجل مسبقاً في النظام.');
@@ -97,7 +95,7 @@ class AuthManager {
         email: email.trim(),
         password: password,
         fullName: fullName.trim(),
-        role: users.length === 0 ? 'admin' : 'student', // أول مستخدم يكون مديراً للتجربة
+        role: users.length === 0 ? 'admin' : 'student',
         createdAt: new Date().toISOString()
       };
 
@@ -170,31 +168,156 @@ class AuthManager {
     window.location.href = 'index.html';
   }
 
+  // ====================================================================\n  // إدارة القائمة الجانبية السلسة (Hamburger Menu & Drawer)\n  // ====================================================================
+  initSidebar() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const sidebar = document.getElementById('mobile-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const closeBtn = document.getElementById('sidebar-close-btn');
+
+    if (!hamburgerBtn || !sidebar || !overlay) return;
+
+    const openDrawer = () => {
+      this.isSidebarOpen = true;
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      window.a11y?.announce('تم فتح القائمة الجانبية');
+      closeBtn?.focus();
+    };
+
+    const closeDrawer = () => {
+      this.isSidebarOpen = false;
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      window.a11y?.announce('تم إغلاق القائمة الجانبية');
+      hamburgerBtn.focus();
+    };
+
+    hamburgerBtn.addEventListener('click', () => {
+      if (this.isSidebarOpen) closeDrawer();
+      else openDrawer();
+    });
+
+    closeBtn?.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // إغلاق بمفتاح Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.isSidebarOpen) {
+        closeDrawer();
+      }
+    });
+  }
+
   updateNavUI() {
     const navAuthContainer = document.getElementById('nav-auth-container');
-    if (!navAuthContainer) return;
+    const sidebarUserArea = document.getElementById('sidebar-user-area');
+    const sidebarNavLinks = document.getElementById('sidebar-nav-links');
 
-    if (this.currentUser) {
-      navAuthContainer.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
-          <span style="font-size: 0.95rem; font-weight: 600; color: var(--text-main);">
-            مرحباً، ${this.escapeHtml(this.currentUser.fullName)}
-            ${this.currentUser.role === 'admin' ? '<span class="badge badge-warning" style="margin-right: 4px;">مدير</span>' : ''}
-          </span>
-          <a href="dashboard.html" class="btn btn-secondary btn-sm" aria-label="لوحة التحكم الخاصة بك">لوحتي</a>
-          ${this.currentUser.role === 'admin' ? '<a href="admin.html" class="btn btn-primary btn-sm">إدارة الاختبارات</a>' : ''}
-          <button id="btn-logout" class="btn btn-outline btn-sm" aria-label="تسجيل الخروج من الحساب">خروج</button>
-        </div>
+    const user = this.currentUser;
+
+    // 1. تحديث شريط التنقل العلوي للشاشات الكبيرة
+    if (navAuthContainer) {
+      if (user) {
+        navAuthContainer.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <a href="dashboard.html" class="btn btn-secondary btn-sm">
+              <span>👤 ${this.escapeHtml(user.fullName)}</span>
+              ${user.role === 'admin' ? '<span class="badge badge-warning">مدير</span>' : ''}
+            </a>
+            ${user.role === 'admin' ? '<a href="admin.html" class="btn btn-primary btn-sm">لوحة الإدارة</a>' : ''}
+            <button id="btn-logout" class="btn btn-outline btn-sm" aria-label="تسجيل الخروج">خروج</button>
+          </div>
+        `;
+        document.getElementById('btn-logout')?.addEventListener('click', () => this.signOut());
+      } else {
+        navAuthContainer.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <a href="auth.html?mode=login" class="btn btn-secondary btn-sm">دخول</a>
+            <a href="auth.html?mode=signup" class="btn btn-primary btn-sm">تسجيل جديد</a>
+          </div>
+        `;
+      }
+    }
+
+    // 2. تحديث محتوى القائمة الجانبية (Drawer Content)
+    if (sidebarUserArea) {
+      if (user) {
+        sidebarUserArea.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <strong style="font-size: 1.1rem;">${this.escapeHtml(user.fullName)}</strong>
+              ${user.role === 'admin' ? '<span class="badge badge-warning">مدير نظام</span>' : '<span class="badge badge-primary">طالب</span>'}
+            </div>
+            <span style="font-size: 0.85rem; color: var(--text-muted); word-break: break-all;">${user.email}</span>
+          </div>
+        `;
+      } else {
+        sidebarUserArea.innerHTML = `
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <p style="font-size: 0.9rem; color: var(--text-muted);">مرحباً بك! سجل دخولك لحفظ درجاتك ومتابعة مستواك.</p>
+            <div style="display: flex; gap: 0.5rem;">
+              <a href="auth.html?mode=login" class="btn btn-secondary btn-sm" style="flex: 1;">تسجيل الدخول</a>
+              <a href="auth.html?mode=signup" class="btn btn-primary btn-sm" style="flex: 1;">حساب جديد</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    if (sidebarNavLinks) {
+      let linksHtml = `
+        <li>
+          <a href="index.html" class="sidebar-link">
+            <span class="sidebar-link-icon" aria-hidden="true">🏠</span>
+            <span>الصفحة الرئيسية</span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#subjects-section" class="sidebar-link">
+            <span class="sidebar-link-icon" aria-hidden="true">📚</span>
+            <span>المقررات والاختبارات</span>
+          </a>
+        </li>
       `;
 
-      document.getElementById('btn-logout')?.addEventListener('click', () => this.signOut());
-    } else {
-      navAuthContainer.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <a href="auth.html?mode=login" class="btn btn-secondary btn-sm">تسجيل الدخول</a>
-          <a href="auth.html?mode=signup" class="btn btn-primary btn-sm">إنشاء حساب</a>
-        </div>
-      `;
+      if (user) {
+        linksHtml += `
+          <li>
+            <a href="dashboard.html" class="sidebar-link">
+              <span class="sidebar-link-icon" aria-hidden="true">📊</span>
+              <span>سجل اختباراتي ودرجاتي</span>
+            </a>
+          </li>
+        `;
+
+        if (user.role === 'admin') {
+          linksHtml += `
+            <li>
+              <a href="admin.html" class="sidebar-link">
+                <span class="sidebar-link-icon" aria-hidden="true">🛠️</span>
+                <span>لوحة التحكم وبنوك الأسئلة</span>
+              </a>
+            </li>
+          `;
+        }
+
+        linksHtml += `
+          <li style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border);">
+            <button id="sidebar-btn-logout" class="sidebar-link" style="width: 100%; border: none; background: none; color: var(--danger); cursor: pointer; text-align: right;">
+              <span class="sidebar-link-icon" aria-hidden="true">🚪</span>
+              <span>تسجيل الخروج</span>
+            </button>
+          </li>
+        `;
+      }
+
+      sidebarNavLinks.innerHTML = linksHtml;
+      document.getElementById('sidebar-btn-logout')?.addEventListener('click', () => this.signOut());
     }
   }
 

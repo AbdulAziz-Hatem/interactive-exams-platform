@@ -10,26 +10,50 @@
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
+  <!-- شريط التنقل العلوي الموحد -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
-      <a href="index.html" class="brand">
-        <span class="brand-badge">مدارج</span>
-        <span>منصة الاختبارات</span>
-      </a>
-
-      <nav role="navigation" aria-label="التنقل الرئيسي">
-        <div id="nav-auth-container"></div>
-      </nav>
-
-      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <span>منصة الاختبارات</span>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
     </div>
   </header>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 3rem;">
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     
-    <!-- زر الرجوع -->
     <div style="margin-bottom: 1.5rem;">
-      <a href="index.html" class="btn btn-secondary btn-sm">→ العودة لقائمة المقررات</a>
+      <a href="index.html#subjects-section" class="btn btn-secondary btn-sm">← العودة لقائمة المقررات</a>
     </div>
 
     <!-- بطاقة تفاصيل المادة -->
@@ -40,7 +64,7 @@
           <h1 id="subj-heading" style="font-size: 1.75rem; font-weight: 800;">جاري تحميل المادة...</h1>
         </div>
       </div>
-      <p id="subj-desc" style="color: var(--text-muted); font-size: 1.05rem;">...</p>
+      <p id="subj-desc" style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.7;">...</p>
     </section>
 
     <!-- قائمة الاختبارات المتاحة للمادة -->
@@ -50,7 +74,7 @@
       </h2>
 
       <div id="exams-container" class="grid" style="grid-template-columns: 1fr;" role="region" aria-live="polite">
-        <p class="text-muted">جاري تحميل الاختبارات...</p>
+        <p class="text-muted">جاري تحميل الاختبارات من السحابة...</p>
       </div>
     </section>
 
@@ -98,14 +122,13 @@
         document.getElementById('subj-heading').textContent = subject.title;
         document.getElementById('subj-desc').textContent = subject.description || 'لا يوجد وصف متاح.';
 
-        // جلب الاختبارات
         const exams = await window.db.getExamsBySubject(subjectId);
         const container = document.getElementById('exams-container');
 
         if (exams.length === 0) {
           container.innerHTML = `
-            <div class="card" style="text-align: center; color: var(--text-muted);">
-              <p>لا توجد اختبارات منشورة لهذه المادة في الوقت الحالي.</p>
+            <div class="card" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">
+              <p style="font-size: 1.05rem;">لا توجد اختبارات منشورة لهذه المادة في الوقت الحالي.</p>
             </div>
           `;
           return;
@@ -114,28 +137,28 @@
         container.innerHTML = exams.map(exam => `
           <article class="card" aria-labelledby="exam-title-${exam.id}">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
-              <div style="flex: 1; min-width: 250px;">
+              <div style="flex: 1; min-width: 260px;">
                 <h3 id="exam-title-${exam.id}" style="font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem;">
                   ${window.authManager.escapeHtml(exam.title)}
                 </h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.6;">
                   ${window.authManager.escapeHtml(exam.description || 'اختبار تقييم ذاتي للمادة.')}
                 </p>
                 <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
                   <span class="badge badge-primary">⏱️ المدة: ${exam.duration_minutes > 0 ? exam.duration_minutes + ' دقيقة' : 'مفتوح'}</span>
-                  <span class="badge badge-success">🎯 نسبة النجاح: ${exam.passing_percentage}%</span>
+                  <span class="badge badge-success">🎯 نسبة الاجتياز: ${exam.passing_percentage}%</span>
                 </div>
               </div>
               <div>
                 <a href="exam.html?id=${exam.id}" class="btn btn-primary" aria-label="بدء اختبار ${window.authManager.escapeHtml(exam.title)}">
-                  بدء الاختبار الآن ❯
+                  بدء خوض الاختبار ❯
                 </a>
               </div>
             </div>
           </article>
         `).join('');
 
-        window.a11y.announce(`تم عرض ${exams.length} اختبارات للمادة`);
+        window.a11y?.announce(`تم عرض ${exams.length} اختبارات للمادة`);
       } catch (err) {
         console.error(err);
         alert('حدث خطأ أثناء تحميل البيانات: ' + err.message);

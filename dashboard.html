@@ -10,22 +10,47 @@
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
+  <!-- شريط التنقل العلوي الموحد -->
   <header class="navbar" role="banner">
     <div class="container nav-container">
-      <a href="index.html" class="brand">
-        <span class="brand-badge">مدارج</span>
-        <span>منصة الاختبارات</span>
-      </a>
-
-      <nav role="navigation" aria-label="التنقل الرئيسي">
-        <div id="nav-auth-container"></div>
-      </nav>
-
-      <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <span>منصة الاختبارات</span>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
     </div>
   </header>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 3rem;">
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     
     <!-- بطاقة الترحيب بالطالب والإحصائيات -->
     <section class="card" aria-labelledby="dash-welcome">
@@ -35,23 +60,23 @@
           <p id="dash-user-email" class="text-muted" style="font-size: 0.95rem; margin-top: 0.25rem;">جاري التحميل...</p>
         </div>
         <div>
-          <a href="index.html" class="btn btn-primary btn-sm">تصفح الاختبارات الجديدة ❯</a>
+          <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات والاختبارات ❯</a>
         </div>
       </div>
 
       <!-- إحصائيات سريعة -->
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin: 1rem 0 0 0;">
-        <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+        <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); text-align: center;">
           <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">إجمالي الاختبارات المنجزة</span>
-          <strong id="stat-total-exams" style="font-size: 1.8rem; color: var(--primary);">0</strong>
+          <strong id="stat-total-exams" style="font-size: 2rem; color: var(--primary);">0</strong>
         </div>
-        <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+        <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); text-align: center;">
           <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">الاختبارات المجتازة</span>
-          <strong id="stat-passed-exams" style="font-size: 1.8rem; color: var(--success);">0</strong>
+          <strong id="stat-passed-exams" style="font-size: 2rem; color: var(--success);">0</strong>
         </div>
-        <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md); text-align: center;">
+        <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); text-align: center;">
           <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">متوسط النسبة المئوية</span>
-          <strong id="stat-avg-score" style="font-size: 1.8rem; color: var(--text-main);">0%</strong>
+          <strong id="stat-avg-score" style="font-size: 2rem; color: var(--text-main);">0%</strong>
         </div>
       </div>
     </section>
@@ -63,7 +88,7 @@
       </div>
 
       <div id="history-container" role="region" aria-live="polite">
-        <p class="text-muted">جاري تحميل السجل...</p>
+        <p class="text-muted">جاري تحميل السجل من السحابة...</p>
       </div>
     </section>
 
@@ -102,7 +127,6 @@
         const history = await window.db.getUserSubmissions(userId);
         const container = document.getElementById('history-container');
 
-        // تحديث الإحصائيات
         const total = history.length;
         const passed = history.filter(h => h.passed).length;
         const avg = total > 0 
@@ -115,9 +139,9 @@
 
         if (total === 0) {
           container.innerHTML = `
-            <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
-              <p>لم تقم بخوض أي اختبار حتى الآن.</p>
-              <a href="index.html" class="btn btn-outline btn-sm" style="margin-top: 1rem;">ابدأ أول اختبار لك الآن</a>
+            <div style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+              <p style="font-size: 1.05rem;">لم تقم بخوض أي اختبار حتى الآن.</p>
+              <a href="index.html#subjects-section" class="btn btn-primary btn-sm" style="margin-top: 1rem;">ابدأ أول اختبار لك الآن ❯</a>
             </div>
           `;
           return;
@@ -171,7 +195,7 @@
           </div>
         `;
 
-        window.a11y.announce(`تم تحميل سجل اختباراتك، لديك ${total} محاولات مسجلة`);
+        window.a11y?.announce(`تم تحميل سجل اختباراتك، لديك ${total} محاولات مسجلة`);
       } catch (err) {
         console.error(err);
         alert('حدث خطأ أثناء جلب السجل: ' + err.message);
