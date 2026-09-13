@@ -6,6 +6,9 @@
   <title>تسجيل الدخول | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
   <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
@@ -35,7 +38,7 @@
 
   <!-- خلفية التعتيم والقائمة الجانبية -->
   <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
-  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
     <div class="sidebar-header">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span class="brand-badge">مدارج</span>
@@ -119,7 +122,7 @@
     let currentMode = 'login';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
       await window.authManager.init();
       if (window.authManager.isAuthenticated()) {
@@ -254,5 +257,6 @@
       document.getElementById('auth-success-alert').style.display = 'none';
     }
   </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

@@ -1,0 +1,34 @@
+{
+  "name": "منصة مدارج | قسم القرآن الكريم وعلومه — جامعة صنعاء",
+  "short_name": "مدارج",
+  "description": "المنصة الأكاديمية التفاعلية المعتمدة لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، لمراجعة المقررات وخوض الاختبارات التفاعلية.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "categories": ["education", "academic", "quran"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

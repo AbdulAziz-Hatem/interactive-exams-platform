@@ -1,7 +1,7 @@
 /**
  * طبقة إدارة البيانات والاتصال السحابي فائق المرونة (Resilient Data Access Layer)
  * تجمع بين: الاتصال السحابي المباشر عبر REST API (بدون تبعيات)،
- * ومكتبة Supabase JS (إن وجدت)، والمحاكاة الذاتية في وضع عدم الاتصال.
+ * ومكتبة Supabase JS (إن وجدت)، والمحاكاة الذاتية في وضع عدم الاتصال (Offline Queue).
  * مخصصة حصرياً لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
  */
 
@@ -50,36 +50,45 @@ class DatabaseManager {
       const errText = await res.text();
       throw new Error(`خطأ في طلب السحابة (${res.status}): ${errText}`);
     }
-    return await res.json();
+    
+    if (res.status === 204) return true;
+
+    const contentType = res.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return await res.json();
+    }
+    return true;
   }
 
   // ==========================================
   // المواد والمقررات التخصصية (Subjects)
   // ==========================================
-  async getSubjects() {
+  async getSubjects(includeInactive = false) {
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
-        const data = await this.fetchRest('subjects?select=*&is_active=eq.true&order=created_at.asc');
+        const query = includeInactive 
+          ? 'subjects?select=*&order=created_at.asc'
+          : 'subjects?select=*&is_active=eq.true&order=created_at.asc';
+        const data = await this.fetchRest(query);
         if (Array.isArray(data)) return data;
       } catch (err) {
-        console.warn('فشل طلب REST السحابي للمقررات، جاري المحاولة عبر العميل أو التخزين الاحتياطي:', err);
+        console.warn('فشل طلب REST السحابي للمقررات، جاري استخدام التخزين المؤقت:', err);
       }
 
       if (this.client) {
         try {
-          const { data, error } = await this.client
-            .from('subjects')
-            .select('*')
-            .eq('is_active', true)
-            .order('created_at', { ascending: true });
+          let builder = this.client.from('subjects').select('*').order('created_at', { ascending: true });
+          if (!includeInactive) {
+            builder = builder.eq('is_active', true);
+          }
+          const { data, error } = await builder;
           if (!error && Array.isArray(data)) return data;
-        } catch (e) {
-          console.warn('فشل عميل Supabase أيضاً:', e);
-        }
+        } catch (e) {}
       }
     }
 
-    return JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    return includeInactive ? list : list.filter(s => s.is_active);
   }
 
   async getSubjectById(id) {
@@ -87,17 +96,11 @@ class DatabaseManager {
       try {
         const data = await this.fetchRest(`subjects?id=eq.${id}&select=*`);
         if (Array.isArray(data) && data.length > 0) return data[0];
-      } catch (e) {
-        console.warn('REST error for subject:', e);
-      }
+      } catch (e) {}
 
       if (this.client) {
         try {
-          const { data, error } = await this.client
-            .from('subjects')
-            .select('*')
-            .eq('id', id)
-            .single();
+          const { data, error } = await this.client.from('subjects').select('*').eq('id', id).single();
           if (!error && data) return data;
         } catch (e) {}
       }
@@ -105,6 +108,52 @@ class DatabaseManager {
 
     const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
     return list.find(s => s.id === id);
+  }
+
+  async deleteSubject(subjectId) {
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`subjects?id=eq.${subjectId}`, 'DELETE');
+        return true;
+      } catch (e) {
+        console.warn('REST delete subject failed, trying client:', e);
+      }
+
+      if (this.client) {
+        const { error } = await this.client.from('subjects').delete().eq('id', subjectId);
+        if (error) throw error;
+        return true;
+      }
+    }
+
+    let list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    list = list.filter(s => s.id !== subjectId);
+    localStorage.setItem('edutest_demo_subjects', JSON.stringify(list));
+    return true;
+  }
+
+  async toggleSubjectActive(subjectId, currentActive) {
+    const newActive = !currentActive;
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`subjects?id=eq.${subjectId}`, 'PATCH', { is_active: newActive });
+        return newActive;
+      } catch (e) {}
+
+      if (this.client) {
+        const { error } = await this.client.from('subjects').update({ is_active: newActive }).eq('id', subjectId);
+        if (error) throw error;
+        return newActive;
+      }
+    }
+
+    const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    const item = list.find(s => s.id === subjectId);
+    if (item) {
+      item.is_active = newActive;
+      localStorage.setItem('edutest_demo_subjects', JSON.stringify(list));
+    }
+    return newActive;
   }
 
   // ==========================================
@@ -115,9 +164,7 @@ class DatabaseManager {
       try {
         const data = await this.fetchRest(`exams?subject_id=eq.${subjectId}&is_published=eq.true&order=created_at.asc&select=*`);
         if (Array.isArray(data)) return data;
-      } catch (e) {
-        console.warn('REST error for exams:', e);
-      }
+      } catch (e) {}
 
       if (this.client) {
         try {
@@ -141,9 +188,7 @@ class DatabaseManager {
       try {
         const data = await this.fetchRest('exams?select=*,subjects(title)&order=created_at.desc');
         if (Array.isArray(data)) return data;
-      } catch (e) {
-        console.warn('REST error for all exams:', e);
-      }
+      } catch (e) {}
 
       if (this.client) {
         try {
@@ -164,28 +209,82 @@ class DatabaseManager {
     }));
   }
 
+  async deleteExam(examId) {
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`exams?id=eq.${examId}`, 'DELETE');
+        return true;
+      } catch (e) {}
+
+      if (this.client) {
+        const { error } = await this.client.from('exams').delete().eq('id', examId);
+        if (error) throw error;
+        return true;
+      }
+    }
+
+    let list = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    list = list.filter(e => e.id !== examId);
+    localStorage.setItem('edutest_demo_exams', JSON.stringify(list));
+    return true;
+  }
+
+  async toggleExamPublish(examId, currentPublished) {
+    const newPublished = !currentPublished;
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`exams?id=eq.${examId}`, 'PATCH', { is_published: newPublished });
+        return newPublished;
+      } catch (e) {}
+
+      if (this.client) {
+        const { error } = await this.client.from('exams').update({ is_published: newPublished }).eq('id', examId);
+        if (error) throw error;
+        return newPublished;
+      }
+    }
+
+    const list = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const item = list.find(e => e.id === examId);
+    if (item) {
+      item.is_published = newPublished;
+      localStorage.setItem('edutest_demo_exams', JSON.stringify(list));
+    }
+    return newPublished;
+  }
+
   // ==========================================
   // جلب أسئلة الاختبار للطالب (آمن ضد الغش)
   // ==========================================
   async getExamForStudent(examId) {
-    if (window.CONFIG.isSupabaseConfigured()) {
+    if (window.CONFIG.isSupabaseConfigured() && navigator.onLine) {
       try {
         const data = await this.fetchRest('rpc/get_exam_for_student', 'POST', {
           p_exam_id: examId
         });
-        if (data && data.exam && data.questions) return data;
-      } catch (e) {
-        console.warn('RPC fetch failed via REST, attempting client:', e);
-      }
+        if (data && data.exam && data.questions) {
+          localStorage.setItem(`madarej_cached_exam_${examId}`, JSON.stringify(data));
+          return data;
+        }
+      } catch (e) {}
 
       if (this.client) {
         try {
           const { data, error } = await this.client.rpc('get_exam_for_student', {
             p_exam_id: examId
           });
-          if (!error && data) return data;
+          if (!error && data) {
+            localStorage.setItem(`madarej_cached_exam_${examId}`, JSON.stringify(data));
+            return data;
+          }
         } catch (e) {}
       }
+    }
+
+    // استرجاع من الكاش المحلي في حال انقطاع الشبكة
+    const cached = localStorage.getItem(`madarej_cached_exam_${examId}`);
+    if (cached) {
+      try { return JSON.parse(cached); } catch (e) {}
     }
 
     const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
@@ -233,7 +332,7 @@ class DatabaseManager {
   // تصحيح الاختبار سحابياً وتسجيل النتيجة
   // ==========================================
   async submitExam(examId, answers) {
-    if (window.CONFIG.isSupabaseConfigured()) {
+    if (window.CONFIG.isSupabaseConfigured() && navigator.onLine) {
       try {
         const data = await this.fetchRest('rpc/submit_exam_answers', 'POST', {
           p_exam_id: examId,
@@ -241,7 +340,7 @@ class DatabaseManager {
         });
         if (data) return data;
       } catch (e) {
-        console.warn('RPC submit failed via REST:', e);
+        console.warn('فشل إرسال النتيجة سحابياً، جاري الإدراج في طابور المزامنة دون اتصال:', e);
       }
 
       if (this.client) {
@@ -252,6 +351,13 @@ class DatabaseManager {
         if (!error && data) return data;
       }
     }
+
+    // إذا كان الطالب أوفلاين، حفظ الإجابات في طابور المزامنة التلقائية
+    try {
+      const queue = JSON.parse(localStorage.getItem('madarej_offline_queue') || '[]');
+      queue.push({ examId, answers, queued_at: new Date().toISOString() });
+      localStorage.setItem('madarej_offline_queue', JSON.stringify(queue));
+    } catch (e) {}
 
     const user = window.authManager.getUser();
     if (!user) throw new Error('يجب تسجيل الدخول أولاً لتسليم الاختبار');
@@ -311,8 +417,35 @@ class DatabaseManager {
     return submission;
   }
 
+  /**
+   * مزامنة الاختبارات المعلقة عند عودة اتصال الإنترنت
+   */
+  async syncPendingSubmissions() {
+    try {
+      const queue = JSON.parse(localStorage.getItem('madarej_offline_queue') || '[]');
+      if (queue.length === 0) return;
+      console.log(`[Offline Sync] جاري مزامنة ${queue.length} نتائج معلقة مع السحابة...`);
+
+      const remaining = [];
+      for (const item of queue) {
+        try {
+          await this.fetchRest('rpc/submit_exam_answers', 'POST', {
+            p_exam_id: item.examId,
+            p_answers: item.answers
+          });
+        } catch (e) {
+          remaining.push(item);
+        }
+      }
+      localStorage.setItem('madarej_offline_queue', JSON.stringify(remaining));
+      if (remaining.length === 0) {
+        console.log('[Offline Sync] اكتملت مزامنة كافة النتائج بنجاح 🟢');
+      }
+    } catch (e) {}
+  }
+
   // ==========================================
-  // سجل نتائج الطالب
+  // سجل نتائج الطلاب والإشراف العام
   // ==========================================
   async getUserSubmissions(userId) {
     if (window.CONFIG.isSupabaseConfigured()) {
@@ -369,18 +502,116 @@ class DatabaseManager {
   }
 
   // ==========================================
-  // عمليات الإدارة
+  // وظائف الإشراف الأكاديمي الشاملة (Admin Supervision)
+  // ==========================================
+  async getAdminOverview() {
+    let subjectsCount = 0;
+    let examsCount = 0;
+    let studentsCount = 0;
+    let submissionsCount = 0;
+
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const subs = await this.fetchRest('subjects?select=id');
+        const exs = await this.fetchRest('exams?select=id');
+        const profs = await this.fetchRest('profiles?select=id');
+        const submits = await this.fetchRest('submissions?select=id');
+
+        subjectsCount = Array.isArray(subs) ? subs.length : 0;
+        examsCount = Array.isArray(exs) ? exs.length : 0;
+        studentsCount = Array.isArray(profs) ? profs.length : 0;
+        submissionsCount = Array.isArray(submits) ? submits.length : 0;
+
+        return { subjectsCount, examsCount, studentsCount, submissionsCount };
+      } catch (e) {
+        console.warn('Error fetching admin overview via REST:', e);
+      }
+    }
+
+    subjectsCount = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]').length;
+    examsCount = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]').length;
+    studentsCount = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]').length;
+    submissionsCount = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]').length;
+
+    return { subjectsCount, examsCount, studentsCount, submissionsCount };
+  }
+
+  async getStudentsList() {
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest('profiles?select=*&order=created_at.desc');
+        if (Array.isArray(data)) return data;
+      } catch (e) {}
+
+      if (this.client) {
+        try {
+          const { data, error } = await this.client.from('profiles').select('*').order('created_at', { ascending: false });
+          if (!error && Array.isArray(data)) return data;
+        } catch (e) {}
+      }
+    }
+
+    return JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
+  }
+
+  async getRecentSubmissions(limit = 25) {
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest(`submissions?select=*,profiles(full_name,email),exams(title,subjects(title))&order=completed_at.desc&limit=${limit}`);
+        if (Array.isArray(data)) return data;
+      } catch (e) {}
+
+      if (this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('submissions')
+            .select('*, profiles(full_name, email), exams(title, subjects(title))')
+            .order('completed_at', { ascending: false })
+            .limit(limit);
+          if (!error && Array.isArray(data)) return data;
+        } catch (e) {}
+      }
+    }
+
+    const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
+    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+
+    return submissions.slice(0, limit).map(s => {
+      const ex = exams.find(e => e.id === s.exam_id);
+      const sb = subjects.find(sub => sub.id === ex?.subject_id);
+      return {
+        ...s,
+        profiles: { full_name: s.user_name || 'طالب', email: '' },
+        exams: {
+          title: ex?.title || 'نموذج اختباري',
+          subjects: { title: sb?.title || 'مقرر تخصصي' }
+        }
+      };
+    });
+  }
+
+  // ==========================================
+  // عمليات الإدارة والإنشاء
   // ==========================================
   async createSubject(title, description, code, icon = 'book') {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('subjects')
-        .insert([{ title, description, code, icon }])
-        .select()
-        .single();
-      if (error) throw error;
-      return data;
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest('subjects', 'POST', { title, description, code, icon, is_active: true });
+        if (data) return data;
+      } catch (e) {}
+
+      if (this.client) {
+        const { data, error } = await this.client
+          .from('subjects')
+          .insert([{ title, description, code, icon, is_active: true }])
+          .select()
+          .single();
+        if (error) throw error;
+        return data;
+      }
     }
+
     const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
     const newSubject = { id: 'subj_' + Date.now(), title, description, code: code || 'SUBJ_' + Date.now(), icon, is_active: true, created_at: new Date().toISOString() };
     subjects.push(newSubject);
@@ -389,15 +620,30 @@ class DatabaseManager {
   }
 
   async createExam(subjectId, title, description, durationMinutes, passingPercentage, isPublished = true) {
-    if (this.client) {
-      const { data, error } = await this.client
-        .from('exams')
-        .insert([{ subject_id: subjectId, title, description, duration_minutes: durationMinutes, passing_percentage: passingPercentage, is_published: isPublished }])
-        .select()
-        .single();
-      if (error) throw error;
-      return data;
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        const data = await this.fetchRest('exams', 'POST', {
+          subject_id: subjectId,
+          title,
+          description,
+          duration_minutes: parseInt(durationMinutes, 10) || 30,
+          passing_percentage: parseInt(passingPercentage, 10) || 50,
+          is_published: Boolean(isPublished)
+        });
+        if (data) return data;
+      } catch (e) {}
+
+      if (this.client) {
+        const { data, error } = await this.client
+          .from('exams')
+          .insert([{ subject_id: subjectId, title, description, duration_minutes: durationMinutes, passing_percentage: passingPercentage, is_published: isPublished }])
+          .select()
+          .single();
+        if (error) throw error;
+        return data;
+      }
     }
+
     const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
     const newExam = { id: 'exam_' + Date.now(), subject_id: subjectId, title, description, duration_minutes: parseInt(durationMinutes, 10) || 30, passing_percentage: parseInt(passingPercentage, 10) || 50, is_published: Boolean(isPublished), created_at: new Date().toISOString() };
     exams.push(newExam);
