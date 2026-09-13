@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نتيجة الاختبار والمراجعة الأكاديمية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1e40af">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -56,29 +59,6 @@
       <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
     </div>
   </aside>
-
-  <!-- ترويسة التصدير والطباعة الرسمية (تظهر فقط عند طباعة كشف PDF) -->
-  <div class="print-only" style="margin-bottom: 20px;">
-    <div class="print-header">
-      <div>
-        <strong style="font-size: 12pt; display: block;">الجمهورية اليمنية</strong>
-        <span style="font-size: 11pt; display: block;">جامعة صنعاء</span>
-        <span style="font-size: 10pt; display: block;">كلية التربية — قسم القرآن الكريم وعلومه</span>
-      </div>
-      <div class="print-header-center">
-        <h1>منصة مدارج للتقييم الأكاديمي الذاتي</h1>
-        <h2>كشف نتيجة ومراجعة تفصيلية للاختبار</h2>
-      </div>
-      <div style="text-align: left;">
-        <span style="font-size: 9pt; color: #475569; display: block;" id="print-date"></span>
-        <span style="font-size: 9pt; color: #475569; display: block;" id="print-id"></span>
-      </div>
-    </div>
-
-    <div class="print-student-info" id="print-info-box">
-      <!-- بيانات الطالب تُملأ ديناميكياً -->
-    </div>
-  </div>
 
   <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     <div id="result-app">
@@ -134,23 +114,6 @@
         const isPassed = sub.passed;
         const bannerClass = isPassed ? 'passed' : 'failed';
         const statusText = isPassed ? 'مبارك! تم اجتياز الاختبار بنجاح 🎉' : 'للأسف لم يتم اجتياز الاختبار هذه المرة ⚠️';
-
-        const user = window.authManager?.getUser();
-        const studentName = user?.fullName || sub.user_name || 'طالب بقسم القرآن الكريم وعلومه';
-
-        // إعداد ترويسة الطباعة والتصدير الأكاديمي (PDF)
-        const dateStr = new Date(sub.completed_at || Date.now()).toLocaleDateString('ar-YE', {
-          year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-        document.getElementById('print-date').textContent = `تاريخ الإنجاز: ${dateStr}`;
-        document.getElementById('print-id').textContent = `رقم الوثيقة: ${String(sub.id).substring(0, 8)}`;
-        
-        document.getElementById('print-info-box').innerHTML = `
-          <div><strong>اسم الطالب:</strong> ${window.authManager.escapeHtml(studentName)}</div>
-          <div><strong>النموذج الاختباري:</strong> ${window.authManager.escapeHtml(sub.exams?.title || 'اختبار تخصصي')}</div>
-          <div><strong>المقرر:</strong> ${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'قسم القرآن الكريم وعلومه')}</div>
-          <div><strong>الدرجة والنسبة:</strong> ${sub.score} / ${sub.total_points} (${sub.percentage}%) — <strong>${isPassed ? 'ناجح ومجتاز' : 'غير مجتاز'}</strong></div>
-        `;
 
         const voiceAnnounce = `تم الانتهاء من الاختبار. ${statusText}. درجتك هي: ${sub.percentage} بالمائة. حصلت على ${sub.score} من إجمالي ${sub.total_points} نقطة.`;
         window.a11y?.announce(voiceAnnounce, 'assertive');
@@ -209,9 +172,12 @@
               درجة النجاح المقررة: ${sub.passing_percentage || 50}%
             </p>
 
-            <div style="display: flex; justify-content: center; gap: 0.85rem; margin-top: 1.75rem; flex-wrap: wrap;">
+            <div style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap;">
               <button id="btn-export-pdf" class="btn btn-primary btn-sm" aria-label="طباعة وتصدير كشف النتيجة بصيغة PDF">
                 📄 طباعة وتصدير كشف النتيجة (PDF)
+              </button>
+              <button id="btn-download-report-html" class="btn btn-secondary btn-sm" aria-label="تحميل التقرير كملف مستقل">
+                📥 حفظ تقرير مستقل
               </button>
               <a href="exam.html?id=${sub.exam_id}" class="btn btn-secondary btn-sm">إعادة المحاولة (بترتيب عشوائي جديد) ↺</a>
               <a href="dashboard.html" class="btn btn-secondary btn-sm">لوحة الطالب 📋</a>
@@ -260,10 +226,14 @@
           });
         });
 
-        // ربط زر تصدير الـ PDF الأكاديمي
+        // ربط زر تصدير الـ PDF الأكاديمي عبر المحرك المعزول
         document.getElementById('btn-export-pdf')?.addEventListener('click', () => {
-          window.a11y?.announce('جاري فتح مربع الطباعة والتصدير بصيغة PDF...');
-          window.print();
+          printAcademicReport();
+        });
+
+        // ربط زر تنزيل التقرير كملف مستقل
+        document.getElementById('btn-download-report-html')?.addEventListener('click', () => {
+          downloadAcademicReportFile();
         });
 
         window.a11y?.focusElement('#review-section-title');
@@ -271,6 +241,236 @@
         console.error(err);
         alert('حدث خطأ أثناء عرض النتيجة: ' + err.message);
       }
+    }
+
+    /**
+     * محرك توليد وثيقة الطباعة الأكاديمية المعزولة مع حماية تامة للاتجاه والخطوط العربية
+     */
+    function buildPrintableDocumentHtml() {
+      if (!currentSubmission) return '';
+      const sub = currentSubmission;
+      const user = window.authManager?.getUser();
+      const studentName = user?.fullName || sub.user_name || 'طالب بقسم القرآن الكريم وعلومه';
+      const isPassed = sub.passed;
+
+      const dateStr = new Date(sub.completed_at || Date.now()).toLocaleDateString('ar-YE', {
+        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+      const docId = `DOC-${String(sub.id).substring(0, 8)}`;
+
+      const details = sub.review_details || [];
+      const questionsRows = details.map((d, index) => {
+        const statusText = d.is_correct ? 'صحيحة ✓' : 'غير صحيحة ✗';
+        const statusColor = d.is_correct ? '#166534' : '#991b1b';
+        return `
+          <div style="border: 1px solid #cbd5e1; border-right: 6px solid ${statusColor}; border-radius: 6px; padding: 12px 14px; margin-bottom: 12px; page-break-inside: avoid; background: #ffffff; direction: rtl !important; text-align: right !important;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; direction: rtl !important;">
+              <strong style="font-size: 11pt; color: #0f172a; direction: rtl !important; text-align: right !important;">
+                المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
+              </strong>
+              <span style="font-size: 9.5pt; font-weight: 800; color: ${statusColor};">${statusText}</span>
+            </div>
+            <div style="font-size: 10pt; margin-bottom: 6px; direction: rtl !important; text-align: right !important;">
+              <strong>الإجابة النموذجية المعتمدة:</strong>
+              <span style="color: #166534; font-weight: 700;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
+            </div>
+            ${d.explanation ? `
+              <div style="background: #f8fafc; border-right: 3px solid #1e40af; padding: 8px 12px; font-size: 9.5pt; color: #334155; line-height: 1.6; direction: rtl !important; text-align: right !important; margin-top: 4px;">
+                <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(d.explanation)}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      return `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>كشف نتيجة ومراجعة تفصيلية — ${window.authManager.escapeHtml(studentName)}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm;
+      direction: rtl;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      direction: rtl !important;
+      text-align: right !important;
+      unicode-bidi: isolate !important;
+      font-family: 'Cairo', 'Traditional Arabic', Arial, Tahoma, sans-serif !important;
+    }
+    html, body {
+      direction: rtl !important;
+      text-align: right !important;
+      background: #ffffff !important;
+      color: #0f172a !important;
+      padding: 10px;
+      font-size: 10.5pt;
+      line-height: 1.6;
+      width: 100%;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .header-box {
+      border-bottom: 2px solid #000000;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      direction: rtl !important;
+    }
+    .header-center {
+      text-align: center !important;
+      flex: 1;
+      direction: rtl !important;
+    }
+    .info-table {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 18px;
+      background: #f8fafc;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 10pt;
+      direction: rtl !important;
+      text-align: right !important;
+    }
+    .banner-box {
+      border: 2px solid ${isPassed ? '#166534' : '#991b1b'};
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center !important;
+      margin-bottom: 18px;
+      background: ${isPassed ? '#f0fdf4' : '#fef2f2'};
+      direction: rtl !important;
+    }
+    .footer-stamp {
+      border-top: 1px solid #cbd5e1;
+      padding-top: 10px;
+      margin-top: 25px;
+      text-align: center !important;
+      font-size: 8.5pt;
+      color: #64748b;
+      page-break-inside: avoid;
+      direction: rtl !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="header-box">
+    <div style="text-align: right; direction: rtl !important;">
+      <strong style="font-size: 11pt; display: block;">الجمهورية اليمنية</strong>
+      <span style="font-size: 10pt; display: block;">جامعة صنعاء</span>
+      <span style="font-size: 9.5pt; display: block; color: #475569;">كلية التربية — قسم القرآن الكريم وعلومه</span>
+    </div>
+    <div class="header-center">
+      <h1 style="font-size: 15pt; font-weight: 900; color: #1e40af; margin-bottom: 2px;">منصة مدارج للتقييم الأكاديمي</h1>
+      <h2 style="font-size: 11pt; font-weight: 700; color: #0f172a;">كشف نتيجة ومراجعة تفصيلية للاختبار</h2>
+    </div>
+    <div style="text-align: left; font-size: 9pt; color: #475569;" dir="ltr">
+      <span style="display: block;">${docId}</span>
+      <span style="display: block;">${dateStr}</span>
+    </div>
+  </div>
+
+  <div class="info-table">
+    <div><strong>اسم الطالب:</strong> ${window.authManager.escapeHtml(studentName)}</div>
+    <div><strong>المقرر التخصصي:</strong> ${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'قسم القرآن الكريم وعلومه')}</div>
+    <div><strong>النموذج الاختباري:</strong> ${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</div>
+    <div><strong>النتيجة النهائية:</strong> ${sub.score} / ${sub.total_points} (${sub.percentage}%) — <strong>${isPassed ? 'ناجح ومجتاز ✓' : 'راسب وغير مجتاز ✗'}</strong></div>
+  </div>
+
+  <div class="banner-box">
+    <h3 style="font-size: 13pt; font-weight: 900; color: ${isPassed ? '#166534' : '#991b1b'}; margin-bottom: 4px;">
+      ${isPassed ? 'تم اجتياز الاختبار بنجاح 🎉' : 'لم يتم اجتياز الاختبار هذه المرة'}
+    </h3>
+    <p style="font-size: 10pt; color: #334155;">
+      حصل الطالب على <strong>${sub.score} من أصل ${sub.total_points} درجة</strong> بنسبة مئوية <strong>${sub.percentage}%</strong> (نسبة النجاح المقررة: ${sub.passing_percentage || 50}%)
+    </p>
+  </div>
+
+  <div style="margin-bottom: 12px; direction: rtl !important;">
+    <h4 style="font-size: 11pt; font-weight: 800; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; margin-bottom: 12px; direction: rtl !important; text-align: right !important;">
+      المراجعة التأصيلية والتعليلات العلمية للمسائل (${details.length} مسائل):
+    </h4>
+    ${questionsRows}
+  </div>
+
+  <div class="footer-stamp">
+    <p>وثيقة أكاديمية إلكترونية صادرة عبر منصة مدارج للتقييم الأكاديمي الذاتي — قسم القرآن الكريم وعلومه، كلية التربية، جامعة صنعاء © 2026</p>
+  </div>
+</body>
+</html>`;
+    }
+
+    /**
+     * طباعة معزولة ومضمونة تمنع انعكاس الحروف
+     */
+    async function printAcademicReport() {
+      const htmlContent = buildPrintableDocumentHtml();
+      if (!htmlContent) return;
+
+      window.a11y?.announce('جاري تهيئة الخط العربي وتجهيز كشف النتيجة للطباعة...');
+
+      let iframe = document.getElementById('madarej-print-frame');
+      if (iframe) iframe.remove();
+
+      iframe = document.createElement('iframe');
+      iframe.id = 'madarej-print-frame';
+      iframe.style.position = 'fixed';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      document.body.appendChild(iframe);
+
+      const frameDoc = iframe.contentWindow.document;
+      frameDoc.open();
+      frameDoc.write(htmlContent);
+      frameDoc.close();
+
+      // انتظار جاهزية الخط العربي لضمان اكتمال التشكيل والربط
+      if (frameDoc.fonts) {
+        await frameDoc.fonts.ready;
+      }
+
+      setTimeout(() => {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        window.a11y?.announce('تم فتح نافذة الطباعة');
+      }, 350);
+    }
+
+    /**
+     * تحميل التقرير كملف HTML مستقل يعمل أوفلاين ويُطبع في أي جهاز
+     */
+    function downloadAcademicReportFile() {
+      const htmlContent = buildPrintableDocumentHtml();
+      if (!htmlContent) return;
+
+      const sub = currentSubmission;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `كشف_نتيجة_${sub?.exams?.title || 'الاختبار'}.html`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      window.a11y?.announce('تم تحميل ملف التقرير الأكاديمي بنجاح');
     }
   </script>
   <script src="js/pwa.js"></script>
