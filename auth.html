@@ -1,1 +1,263 @@
-<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\" data-theme=\"light\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>تسجيل الدخول | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>\n  <link rel=\"stylesheet\" href=\"css/style.css\">\n  <script src=\"https://unpkg.com/@supabase/supabase-js@2\"></script>\n  <link rel=\"icon\" type=\"image/svg+xml\" href=\"icons/icon.svg\">\n  <link rel=\"manifest\" href=\"manifest.json\">\n  <meta name=\"theme-color\" content=\"#1e40af\">\n  <link rel=\"apple-touch-icon\" href=\"icons/icon-192.png\">\n</head>\n<body>\n  <a href=\"#main-content\" class=\"sr-only\">تخطي إلى المحتوى الرئيسي</a>\n\n  <!-- شريط التنقل العلوي الأكاديمي -->\n  <header class=\"navbar\" role=\"banner\">\n    <div class=\"container nav-container\">\n      <div class=\"nav-right\">\n        <button id=\"hamburger-btn\" class=\"hamburger-btn\" aria-expanded=\"false\" aria-controls=\"mobile-sidebar\" aria-label=\"فتح القائمة الرئيسية\">\n          <span class=\"hamburger-bar\" aria-hidden=\"true\"></span>\n          <span class=\"hamburger-bar\" aria-hidden=\"true\"></span>\n          <span class=\"hamburger-bar\" aria-hidden=\"true\"></span>\n        </button>\n        <a href=\"index.html\" class=\"brand\">\n          <span class=\"brand-badge\">مدارج</span>\n          <div class=\"brand-text-wrapper\">\n            <span class=\"brand-title\">منصة مدارج</span>\n            <span class=\"brand-subtitle\">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>\n          </div>\n        </a>\n      </div>\n      <div class=\"nav-left\">\n        <button id=\"theme-toggle\" class=\"btn btn-secondary btn-sm\" aria-label=\"تبديل المظهر\">🌓</button>\n      </div>\n    </div>\n  </header>\n\n  <!-- خلفية التعتيم والقائمة الجانبية -->\n  <div id=\"sidebar-overlay\" class=\"sidebar-overlay\" aria-hidden=\"true\"></div>\n  <aside id=\"mobile-sidebar\" class=\"sidebar-drawer\" role=\"dialog\" aria-modal=\"true\" aria-label=\"القائمة الجانبية للموقع\">\n    <div class=\"sidebar-header\">\n      <div style=\"display: flex; align-items: center; gap: 0.5rem;\">\n        <span class=\"brand-badge\">مدارج</span>\n        <span style=\"font-weight: 800; font-size: 1.15rem;\">القائمة الرئيسية</span>\n      </div>\n      <button id=\"sidebar-close-btn\" class=\"sidebar-close-btn\" aria-label=\"إغلاق القائمة الجانبية\">✕</button>\n    </div>\n    <div id=\"sidebar-user-area\" class=\"sidebar-user-card\"></div>\n    <nav role=\"navigation\" aria-label=\"روابط القائمة\">\n      <ul id=\"sidebar-nav-links\" class=\"sidebar-nav\"></ul>\n    </nav>\n    <div class=\"sidebar-footer\">\n      <span style=\"font-size: 0.8rem; color: var(--text-muted); text-align: center;\">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>\n    </div>\n  </aside>\n\n  <main id=\"main-content\" class=\"container\" role=\"main\" style=\"max-width: 490px; margin-top: 3rem; margin-bottom: 4rem;\">\n    <div class=\"card\" style=\"box-shadow: var(--shadow-md); border-top: 4px solid var(--primary);\">\n      \n      <div style=\"text-align: center; margin-bottom: 1.25rem;\">\n        <span class=\"badge badge-primary\" style=\"margin-bottom: 0.5rem;\">بوابة طلبة القسم</span>\n        <h1 id=\"auth-heading\" style=\"font-size: 1.65rem; font-weight: 800; color: var(--text-main);\">تسجيل الدخول</h1>\n        <p class=\"text-muted\" style=\"font-size: 0.88rem; margin-top: 0.25rem;\">\n          مخصصة لطلبة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء\n        </p>\n      </div>\n\n      <div id=\"auth-error-alert\" class=\"alert alert-danger\" style=\"display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--danger-light); color: var(--danger); margin-bottom: 1rem; font-size: 0.92rem;\" role=\"alert\" aria-live=\"assertive\"></div>\n      <div id=\"auth-success-alert\" class=\"alert alert-success\" style=\"display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--success-light); color: var(--success); margin-bottom: 1rem; font-size: 0.92rem;\" role=\"status\" aria-live=\"polite\"></div>\n\n      <!-- تبويبات التبديل بين الدخول والتسجيل -->\n      <div style=\"display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem;\">\n        <button type=\"button\" id=\"tab-login\" class=\"btn btn-outline btn-sm\" style=\"flex: 1;\" aria-selected=\"true\">تسجيل الدخول</button>\n        <button type=\"button\" id=\"tab-signup\" class=\"btn btn-secondary btn-sm\" style=\"flex: 1;\" aria-selected=\"false\">إنشاء حساب طالب</button>\n      </div>\n\n      <!-- نموذج الدخول / التسجيل -->\n      <form id=\"auth-form\" novalidate>\n        \n        <div id=\"group-fullname\" class=\"form-group\" style=\"display: none;\">\n          <label for=\"fullname\" class=\"form-label\">الاسم الكامل (الاسم الثلاثي أو الرباعي كما في الكشف الجامعي) *</label>\n          <input type=\"text\" id=\"fullname\" class=\"form-input\" placeholder=\"مثال: عبد العزيز أمين راجح حاتم\" autocomplete=\"name\">\n        </div>\n\n        <div class=\"form-group\">\n          <label for=\"email\" class=\"form-label\">البريد الإلكتروني *</label>\n          <input type=\"email\" id=\"email\" class=\"form-input\" placeholder=\"student@example.com\" dir=\"ltr\" autocomplete=\"email\" required>\n        </div>\n\n        <div class=\"form-group\">\n          <label for=\"password\" class=\"form-label\">كلمة المرور *</label>\n          <input type=\"password\" id=\"password\" class=\"form-input\" placeholder=\"••••••••\" dir=\"ltr\" autocomplete=\"current-password\" required>\n          <span id=\"password-hint\" style=\"font-size: 0.8rem; color: var(--text-muted); display: none; margin-top: 4px;\">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>\n        </div>\n\n        <button type=\"submit\" id=\"btn-submit-auth\" class=\"btn btn-primary btn-block\" style=\"margin-top: 1rem;\">\n          تسجيل الدخول\n        </button>\n      </form>\n\n      <div style=\"text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);\ product\">\n        <span id=\"auth-switch-text\">طالب جديد في القسم؟</span>\n        <button type=\"button\" id=\"btn-toggle-mode\" style=\"background: none; border: none; color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; font-family: inherit;\">\n          تسجيل حساب الآن\n        </button>\n      </div>\n    </div>\n  </main>\n\n  <footer class=\"footer\" role=\"contentinfo\">\n    <div class=\"container\">\n      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>\n    </div>\n  </footer>\n\n  <script src=\"js/config.js\"></script>\n  <script src=\"js/a11y.js\"></script>\n  <script src=\"js/auth.js\"></script>\n  <script src=\"js/db.js\"></script>\n  <script>\n    let currentMode = 'login';\n\n    document.addEventListener('DOMContentLoaded', async () => {\n      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());\n\n      await window.authManager.init();\n      if (window.authManager.isAuthenticated()) {\n        window.location.href = 'dashboard.html';\n        return;\n      }\n\n      const params = new URLSearchParams(window.location.search);\n      if (params.get('mode') === 'signup') {\n        setMode('signup');\n      } else {\n        setMode('login');\n      }\n\n      document.getElementById('tab-login').addEventListener('click', () => setMode('login'));\n      document.getElementById('tab-signup').addEventListener('click', () => setMode('signup'));\n      document.getElementById('btn-toggle-mode').addEventListener('click', () => {\n        setMode(currentMode === 'login' ? 'signup' : 'login');\n      });\n\n      document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);\n    });\n\n    function setMode(mode) {\n      currentMode = mode;\n      const heading = document.getElementById('auth-heading');\n      const groupFullName = document.getElementById('group-fullname');\n      const submitBtn = document.getElementById('btn-submit-auth');\n      const switchText = document.getElementById('auth-switch-text');\n      const toggleBtn = document.getElementById('btn-toggle-mode');\n      const tabLogin = document.getElementById('tab-login');\n      const tabSignup = document.getElementById('tab-signup');\n      const pwdHint = document.getElementById('password-hint');\n\n      hideAlerts();\n\n      if (mode === 'signup') {\n        heading.textContent = 'تسجيل طالب جديد بالقسم';\n        groupFullName.style.display = 'block';\n        submitBtn.textContent = 'إنشاء وتفعيل الحساب';\n        switchText.textContent = 'لديك حساب مسجل بالفعل؟';\n        toggleBtn.textContent = 'تسجيل الدخول';\n        tabSignup.className = 'btn btn-primary btn-sm';\n        tabSignup.setAttribute('aria-selected', 'true');\n        tabLogin.className = 'btn btn-secondary btn-sm';\n        tabLogin.setAttribute('aria-selected', 'false');\n        pwdHint.style.display = 'block';\n        window.a11y.announce('تم التبديل إلى نموذج تسجيل طالب جديد');\n      } else {\n        heading.textContent = 'تسجيل الدخول إلى حسابك';\n        groupFullName.style.display = 'none';\n        submitBtn.textContent = 'تسجيل الدخول';\n        switchText.textContent = 'طالب جديد في القسم؟';\n        toggleBtn.textContent = 'تسجيل حساب الآن';\n        tabLogin.className = 'btn btn-primary btn-sm';\n        tabLogin.setAttribute('aria-selected', 'true');\n        tabSignup.className = 'btn btn-secondary btn-sm';\n        tabSignup.setAttribute('aria-selected', 'false');\n        pwdHint.style.display = 'none';\n        window.a11y.announce('تم التبديل إلى نموذج تسجيل الدخول');\n      }\n    }\n\n    async function handleAuthSubmit(e) {\n      e.preventDefault();\n      hideAlerts();\n\n      const email = document.getElementById('email').value.trim();\n      const password = document.getElementById('password').value;\n      const fullname = document.getElementById('fullname').value.trim();\n      const submitBtn = document.getElementById('btn-submit-auth');\n\n      if (!email || !password) {\n        showError('يرجى ملء جميع الحقول المطلوبة.');\n        return;\n      }\n\n      if (currentMode === 'signup' && !fullname) {\n        showError('يرجى كتابة الاسم الكامل للطالب.');\n        return;\n      }\n\n      submitBtn.disabled = true;\n      submitBtn.textContent = 'جاري التحقق والمعالجة...';\n\n      try {\n        if (currentMode === 'signup') {\n          const res = await window.authManager.signUp(fullname, email, password);\n          if (res.requiresEmailConfirmation) {\n            showSuccess('تم إنشاء الحساب بنجاح! تم إرسال رابط تأكيد إلى بريدك الإلكتروني.');\n          } else {\n            showSuccess('تم تفعيل حسابك الأكاديمي بنجاح! جاري توجيهك إلى لوحة الطالب...');\n            redirectAfterAuth();\n          }\n        } else {\n          await window.authManager.signIn(email, password);\n          showSuccess('مرحباً بك! تم تسجيل الدخول بنجاح، جاري التوجيه...');\n          redirectAfterAuth();\n        }\n      } catch (err) {\n        console.error(err);\n        showError(err.message || 'حدث خطأ أثناء المصادقة.');\n        submitBtn.disabled = false;\n        submitBtn.textContent = currentMode === 'signup' ? 'إنشاء وتفعيل الحساب' : 'تسجيل الدخول';\n      }\n    }\n\n    function redirectAfterAuth() {\n      const params = new URLSearchParams(window.location.search);\n      const redirect = params.get('redirect') || 'dashboard.html';\n      setTimeout(() => {\n        window.location.href = redirect;\n      }, 650);\n    }\n\n    function showError(msg) {\n      const el = document.getElementById('auth-error-alert');\n      el.textContent = msg;\n      el.style.display = 'block';\n      window.a11y.announce(msg, 'assertive');\n    }\n\n    function showSuccess(msg) {\n      const el = document.getElementById('auth-success-alert');\n      el.textContent = msg;\n      el.style.display = 'block';\n      window.a11y.announce(msg, 'polite');\n    }\n\n    function hideAlerts() {\n      document.getElementById('auth-error-alert').style.display = 'none';\n      document.getElementById('auth-success-alert').style.display = 'none';\n    }\n  </script>\n  <script src=\"js/pwa.js\"></script>\n</body>\n</html>\n
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+
+  <!-- شريط التنقل العلوي الأكاديمي -->
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
+        </a>
+      </div>
+      <div class="nav-left">
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="max-width: 490px; margin-top: 3rem; margin-bottom: 4rem;">
+    <div class="card" style="box-shadow: var(--shadow-md); border-top: 4px solid var(--primary);">
+      
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">بوابة طلبة القسم</span>
+        <h1 id="auth-heading" style="font-size: 1.65rem; font-weight: 800; color: var(--text-main);">تسجيل الدخول</h1>
+        <p class="text-muted" style="font-size: 0.88rem; margin-top: 0.25rem;">
+          مخصصة لطلبة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء
+        </p>
+      </div>
+
+      <div id="auth-error-alert" class="alert alert-danger" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--danger-light); color: var(--danger); margin-bottom: 1rem; font-size: 0.92rem;" role="alert" aria-live="assertive"></div>
+      <div id="auth-success-alert" class="alert alert-success" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--success-light); color: var(--success); margin-bottom: 1rem; font-size: 0.92rem;" role="status" aria-live="polite"></div>
+
+      <!-- تبويبات التبديل بين الدخول والتسجيل -->
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem;">
+        <button type="button" id="tab-login" class="btn btn-outline btn-sm" style="flex: 1;" aria-selected="true">تسجيل الدخول</button>
+        <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب طالب</button>
+      </div>
+
+      <!-- نموذج الدخول / التسجيل -->
+      <form id="auth-form" novalidate>
+        
+        <div id="group-fullname" class="form-group" style="display: none;">
+          <label for="fullname" class="form-label">الاسم الكامل (الاسم الثلاثي أو الرباعي كما في الكشف الجامعي) *</label>
+          <input type="text" id="fullname" class="form-input" placeholder="مثال: عبد العزيز أمين راجح حاتم" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">البريد الإلكتروني *</label>
+          <input type="email" id="email" class="form-input" placeholder="student@example.com" dir="ltr" autocomplete="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">كلمة المرور *</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••" dir="ltr" autocomplete="current-password" required>
+          <span id="password-hint" style="font-size: 0.8rem; color: var(--text-muted); display: none; margin-top: 4px;">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
+        </div>
+
+        <button type="submit" id="btn-submit-auth" class="btn btn-primary btn-block" style="margin-top: 1rem;">
+          تسجيل الدخول
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+        <span id="auth-switch-text">طالب جديد في القسم؟</span>
+        <button type="button" id="btn-toggle-mode" style="background: none; border: none; color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; font-family: inherit;">
+          تسجيل حساب الآن
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    let currentMode = 'login';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
+
+      await window.authManager.init();
+      if (window.authManager.isAuthenticated()) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('mode') === 'signup') {
+        setMode('signup');
+      } else {
+        setMode('login');
+      }
+
+      document.getElementById('tab-login').addEventListener('click', () => setMode('login'));
+      document.getElementById('tab-signup').addEventListener('click', () => setMode('signup'));
+      document.getElementById('btn-toggle-mode').addEventListener('click', () => {
+        setMode(currentMode === 'login' ? 'signup' : 'login');
+      });
+
+      document.getElementById('auth-form').addEventListener('submit', handleAuthSubmit);
+    });
+
+    function setMode(mode) {
+      currentMode = mode;
+      const heading = document.getElementById('auth-heading');
+      const groupFullName = document.getElementById('group-fullname');
+      const submitBtn = document.getElementById('btn-submit-auth');
+      const switchText = document.getElementById('auth-switch-text');
+      const toggleBtn = document.getElementById('btn-toggle-mode');
+      const tabLogin = document.getElementById('tab-login');
+      const tabSignup = document.getElementById('tab-signup');
+      const pwdHint = document.getElementById('password-hint');
+
+      hideAlerts();
+
+      if (mode === 'signup') {
+        heading.textContent = 'تسجيل طالب جديد بالقسم';
+        groupFullName.style.display = 'block';
+        submitBtn.textContent = 'إنشاء وتفعيل الحساب';
+        switchText.textContent = 'لديك حساب مسجل بالفعل؟';
+        toggleBtn.textContent = 'تسجيل الدخول';
+        tabSignup.className = 'btn btn-primary btn-sm';
+        tabSignup.setAttribute('aria-selected', 'true');
+        tabLogin.className = 'btn btn-secondary btn-sm';
+        tabLogin.setAttribute('aria-selected', 'false');
+        pwdHint.style.display = 'block';
+        window.a11y.announce('تم التبديل إلى نموذج تسجيل طالب جديد');
+      } else {
+        heading.textContent = 'تسجيل الدخول إلى حسابك';
+        groupFullName.style.display = 'none';
+        submitBtn.textContent = 'تسجيل الدخول';
+        switchText.textContent = 'طالب جديد في القسم؟';
+        toggleBtn.textContent = 'تسجيل حساب الآن';
+        tabLogin.className = 'btn btn-primary btn-sm';
+        tabLogin.setAttribute('aria-selected', 'true');
+        tabSignup.className = 'btn btn-secondary btn-sm';
+        tabSignup.setAttribute('aria-selected', 'false');
+        pwdHint.style.display = 'none';
+        window.a11y.announce('تم التبديل إلى نموذج تسجيل الدخول');
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const fullname = document.getElementById('fullname').value.trim();
+      const submitBtn = document.getElementById('btn-submit-auth');
+
+      if (!email || !password) {
+        showError('يرجى ملء جميع الحقول المطلوبة.');
+        return;
+      }
+
+      if (currentMode === 'signup' && !fullname) {
+        showError('يرجى كتابة الاسم الكامل للطالب.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري التحقق والمعالجة...';
+
+      try {
+        if (currentMode === 'signup') {
+          const res = await window.authManager.signUp(fullname, email, password);
+          if (res.requiresEmailConfirmation) {
+            showSuccess('تم إنشاء الحساب بنجاح! تم إرسال رابط تأكيد إلى بريدك الإلكتروني.');
+          } else {
+            showSuccess('تم تفعيل حسابك الأكاديمي بنجاح! جاري توجيهك إلى لوحة الطالب...');
+            redirectAfterAuth();
+          }
+        } else {
+          await window.authManager.signIn(email, password);
+          showSuccess('مرحباً بك! تم تسجيل الدخول بنجاح، جاري التوجيه...');
+          redirectAfterAuth();
+        }
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'حدث خطأ أثناء المصادقة.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = currentMode === 'signup' ? 'إنشاء وتفعيل الحساب' : 'تسجيل الدخول';
+      }
+    }
+
+    function redirectAfterAuth() {
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect') || 'dashboard.html';
+      setTimeout(() => {
+        window.location.href = redirect;
+      }, 650);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('auth-error-alert');
+      el.textContent = msg;
+      el.style.display = 'block';
+      window.a11y.announce(msg, 'assertive');
+    }
+
+    function showSuccess(msg) {
+      const el = document.getElementById('auth-success-alert');
+      el.textContent = msg;
+      el.style.display = 'block';
+      window.a11y.announce(msg, 'polite');
+    }
+
+    function hideAlerts() {
+      document.getElementById('auth-error-alert').style.display = 'none';
+      document.getElementById('auth-success-alert').style.display = 'none';
+    }
+  </script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

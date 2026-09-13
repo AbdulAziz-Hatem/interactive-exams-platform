@@ -1,4 +1,212 @@
-<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\" data-theme=\"light\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>لوحة الطالب الأكاديمية | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>\n  <link rel=\"stylesheet\" href=\"css/style.css\">\n  <script src=\"https://unpkg.com/@supabase/supabase-js@2\"></script>\n  <link rel=\"icon\" type=\"image/svg+xml\" href=\"icons/icon.svg\">\n  <link rel=\"manifest\" href=\"manifest.json\">\n  <meta name=\"theme-color\" content=\"#1e40af\">\n  <link rel=\"apple-touch-icon\" href=\"icons/icon-192.png\">\n</head>\n<body>\n  <a href=\"#main-content\" class=\"sr-only\">تخطي إلى المحتوى الرئيسي</a>\n\n  <!-- شريط التنقل العلوي الأكاديمي -->\n  <header class=\"navbar\" role=\"banner\">\n    <div class=\"container nav-container\">\n      <div class=\"nav-right\">\n        <button id=\"hamburger-btn\" class=\"hamburger-btn\" aria-expanded=\"false\" aria-controls=\"mobile-sidebar\" aria-label=\"فتح القائمة الرئيسية\">\n          <span class=\"hamburger-bar\" aria-hidden=\"true\"></span>\n          <span class=\"hamburger-bar\" aria-hidden=\"true\"></span>\n          <span class=\"hamburger-bar\" aria-hidden=\"true\"></span>\n        </button>\n        <a href=\"index.html\" class=\"brand\">\n          <span class=\"brand-badge\">مدارج</span>\n          <div class=\"brand-text-wrapper\">\n            <span class=\"brand-title\">منصة مدارج</span>\n            <span class=\"brand-subtitle\">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>\n          </div>\n        </a>\n      </div>\n      <div class=\"nav-left\">\n        <div id=\"nav-auth-container\" class=\"desktop-only\"></div>\n        <button id=\"theme-toggle\" class=\"btn btn-secondary btn-sm\" aria-label=\"تبديل المظهر\">🌓</button>\n      </div>\n    </div>\n  </header>\n\n  <!-- خلفية التعتيم والقائمة الجانبية -->\n  <div id=\"sidebar-overlay\" class=\"sidebar-overlay\" aria-hidden=\"true\"></div>\n  <aside id=\"mobile-sidebar\" class=\"sidebar-drawer\" role=\"dialog\" aria-modal=\"true\" aria-label=\"القائمة الجانبية للموقع\" aria-hidden=\"true\">\n    <div class=\"sidebar-header\">\n      <div style=\"display: flex; align-items: center; gap: 0.5rem;\">\n        <span class=\"brand-badge\">مدارج</span>\n        <span style=\"font-weight: 800; font-size: 1.15rem;\">القائمة الرئيسية</span>\n      </div>\n      <button id=\"sidebar-close-btn\" class=\"sidebar-close-btn\" aria-label=\"إغلاق القائمة الجانبية\">✕</button>\n    </div>\n    <div id=\"sidebar-user-area\" class=\"sidebar-user-card\"></div>\n    <nav role=\"navigation\" aria-label=\"روابط القائمة\">\n      <ul id=\"sidebar-nav-links\" class=\"sidebar-nav\"></ul>\n    </nav>\n    <div class=\"sidebar-footer\">\n      <span style=\"font-size: 0.8rem; color: var(--text-muted); text-align: center;\">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>\n    </div>\n  </aside>\n\n  <main id=\"main-content\" class=\"container\" role=\"main\" style=\"margin-top: 2rem; margin-bottom: 4rem;\">\n    \n    <!-- بطاقة الترحيب بطلبة القسم والإحصائيات التراكمية -->\n    <section class=\"card\" aria-labelledby=\"dash-welcome\">\n      <div class=\"card-header\">\n        <div>\n          <div class=\"faculty-pill\" style=\"margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;\">\n            <span>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</span>\n          </div>\n          <h1 id=\"dash-welcome\" style=\"font-size: 1.7rem; font-weight: 800;\">سجل الطالب الأكاديمي</h1>\n          <p id=\"dash-user-email\" class=\"text-muted\" style=\"font-size: 0.95rem; margin-top: 0.25rem;\">جاري مزامنة الملف الشخصي...</p>\n        </div>\n        <div>\n          <a href=\"index.html#subjects-section\" class=\"btn btn-primary btn-sm\">تصفح المقررات والاختبارات ❯</a>\n        </div>\n      </div>\n\n      <!-- إحصائيات التحصيل الأكاديمي السريعة -->\n      <div class=\"grid\" style=\"grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 1rem 0 0 0;\">\n        <div style=\"background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);\">\n          <span style=\"font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;\">إجمالي الاختبارات المنجزة بالقسم</span>\n          <strong id=\"stat-total-exams\" style=\"font-size: 2.2rem; color: var(--primary);\">0</strong>\n        </div>\n        <div style=\"background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);\">\n          <span style=\"font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;\">الاختبارات المجتازة بنجاح</span>\n          <strong id=\"stat-passed-exams\" style=\"font-size: 2.2rem; color: var(--success);\">0</strong>\n        </div>\n        <div style=\"background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);\">\n          <span style=\"font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;\">متوسط النسبة التراكمية</span>\n          <strong id=\"stat-avg-score\" style=\"font-size: 2.2rem; color: var(--text-main);\">0%</strong>\n        </div>\n        <div style=\"background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);\">\n          <span style=\"font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;\">المسائل المحفوظة للمراجعة</span>\n          <strong id=\"stat-bookmarks-count\" style=\"font-size: 2.2rem; color: var(--gold);\">0</strong>\n        </div>\n      </div>\n    </section>\n\n    <!-- تبويبات التنقل بين السجل والمسائل المحفوظة -->\n    <section class=\"card\" aria-labelledby=\"section-records-title\">\n      <div class=\"dash-tabs\" role=\"tablist\" aria-label=\"أقسام سجل الطالب\">\n        <button type=\"button\" role=\"tab\" id=\"tab-btn-history\" class=\"dash-tab-btn active\" aria-selected=\"true\" aria-controls=\"history-container\">\n          <span>📋 سجل الاختبارات والمحاولات</span>\n        </button>\n        <button type=\"button\" role=\"tab\" id=\"tab-btn-bookmarks\" class=\"dash-tab-btn\" aria-selected=\"false\" aria-controls=\"bookmarks-container\">\n          <span>⭐ المسائل المحفوظة للمراجعة</span>\n          <span class=\"badge badge-warning\" id=\"tab-bookmarks-badge\">0</span>\n        </button>\n      </div>\n\n      <!-- تبويب 1: سجل الاختبارات السابقة -->\n      <div id=\"history-container\" role=\"tabpanel\" aria-labelledby=\"tab-btn-history\" aria-live=\"polite\">\n        <p class=\"text-muted\">جاري تحميل سجل الاختبارات من الخادم السحابي...</p>\n      </div>\n\n      <!-- تبويب 2: بنك المسائل المحفوظة للمراجعة (Feature 2) -->\n      <div id=\"bookmarks-container\" role=\"tabpanel\" aria-labelledby=\"tab-btn-bookmarks\" style=\"display: none;\" aria-live=\"polite\">\n        <p class=\"text-muted\">جاري قراءة المسائل المحفوظة...</p>\n      </div>\n    </section>\n\n  </main>\n\n  <footer class=\"footer\" role=\"contentinfo\">\n    <div class=\"container\">\n      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>\n    </div>\n  </footer>\n\n  <script src=\"js/config.js\"></script>\n  <script src=\"js/a11y.js\"></script>\n  <script src=\"js/auth.js\"></script>\n  <script src=\"js/db.js\"></script>\n  <script src=\"js/bookmarks.js\"></script>\n  <script>\n    let currentTab = 'history';\n\n    document.addEventListener('DOMContentLoaded', async () => {\n      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());\n\n      const user = await window.authManager.init();\n      if (!user) {\n        window.location.href = 'auth.html?redirect=dashboard.html';\n        return;\n      }\n\n      window.db.init();\n\n      document.getElementById('dash-welcome').textContent = `أهلاً بك، الطالب/ ${user.fullName}`;\n      document.getElementById('dash-user-email').textContent = `البريد الأكاديمي: ${user.email} | الصفة: ${user.role === 'admin' ? 'مشرف أكاديمي' : 'طالب بقسم القرآن الكريم وعلومه'}`;\n\n      // إعداد التبويبات\n      setupTabs();\n\n      // تحميل السجل والمسائل المحفوظة\n      loadUserHistory(user.id);\n      renderBookmarksList();\n\n      // فتح تبويب المفضلة مباشرة إذا ورد بالرابط ?tab=bookmarks\n      const params = new URLSearchParams(window.location.search);\n      if (params.get('tab') === 'bookmarks') {\n        switchTab('bookmarks');\n      }\n    });\n\n    function setupTabs() {\n      const btnHistory = document.getElementById('tab-btn-history');\n      const btnBookmarks = document.getElementById('tab-btn-bookmarks');\n\n      btnHistory.addEventListener('click', () => switchTab('history'));\n      btnBookmarks.addEventListener('click', () => switchTab('bookmarks'));\n    }\n\n    function switchTab(tabName) {\n      currentTab = tabName;\n      const btnHistory = document.getElementById('tab-btn-history');\n      const btnBookmarks = document.getElementById('tab-btn-bookmarks');\n      const containerHistory = document.getElementById('history-container');\n      const containerBookmarks = document.getElementById('bookmarks-container');\n\n      if (tabName === 'history') {\n        btnHistory.classList.add('active');\n        btnHistory.setAttribute('aria-selected', 'true');\n        btnBookmarks.classList.remove('active');\n        btnBookmarks.setAttribute('aria-selected', 'false');\n\n        containerHistory.style.display = 'block';\n        containerBookmarks.style.display = 'none';\n        window.a11y?.announce('تم التبديل إلى سجل الاختبارات');\n      } else {\n        btnBookmarks.classList.add('active');\n        btnBookmarks.setAttribute('aria-selected', 'true');\n        btnHistory.classList.remove('active');\n        btnHistory.setAttribute('aria-selected', 'false');\n\n        containerBookmarks.style.display = 'block';\n        containerHistory.style.display = 'none';\n        renderBookmarksList();\n        window.a11y?.announce('تم التبديل إلى قائمة المسائل المحفوظة للمراجعة');\n      }\n    }\n\n    async function loadUserHistory(userId) {\n      try {\n        const history = await window.db.getUserSubmissions(userId);\n        const container = document.getElementById('history-container');\n\n        const total = history.length;\n        const passed = history.filter(h => h.passed).length;\n        const avg = total > 0 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الطالب الأكاديمية | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+
+  <!-- شريط التنقل العلوي الأكاديمي -->
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">قسم القرآن الكريم وعلومه — جامعة صنعاء</span>
+          </div>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">قسم القرآن الكريم وعلومه — كلية التربية © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+    
+    <!-- بطاقة الترحيب بطلبة القسم والإحصائيات التراكمية -->
+    <section class="card" aria-labelledby="dash-welcome">
+      <div class="card-header">
+        <div>
+          <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
+            <span>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</span>
+          </div>
+          <h1 id="dash-welcome" style="font-size: 1.7rem; font-weight: 800;">سجل الطالب الأكاديمي</h1>
+          <p id="dash-user-email" class="text-muted" style="font-size: 0.95rem; margin-top: 0.25rem;">جاري مزامنة الملف الشخصي...</p>
+        </div>
+        <div>
+          <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات والاختبارات ❯</a>
+        </div>
+      </div>
+
+      <!-- إحصائيات التحصيل الأكاديمي السريعة -->
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 1rem 0 0 0;">
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">إجمالي الاختبارات المنجزة بالقسم</span>
+          <strong id="stat-total-exams" style="font-size: 2.2rem; color: var(--primary);">0</strong>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">الاختبارات المجتازة بنجاح</span>
+          <strong id="stat-passed-exams" style="font-size: 2.2rem; color: var(--success);">0</strong>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">متوسط النسبة التراكمية</span>
+          <strong id="stat-avg-score" style="font-size: 2.2rem; color: var(--text-main);">0%</strong>
+        </div>
+        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">المسائل المحفوظة للمراجعة</span>
+          <strong id="stat-bookmarks-count" style="font-size: 2.2rem; color: var(--gold);">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- تبويبات التنقل بين السجل والمسائل المحفوظة -->
+    <section class="card" aria-labelledby="section-records-title">
+      <div class="dash-tabs" role="tablist" aria-label="أقسام سجل الطالب">
+        <button type="button" role="tab" id="tab-btn-history" class="dash-tab-btn active" aria-selected="true" aria-controls="history-container">
+          <span>📋 سجل الاختبارات والمحاولات</span>
+        </button>
+        <button type="button" role="tab" id="tab-btn-bookmarks" class="dash-tab-btn" aria-selected="false" aria-controls="bookmarks-container">
+          <span>⭐ المسائل المحفوظة للمراجعة</span>
+          <span class="badge badge-warning" id="tab-bookmarks-badge">0</span>
+        </button>
+      </div>
+
+      <!-- تبويب 1: سجل الاختبارات السابقة -->
+      <div id="history-container" role="tabpanel" aria-labelledby="tab-btn-history" aria-live="polite">
+        <p class="text-muted">جاري تحميل سجل الاختبارات من الخادم السحابي...</p>
+      </div>
+
+      <!-- تبويب 2: بنك المسائل المحفوظة للمراجعة (Feature 2) -->
+      <div id="bookmarks-container" role="tabpanel" aria-labelledby="tab-btn-bookmarks" style="display: none;" aria-live="polite">
+        <p class="text-muted">جاري قراءة المسائل المحفوظة...</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء © 2026</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script src="js/bookmarks.js"></script>
+  <script>
+    let currentTab = 'history';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
+
+      const user = await window.authManager.init();
+      if (!user) {
+        window.location.href = 'auth.html?redirect=dashboard.html';
+        return;
+      }
+
+      window.db.init();
+
+      document.getElementById('dash-welcome').textContent = `أهلاً بك، الطالب/ ${user.fullName}`;
+      document.getElementById('dash-user-email').textContent = `البريد الأكاديمي: ${user.email} | الصفة: ${user.role === 'admin' ? 'مشرف أكاديمي' : 'طالب بقسم القرآن الكريم وعلومه'}`;
+
+      // إعداد التبويبات
+      setupTabs();
+
+      // تحميل السجل والمسائل المحفوظة
+      loadUserHistory(user.id);
+      renderBookmarksList();
+
+      // فتح تبويب المفضلة مباشرة إذا ورد بالرابط ?tab=bookmarks
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('tab') === 'bookmarks') {
+        switchTab('bookmarks');
+      }
+    });
+
+    function setupTabs() {
+      const btnHistory = document.getElementById('tab-btn-history');
+      const btnBookmarks = document.getElementById('tab-btn-bookmarks');
+
+      btnHistory.addEventListener('click', () => switchTab('history'));
+      btnBookmarks.addEventListener('click', () => switchTab('bookmarks'));
+    }
+
+    function switchTab(tabName) {
+      currentTab = tabName;
+      const btnHistory = document.getElementById('tab-btn-history');
+      const btnBookmarks = document.getElementById('tab-btn-bookmarks');
+      const containerHistory = document.getElementById('history-container');
+      const containerBookmarks = document.getElementById('bookmarks-container');
+
+      if (tabName === 'history') {
+        btnHistory.classList.add('active');
+        btnHistory.setAttribute('aria-selected', 'true');
+        btnBookmarks.classList.remove('active');
+        btnBookmarks.setAttribute('aria-selected', 'false');
+
+        containerHistory.style.display = 'block';
+        containerBookmarks.style.display = 'none';
+        window.a11y?.announce('تم التبديل إلى سجل الاختبارات');
+      } else {
+        btnBookmarks.classList.add('active');
+        btnBookmarks.setAttribute('aria-selected', 'true');
+        btnHistory.classList.remove('active');
+        btnHistory.setAttribute('aria-selected', 'false');
+
+        containerBookmarks.style.display = 'block';
+        containerHistory.style.display = 'none';
+        renderBookmarksList();
+        window.a11y?.announce('تم التبديل إلى قائمة المسائل المحفوظة للمراجعة');
+      }
+    }
+
+    async function loadUserHistory(userId) {
+      try {
+        const history = await window.db.getUserSubmissions(userId);
+        const container = document.getElementById('history-container');
+
+        const total = history.length;
+        const passed = history.filter(h => h.passed).length;
+        const avg = total > 0 
           ? Math.round(history.reduce((acc, curr) => acc + (parseFloat(curr.percentage) || 0), 0) / total) 
           : 0;
 
@@ -8,13 +216,60 @@
 
         if (total === 0) {
           container.innerHTML = `
-            <div style=\"text-align: center; padding: 2.5rem; color: var(--text-muted);\">\n              <p style=\"font-size: 1.05rem;\">لم تقم بخوض أي نموذج اختباري حتى الآن.</p>\n              <a href=\"index.html#subjects-section\" class=\"btn btn-primary btn-sm\" style=\"margin-top: 1rem;\">خوض أول اختبار تجريبي لمقررات القسم ❯</a>\n            </div>
+            <div style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+              <p style="font-size: 1.05rem;">لم تقم بخوض أي نموذج اختباري حتى الآن.</p>
+              <a href="index.html#subjects-section" class="btn btn-primary btn-sm" style="margin-top: 1rem;">خوض أول اختبار تجريبي لمقررات القسم ❯</a>
+            </div>
           `;
           return;
         }
 
         container.innerHTML = `
-          <div style=\"overflow-x: auto;\">\n            <table style=\"width: 100%; border-collapse: collapse; text-align: right; min-width: 600px;\">\n              <thead>\n                <tr style=\"border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.9rem;\">\n                  <th style=\"padding: 0.75rem 0.5rem;\">اسم الاختبار</th>\n                  <th style=\"padding: 0.75rem 0.5rem;\">المقرر التخصصي</th>\n                  <th style=\"padding: 0.75rem 0.5rem;\">الدرجة</th>\n                  <th style=\"padding: 0.75rem 0.5rem;\">النسبة</th>\n                  <th style=\"padding: 0.75rem 0.5rem;\">الحالة</th>\n                  <th style=\"padding: 0.75rem 0.5rem;\">التاريخ</th>\n                  <th style=\"padding: 0.75rem 0.5rem;\">الإجراء</th>\n                </tr>\n              </thead>\n              <tbody>\n                ${history.map(item => {\n                  const dateStr = new Date(item.completed_at).toLocaleDateString('ar-YE', {\n                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'\n                  });\n                  const statusBadge = item.passed \n                    ? '<span class=\"badge badge-success\">مجتاز ✓</span>'\n                    : '<span class=\"badge badge-danger\">راسب ✗</span>';\n\n                  return `\n                    <tr style=\"border-bottom: 1px solid var(--border-light); font-size: 0.95rem;\">\n                      <td style=\"padding: 0.9rem 0.5rem; font-weight: 700;\">\n                        ${window.authManager.escapeHtml(item.exams?.title || 'اختبار')}\n                      </td>\n                      <td style=\"padding: 0.9rem 0.5rem; color: var(--text-muted);\">\n                        ${window.authManager.escapeHtml(item.exams?.subjects?.title || 'عام')}\n                      </td>\n                      <td style=\"padding: 0.9rem 0.5rem; font-weight: 600;\">${item.score} / ${item.total_points}</td>\n                      <td style=\"padding: 0.9rem 0.5rem; font-weight: 800; color: var(--primary);\">${item.percentage}%</td>\n                      <td style=\"padding: 0.9rem 0.5rem;\">${statusBadge}</td>\n                      <td style=\"padding: 0.9rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);\">${dateStr}</td>\n                      <td style=\"padding: 0.9rem 0.5rem;\">\n                        <a href=\"result.html?submission_id=${item.id}\" class=\"btn btn-secondary btn-sm\" aria-label=\"عرض مراجعة نتيجة اختبار ${window.authManager.escapeHtml(item.exams?.title || '')}\">\n                          عرض المراجعة والتعليل\n                        </a>\n                      </td>\n                    </tr>\n                  `;\n                }).join('')}\n              </tbody>\n            </table>\n          </div>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: right; min-width: 600px;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.9rem;">
+                  <th style="padding: 0.75rem 0.5rem;">اسم الاختبار</th>
+                  <th style="padding: 0.75rem 0.5rem;">المقرر التخصصي</th>
+                  <th style="padding: 0.75rem 0.5rem;">الدرجة</th>
+                  <th style="padding: 0.75rem 0.5rem;">النسبة</th>
+                  <th style="padding: 0.75rem 0.5rem;">الحالة</th>
+                  <th style="padding: 0.75rem 0.5rem;">التاريخ</th>
+                  <th style="padding: 0.75rem 0.5rem;">الإجراء</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${history.map(item => {
+                  const dateStr = new Date(item.completed_at).toLocaleDateString('ar-YE', {
+                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                  });
+                  const statusBadge = item.passed 
+                    ? '<span class="badge badge-success">مجتاز ✓</span>'
+                    : '<span class="badge badge-danger">راسب ✗</span>';
+
+                  return `
+                    <tr style="border-bottom: 1px solid var(--border-light); font-size: 0.95rem;">
+                      <td style="padding: 0.9rem 0.5rem; font-weight: 700;">
+                        ${window.authManager.escapeHtml(item.exams?.title || 'اختبار')}
+                      </td>
+                      <td style="padding: 0.9rem 0.5rem; color: var(--text-muted);">
+                        ${window.authManager.escapeHtml(item.exams?.subjects?.title || 'عام')}
+                      </td>
+                      <td style="padding: 0.9rem 0.5rem; font-weight: 600;">${item.score} / ${item.total_points}</td>
+                      <td style="padding: 0.9rem 0.5rem; font-weight: 800; color: var(--primary);">${item.percentage}%</td>
+                      <td style="padding: 0.9rem 0.5rem;">${statusBadge}</td>
+                      <td style="padding: 0.9rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
+                      <td style="padding: 0.9rem 0.5rem;">
+                        <a href="result.html?submission_id=${item.id}" class="btn btn-secondary btn-sm" aria-label="عرض مراجعة نتيجة اختبار ${window.authManager.escapeHtml(item.exams?.title || '')}">
+                          عرض المراجعة والتعليل
+                        </a>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
         `;
       } catch (err) {
         console.error(err);
@@ -32,13 +287,69 @@
 
       if (items.length === 0) {
         container.innerHTML = `
-          <div style=\"text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);\">\n            <div style=\"font-size: 2.5rem; margin-bottom: 0.75rem;\">⭐</div>\n            <h3 style=\"font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);\">لم تقم بحفظ أي مسائل للمراجعة بعد</h3>\n            <p style=\"max-width: 550px; margin: 0 auto 1.5rem; line-height: 1.7; font-size: 0.95rem;\">\n              يمكنك الضغط على زر <strong>(حفظ للمراجعة ☆)</strong> بجوار أي مسألة أثناء خوض الاختبارات أو في صفحة مراجعة النتائج لتثبيتها هنا ومذاكرتها قبل الامتحانات النهائية.\n            </p>\n            <a href=\"index.html#subjects-section\" class=\"btn btn-primary btn-sm\">تصفح المقررات وبدء التدريب ❯</a>\n          </div>
+          <div style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
+            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⭐</div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">لم تقم بحفظ أي مسائل للمراجعة بعد</h3>
+            <p style="max-width: 550px; margin: 0 auto 1.5rem; line-height: 1.7; font-size: 0.95rem;">
+              يمكنك الضغط على زر <strong>(حفظ للمراجعة ☆)</strong> بجوار أي مسألة أثناء خوض الاختبارات أو في صفحة مراجعة النتائج لتثبيتها هنا ومذاكرتها قبل الامتحانات النهائية.
+            </p>
+            <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات وبدء التدريب ❯</a>
+          </div>
         `;
         return;
       }
 
       container.innerHTML = `
-        <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;\">\n          <span style=\"font-weight: 700; color: var(--text-muted); font-size: 0.95rem;\">\n            لديك <strong style=\"color: var(--gold);\">${items.length}</strong> مسائل محفوظة للمذاكرة والتأصيل\n          </span>\n          <button type=\"button\" id=\"btn-clear-all-bookmarks\" class=\"btn btn-outline btn-sm\" style=\"color: var(--danger); border-color: var(--danger);\">\n            إفراغ القائمة 🗑️\n          </button>\n        </div>\n\n        <div class=\"bookmarks-cards-list\">\n          ${items.map((item, idx) => `\n            <article class=\"bookmark-card\" id=\"bookmark-card-${item.id}\">\n              <div style=\"display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;\">\n                <div>\n                  <span class=\"badge badge-warning\" style=\"margin-bottom: 0.35rem;\">مسألة محفوظة #${idx + 1}</span>\n                  <span class=\"badge badge-primary\" style=\"margin-bottom: 0.35rem;\">${window.authManager.escapeHtml(item.exam_title || 'مقرر تخصصي')}</span>\n                </div>\n                <button type=\"button\" class=\"btn btn-secondary btn-sm btn-delete-bookmark\" data-id=\"${item.id}\" aria-label=\"حذف المسألة رقم ${idx + 1} من المحفوظات\">\n                  حذف من المحفوظات ✕\n                </button>\n              </div>\n\n              <h3 style=\"font-size: 1.2rem; font-weight: 800; margin-bottom: 0.85rem; line-height: 1.5;\">\n                ${window.authManager.escapeHtml(item.question_text)}\n              </h3>\n\n              ${item.correct_choice_text ? `\n                <div style=\"margin-bottom: 0.75rem; font-size: 1rem;\">\n                  <strong>الإجابة النموذجية الصحيحة:</strong> \n                  <span style=\"color: var(--success); font-weight: 800;\">${window.authManager.escapeHtml(item.correct_choice_text)}</span>\n                </div>\n              ` : ''}\n\n              ${item.choices && item.choices.length > 0 && !item.correct_choice_text ? `\n                <div style=\"margin-bottom: 0.75rem;\">\n                  <strong style=\"font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;\">خيارات المسألة:</strong>\n                  <ul style=\"list-style: disc; padding-right: 1.5rem; font-size: 0.95rem; color: var(--text-main);\">\n                    ${item.choices.map(c => `<li>${window.authManager.escapeHtml(c.choice_text || c.text || '')}</li>`).join('')}\n                  </ul>\n                </div>\n              ` : ''}\n\n              ${item.explanation ? `\n                <div class=\"explanation-box\" style=\"margin-top: 0.75rem;\">\n                  <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(item.explanation)}\n                </div>\n              ` : ''}\n            </article>\n          `).join('')}\n        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <span style="font-weight: 700; color: var(--text-muted); font-size: 0.95rem;">
+            لديك <strong style="color: var(--gold);">${items.length}</strong> مسائل محفوظة للمذاكرة والتأصيل
+          </span>
+          <button type="button" id="btn-clear-all-bookmarks" class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);">
+            إفراغ القائمة 🗑️
+          </button>
+        </div>
+
+        <div class="bookmarks-cards-list">
+          ${items.map((item, idx) => `
+            <article class="bookmark-card" id="bookmark-card-${item.id}">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
+                <div>
+                  <span class="badge badge-warning" style="margin-bottom: 0.35rem;">مسألة محفوظة #${idx + 1}</span>
+                  <span class="badge badge-primary" style="margin-bottom: 0.35rem;">${window.authManager.escapeHtml(item.exam_title || 'مقرر تخصصي')}</span>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm btn-delete-bookmark" data-id="${item.id}" aria-label="حذف المسألة رقم ${idx + 1} من المحفوظات">
+                  حذف من المحفوظات ✕
+                </button>
+              </div>
+
+              <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.85rem; line-height: 1.5;">
+                ${window.authManager.escapeHtml(item.question_text)}
+              </h3>
+
+              ${item.correct_choice_text ? `
+                <div style="margin-bottom: 0.75rem; font-size: 1rem;">
+                  <strong>الإجابة النموذجية الصحيحة:</strong> 
+                  <span style="color: var(--success); font-weight: 800;">${window.authManager.escapeHtml(item.correct_choice_text)}</span>
+                </div>
+              ` : ''}
+
+              ${item.choices && item.choices.length > 0 && !item.correct_choice_text ? `
+                <div style="margin-bottom: 0.75rem;">
+                  <strong style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">خيارات المسألة:</strong>
+                  <ul style="list-style: disc; padding-right: 1.5rem; font-size: 0.95rem; color: var(--text-main);">
+                    ${item.choices.map(c => `<li>${window.authManager.escapeHtml(c.choice_text || c.text || '')}</li>`).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+
+              ${item.explanation ? `
+                <div class="explanation-box" style="margin-top: 0.75rem;">
+                  <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(item.explanation)}
+                </div>
+              ` : ''}
+            </article>
+          `).join('')}
+        </div>
       `;
 
       // ربط أحداث الحذف الفردي
@@ -58,4 +369,7 @@
         }
       });
     }
-  </script>\n  <script src=\"js/pwa.js\"></script>\n</body>\n</html>\n
+  </script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>

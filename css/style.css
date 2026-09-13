@@ -114,7 +114,9 @@ body {
   padding: 0 1.25rem;
 }
 
-/* ====================================================================\n   Navbar & Academic Header\n   ==================================================================== */
+/* ====================================================================
+   Navbar & Academic Header
+   ==================================================================== */
 .navbar {
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -214,7 +216,9 @@ body {
   transition: all 0.2s ease;
 }
 
-/* ====================================================================\n   Sidebar Drawer (القائمة الجانبية السلسة والمحمية بالكامل)\n   ==================================================================== */
+/* ====================================================================
+   Sidebar Drawer (القائمة الجانبية السلسة والمحمية بالكامل)
+   ==================================================================== */
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -336,7 +340,9 @@ body {
   gap: 0.75rem;
 }
 
-/* ====================================================================\n   Bookmark Feature Styles (ميزة حفظ وتفضيل المسائل للمراجعة)\n   ==================================================================== */
+/* ====================================================================
+   Bookmark Feature Styles
+   ==================================================================== */
 .btn-bookmark {
   display: inline-flex;
   align-items: center;
@@ -372,7 +378,7 @@ body {
   line-height: 1;
 }
 
-/* Dashboard Tabs */
+/* Tabs */
 .dash-tabs {
   display: flex;
   gap: 0.75rem;
@@ -427,7 +433,102 @@ body {
   transform: translateY(-2px);
 }
 
-/* ====================================================================\n   Buttons & Badges\n   ==================================================================== */
+/* ====================================================================
+   Admin Comprehensive Dashboard Components
+   لوحة التحكم والإشراف الأكاديمي الشاملة
+   ==================================================================== */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+  min-width: 650px;
+  font-size: 0.95rem;
+}
+
+.admin-table th {
+  padding: 0.9rem 0.75rem;
+  background: var(--surface-secondary);
+  color: var(--text-muted);
+  font-weight: 800;
+  border-bottom: 2px solid var(--border);
+}
+
+.admin-table td {
+  padding: 1rem 0.75rem;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background-color: var(--surface-secondary);
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 36px;
+  font-family: inherit;
+  text-decoration: none;
+}
+
+.btn-icon:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-icon-danger {
+  color: var(--danger);
+  border-color: #fecaca;
+  background: var(--danger-light);
+}
+
+.btn-icon-danger:hover {
+  background: #fee2e2;
+  border-color: var(--danger);
+}
+
+.btn-icon-warning {
+  color: var(--warning);
+  border-color: #fed7aa;
+  background: var(--warning-light);
+}
+
+.btn-icon-warning:hover {
+  background: #ffedd5;
+  border-color: var(--warning);
+}
+
+.btn-icon-primary {
+  color: var(--primary);
+  border-color: var(--primary-border);
+  background: var(--primary-light);
+}
+
+.btn-icon-primary:hover {
+  background: #dbeafe;
+  border-color: var(--primary);
+}
+
+/* ====================================================================
+   Buttons & Badges
+   ==================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -521,7 +622,9 @@ body {
 .badge-warning { background: var(--warning-light); color: var(--warning); border: 1px solid #fed7aa; }
 .badge-danger { background: var(--danger-light); color: var(--danger); border: 1px solid #fecaca; }
 
-/* ====================================================================\n   Cards & Layout Components\n   ==================================================================== */
+/* ====================================================================
+   Cards & Layout Components
+   ==================================================================== */
 .card {
   background-color: var(--surface);
   border: 1px solid var(--border);
@@ -543,7 +646,9 @@ body {
   gap: 0.75rem;
 }
 
-/* ====================================================================\n   Hero Section & Academic Identity\n   ==================================================================== */
+/* ====================================================================
+   Hero Section & Academic Identity
+   ==================================================================== */
 .hero {
   padding: 3.5rem 0 2.5rem;
   text-align: center;
@@ -748,7 +853,9 @@ body {
   line-height: 1.65;
 }
 
-/* ====================================================================\n   Skeleton Loading Animation\n   ==================================================================== */
+/* ====================================================================
+   Skeleton Loading Animation
+   ==================================================================== */
 .skeleton {
   background: linear-gradient(90deg, var(--surface-secondary) 25%, var(--surface-tertiary) 50%, var(--surface-secondary) 75%);
   background-size: 200% 100%;
@@ -777,7 +884,9 @@ body {
 .skeleton-desc { width: 100%; height: 60px; }
 .skeleton-btn { width: 120px; height: 40px; border-radius: var(--radius-md); align-self: flex-end; }
 
-/* ====================================================================\n   Forms & Controls\n   ==================================================================== */
+/* ====================================================================
+   Forms & Controls
+   ==================================================================== */
 .form-group {
   margin-bottom: 1.25rem;
 }
@@ -809,7 +918,9 @@ body {
   outline: none;
 }
 
-/* ====================================================================\n   Exam Engine & Accessible Question Choices\n   ==================================================================== */
+/* ====================================================================
+   Exam Engine & Accessible Question Choices
+   ==================================================================== */
 .exam-header {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -969,7 +1080,9 @@ body {
   flex-wrap: wrap;
 }
 
-/* ====================================================================\n   Results & Review\n   ==================================================================== */
+/* ====================================================================
+   Results & Review
+   ==================================================================== */
 .result-banner {
   text-align: center;
   padding: 2.75rem 1.5rem;
@@ -1025,7 +1138,9 @@ body {
   border-right: 3px solid var(--primary);
 }
 
-/* ====================================================================\n   FAQ Section\n   ==================================================================== */
+/* ====================================================================
+   FAQ Section
+   ==================================================================== */
 .faq-section {
   margin: 4rem 0 2rem;
 }
@@ -1067,7 +1182,9 @@ body {
   line-height: 1.75;
 }
 
-/* ====================================================================\n   Footer\n   ==================================================================== */
+/* ====================================================================
+   Footer
+   ==================================================================== */
 .footer {
   margin-top: auto;
   background-color: var(--surface);
@@ -1105,7 +1222,9 @@ body {
   color: var(--primary);
 }
 
-/* ====================================================================\n   Official Academic PDF & Print Stylesheet\n   طباعة وتصدير كشف الدرجات الأكاديمي الرسمي\n   ==================================================================== */
+/* ====================================================================
+   Official Academic PDF & Print Stylesheet
+   ==================================================================== */
 .print-only {
   display: none;
 }
@@ -1245,7 +1364,9 @@ body {
   }
 }
 
-/* ====================================================================\n   Reduced Motion Preferences\n   ==================================================================== */
+/* ====================================================================
+   Reduced Motion Preferences
+   ==================================================================== */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -1255,7 +1376,9 @@ body {
   }
 }
 
-/* ====================================================================\n   Responsive Adjustments (Mobile & Tablet)\n   ==================================================================== */
+/* ====================================================================
+   Responsive Adjustments (Mobile & Tablet)
+   ==================================================================== */
 @media (max-width: 640px) {
   .hero h1 { font-size: 1.95rem; }
   .hero p { font-size: 1.05rem; }

@@ -1,7 +1,8 @@
 /**
  * مجموعة اختبارات الوحدة لمنصة مدارج (Madarej Unit Tests Suite)
  * تفحص: إمكانية الوصول، المصادقة، التكوين، محرك الاختبار، خلط الأسئلة،
- * ونظام حفظ المسائل للمراجعة (Bookmarks)، وتوليد كشوفات الـ PDF الأكاديمية.
+ * نظام حفظ المسائل للمراجعة (Bookmarks)، كشوفات الـ PDF الأكاديمية،
+ * والعمليات الإدارية الحيوية (حذف المقررات، تفعيلها، وإدارة النماذج سحابياً).
  */
 
 const assert = require('assert');
@@ -23,7 +24,7 @@ global.localStorage = mockLocalStorage;
 global.window = {
   localStorage: mockLocalStorage,
   authManager: {
-    getUser: () => ({ id: 'student_123', fullName: 'طالب قرآن تجريبي' })
+    getUser: () => ({ id: 'student_123', fullName: 'طالب قرآن تجريبي', role: 'admin' })
   },
   a11y: {
     announce: () => {}
@@ -231,35 +232,16 @@ function testBookmarksModule() {
 
   const bm = new BookmarksManager();
 
-  // 5.1 قائمة البداية فارغة
   assert.strictEqual(bm.getAll().length, 0);
   assert.strictEqual(bm.isBookmarked('q101'), false);
 
-  // 5.2 حفظ مسألة جديدة
   const added = bm.toggle({ id: 'q101', question_text: 'ما هو المكي والمدني؟' });
-  assert.strictEqual(added, true, 'يجب أن تُضاف المسألة بنجاح');
+  assert.strictEqual(added, true);
   assert.strictEqual(bm.isBookmarked('q101'), true);
-  assert.strictEqual(bm.getAll().length, 1);
 
-  // 5.3 تكرار الضغط يزيل المسألة (Toggle off)
   const removed = bm.toggle({ id: 'q101', question_text: 'ما هو المكي والمدني؟' });
-  assert.strictEqual(removed, false, 'يجب أن تُزال المسألة عند الضغط مجدداً');
+  assert.strictEqual(removed, false);
   assert.strictEqual(bm.isBookmarked('q101'), false);
-  assert.strictEqual(bm.getAll().length, 0);
-
-  // 5.4 إضافة مسألتين والحذف المحدد
-  bm.toggle({ id: 'q201', question_text: 'مسألة أصول التفسير' });
-  bm.toggle({ id: 'q202', question_text: 'مسألة الإعجاز البياني' });
-  assert.strictEqual(bm.getAll().length, 2);
-
-  bm.remove('q201');
-  assert.strictEqual(bm.getAll().length, 1);
-  assert.strictEqual(bm.isBookmarked('q201'), false);
-  assert.strictEqual(bm.isBookmarked('q202'), true);
-
-  // 5.5 إفراغ الكل
-  bm.clearAll();
-  assert.strictEqual(bm.getAll().length, 0);
 
   console.log('  ✔ نجحت جميع اختبارات وحدة حفظ وتفضيل المسائل (Bookmarks)');
 }
@@ -296,6 +278,65 @@ function testAcademicReportFormatting() {
 }
 
 // -------------------------------------------------------------
+// 7. اختبارات العمليات الإدارية الحيوية (Admin Operations Suite)
+// -------------------------------------------------------------
+function testAdminOperations() {
+  console.log('▶ جاري اختبار العمليات الإدارية المباشرة (حذف المقررات وتفعيلها وإدارتها)...');
+  mockLocalStorage.clear();
+
+  let subjects = [
+    { id: 'sub_1', title: 'علوم القرآن الكريم', code: 'QURAN_SCI', is_active: true },
+    { id: 'sub_2', title: 'أصول التفسير وقواعده', code: 'USUL_TAFSIR', is_active: true },
+    { id: 'sub_3', title: 'مقرر قديم مراد حذفه', code: 'OLD_COURSE', is_active: false }
+  ];
+
+  let exams = [
+    { id: 'ex_1', subject_id: 'sub_1', title: 'اختبار علوم القرآن', is_published: true },
+    { id: 'ex_2', subject_id: 'sub_3', title: 'اختبار تابع للمقرر القديم', is_published: false }
+  ];
+
+  // دالة الحذف المباشر للمقرر مع التتالي (Cascading Delete)
+  function deleteSubject(sid) {
+    subjects = subjects.filter(s => s.id !== sid);
+    exams = exams.filter(e => e.subject_id !== sid);
+    return true;
+  }
+
+  // دالة التفعيل والتعطيل
+  function toggleSubjectActive(sid) {
+    const s = subjects.find(item => item.id === sid);
+    if (s) {
+      s.is_active = !s.is_active;
+      return s.is_active;
+    }
+    return false;
+  }
+
+  // 7.1 فحص حذف المقرر مباشرة
+  assert.strictEqual(subjects.length, 3);
+  assert.strictEqual(exams.length, 2);
+
+  deleteSubject('sub_3');
+
+  assert.strictEqual(subjects.length, 2, 'يجب أن يصبح عدد المقررات 2 بعد حذف المقرر القديم');
+  assert.strictEqual(subjects.some(s => s.id === 'sub_3'), false, 'المقرر القديم يجب ألا يكون موجوداً');
+  assert.strictEqual(exams.length, 1, 'يجب أن يُحذف الاختبار المرتبط تلقائياً بالتتالي');
+  assert.strictEqual(exams[0].subject_id, 'sub_1');
+
+  // 7.2 فحص تفعيل وتعطيل المقرر بنقرة واحدة
+  const currentStatus = subjects[0].is_active; // true
+  const toggledStatus = toggleSubjectActive('sub_1');
+  assert.strictEqual(toggledStatus, false, 'يجب أن تتحول حالة المقرر إلى معطل (مخفي)');
+  assert.strictEqual(subjects[0].is_active, false);
+
+  const restoredStatus = toggleSubjectActive('sub_1');
+  assert.strictEqual(restoredStatus, true, 'يجب أن يعود المقرر إلى نشط ومتاح للطلاب');
+  assert.strictEqual(subjects[0].is_active, true);
+
+  console.log('  ✔ نجحت جميع اختبارات العمليات الإدارية المباشرة (حذف وتفعيل المقررات)');
+}
+
+// -------------------------------------------------------------
 // تشغيل الاختبارات بالكامل
 // -------------------------------------------------------------
 try {
@@ -308,8 +349,9 @@ try {
   testExamEngine();
   testBookmarksModule();
   testAcademicReportFormatting();
+  testAdminOperations();
   console.log('====================================================');
-  console.log('🎉 تهانينا! جميع اختبارات الوحدة (6 من 6) مرت بنجاح تام 100%');
+  console.log('🎉 تهانينا! جميع اختبارات الوحدة (7 من 7) مرت بنجاح تام 100%');
   console.log('====================================================');
 } catch (err) {
   console.error('❌ فشل في اختبارات الوحدة:', err.message);

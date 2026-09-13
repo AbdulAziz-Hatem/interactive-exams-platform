@@ -76,6 +76,23 @@ class ExamEngine {
     }
   }
 
+  setupUI() {
+    document.getElementById('exam-title').textContent = this.examData.title;
+    document.getElementById('total-questions-count').textContent = this.questions.length;
+
+    const duration = parseInt(this.examData.duration_minutes, 10) || 0;
+    if (duration > 0) {
+      this.secondsRemaining = duration * 60;
+      this.updateTimerDisplay();
+    } else {
+      document.getElementById('timer-box').innerHTML = '<span>الوقت: مفتوح</span>';
+    }
+
+    document.getElementById('btn-prev')?.addEventListener('click', () => this.prevQuestion());
+    document.getElementById('btn-next')?.addEventListener('click', () => this.nextQuestion());
+    document.getElementById('btn-submit-exam')?.addEventListener('click', () => this.confirmSubmit());
+  }
+
   /**
    * تفعيل اختصارات لوحة المفاتيح السريعة (Keyboard Shortcuts for Blind & Power Users)
    */
