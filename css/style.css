@@ -11,6 +11,8 @@
   --danger-light: #fef2f2;
   --warning: #9a3412;
   --warning-light: #fff7ed;
+  --gold: #b45309;
+  --gold-light: #fef3c7;
   
   --bg: #f8fafc;
   --surface: #ffffff;
@@ -47,6 +49,7 @@
   --success-light: #052e16;
   --danger-light: #450a0a;
   --warning-light: #431407;
+  --gold-light: #362208;
   --focus-ring: #60a5fa;
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.45);
@@ -211,7 +214,7 @@ body {
   transition: all 0.2s ease;
 }
 
-/* ====================================================================\n   Sidebar Drawer (القائمة الجانبية السلسة والمحمية بالكامل)\n   حل نهائي لمنع الفتح التلقائي والتداخل مع قارئات الشاشة\n   ==================================================================== */
+/* ====================================================================\n   Sidebar Drawer (القائمة الجانبية السلسة والمحمية بالكامل)\n   ==================================================================== */
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -331,6 +334,97 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+/* ====================================================================\n   Bookmark Feature Styles (ميزة حفظ وتفضيل المسائل للمراجعة)\n   ==================================================================== */
+.btn-bookmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  min-height: 40px;
+}
+
+.btn-bookmark:hover {
+  background: var(--gold-light);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.btn-bookmark.bookmarked {
+  background: var(--gold-light);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.bookmark-icon {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+/* Dashboard Tabs */
+.dash-tabs {
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: 2px solid var(--border-light);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+}
+
+.dash-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.35rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.dash-tab-btn:hover {
+  color: var(--primary);
+  background: var(--surface-secondary);
+}
+
+.dash-tab-btn.active {
+  color: var(--primary);
+  background: var(--primary-light);
+  border-bottom: 3px solid var(--primary);
+}
+
+/* Bookmarked Question Card */
+.bookmark-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  border-right: 5px solid var(--gold);
+  transition: all 0.2s ease;
+}
+
+.bookmark-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 /* ====================================================================\n   Buttons & Badges\n   ==================================================================== */
@@ -654,7 +748,7 @@ body {
   line-height: 1.65;
 }
 
-/* ====================================================================\n   Skeleton Loading Animation (تحميل هيكلي انسيابي)\n   ==================================================================== */
+/* ====================================================================\n   Skeleton Loading Animation\n   ==================================================================== */
 .skeleton {
   background: linear-gradient(90deg, var(--surface-secondary) 25%, var(--surface-tertiary) 50%, var(--surface-secondary) 75%);
   background-size: 200% 100%;
@@ -1009,6 +1103,146 @@ body {
 
 .footer-link:hover {
   color: var(--primary);
+}
+
+/* ====================================================================\n   Official Academic PDF & Print Stylesheet\n   طباعة وتصدير كشف الدرجات الأكاديمي الرسمي\n   ==================================================================== */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .navbar, 
+  .hamburger-btn, 
+  .sidebar-drawer, 
+  .sidebar-overlay, 
+  .footer, 
+  #theme-toggle, 
+  .btn, 
+  .btn-bookmark,
+  .exam-nav, 
+  .progress-bar-container,
+  .search-container,
+  .faq-section {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-header {
+    border-bottom: 2px solid #000000;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+  }
+
+  .print-header-center {
+    text-align: center;
+    flex: 1;
+  }
+
+  .print-header-center h1 {
+    font-size: 16pt !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+  }
+
+  .print-header-center h2 {
+    font-size: 12pt !important;
+    font-weight: 700 !important;
+    margin: 4px 0 !important;
+  }
+
+  .print-header-center p {
+    font-size: 10pt !important;
+    margin: 0 !important;
+  }
+
+  .print-student-info {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background: #f8fafc !important;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 10pt;
+  }
+
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 15px !important;
+  }
+
+  .result-banner {
+    border: 2px solid #000000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 15px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .result-banner h1 {
+    font-size: 16pt !important;
+  }
+
+  .score-display {
+    font-size: 24pt !important;
+    color: #000000 !important;
+  }
+
+  .review-item {
+    border: 1px solid #94a3b8 !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 12px !important;
+    padding: 10px !important;
+  }
+
+  .review-item.correct {
+    border-right: 5px solid #166534 !important;
+  }
+
+  .review-item.wrong {
+    border-right: 5px solid #991b1b !important;
+  }
+
+  .explanation-box {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-right: 3px solid #1e40af !important;
+    font-size: 9.5pt !important;
+  }
+
+  .print-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #94a3b8;
+    padding-top: 8px;
+    font-size: 8.5pt;
+    text-align: center;
+    color: #64748b;
+  }
 }
 
 /* ====================================================================\n   Reduced Motion Preferences\n   ==================================================================== */

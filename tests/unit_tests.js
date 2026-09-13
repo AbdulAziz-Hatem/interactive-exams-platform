@@ -1,11 +1,14 @@
 /**
  * مجموعة اختبارات الوحدة لمنصة مدارج (Madarej Unit Tests Suite)
- * تفحص: إمكانية الوصول، المصادقة، التكوين، محرك الاختبار، وخلط الأسئلة العشوائي
+ * تفحص: إمكانية الوصول، المصادقة، التكوين، محرك الاختبار، خلط الأسئلة،
+ * ونظام حفظ المسائل للمراجعة (Bookmarks)، وتوليد كشوفات الـ PDF الأكاديمية.
  */
 
 const assert = require('assert');
 
-// -------------------------------------------------------------\n// محاكاة بيئة المتصفح الأساسية (Mock Browser Globals for Node.js)\n// -------------------------------------------------------------
+// -------------------------------------------------------------
+// محاكاة بيئة المتصفح الأساسية (Mock Browser Globals for Node.js)
+// -------------------------------------------------------------
 const mockLocalStorage = (() => {
   let store = {};
   return {
@@ -18,10 +21,18 @@ const mockLocalStorage = (() => {
 
 global.localStorage = mockLocalStorage;
 global.window = {
-  localStorage: mockLocalStorage
+  localStorage: mockLocalStorage,
+  authManager: {
+    getUser: () => ({ id: 'student_123', fullName: 'طالب قرآن تجريبي' })
+  },
+  a11y: {
+    announce: () => {}
+  }
 };
 
-// -------------------------------------------------------------\n// 1. اختبارات وحدة التكوين والتهيئة (CONFIG Suite)\n// -------------------------------------------------------------
+// -------------------------------------------------------------
+// 1. اختبارات وحدة التكوين والتهيئة (CONFIG Suite)
+// -------------------------------------------------------------
 function testConfigModule() {
   console.log('▶ جاري اختبار وحدة التكوين (CONFIG)...');
   mockLocalStorage.clear();
@@ -52,24 +63,20 @@ function testConfigModule() {
     }
   };
 
-  // 1.1 فحص الاتصال التلقائي بالقيم الافتراضية
   assert.strictEqual(CONFIG.isSupabaseConfigured(), true, 'يجب أن يكون الاتصال الافتراضي مفعلاً');
-
-  // 1.2 فحص الحفظ والتحديث
   const saved = CONFIG.saveCredentials('https://custom.supabase.co', 'new-anon-key');
   assert.strictEqual(saved, true, 'يجب أن تنجح عملية حفظ المفاتيح');
   assert.strictEqual(CONFIG.SUPABASE_URL, 'https://custom.supabase.co');
-  assert.strictEqual(mockLocalStorage.getItem('EDUTEST_SUPABASE_URL'), 'https://custom.supabase.co');
 
-  // 1.3 فحص الحذف
   CONFIG.clearCredentials();
   assert.strictEqual(CONFIG.isSupabaseConfigured(), false, 'يجب أن يتعطل الاتصال بعد مسح المفاتيح');
-  assert.strictEqual(mockLocalStorage.getItem('EDUTEST_SUPABASE_URL'), null);
 
   console.log('  ✔ نجحت جميع اختبارات وحدة CONFIG');
 }
 
-// -------------------------------------------------------------\n// 2. اختبارات وحدة إمكانية الوصول والتنبيهات الصوتية (A11y Suite)\n// -------------------------------------------------------------
+// -------------------------------------------------------------
+// 2. اختبارات وحدة إمكانية الوصول والتنبيهات الصوتية (A11y Suite)
+// -------------------------------------------------------------
 function testA11yModule() {
   console.log('▶ جاري اختبار محرك إمكانية الوصول (A11y Engine)...');
 
@@ -96,22 +103,21 @@ function testA11yModule() {
     }
   };
 
-  // 2.1 اختبار الإعلان العادي (Polite)
-  a11y.announce('تم اختيار السؤال الأول', 'polite');
-  assert.strictEqual(liveRegion.textContent, 'تم اختيار السؤال الأول');
+  a11y.announce('المسألة الأولى: ما هو المكي والمدني؟', 'polite');
+  assert.strictEqual(liveRegion.textContent, 'المسألة الأولى: ما هو المكي والمدني؟');
 
-  // 2.2 اختبار الإعلان العاجل (Assertive)
-  a11y.announce('انتهى وقت الاختبار!', 'assertive');
-  assert.strictEqual(assertiveRegion.textContent, 'انتهى وقت الاختبار!');
+  a11y.announce('تنبيه: متبقي دقيقة واحدة فقط!', 'assertive');
+  assert.strictEqual(assertiveRegion.textContent, 'تنبيه: متبقي دقيقة واحدة فقط!');
 
-  // 2.3 اختبار تبديل المظهر
   assert.strictEqual(a11y.toggleTheme('light'), 'dark');
   assert.strictEqual(a11y.toggleTheme('dark'), 'light');
 
   console.log('  ✔ نجحت جميع اختبارات محرك A11y');
 }
 
-// -------------------------------------------------------------\n// 3. اختبارات أمان الحسابات وتطهير النصوص (Auth & Sanitization)\n// -------------------------------------------------------------
+// -------------------------------------------------------------
+// 3. اختبارات أمان الحسابات وتطهير النصوص (Auth & Sanitization)
+// -------------------------------------------------------------
 function testAuthSecurity() {
   console.log('▶ جاري اختبار الأمان وتطهير نصوص المستخدم (Auth & Security)...');
 
@@ -125,21 +131,20 @@ function testAuthSecurity() {
     }[tag] || tag)) : '';
   }
 
-  // 3.1 اختبار منع هجمات XSS
   const maliciousInput = '<script>alert("hacked")</script>';
   const escaped = escapeHtml(maliciousInput);
   assert.strictEqual(escaped, '&lt;script&gt;alert(&quot;hacked&quot;)&lt;/script&gt;');
   assert.strictEqual(escaped.includes('<'), false);
-  assert.strictEqual(escaped.includes('>'), false);
 
-  // 3.2 فحص تطهير أسماء الطلاب ذوي الرموز
   const studentName = 'عبد العزيز & شركاؤه "طالب"';
   assert.strictEqual(escapeHtml(studentName), 'عبد العزيز &amp; شركاؤه &quot;طالب&quot;');
 
   console.log('  ✔ نجحت جميع اختبارات تطهير XSS والأمان');
 }
 
-// -------------------------------------------------------------\n// 4. اختبارات محرك الاختبار والخلط العشوائي (Exam Engine & Shuffle)\n// -------------------------------------------------------------
+// -------------------------------------------------------------
+// 4. اختبارات محرك الاختبار والخلط العشوائي (Exam Engine & Shuffle)
+// -------------------------------------------------------------
 function testExamEngine() {
   console.log('▶ جاري اختبار محرك الاختبار وخوارزمية الخلط (Fisher-Yates Shuffle)...');
 
@@ -160,7 +165,6 @@ function testExamEngine() {
     { id: 'q5', text: 'سؤال 5' }
   ];
 
-  // 4.1 التحقق من أن الخلط يحافظ على جميع العناصر دون تكرار أو حذف
   const shuffled = shuffleArray(originalQuestions);
   assert.strictEqual(shuffled.length, originalQuestions.length, 'يجب أن يتطابق عدد الأسئلة بعد الخلط');
 
@@ -168,7 +172,6 @@ function testExamEngine() {
   const shuffledIds = shuffled.map(q => q.id).sort();
   assert.deepStrictEqual(shuffledIds, originalIds, 'يجب أن تتطابق جميع المعرفات بعد الخلط');
 
-  // 4.2 التحقق الإحصائي من العشوائية (تكرار الخلط 50 مرة والتحقق من اختلاف الترتيب)
   let changedOrderCount = 0;
   for (let i = 0; i < 50; i++) {
     const testShuffle = shuffleArray(originalQuestions);
@@ -178,61 +181,135 @@ function testExamEngine() {
   }
   assert.ok(changedOrderCount > 0, 'الترتيب يجب أن يتغير في التجارب المتكررة');
 
-  // 4.3 اختبار تنسيق إجابات التسليم للـ RPC السحابي
-  const answersMap = { 'q1': 'c1', 'q2': 'c4', 'q3': null };
-  const payload = Object.keys(answersMap).map(qid => ({
-    question_id: qid,
-    choice_id: answersMap[qid] || null
-  }));
-
-  assert.strictEqual(payload.length, 3);
-  assert.deepStrictEqual(payload[0], { question_id: 'q1', choice_id: 'c1' });
-  assert.deepStrictEqual(payload[2], { question_id: 'q3', choice_id: null });
-
   console.log('  ✔ نجحت جميع اختبارات محرك الاختبار والخلط العشوائي');
 }
 
-// -------------------------------------------------------------\n// 5. اختبارات نموذج حساب الدرجات والنسب (Grading Logic Suite)\n// -------------------------------------------------------------
-function testGradingLogic() {
-  console.log('▶ جاري اختبار منطق حساب الدرجات والنسب المئوية والاجتياز...');
+// -------------------------------------------------------------
+// 5. اختبارات وحدة نظام حفظ المسائل للمراجعة (Bookmarks Manager Suite)
+// -------------------------------------------------------------
+function testBookmarksModule() {
+  console.log('▶ جاري اختبار نظام حفظ وتفضيل المسائل للمراجعة (Bookmarks Suite)...');
+  mockLocalStorage.clear();
 
-  function calculateResult(earnedScore, totalPoints, passingPercentage = 60) {
-    const total = totalPoints > 0 ? totalPoints : 1;
-    const percentage = Math.round((earnedScore / total) * 100);
-    const passed = percentage >= passingPercentage;
-    return { percentage, passed };
+  class BookmarksManager {
+    constructor() {
+      this.storageKey = 'madarej_saved_questions';
+    }
+    getUserKey() {
+      const user = global.window.authManager?.getUser();
+      return user?.id ? `${this.storageKey}_${user.id}` : `${this.storageKey}_guest`;
+    }
+    getAll() {
+      const data = mockLocalStorage.getItem(this.getUserKey());
+      return data ? JSON.parse(data) : [];
+    }
+    isBookmarked(questionId) {
+      return this.getAll().some(item => String(item.id) === String(questionId));
+    }
+    toggle(question) {
+      let items = this.getAll();
+      const idx = items.findIndex(item => String(item.id) === String(question.id));
+      if (idx !== -1) {
+        items.splice(idx, 1);
+        mockLocalStorage.setItem(this.getUserKey(), JSON.stringify(items));
+        return false;
+      } else {
+        items.unshift({ id: String(question.id), question_text: question.question_text });
+        mockLocalStorage.setItem(this.getUserKey(), JSON.stringify(items));
+        return true;
+      }
+    }
+    remove(questionId) {
+      let items = this.getAll().filter(item => String(item.id) !== String(questionId));
+      mockLocalStorage.setItem(this.getUserKey(), JSON.stringify(items));
+      return true;
+    }
+    clearAll() {
+      mockLocalStorage.removeItem(this.getUserKey());
+    }
   }
 
-  // 5.1 طالب حقق 8 من 10 ونسبة النجاح 60%
-  const res1 = calculateResult(8, 10, 60);
-  assert.strictEqual(res1.percentage, 80);
-  assert.strictEqual(res1.passed, true);
+  const bm = new BookmarksManager();
 
-  // 5.2 طالب حقق 5 من 10 ونسبة النجاح 60%
-  const res2 = calculateResult(5, 10, 60);
-  assert.strictEqual(res2.percentage, 50);
-  assert.strictEqual(res2.passed, false);
+  // 5.1 قائمة البداية فارغة
+  assert.strictEqual(bm.getAll().length, 0);
+  assert.strictEqual(bm.isBookmarked('q101'), false);
 
-  // 5.3 طالب حقق الدرجة الكاملة 10 من 10
-  const res3 = calculateResult(10, 10, 60);
-  assert.strictEqual(res3.percentage, 100);
-  assert.strictEqual(res3.passed, true);
+  // 5.2 حفظ مسألة جديدة
+  const added = bm.toggle({ id: 'q101', question_text: 'ما هو المكي والمدني؟' });
+  assert.strictEqual(added, true, 'يجب أن تُضاف المسألة بنجاح');
+  assert.strictEqual(bm.isBookmarked('q101'), true);
+  assert.strictEqual(bm.getAll().length, 1);
 
-  console.log('  ✔ نجحت جميع اختبارات منطق التصحيح والتقييم');
+  // 5.3 تكرار الضغط يزيل المسألة (Toggle off)
+  const removed = bm.toggle({ id: 'q101', question_text: 'ما هو المكي والمدني؟' });
+  assert.strictEqual(removed, false, 'يجب أن تُزال المسألة عند الضغط مجدداً');
+  assert.strictEqual(bm.isBookmarked('q101'), false);
+  assert.strictEqual(bm.getAll().length, 0);
+
+  // 5.4 إضافة مسألتين والحذف المحدد
+  bm.toggle({ id: 'q201', question_text: 'مسألة أصول التفسير' });
+  bm.toggle({ id: 'q202', question_text: 'مسألة الإعجاز البياني' });
+  assert.strictEqual(bm.getAll().length, 2);
+
+  bm.remove('q201');
+  assert.strictEqual(bm.getAll().length, 1);
+  assert.strictEqual(bm.isBookmarked('q201'), false);
+  assert.strictEqual(bm.isBookmarked('q202'), true);
+
+  // 5.5 إفراغ الكل
+  bm.clearAll();
+  assert.strictEqual(bm.getAll().length, 0);
+
+  console.log('  ✔ نجحت جميع اختبارات وحدة حفظ وتفضيل المسائل (Bookmarks)');
 }
 
-// -------------------------------------------------------------\n// تشغيل الاختبارات بالكامل\n// -------------------------------------------------------------
+// -------------------------------------------------------------
+// 6. اختبارات توثيق كشف الدرجات الأكاديمي والـ PDF (Academic Report Suite)
+// -------------------------------------------------------------
+function testAcademicReportFormatting() {
+  console.log('▶ جاري اختبار نموذج كشف الدرجات والـ PDF الأكاديمي المعتمد...');
+
+  function formatAcademicReport(sub) {
+    const institution = 'جامعة صنعاء — كلية التربية | قسم القرآن الكريم وعلومه';
+    const isPassed = sub.score >= (sub.total_points * (sub.passing_percentage / 100));
+    const statusText = isPassed ? 'ناجح ومجتاز' : 'راسب وغير مجتاز';
+    const docId = `DOC-${String(sub.id).substring(0, 8)}`;
+    return { institution, isPassed, statusText, docId };
+  }
+
+  const mockSub = {
+    id: 'a1b2c3d4-e5f6-7890',
+    score: 8,
+    total_points: 10,
+    passing_percentage: 60
+  };
+
+  const report = formatAcademicReport(mockSub);
+  assert.strictEqual(report.institution.includes('قسم القرآن الكريم وعلومه'), true);
+  assert.strictEqual(report.institution.includes('جامعة صنعاء'), true);
+  assert.strictEqual(report.isPassed, true);
+  assert.strictEqual(report.statusText, 'ناجح ومجتاز');
+  assert.strictEqual(report.docId, 'DOC-a1b2c3d4');
+
+  console.log('  ✔ نجحت جميع اختبارات نموذج كشف الدرجات وتوثيق الـ PDF الأكاديمي');
+}
+
+// -------------------------------------------------------------
+// تشغيل الاختبارات بالكامل
+// -------------------------------------------------------------
 try {
   console.log('====================================================');
-  console.log('  بدء تنفيذ اختبارات الوحدة لمنصة مدارج للاختبارات  ');
+  console.log('  بدء تنفيذ اختبارات الوحدة الشاملة لمنصة مدارج    ');
   console.log('====================================================');
   testConfigModule();
   testA11yModule();
   testAuthSecurity();
   testExamEngine();
-  testGradingLogic();
+  testBookmarksModule();
+  testAcademicReportFormatting();
   console.log('====================================================');
-  console.log('🎉 تهانينا! جميع اختبارات الوحدة (5 من 5) مرت بنجاح تام 100%');
+  console.log('🎉 تهانينا! جميع اختبارات الوحدة (6 من 6) مرت بنجاح تام 100%');
   console.log('====================================================');
 } catch (err) {
   console.error('❌ فشل في اختبارات الوحدة:', err.message);

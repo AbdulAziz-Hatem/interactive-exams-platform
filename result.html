@@ -53,6 +53,29 @@
     </div>
   </aside>
 
+  <!-- ترويسة التصدير والطباعة الرسمية (تظهر فقط عند طباعة كشف PDF) -->
+  <div class="print-only" style="margin-bottom: 20px;">
+    <div class="print-header">
+      <div>
+        <strong style="font-size: 12pt; display: block;">الجمهورية اليمنية</strong>
+        <span style="font-size: 11pt; display: block;">جامعة صنعاء</span>
+        <span style="font-size: 10pt; display: block;">كلية التربية — قسم القرآن الكريم وعلومه</span>
+      </div>
+      <div class="print-header-center">
+        <h1>منصة مدارج للتقييم الأكاديمي الذاتي</h1>
+        <h2>كشف نتيجة ومراجعة تفصيلية للاختبار</h2>
+      </div>
+      <div style="text-align: left;">
+        <span style="font-size: 9pt; color: #475569; display: block;" id="print-date"></span>
+        <span style="font-size: 9pt; color: #475569; display: block;" id="print-id"></span>
+      </div>
+    </div>
+
+    <div class="print-student-info" id="print-info-box">
+      <!-- بيانات الطالب تُملأ ديناميكياً -->
+    </div>
+  </div>
+
   <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
     <div id="result-app">
       <div class="card" style="text-align: center; padding: 3.5rem;">
@@ -71,7 +94,10 @@
   <script src="js/a11y.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/db.js"></script>
+  <script src="js/bookmarks.js"></script>
   <script>
+    let currentSubmission = null;
+
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
@@ -99,10 +125,28 @@
           return;
         }
 
+        currentSubmission = sub;
         const app = document.getElementById('result-app');
         const isPassed = sub.passed;
         const bannerClass = isPassed ? 'passed' : 'failed';
         const statusText = isPassed ? 'مبارك! تم اجتياز الاختبار بنجاح 🎉' : 'للأسف لم يتم اجتياز الاختبار هذه المرة ⚠️';
+
+        const user = window.authManager?.getUser();
+        const studentName = user?.fullName || sub.user_name || 'طالب بقسم القرآن الكريم وعلومه';
+
+        // إعداد ترويسة الطباعة والتصدير الأكاديمي (PDF)
+        const dateStr = new Date(sub.completed_at || Date.now()).toLocaleDateString('ar-YE', {
+          year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        document.getElementById('print-date').textContent = `تاريخ الإنجاز: ${dateStr}`;
+        document.getElementById('print-id').textContent = `رقم الوثيقة: ${String(sub.id).substring(0, 8)}`;
+        
+        document.getElementById('print-info-box').innerHTML = `
+          <div><strong>اسم الطالب:</strong> ${window.authManager.escapeHtml(studentName)}</div>
+          <div><strong>النموذج الاختباري:</strong> ${window.authManager.escapeHtml(sub.exams?.title || 'اختبار تخصصي')}</div>
+          <div><strong>المقرر:</strong> ${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'قسم القرآن الكريم وعلومه')}</div>
+          <div><strong>الدرجة والنسبة:</strong> ${sub.score} / ${sub.total_points} (${sub.percentage}%) — <strong>${isPassed ? 'ناجح ومجتاز' : 'غير مجتاز'}</strong></div>
+        `;
 
         const voiceAnnounce = `تم الانتهاء من الاختبار. ${statusText}. درجتك هي: ${sub.percentage} بالمائة. حصلت على ${sub.score} من إجمالي ${sub.total_points} نقطة.`;
         window.a11y?.announce(voiceAnnounce, 'assertive');
@@ -114,13 +158,24 @@
             ? '<span class="badge badge-success">إجابة صحيحة ✓</span>'
             : '<span class="badge badge-danger">إجابة غير صحيحة ✗</span>';
 
+          const isSaved = window.bookmarksManager?.isBookmarked(d.question_id);
+          const bookmarkText = isSaved ? 'محفوظة للمراجعة ★' : 'حفظ للمراجعة ☆';
+          const bookmarkClass = isSaved ? 'btn-bookmark bookmarked' : 'btn-bookmark';
+
           return `
             <article class="review-item ${itemClass}" aria-labelledby="rev-q-${index}">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; gap: 0.5rem;">
-                <h4 id="rev-q-${index}" style="font-size: 1.2rem; font-weight: 800;">
-                  المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
-                </h4>
-                ${badgeHtml}
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1;">
+                  <h4 id="rev-q-${index}" style="font-size: 1.2rem; font-weight: 800; line-height: 1.5;">
+                    المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
+                  </h4>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                  ${badgeHtml}
+                  <button type="button" class="${bookmarkClass} btn-bookmark-item" data-qid="${d.question_id}" data-idx="${index}" aria-pressed="${isSaved}" aria-label="${isSaved ? 'إزالة المسألة من قائمة المراجعة' : 'حفظ المسألة في قائمة المراجعة للمذاكرة لاحقاً'}">
+                    <span>${bookmarkText}</span>
+                  </button>
+                </div>
               </div>
 
               <div style="margin: 0.85rem 0; font-size: 1.02rem;">
@@ -150,10 +205,13 @@
               درجة النجاح المقررة: ${sub.passing_percentage || 50}%
             </p>
 
-            <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.75rem; flex-wrap: wrap;">
-              <a href="exam.html?id=${sub.exam_id}" class="btn btn-primary btn-sm">إعادة المحاولة (بترتيب عشوائي جديد) ↺</a>
-              <a href="dashboard.html" class="btn btn-secondary btn-sm">سجل اختباراتي 📋</a>
-              <a href="index.html#subjects-section" class="btn btn-outline btn-sm">مقررات القسم 🏠</a>
+            <div style="display: flex; justify-content: center; gap: 0.85rem; margin-top: 1.75rem; flex-wrap: wrap;">
+              <button id="btn-export-pdf" class="btn btn-primary btn-sm" aria-label="طباعة وتصدير كشف النتيجة بصيغة PDF">
+                📄 طباعة وتصدير كشف النتيجة (PDF)
+              </button>
+              <a href="exam.html?id=${sub.exam_id}" class="btn btn-secondary btn-sm">إعادة المحاولة (بترتيب عشوائي جديد) ↺</a>
+              <a href="dashboard.html" class="btn btn-secondary btn-sm">لوحة الطالب 📋</a>
+              <a href="dashboard.html?tab=bookmarks" class="btn btn-outline btn-sm">المسائل المحفوظة ⭐</a>
             </div>
           </section>
 
@@ -163,7 +221,9 @@
                 <h2 id="review-section-title" style="font-size: 1.55rem; font-weight: 800;">
                   المراجعة التأصيلية والتعليلات العلمية
                 </h2>
-                <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">بيان وجه الصواب وتوثيق مسائل الاختبار وفق مفردات المقرر المعتمد.</p>
+                <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+                  بيان وجه الصواب وتوثيق مسائل الاختبار وفق المراجع المعتمدة لأساتذة القسم.
+                </p>
               </div>
               <span class="badge badge-primary">${details.length} مسائل</span>
             </div>
@@ -173,6 +233,34 @@
             </div>
           </section>
         `;
+
+        // ربط أزرار الحفظ (Bookmark) في شاشة المراجعة
+        document.querySelectorAll('.btn-bookmark-item').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const idx = parseInt(btn.getAttribute('data-idx'), 10);
+            const item = details[idx];
+            if (item) {
+              const saved = window.bookmarksManager?.toggle({
+                id: item.question_id,
+                exam_id: sub.exam_id,
+                exam_title: sub.exams?.title || 'مقرر تخصصي',
+                question_text: item.question_text,
+                correct_choice_text: item.correct_choice_text,
+                explanation: item.explanation || ''
+              });
+
+              btn.className = saved ? 'btn-bookmark bookmarked btn-bookmark-item' : 'btn-bookmark btn-bookmark-item';
+              btn.setAttribute('aria-pressed', String(saved));
+              btn.querySelector('span').textContent = saved ? 'محفوظة للمراجعة ★' : 'حفظ للمراجعة ☆';
+            }
+          });
+        });
+
+        // ربط زر تصدير الـ PDF الأكاديمي
+        document.getElementById('btn-export-pdf')?.addEventListener('click', () => {
+          window.a11y?.announce('جاري فتح مربع الطباعة والتصدير بصيغة PDF...');
+          window.print();
+        });
 
         window.a11y?.focusElement('#review-section-title');
       } catch (err) {

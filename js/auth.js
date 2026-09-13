@@ -199,11 +199,9 @@ class AuthManager {
 
     if (!hamburgerBtn || !sidebar || !overlay) return;
 
-    // حماية ضد تكرار ربط الأحداث
     if (hamburgerBtn._hasInit) return;
     hamburgerBtn._hasInit = true;
 
-    // التأكد من إخفاء القائمة عن شجرة الوصول عند بدء التشغيل
     sidebar.setAttribute('aria-hidden', 'true');
     overlay.setAttribute('aria-hidden', 'true');
     hamburgerBtn.setAttribute('aria-expanded', 'false');
@@ -331,6 +329,12 @@ class AuthManager {
             <a href="dashboard.html" class="sidebar-link">
               <span class="sidebar-link-icon" aria-hidden="true">📊</span>
               <span>سجل اختباراتي بالقسم</span>
+            </a>
+          </li>
+          <li>
+            <a href="dashboard.html?tab=bookmarks" class="sidebar-link">
+              <span class="sidebar-link-icon" aria-hidden="true">⭐</span>
+              <span>المسائل المحفوظة للمراجعة</span>
             </a>
           </li>
         `;

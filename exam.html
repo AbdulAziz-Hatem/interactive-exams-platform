@@ -42,7 +42,7 @@
         <div>
           <h1 id="exam-title" style="font-size: 1.55rem; font-weight: 800; margin-bottom: 0.35rem;">جاري تحميل الاختبار من السحابة...</h1>
           <span style="font-size: 0.96rem; color: var(--text-muted); font-weight: 600;">
-            السؤال <strong id="current-question-num" style="color: var(--primary);">1</strong> من إجمالي <strong id="total-questions-count">...</strong>
+            المسألة <strong id="current-question-num" style="color: var(--primary);">1</strong> من إجمالي <strong id="total-questions-count">...</strong>
           </span>
         </div>
         <div>
@@ -72,15 +72,15 @@
 
       <!-- أزرار التنقل وتسليم الاختبار المتاحة -->
       <nav class="exam-nav" aria-label="التنقل بين أسئلة الاختبار">
-        <button id="btn-prev" class="btn btn-secondary" disabled aria-label="الانتقال إلى السؤال السابق">
-          ← السؤال السابق
+        <button id="btn-prev" class="btn btn-secondary" disabled aria-label="الانتقال إلى المسألة السابقة">
+          ← المسألة السابقة
         </button>
 
-        <button id="btn-next" class="btn btn-primary" aria-label="الانتقال إلى السؤال التالي">
-          السؤال التالي →
+        <button id="btn-next" class="btn btn-primary" aria-label="الانتقال إلى المسألة التالية">
+          المسألة التالية →
         </button>
 
-        <button id="btn-submit-exam" class="btn btn-success" style="display: none;" aria-label="إنهاء وتسليم الاختبار">
+        <button id="btn-submit-exam" class="btn btn-success" style="display: none;" aria-label="إنهاء وتسليم الاختبار الأكاديمي">
           ✅ إنهاء وتسليم الاختبار الأكاديمي
         </button>
       </nav>
@@ -98,6 +98,7 @@
   <script src="js/a11y.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/db.js"></script>
+  <script src="js/bookmarks.js"></script>
   <script src="js/exam.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
