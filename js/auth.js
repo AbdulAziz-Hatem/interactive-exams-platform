@@ -1,6 +1,7 @@
 /**
  * وحدة إدارة الحسابات والمصادقة والقائمة الجانبية الموحدة
  * (Authentication & Responsive Navigation Controller)
+ * مخصصة حصرياً لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
  */
 
 class AuthManager {
@@ -37,7 +38,7 @@ class AuthManager {
           this.currentUser = {
             id: session.user.id,
             email: session.user.email,
-            fullName: profile?.full_name || session.user.user_metadata?.full_name || 'طالب',
+            fullName: profile?.full_name || session.user.user_metadata?.full_name || 'طالب بقسم القرآن الكريم وعلومه',
             role: profile?.role || 'student',
             token: session.access_token
           };
@@ -147,7 +148,7 @@ class AuthManager {
       this.currentUser = {
         id: data.user.id,
         email: data.user.email,
-        fullName: profile?.full_name || data.user.user_metadata?.full_name || 'طالب',
+        fullName: profile?.full_name || data.user.user_metadata?.full_name || 'طالب بقسم القرآن الكريم وعلومه',
         role: profile?.role || 'student',
         token: data.session?.access_token
       };
@@ -187,7 +188,8 @@ class AuthManager {
   }
 
   // ====================================================================
-  // إدارة القائمة الجانبية السلسة (Hamburger Menu & Drawer)
+  // إدارة القائمة الجانبية السلسة والمحمية بالكامل
+  // معالجة مشكلة الفتح التلقائي ومنع قفزات قارئات الشاشة عند الإغلاق
   // ====================================================================
   initSidebar() {
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -197,37 +199,54 @@ class AuthManager {
 
     if (!hamburgerBtn || !sidebar || !overlay) return;
 
-    // منع تكرار ربط الأحداث
+    // حماية ضد تكرار ربط الأحداث
     if (hamburgerBtn._hasInit) return;
     hamburgerBtn._hasInit = true;
+
+    // التأكد من إخفاء القائمة عن شجرة الوصول عند بدء التشغيل
+    sidebar.setAttribute('aria-hidden', 'true');
+    overlay.setAttribute('aria-hidden', 'true');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
 
     const openDrawer = () => {
       this.isSidebarOpen = true;
       sidebar.classList.add('active');
       overlay.classList.add('active');
+      sidebar.setAttribute('aria-hidden', 'false');
+      overlay.setAttribute('aria-hidden', 'false');
       hamburgerBtn.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
       window.a11y?.announce('تم فتح القائمة الجانبية');
-      closeBtn?.focus();
+      setTimeout(() => closeBtn?.focus(), 60);
     };
 
     const closeDrawer = () => {
       this.isSidebarOpen = false;
       sidebar.classList.remove('active');
       overlay.classList.remove('active');
+      sidebar.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
       hamburgerBtn.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       window.a11y?.announce('تم إغلاق القائمة الجانبية');
       hamburgerBtn.focus();
     };
 
-    hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (this.isSidebarOpen) closeDrawer();
       else openDrawer();
     });
 
-    closeBtn?.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
+    closeBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeDrawer();
+    });
+
+    overlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeDrawer();
+    });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && this.isSidebarOpen) {
@@ -249,7 +268,7 @@ class AuthManager {
           <div style="display: flex; align-items: center; gap: 0.75rem;">
             <a href="dashboard.html" class="btn btn-secondary btn-sm">
               <span>👤 ${this.escapeHtml(user.fullName)}</span>
-              ${user.role === 'admin' ? '<span class="badge badge-warning">مدير</span>' : ''}
+              ${user.role === 'admin' ? '<span class="badge badge-warning">إدارة القسم</span>' : ''}
             </a>
             ${user.role === 'admin' ? '<a href="admin.html" class="btn btn-primary btn-sm">لوحة الإدارة</a>' : ''}
             <button id="btn-logout" class="btn btn-outline btn-sm" aria-label="تسجيل الخروج">خروج</button>
@@ -259,8 +278,8 @@ class AuthManager {
       } else {
         navAuthContainer.innerHTML = `
           <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <a href="auth.html?mode=login" class="btn btn-secondary btn-sm">دخول</a>
-            <a href="auth.html?mode=signup" class="btn btn-primary btn-sm">تسجيل جديد</a>
+            <a href="auth.html?mode=login" class="btn btn-secondary btn-sm">دخول الطالب</a>
+            <a href="auth.html?mode=signup" class="btn btn-primary btn-sm">حساب جديد</a>
           </div>
         `;
       }
@@ -272,7 +291,7 @@ class AuthManager {
           <div style="display: flex; flex-direction: column; gap: 0.35rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <strong style="font-size: 1.1rem;">${this.escapeHtml(user.fullName)}</strong>
-              ${user.role === 'admin' ? '<span class="badge badge-warning">مدير نظام</span>' : '<span class="badge badge-primary">طالب</span>'}
+              ${user.role === 'admin' ? '<span class="badge badge-warning">مشرف أكاديمي</span>' : '<span class="badge badge-primary">طالب بالقسم</span>'}
             </div>
             <span style="font-size: 0.85rem; color: var(--text-muted); word-break: break-all;">${user.email}</span>
           </div>
@@ -280,9 +299,9 @@ class AuthManager {
       } else {
         sidebarUserArea.innerHTML = `
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <p style="font-size: 0.9rem; color: var(--text-muted);">مرحباً بك! سجل دخولك لحفظ درجاتك ومتابعة مستواك.</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">مرحباً بك! سجل دخولك لحفظ درجاتك ومتابعة مستواك الأكاديمي.</p>
             <div style="display: flex; gap: 0.5rem;">
-              <a href="auth.html?mode=login" class="btn btn-secondary btn-sm" style="flex: 1;">تسجيل الدخول</a>
+              <a href="auth.html?mode=login" class="btn btn-secondary btn-sm" style="flex: 1;">دخول الطالب</a>
               <a href="auth.html?mode=signup" class="btn btn-primary btn-sm" style="flex: 1;">حساب جديد</a>
             </div>
           </div>
@@ -301,7 +320,7 @@ class AuthManager {
         <li>
           <a href="index.html#subjects-section" class="sidebar-link">
             <span class="sidebar-link-icon" aria-hidden="true">📚</span>
-            <span>المقررات والاختبارات</span>
+            <span>مقررات القسم واختباراتها</span>
           </a>
         </li>
       `;
@@ -311,7 +330,7 @@ class AuthManager {
           <li>
             <a href="dashboard.html" class="sidebar-link">
               <span class="sidebar-link-icon" aria-hidden="true">📊</span>
-              <span>سجل اختباراتي ودرجاتي</span>
+              <span>سجل اختباراتي بالقسم</span>
             </a>
           </li>
         `;
@@ -321,7 +340,7 @@ class AuthManager {
             <li>
               <a href="admin.html" class="sidebar-link">
                 <span class="sidebar-link-icon" aria-hidden="true">🛠️</span>
-                <span>لوحة التحكم وبنوك الأسئلة</span>
+                <span>إدارة بنوك الأسئلة</span>
               </a>
             </li>
           `;

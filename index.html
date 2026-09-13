@@ -45,11 +45,11 @@
     </div>
   </header>
 
-  <!-- خلفية التعتيم للقائمة الجانبية -->
+  <!-- خلفية التعتيم للقائمة الجانبية (محمية ومخفية دلالياً عند الإغلاق) -->
   <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
 
-  <!-- القائمة الجانبية السلسة (Drawer) -->
-  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+  <!-- القائمة الجانبية السلسة (محمية دلالياً بـ aria-hidden لمنع قفزات قارئات الشاشة) -->
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
     <div class="sidebar-header">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span class="brand-badge">مدارج</span>
@@ -113,7 +113,7 @@
     <!-- بطاقات الإحصائيات الأكاديمية -->
     <section aria-label="إحصائيات المنصة الأكاديمية" class="stats-grid">
       <div class="stat-card">
-        <div class="stat-number" id="stat-subjects-count">1</div>
+        <div class="stat-number" id="stat-subjects-count">2</div>
         <div class="stat-label">المقررات التخصصية المعتمدة</div>
       </div>
       <div class="stat-card">
@@ -140,7 +140,7 @@
         <article class="feature-card">
           <div class="feature-icon" aria-hidden="true">📖</div>
           <h3 class="feature-title">مطابقة تامة للمقرر الجامعي</h3>
-          <p class="feature-desc">تُصاغ الأسئلة والنماذج التدريبية بدقة متناهية من الكتب والمفردات المعتمدة لدى أساتذة القسم، وفق النطاق المحدد للاختبارات النهائية.</p>
+          <p class="feature-desc">تُصاغ الأسئلة والنماذج التدريبية بدقة متناهية من المفردات والمراجع المعتمدة لدى أساتذة القسم، لترسيخ التحصيل الأكاديمي وضمان الجاهزية التامة.</p>
         </article>
 
         <article class="feature-card">
@@ -152,7 +152,7 @@
         <article class="feature-card">
           <div class="feature-icon" aria-hidden="true">💡</div>
           <h3 class="feature-title">تعليلات وتأصيل للمسائل</h3>
-          <p class="feature-desc">عقب تسليم الاختبار، يحصل الطالب على كشف مراجعة نموذجي يبين الإجابة الصحيحة مع تعليل علمي يوضح مأخذ الحكم وأصله في الكتاب المقرر.</p>
+          <p class="feature-desc">عقب تسليم الاختبار، يحصل الطالب على كشف مراجعة نموذجي يبين الإجابة الصحيحة مع تعليل علمي يوضح مأخذ الحكم وأصله في المراجع المعتمدة.</p>
         </article>
 
         <article class="feature-card">
@@ -168,26 +168,25 @@
       <div class="card-header">
         <div>
           <h2 id="subjects-title" style="font-size: 1.8rem; font-weight: 800;">مقررات قسم القرآن الكريم وعلومه</h2>
-          <p class="text-muted" style="margin-top: 0.25rem;">اختر المادة المطلوبة للاطلاع على بنوك الأسئلة والنماذج التدريبية التابعة لها.</p>
+          <p class="text-muted" style="margin-top: 0.25rem;">اختر المقرر المطلوب للاطلاع على بنوك الأسئلة والنماذج التدريبية التابعة له.</p>
         </div>
-        <span class="badge badge-primary" id="subjects-count-badge">مقرر معتمد</span>
+        <span class="badge badge-primary" id="subjects-count-badge">مقررات معتمدة</span>
       </div>
 
-      <!-- حقل البحث المباشر في المواد -->
+      <!-- حقل البحث المباشر في المواد (أمثلة عامة احترافية دون تفاصيل داخلية) -->
       <div class="search-container">
         <label for="subject-search-input" class="sr-only">ابحث عن مقرر أو رمز المادة في القسم</label>
         <input 
           type="search" 
           id="subject-search-input" 
           class="search-input" 
-          placeholder="🔍 ابحث بالاسم أو الرمز (مثال: مناهج المفسرين، MANAHIJ)..."
+          placeholder="🔍 ابحث بالاسم أو رمز المقرر (مثال: علوم القرآن، أصول التفسير)..."
           autocomplete="off"
         />
       </div>
 
       <!-- شبكة عرض المقررات مع التحميل الهيكلي (Skeleton Loading) -->
       <div id="subjects-grid" class="grid" role="region" aria-live="polite">
-        <!-- عناصر التحميل الهيكلي تظهر تلقائياً حتى اكتمال جلب البيانات السحابية -->
         <div class="skeleton-card">
           <div class="skeleton skeleton-icon"></div>
           <div class="skeleton skeleton-badge"></div>
@@ -216,11 +215,11 @@
 
       <div class="faq-item">
         <button type="button" class="faq-question" aria-expanded="false">
-          <span>ما هو المقرر المفعل حالياً على المنصة؟</span>
+          <span>ما هي المقررات المتاحة على المنصة؟</span>
           <span class="faq-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-answer" style="display: none;">
-          يتوفر حالياً مقرر <strong>"مناهج المفسرين (المستوى الرابع - سنة التخرج)"</strong>، متضمناً نماذج تدريبية شاملة للمسائل المقررة في الاختبار النهائي من كتاب أستاذ المادة، مع إمكانية إضافة سائر مقررات القسم تباعاً.
+          تغطي المنصة المقررات التخصصية المعتمدة لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، وتوفر نماذج تدريبية شاملة للمسائل المقررة وفق الأصول المنهجية المعتمدة لأساتذة القسم، مع إمكانية إضافة سائر المقررات الدراسية تباعاً.
         </div>
       </div>
 
@@ -341,7 +340,7 @@
         if (countEl) countEl.textContent = allSubjects.length;
 
         const badgeEl = document.getElementById('subjects-count-badge');
-        if (badgeEl) badgeEl.textContent = `${allSubjects.length} مقرر معتمد`;
+        if (badgeEl) badgeEl.textContent = `${allSubjects.length} مقررات معتمدة`;
 
         renderSubjects(allSubjects);
         window.a11y?.announce(`تم تحميل ${allSubjects.length} مقررات دراسية`);

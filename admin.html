@@ -36,7 +36,7 @@
 
   <!-- خلفية التعتيم والقائمة الجانبية -->
   <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
-  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
     <div class="sidebar-header">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span class="brand-badge">مدارج</span>
@@ -104,7 +104,7 @@
         </div>
         <div class="form-group">
           <label for="exam-title-input" class="form-label">عنوان النموذج الاختباري *</label>
-          <input type="text" id="exam-title-input" class="form-input" placeholder="مثال: الاختبار النهائي لمناهج المفسرين" required>
+          <input type="text" id="exam-title-input" class="form-input" placeholder="مثال: الاختبار النهائي لعلوم القرآن الكريم" required>
         </div>
         <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
           <div class="form-group">
@@ -187,18 +187,7 @@
         </div>
         <div class="form-group">
           <label for="bulk-json" class="form-label">مصفوفة الأسئلة بتنسيق JSON *</label>
-          <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[
-  {
-    "question_text": "ما هو المصدر الأول لتفسير القرآن الكريم عند المفسرين؟",
-    "explanation": "تفسير القرآن بالقرآن هو أعلى مراتب التفسير وأولاها بالاعتماد.",
-    "choices": [
-      { "text": "تفسير القرآن بالقرآن", "isCorrect": true },
-      { "text": "أقوال التابعين", "isCorrect": false },
-      { "text": "الاجتهاد اللغوي المجرد", "isCorrect": false },
-      { "text": "الإسرائيليات", "isCorrect": false }
-    ]
-  }
-]' required></textarea>
+          <textarea id="bulk-json" class="form-textarea" rows="6" dir="ltr" placeholder='[\n  {\n    \"question_text\": \"ما هو المصدر الأول لتفسير القرآن الكريم عند المفسرين؟\",\n    \"explanation\": \"تفسير القرآن بالقرآن هو أعلى مراتب التفسير وأولاها بالاعتماد.\",\n    \"choices\": [\n      { \"text\": \"تفسير القرآن بالقرآن\", \"isCorrect\": true },\n      { \"text\": \"أقوال التابعين\", \"isCorrect\": false },\n      { \"text\": \"الاجتهاد اللغوي المجرد\", \"isCorrect\": false },\n      { \"text\": \"الإسرائيليات\", \"isCorrect\": false }\n    ]\n  }\n]' required></textarea>
         </div>
         <button type="submit" class="btn btn-success btn-sm">بدء استيراد بنك الأسئلة سحابياً ⚡</button>
       </form>
@@ -242,13 +231,13 @@
       const exams = await window.db.getAllExams();
 
       const subjSelect = document.getElementById('exam-select-subject');
-      subjSelect.innerHTML = '<option value="">-- اختر المقرر الدراسي --</option>' + 
-        subjects.map(s => `<option value="${s.id}">${window.authManager.escapeHtml(s.title)}</option>`).join('');
+      subjSelect.innerHTML = '<option value=\"\">-- اختر المقرر الدراسي --</option>' + 
+        subjects.map(s => `<option value=\"${s.id}\">${window.authManager.escapeHtml(s.title)}</option>`).join('');
 
       const examSelectQ = document.getElementById('q-select-exam');
       const examSelectBulk = document.getElementById('bulk-select-exam');
-      const examsOptions = '<option value="">-- اختر النموذج الاختباري --</option>' + 
-        exams.map(e => `<option value="${e.id}">${window.authManager.escapeHtml(e.title)} (${e.subjects?.title || ''})</option>`).join('');
+      const examsOptions = '<option value=\"\">-- اختر النموذج الاختباري --</option>' + 
+        exams.map(e => `<option value=\"${e.id}\">${window.authManager.escapeHtml(e.title)} (${e.subjects?.title || ''})</option>`).join('');
 
       examSelectQ.innerHTML = examsOptions;
       examSelectBulk.innerHTML = examsOptions;
@@ -292,7 +281,7 @@
       const examId = document.getElementById('q-select-exam').value;
       const qText = document.getElementById('q-text').value.trim();
       const explanation = document.getElementById('q-explanation').value.trim();
-      const correctIdx = parseInt(document.querySelector('input[name="correct_choice"]:checked').value, 10);
+      const correctIdx = parseInt(document.querySelector('input[name=\"correct_choice\"]:checked').value, 10);
 
       const choices = [];
       for (let i = 0; i < 4; i++) {
@@ -338,23 +327,4 @@
         let count = 0;
         for (const item of items) {
           if (item.question_text && Array.isArray(item.choices) && item.choices.length >= 2) {
-            await window.db.addQuestionWithChoices(
-              examId,
-              item.question_text,
-              item.explanation || '',
-              item.points || 1,
-              item.choices
-            );
-            count++;
-          }
-        }
-
-        alert(`تم بنجاح استيراد وإضافة ${count} مسألة إلى بنك أسئلة الاختبار!`);
-        document.getElementById('bulk-json').value = '';
-      } catch (err) {
-        alert('خطأ في تنسيق JSON أو أثناء الاستيراد: ' + err.message);
-      }
-    }
-  </script>
-</body>
-</html>
+            await window.db.addQuestionWithChoices(\n              examId,\n              item.question_text,\n              item.explanation || '',\n              item.points || 1,\n              item.choices\n            );\n            count++;\n          }\n        }\n\n        alert(`تم بنجاح استيراد وإضافة ${count} مسألة إلى بنك أسئلة الاختبار!`);\n        document.getElementById('bulk-json').value = '';\n      } catch (err) {\n        alert('خطأ في تنسيق JSON أو أثناء الاستيراد: ' + err.message);\n      }\n    }\n  </script>\n</body>\n</html>\n

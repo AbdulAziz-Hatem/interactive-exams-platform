@@ -62,6 +62,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -75,6 +77,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
   letter-spacing: -0.01em;
 }
 
@@ -207,7 +211,7 @@ body {
   transition: all 0.2s ease;
 }
 
-/* ====================================================================\n   Sidebar Drawer (القائمة الجانبية السلسة)\n   ==================================================================== */
+/* ====================================================================\n   Sidebar Drawer (القائمة الجانبية السلسة والمحمية بالكامل)\n   حل نهائي لمنع الفتح التلقائي والتداخل مع قارئات الشاشة\n   ==================================================================== */
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -215,12 +219,14 @@ body {
   backdrop-filter: blur(4px);
   z-index: 99;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s;
 }
 
 .sidebar-overlay.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 
@@ -235,7 +241,9 @@ body {
   border-left: 1px solid var(--border);
   z-index: 100;
   transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-lg);
@@ -244,6 +252,8 @@ body {
 
 .sidebar-drawer.active {
   transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .sidebar-header {
