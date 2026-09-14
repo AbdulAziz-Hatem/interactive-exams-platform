@@ -2,6 +2,7 @@
  * وحدة إدارة الحسابات والمصادقة والقائمة الجانبية الموحدة
  * (Authentication & Responsive Navigation Controller)
  * مخصصة حصرياً لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
+ * تدعم: تسجيل الدخول باسم المستخدم أو البريد، استعادة كلمة المرور، وصلاحيات المشرف الأكاديمي
  */
 
 class AuthManager {
@@ -9,15 +10,28 @@ class AuthManager {
     this.currentUser = null;
     this.client = null;
     this.isSidebarOpen = false;
+
+    // أسماء المستخدمين المعتمدة لمالك الموقع والمشرفين الأكاديميين
+    this.ADMIN_ALIASES = {
+      'admin': 'abdualaziz.yemen@gmail.com',
+      'abdulaziz': 'abdualaziz.yemen@gmail.com',
+      'abdeh': 'abdualaziz.yemen@gmail.com',
+      'owner': 'abdualaziz.yemen@gmail.com',
+      'aziz': 'abdualaziz.yemen@gmail.com',
+      'hatem': 'abdualaziz.yemen@gmail.com',
+      'elias': 'eliassadiqrajih1@gmail.com',
+      'sadiq': 'eliassadiqrajih1@gmail.com',
+      'rajih': 'eliassadiqrajih1@gmail.com'
+    };
   }
 
   async init() {
-    // 1. تهيئة القائمة الجانبية وتحديث الواجهة فوراً دون انتظار أي شبكة
+    // 1. تهيئة القائمة الجانبية وتحديث الواجهة فوراً
     this.initSidebar();
     this.updateNavUI();
 
-    // 2. محاولة جلب الجلسة من Supabase مع مهلة زمنية صارمة (Timeout)
-    if (window.CONFIG.isSupabaseConfigured() && window.supabase && typeof window.supabase.createClient === 'function') {
+    // 2. محاولة جلب الجلسة من Supabase مع مهلة زمنية صارمة
+    if (window.CONFIG && window.CONFIG.isSupabaseConfigured() && window.supabase && typeof window.supabase.createClient === 'function') {
       try {
         this.client = window.supabase.createClient(
           window.CONFIG.SUPABASE_URL,
@@ -25,25 +39,25 @@ class AuthManager {
         );
 
         const sessionPromise = this.client.auth.getSession();
-        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve({ data: { session: null } }), 2000));
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve({ data: { session: null } }), 2500));
         const { data: { session } } = await Promise.race([sessionPromise, timeoutPromise]);
 
         if (session?.user) {
-          const { data: profile } = await this.client
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-
-          this.currentUser = {
-            id: session.user.id,
-            email: session.user.email,
-            fullName: profile?.full_name || session.user.user_metadata?.full_name || 'طالب بقسم القرآن الكريم وعلومه',
-            role: profile?.role || 'student',
-            token: session.access_token
-          };
+          await this.syncUserData(session.user, session.access_token);
           this.updateNavUI();
         }
+
+        // الاستماع لتغيرات الجلسة (مثل استعادة كلمة المرور أو تسجيل الخروج)
+        this.client.auth.onAuthStateChange(async (event, currentSession) => {
+          if (event === 'SIGNED_IN' && currentSession?.user) {
+            await this.syncUserData(currentSession.user, currentSession.access_token);
+            this.updateNavUI();
+          } else if (event === 'SIGNED_OUT') {
+            this.currentUser = null;
+            localStorage.removeItem('edutest_current_user');
+            this.updateNavUI();
+          }
+        });
       } catch (e) {
         console.warn('تعذر استرداد جلسة Supabase، سيتم الاستمرار كزائر:', e);
       }
@@ -62,6 +76,32 @@ class AuthManager {
     return this.currentUser;
   }
 
+  async syncUserData(authUser, token) {
+    let profile = null;
+    try {
+      const { data } = await this.client
+        .from('profiles')
+        .select('*')
+        .eq('id', authUser.id)
+        .single();
+      profile = data;
+    } catch (e) {}
+
+    const isSiteOwner = authUser.email === 'abdualaziz.yemen@gmail.com' || authUser.email === 'eliassadiqrajih1@gmail.com';
+    const finalRole = isSiteOwner ? 'admin' : (profile?.role || 'student');
+
+    this.currentUser = {
+      id: authUser.id,
+      email: authUser.email,
+      username: authUser.user_metadata?.username || profile?.username || authUser.email.split('@')[0],
+      fullName: profile?.full_name || authUser.user_metadata?.full_name || (isSiteOwner ? 'عبد العزيز حاتم (المشرف الأكاديمي)' : 'طالب بقسم القرآن الكريم وعلومه'),
+      role: finalRole,
+      token: token
+    };
+
+    localStorage.setItem('edutest_current_user', JSON.stringify(this.currentUser));
+  }
+
   isAuthenticated() {
     return Boolean(this.currentUser);
   }
@@ -74,14 +114,62 @@ class AuthManager {
     return this.currentUser;
   }
 
-  async signUp(fullName, email, password) {
+  /**
+   * مطابقة اسم المستخدم وتحويله إلى بريد إلكتروني صالح للمصادقة
+   */
+  resolveIdentifier(identifier) {
+    if (!identifier) return '';
+    const clean = identifier.trim().toLowerCase();
+
+    // إذا كان بريداً صريحاً
+    if (clean.includes('@')) {
+      return clean;
+    }
+
+    // فحص أسماء مستخدمي مالك الموقع والمشرفين
+    if (this.ADMIN_ALIASES[clean]) {
+      return this.ADMIN_ALIASES[clean];
+    }
+
+    // فحص سجل أسماء المستخدمين المحلي للطلاب
+    const localEmail = localStorage.getItem('madarej_user_' + clean);
+    if (localEmail) {
+      return localEmail;
+    }
+
+    // فحص سجل المعرفات المشترك
+    const registry = JSON.parse(localStorage.getItem('madarej_usernames_registry') || '{}');
+    if (registry[clean]) {
+      return registry[clean];
+    }
+
+    // في حال تعذر المطابقة، نرجع نفس النص لمحاولة إدخاله كبريد
+    return clean;
+  }
+
+  /**
+   * تسجيل حساب طالب جديد في قسم القرآن الكريم
+   */
+  async signUp(fullName, username, email, password) {
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanUsername = (username || '').trim().toLowerCase();
+
+    // حفظ خريطة اسم المستخدم محلياً لتمكين الدخول به لاحقاً
+    if (cleanUsername) {
+      localStorage.setItem('madarej_user_' + cleanUsername, cleanEmail);
+      const registry = JSON.parse(localStorage.getItem('madarej_usernames_registry') || '{}');
+      registry[cleanUsername] = cleanEmail;
+      localStorage.setItem('madarej_usernames_registry', JSON.stringify(registry));
+    }
+
     if (window.CONFIG.isSupabaseConfigured() && this.client) {
       const { data, error } = await this.client.auth.signUp({
-        email,
-        password,
+        email: cleanEmail,
+        password: password,
         options: {
           data: {
-            full_name: fullName,
+            full_name: fullName.trim(),
+            username: cleanUsername,
             role: 'student'
           }
         }
@@ -90,28 +178,23 @@ class AuthManager {
       if (error) throw error;
       
       if (data.session?.user) {
-        this.currentUser = {
-          id: data.user.id,
-          email: data.user.email,
-          fullName: fullName,
-          role: 'student',
-          token: data.session.access_token
-        };
+        await this.syncUserData(data.session.user, data.session.access_token);
         this.updateNavUI();
       }
       return { success: true, user: data.user, requiresEmailConfirmation: !data.session };
     } else {
       const users = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
-      if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+      if (users.some(u => u.email.toLowerCase() === cleanEmail)) {
         throw new Error('البريد الإلكتروني مسجل مسبقاً في النظام.');
       }
 
       const newUser = {
         id: 'user_' + Date.now(),
-        email: email.trim(),
+        email: cleanEmail,
+        username: cleanUsername,
         password: password,
         fullName: fullName.trim(),
-        role: users.length === 0 ? 'admin' : 'student',
+        role: (cleanEmail === 'abdualaziz.yemen@gmail.com') ? 'admin' : 'student',
         createdAt: new Date().toISOString()
       };
 
@@ -121,6 +204,7 @@ class AuthManager {
       this.currentUser = {
         id: newUser.id,
         email: newUser.email,
+        username: newUser.username,
         fullName: newUser.fullName,
         role: newUser.role
       };
@@ -130,48 +214,108 @@ class AuthManager {
     }
   }
 
-  async signIn(email, password) {
+  /**
+   * تسجيل الدخول بواسطة (اسم المستخدم أو البريد الإلكتروني) وكلمة المرور
+   */
+  async signIn(identifier, password) {
+    const resolvedEmail = this.resolveIdentifier(identifier);
+
+    if (!resolvedEmail.includes('@')) {
+      throw new Error('تعذر التعرف على اسم المستخدم. يرجى إدخال البريد الإلكتروني المسجل بالكامل.');
+    }
+
     if (window.CONFIG.isSupabaseConfigured() && this.client) {
       const { data, error } = await this.client.auth.signInWithPassword({
-        email,
-        password
+        email: resolvedEmail,
+        password: password
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('Invalid login credentials')) {
+          throw new Error('بيانات الدخول غير صحيحة. يرجى التأكد من اسم المستخدم/البريد وكلمة المرور.');
+        }
+        throw error;
+      }
 
-      const { data: profile } = await this.client
-        .from('profiles')
-        .select('*')
-        .eq('id', data.user.id)
-        .single();
-
-      this.currentUser = {
-        id: data.user.id,
-        email: data.user.email,
-        fullName: profile?.full_name || data.user.user_metadata?.full_name || 'طالب بقسم القرآن الكريم وعلومه',
-        role: profile?.role || 'student',
-        token: data.session?.access_token
-      };
-
+      await this.syncUserData(data.user, data.session?.access_token);
       this.updateNavUI();
       return { success: true, user: this.currentUser };
     } else {
       const users = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
-      const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+      const user = users.find(u => (u.email.toLowerCase() === resolvedEmail || u.username === identifier.toLowerCase()) && u.password === password);
 
       if (!user) {
-        throw new Error('بيانات الدخول غير صحيحة. يرجى التأكد من البريد وكلمة المرور.');
+        throw new Error('بيانات الدخول غير صحيحة. يرجى التأكد من البريد أو اسم المستخدم وكلمة المرور.');
       }
 
       this.currentUser = {
         id: user.id,
         email: user.email,
+        username: user.username,
         fullName: user.fullName,
         role: user.role
       };
       localStorage.setItem('edutest_current_user', JSON.stringify(this.currentUser));
       this.updateNavUI();
       return { success: true, user: this.currentUser };
+    }
+  }
+
+  /**
+   * إرسال رابط استعادة كلمة المرور إلى البريد الإلكتروني
+   */
+  async sendPasswordReset(identifier) {
+    const resolvedEmail = this.resolveIdentifier(identifier);
+
+    if (!resolvedEmail || !resolvedEmail.includes('@')) {
+      throw new Error('يرجى إدخال بريد إلكتروني صالح مسجل في النظام لإرسال رابط الاستعادة.');
+    }
+
+    if (window.CONFIG.isSupabaseConfigured() && this.client) {
+      // إعداد رابط إعادة التوجيه للعودة لنفس الصفحة مع معلمة التحديث
+      const redirectUrl = window.location.origin + window.location.pathname + '?mode=update-password';
+      
+      const { error } = await this.client.auth.resetPasswordForEmail(resolvedEmail, {
+        redirectTo: redirectUrl
+      });
+
+      if (error) throw error;
+      return { success: true, email: resolvedEmail };
+    } else {
+      return { success: true, email: resolvedEmail, demo: true };
+    }
+  }
+
+  /**
+   * تعيين وحفظ كلمة المرور الجديدة للحساب بعد فتح رابط الاستعادة
+   */
+  async updateUserPassword(newPassword) {
+    if (!newPassword || newPassword.length < 6) {
+      throw new Error('يجب ألا تقل كلمة المرور الجديدة عن 6 أحرف.');
+    }
+
+    if (window.CONFIG.isSupabaseConfigured() && this.client) {
+      const { data, error } = await this.client.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        await this.syncUserData(data.user, null);
+        this.updateNavUI();
+      }
+      return { success: true };
+    } else {
+      if (this.currentUser) {
+        const users = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
+        const idx = users.findIndex(u => u.email === this.currentUser.email);
+        if (idx !== -1) {
+          users[idx].password = newPassword;
+          localStorage.setItem('edutest_demo_users', JSON.stringify(users));
+        }
+      }
+      return { success: true };
     }
   }
 
@@ -189,7 +333,6 @@ class AuthManager {
 
   // ====================================================================
   // إدارة القائمة الجانبية السلسة والمحمية بالكامل
-  // معالجة مشكلة الفتح التلقائي ومنع قفزات قارئات الشاشة عند الإغلاق
   // ====================================================================
   initSidebar() {
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -366,7 +509,7 @@ class AuthManager {
   }
 
   escapeHtml(str) {
-    return str ? str.replace(/[&<>'"]/g, tag => ({
+    return str ? str.replace(/[&<>'\"]/g, tag => ({
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
