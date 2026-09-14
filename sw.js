@@ -1,11 +1,11 @@
 /**
  * عامل الخدمة المتقدم لتشغيل منصة مدارج دون اتصال (Offline Service Worker)
  * معتمد لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
- * الإصدار: v1.0.2
- * استراتيجية: Network-First للبرمجيات والصفحات (للتحديث الفوري) و Cache-First للأصول
+ * الإصدار: v1.0.3
+ * استراتيجية: Network-First للبرمجيات والصفحات و Cache-First للأصول
  */
 
-const CACHE_NAME = 'madarej-cache-v1.0.2';
+const CACHE_NAME = 'madarej-cache-v1.0.3';
 
 const STATIC_ASSETS = [
   './',
@@ -35,7 +35,7 @@ const STATIC_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] جاري تثبيت كاش مدارج v1.0.2...');
+      console.log('[Service Worker] جاري تثبيت كاش مدارج v1.0.3...');
       return cache.addAll(STATIC_ASSETS);
     }).then(() => self.skipWaiting())
   );
@@ -83,8 +83,6 @@ self.addEventListener('fetch', (event) => {
   }
 
   // ب) ملفات الواجهة والبرمجيات (HTML, JS, CSS): Network-First
-  // نطلب الملف المحدث من الشبكة أولاً لضمان وصول التحديثات لحظياً
-  // وفي حال انقطاع النت يتم جلب النسخة المحفوظة أوفلاين
   const isCodeOrMarkup = event.request.headers.get('accept')?.includes('text/html') ||
                          url.pathname.endsWith('.js') ||
                          url.pathname.endsWith('.css') ||
@@ -113,7 +111,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // ج) الأصول الثابتة والصور (Cache-First) لتقليل استهلاك الباندويث
+  // ج) الأصول الثابتة والصور (Cache-First)
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return cached || fetch(event.request).then((response) => {

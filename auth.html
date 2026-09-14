@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=1.0.2">
+  <link rel="stylesheet" href="css/style.css?v=1.0.3">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="manifest" href="manifest.json">
@@ -56,8 +56,8 @@
       background: var(--gold-light);
       color: var(--gold);
       border: 1px solid #fde68a;
-      font-size: 0.78rem;
-      font-weight: 700;
+      font-size: 0.82rem;
+      font-weight: 800;
       margin-top: 0.35rem;
     }
     .info-alert {
@@ -121,7 +121,7 @@
     <div class="card" style="box-shadow: var(--shadow-md); border-top: 4px solid var(--primary);">
       
       <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span id="auth-tag" class="badge badge-primary" style="margin-bottom: 0.5rem;">بوابة طلبة ومشرفي القسم</span>
+        <span id="auth-tag" class="badge badge-primary" style="margin-bottom: 0.5rem;">بوابة الدخول المعتمدة</span>
         <h1 id="auth-heading" style="font-size: 1.65rem; font-weight: 800; color: var(--text-main);">تسجيل الدخول</h1>
         <p id="auth-subheading" class="text-muted" style="font-size: 0.88rem; margin-top: 0.25rem;">
           مخصصة لطلبة وأساتذة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء
@@ -152,7 +152,7 @@
             required
           >
           <span id="admin-detector-hint" class="field-hint">
-            يمكن لمالك الموقع والمشرفين كتابة اسم المستخدم (مثل: admin أو abdulaziz).
+            يمكن لمالك الموقع والمشرف كتابة اسم المستخدم (مثل: admin أو abdulaziz).
           </span>
         </div>
 
@@ -209,7 +209,7 @@
             type="text" 
             id="signup-username" 
             class="form-input" 
-            placeholder="مثال: abdulaziz26 أو الرقم الجامعي" 
+            placeholder="مثال: student2026 أو الرقم الجامعي" 
             dir="ltr" 
             autocomplete="username" 
             required
@@ -369,10 +369,10 @@
     </div>
   </footer>
 
-  <script src="js/config.js?v=1.0.2"></script>
-  <script src="js/a11y.js?v=1.0.2"></script>
-  <script src="js/auth.js?v=1.0.2"></script>
-  <script src="js/db.js?v=1.0.2"></script>
+  <script src="js/config.js?v=1.0.3"></script>
+  <script src="js/a11y.js?v=1.0.3"></script>
+  <script src="js/auth.js?v=1.0.3"></script>
+  <script src="js/db.js?v=1.0.3"></script>
   <script>
     let currentMode = 'login'; // login | signup | forgot | update-password
 
@@ -383,11 +383,10 @@
         await window.authManager.init();
       }
 
-      // فحص معلمات الرابط (URL parameters & Hash) لتحديد الحالة
+      // فحص معلمات الرابط لتحديد الحالة
       const params = new URLSearchParams(window.location.search);
       const hash = window.location.hash || '';
 
-      // فحص هل المستخدم قادم من رابط استعادة كلمة المرور
       if (hash.includes('type=recovery') || params.get('mode') === 'update-password' || params.get('mode') === 'reset') {
         setMode('update-password');
       } else if (params.get('mode') === 'signup') {
@@ -398,16 +397,16 @@
         setMode('login');
       }
 
-      // إذا كان مسجل دخوله مسبقاً وليس في وضع تحديث كلمة المرور
       if (window.authManager && window.authManager.isAuthenticated && window.authManager.isAuthenticated() && currentMode !== 'update-password') {
-        window.location.href = 'dashboard.html';
+        const u = window.authManager.getUser();
+        window.location.href = (u && u.role === 'admin') ? 'admin.html' : 'dashboard.html';
         return;
       }
 
-      // استرجاع اسم المستخدم المحفوظ إن وجد
       const rememberedUser = localStorage.getItem('madarej_remembered_identifier');
       if (rememberedUser && document.getElementById('login-identifier')) {
         document.getElementById('login-identifier').value = rememberedUser;
+        checkAdminIdentifier(rememberedUser);
       }
 
       // أزرار التبديل
@@ -438,17 +437,24 @@
       document.getElementById('form-forgot')?.addEventListener('submit', handleForgotSubmit);
       document.getElementById('form-update-password')?.addEventListener('submit', handleUpdatePasswordSubmit);
 
-      // مراقبة كتابة اسم المستخدم لاكتشاف حساب المشرف/المالك فورياً
+      // مراقبة كتابة اسم المستخدم لاكتشاف حساب المشرف الأكاديمي العام حصرياً
       document.getElementById('login-identifier')?.addEventListener('input', (e) => {
-        const val = e.target.value.trim().toLowerCase();
-        const hint = document.getElementById('admin-detector-hint');
-        if (['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem', 'elias'].includes(val)) {
-          hint.innerHTML = '<span class="auth-badge-admin">👑 حساب المشرف الأكاديمي المعتمد</span>';
-        } else {
-          hint.textContent = 'يمكن لمالك الموقع والمشرفين كتابة اسم المستخدم (مثل: admin أو abdulaziz).';
-        }
+        checkAdminIdentifier(e.target.value);
       });
     });
+
+    function checkAdminIdentifier(val) {
+      const clean = (val || '').trim().toLowerCase();
+      const hint = document.getElementById('admin-detector-hint');
+      if (!hint) return;
+
+      const adminAliases = ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem', 'abdualaziz.yemen@gmail.com'];
+      if (adminAliases.includes(clean)) {
+        hint.innerHTML = '<span class="auth-badge-admin">👑 حساب المشرف الأكاديمي العام (عبد العزيز حاتم)</span>';
+      } else {
+        hint.textContent = 'يمكن لمالك الموقع والمشرف كتابة اسم المستخدم (مثل: admin أو abdulaziz).';
+      }
+    }
 
     function setMode(mode) {
       currentMode = mode;
@@ -470,7 +476,6 @@
       const tabLogin = document.getElementById('tab-login');
       const tabSignup = document.getElementById('tab-signup');
 
-      // إخفاء كافة النماذج أولاً
       formLogin.style.display = 'none';
       formSignup.style.display = 'none';
       formForgot.style.display = 'none';
@@ -482,7 +487,7 @@
         switchFooter.style.display = 'block';
         heading.textContent = 'تسجيل الدخول إلى حسابك';
         subheading.textContent = 'بوابة طلبة وأساتذة قسم القرآن الكريم وعلومه';
-        tag.textContent = 'بوابة الحسابات المعتمدة';
+        tag.textContent = 'بوابة الدخول المعتمدة';
         switchText.textContent = 'طالب جديد في القسم؟';
         toggleBtn.textContent = 'تسجيل حساب الآن';
         tabLogin.className = 'btn btn-primary btn-sm';
@@ -545,12 +550,8 @@
         if (window.authManager && typeof window.authManager.signIn === 'function') {
           await window.authManager.signIn(identifier, password);
         } else {
-          // مسار احتياطي مباشر
-          const cleanEmail = identifier.includes('@') ? identifier : (
-            ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem'].includes(identifier.toLowerCase())
-              ? 'abdualaziz.yemen@gmail.com'
-              : identifier
-          );
+          const isOwner = ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem'].includes(identifier.toLowerCase()) || identifier.toLowerCase() === 'abdualaziz.yemen@gmail.com';
+          const cleanEmail = isOwner ? 'abdualaziz.yemen@gmail.com' : identifier;
           const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
           const { error } = await client.auth.signInWithPassword({ email: cleanEmail, password });
           if (error) throw error;
@@ -563,13 +564,14 @@
         }
 
         const user = (window.authManager && typeof window.authManager.getUser === 'function') ? window.authManager.getUser() : null;
-        const isAdmin = user ? (user.role === 'admin') : (identifier.toLowerCase().includes('admin') || identifier.toLowerCase().includes('abdualaziz'));
-        const welcomeMsg = isAdmin 
-          ? 'مرحباً بك فضيلة المشرف الأكاديمي! جاري التوجيه إلى لوحة الإدارة...' 
+        const isOwner = user ? (user.role === 'admin') : (identifier.toLowerCase().includes('admin') || identifier.toLowerCase().includes('abdualaziz'));
+        
+        const welcomeMsg = isOwner 
+          ? 'مرحباً بك فضيلة المشرف الأكاديمي العام (عبد العزيز حاتم)! جاري التوجيه إلى لوحة الإدارة والتحكم الشامل...' 
           : 'مرحباً بك! جاري توجيهك إلى لوحة درجاتك الأكاديمية...';
 
         showSuccess(welcomeMsg);
-        redirectAfterAuth(isAdmin ? 'admin.html' : 'dashboard.html');
+        redirectAfterAuth(isOwner ? 'admin.html' : 'dashboard.html');
       } catch (err) {
         console.error(err);
         showError(err.message || 'فشل تسجيل الدخول. يرجى التحقق من بياناتك.');
@@ -639,7 +641,7 @@
       }
     }
 
-    // 3. معالجة طلب استعادة كلمة المرور (مع مسار احتياطي مضاد للكاش بنسبة 100%)
+    // 3. معالجة طلب استعادة كلمة المرور
     async function handleForgotSubmit(e) {
       e.preventDefault();
       hideAlerts();
@@ -658,20 +660,17 @@
       try {
         let sentEmail = identifier;
 
-        // استدعاء دالة authManager إذا كانت متوفرة
         if (window.authManager && typeof window.authManager.sendPasswordReset === 'function') {
           const res = await window.authManager.sendPasswordReset(identifier);
           sentEmail = res.email || identifier;
         } else {
-          // مسار مباشر وسريع عبر عميل Supabase الرسمي
           const ADMINS = {
             'admin': 'abdualaziz.yemen@gmail.com',
             'abdulaziz': 'abdualaziz.yemen@gmail.com',
             'abdeh': 'abdualaziz.yemen@gmail.com',
             'owner': 'abdualaziz.yemen@gmail.com',
             'aziz': 'abdualaziz.yemen@gmail.com',
-            'hatem': 'abdualaziz.yemen@gmail.com',
-            'elias': 'eliassadiqrajih1@gmail.com'
+            'hatem': 'abdualaziz.yemen@gmail.com'
           };
           
           let cleanEmail = identifier.trim();
@@ -780,6 +779,6 @@
       if (succ) succ.style.display = 'none';
     }
   </script>
-  <script src="js/pwa.js?v=1.0.2"></script>
+  <script src="js/pwa.js?v=1.0.3"></script>
 </body>
 </html>

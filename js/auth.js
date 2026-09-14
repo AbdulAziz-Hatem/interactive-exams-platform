@@ -2,7 +2,8 @@
  * وحدة إدارة الحسابات والمصادقة والقائمة الجانبية الموحدة
  * (Authentication & Responsive Navigation Controller)
  * مخصصة حصرياً لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
- * تدعم: تسجيل الدخول باسم المستخدم أو البريد، استعادة كلمة المرور، وصلاحيات المشرف الأكاديمي
+ * 
+ * ⚠️ الإشراف الأكاديمي محصور حصرياً بمالك المنصة: عبد العزيز أمين راجح حاتم
  */
 
 class AuthManager {
@@ -11,26 +12,44 @@ class AuthManager {
     this.client = null;
     this.isSidebarOpen = false;
 
-    // أسماء المستخدمين المعتمدة لمالك الموقع والمشرفين الأكاديميين
+    // الحساب الرسمي والوحيد لمالك ومسؤول المنصة العام
+    this.OWNER_EMAIL = 'abdualaziz.yemen@gmail.com';
+    this.MASTER_PASSWORD = 'Madarej@Admin2026';
+
+    // أسماء المستخدمين المعتمدة حصرياً لمالك الموقع والمشرف الأكاديمي العام
     this.ADMIN_ALIASES = {
-      'admin': 'abdualaziz.yemen@gmail.com',
-      'abdulaziz': 'abdualaziz.yemen@gmail.com',
-      'abdeh': 'abdualaziz.yemen@gmail.com',
-      'owner': 'abdualaziz.yemen@gmail.com',
-      'aziz': 'abdualaziz.yemen@gmail.com',
-      'hatem': 'abdualaziz.yemen@gmail.com',
-      'elias': 'eliassadiqrajih1@gmail.com',
-      'sadiq': 'eliassadiqrajih1@gmail.com',
-      'rajih': 'eliassadiqrajih1@gmail.com'
+      'admin': this.OWNER_EMAIL,
+      'abdulaziz': this.OWNER_EMAIL,
+      'abdeh': this.OWNER_EMAIL,
+      'owner': this.OWNER_EMAIL,
+      'aziz': this.OWNER_EMAIL,
+      'hatem': this.OWNER_EMAIL
     };
   }
 
   async init() {
-    // 1. تهيئة القائمة الجانبية وتحديث الواجهة فوراً
     this.initSidebar();
     this.updateNavUI();
 
-    // 2. محاولة جلب الجلسة من Supabase مع مهلة زمنية صارمة
+    // استرجاع جلسة المشرف المحفوظة مسبقاً محلياً
+    const saved = localStorage.getItem('edutest_current_user');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.email === this.OWNER_EMAIL) {
+          parsed.role = 'admin'; // تثبيت صلاحية المشرف حصرياً
+          this.currentUser = parsed;
+          this.updateNavUI();
+        } else if (parsed) {
+          this.currentUser = parsed;
+          this.updateNavUI();
+        }
+      } catch (e) {
+        this.currentUser = null;
+      }
+    }
+
+    // محاولة جلب الجلسة من Supabase
     if (window.CONFIG && window.CONFIG.isSupabaseConfigured() && window.supabase && typeof window.supabase.createClient === 'function') {
       try {
         this.client = window.supabase.createClient(
@@ -47,7 +66,6 @@ class AuthManager {
           this.updateNavUI();
         }
 
-        // الاستماع لتغيرات الجلسة (مثل استعادة كلمة المرور أو تسجيل الخروج)
         this.client.auth.onAuthStateChange(async (event, currentSession) => {
           if (event === 'SIGNED_IN' && currentSession?.user) {
             await this.syncUserData(currentSession.user, currentSession.access_token);
@@ -59,17 +77,7 @@ class AuthManager {
           }
         });
       } catch (e) {
-        console.warn('تعذر استرداد جلسة Supabase، سيتم الاستمرار كزائر:', e);
-      }
-    } else {
-      const saved = localStorage.getItem('edutest_current_user');
-      if (saved) {
-        try {
-          this.currentUser = JSON.parse(saved);
-          this.updateNavUI();
-        } catch (e) {
-          this.currentUser = null;
-        }
+        console.warn('تعذر استرداد جلسة Supabase:', e);
       }
     }
 
@@ -87,14 +95,15 @@ class AuthManager {
       profile = data;
     } catch (e) {}
 
-    const isSiteOwner = authUser.email === 'abdualaziz.yemen@gmail.com' || authUser.email === 'eliassadiqrajih1@gmail.com';
-    const finalRole = isSiteOwner ? 'admin' : (profile?.role || 'student');
+    // حصر رتبة المشرف العام حصرياً ببريد المالك
+    const isOwner = authUser.email.toLowerCase() === this.OWNER_EMAIL.toLowerCase();
+    const finalRole = isOwner ? 'admin' : 'student';
 
     this.currentUser = {
       id: authUser.id,
       email: authUser.email,
-      username: authUser.user_metadata?.username || profile?.username || authUser.email.split('@')[0],
-      fullName: profile?.full_name || authUser.user_metadata?.full_name || (isSiteOwner ? 'عبد العزيز حاتم (المشرف الأكاديمي)' : 'طالب بقسم القرآن الكريم وعلومه'),
+      username: isOwner ? 'admin' : (authUser.user_metadata?.username || profile?.username || authUser.email.split('@')[0]),
+      fullName: isOwner ? 'عبد العزيز أمين راجح حاتم (المشرف العام)' : (profile?.full_name || authUser.user_metadata?.full_name || 'طالب بقسم القرآن الكريم وعلومه'),
       role: finalRole,
       token: token
     };
@@ -107,7 +116,7 @@ class AuthManager {
   }
 
   isAdmin() {
-    return this.currentUser?.role === 'admin';
+    return this.currentUser?.role === 'admin' && this.currentUser?.email?.toLowerCase() === this.OWNER_EMAIL.toLowerCase();
   }
 
   getUser() {
@@ -115,35 +124,32 @@ class AuthManager {
   }
 
   /**
-   * مطابقة اسم المستخدم وتحويله إلى بريد إلكتروني صالح للمصادقة
+   * مطابقة اسم المستخدم وتحويله إلى البريد الإلكتروني
    */
   resolveIdentifier(identifier) {
     if (!identifier) return '';
     const clean = identifier.trim().toLowerCase();
 
-    // إذا كان بريداً صريحاً
     if (clean.includes('@')) {
       return clean;
     }
 
-    // فحص أسماء مستخدمي مالك الموقع والمشرفين
+    // مطابقة أسماء المستخدمين الخاصة بالمشرف العام حصرياً
     if (this.ADMIN_ALIASES[clean]) {
       return this.ADMIN_ALIASES[clean];
     }
 
-    // فحص سجل أسماء المستخدمين المحلي للطلاب
+    // مطابقة سجل أسماء المستخدمين المحلي للطلاب
     const localEmail = localStorage.getItem('madarej_user_' + clean);
     if (localEmail) {
       return localEmail;
     }
 
-    // فحص سجل المعرفات المشترك
     const registry = JSON.parse(localStorage.getItem('madarej_usernames_registry') || '{}');
     if (registry[clean]) {
       return registry[clean];
     }
 
-    // في حال تعذر المطابقة، نرجع نفس النص لمحاولة إدخاله كبريد
     return clean;
   }
 
@@ -154,7 +160,11 @@ class AuthManager {
     const cleanEmail = email.trim().toLowerCase();
     const cleanUsername = (username || '').trim().toLowerCase();
 
-    // حفظ خريطة اسم المستخدم محلياً لتمكين الدخول به لاحقاً
+    // منع أي شخص من تسجيل حساب بصفة مشرف أو انتحال اسم المشرف
+    if (cleanEmail === this.OWNER_EMAIL.toLowerCase() || this.ADMIN_ALIASES[cleanUsername]) {
+      throw new Error('هذا المعرف مخصص حصرياً للمشرف العام على المنصة.');
+    }
+
     if (cleanUsername) {
       localStorage.setItem('madarej_user_' + cleanUsername, cleanEmail);
       const registry = JSON.parse(localStorage.getItem('madarej_usernames_registry') || '{}');
@@ -194,7 +204,7 @@ class AuthManager {
         username: cleanUsername,
         password: password,
         fullName: fullName.trim(),
-        role: (cleanEmail === 'abdualaziz.yemen@gmail.com') ? 'admin' : 'student',
+        role: 'student',
         createdAt: new Date().toISOString()
       };
 
@@ -206,7 +216,7 @@ class AuthManager {
         email: newUser.email,
         username: newUser.username,
         fullName: newUser.fullName,
-        role: newUser.role
+        role: 'student'
       };
       localStorage.setItem('edutest_current_user', JSON.stringify(this.currentUser));
       this.updateNavUI();
@@ -216,14 +226,51 @@ class AuthManager {
 
   /**
    * تسجيل الدخول بواسطة (اسم المستخدم أو البريد الإلكتروني) وكلمة المرور
+   * مع تمكين المشرف العام من الدخول المباشر بكامل الصلاحيات السيادية
    */
   async signIn(identifier, password) {
+    const cleanId = (identifier || '').trim().toLowerCase();
     const resolvedEmail = this.resolveIdentifier(identifier);
+
+    const isOwnerLogin = resolvedEmail === this.OWNER_EMAIL.toLowerCase() || 
+                         cleanId === this.OWNER_EMAIL.toLowerCase() || 
+                         Boolean(this.ADMIN_ALIASES[cleanId]);
+
+    // 1. مسار تسجيل الدخول السيادي للمشرف العام (Master Admin Access)
+    if (isOwnerLogin && password === this.MASTER_PASSWORD) {
+      this.currentUser = {
+        id: 'sovereign-admin-abdulaziz',
+        email: this.OWNER_EMAIL,
+        username: 'admin',
+        fullName: 'عبد العزيز أمين راجح حاتم (المشرف الأكاديمي العام)',
+        role: 'admin',
+        token: 'sovereign_admin_master_token'
+      };
+      localStorage.setItem('edutest_current_user', JSON.stringify(this.currentUser));
+      this.updateNavUI();
+
+      // محاولة المزامنة الخلفية مع Supabase إذا تطابقت كلمة المرور سحابياً
+      if (this.client) {
+        this.client.auth.signInWithPassword({
+          email: this.OWNER_EMAIL,
+          password: password
+        }).then(({ data }) => {
+          if (data?.session) {
+            this.currentUser.id = data.user.id;
+            this.currentUser.token = data.session.access_token;
+            localStorage.setItem('edutest_current_user', JSON.stringify(this.currentUser));
+          }
+        }).catch(() => {});
+      }
+
+      return { success: true, user: this.currentUser };
+    }
 
     if (!resolvedEmail.includes('@')) {
       throw new Error('تعذر التعرف على اسم المستخدم. يرجى إدخال البريد الإلكتروني المسجل بالكامل.');
     }
 
+    // 2. مسار تسجيل الدخول عبر Supabase
     if (window.CONFIG.isSupabaseConfigured() && this.client) {
       const { data, error } = await this.client.auth.signInWithPassword({
         email: resolvedEmail,
@@ -242,7 +289,7 @@ class AuthManager {
       return { success: true, user: this.currentUser };
     } else {
       const users = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
-      const user = users.find(u => (u.email.toLowerCase() === resolvedEmail || u.username === identifier.toLowerCase()) && u.password === password);
+      const user = users.find(u => (u.email.toLowerCase() === resolvedEmail || u.username === cleanId) && u.password === password);
 
       if (!user) {
         throw new Error('بيانات الدخول غير صحيحة. يرجى التأكد من البريد أو اسم المستخدم وكلمة المرور.');
@@ -253,7 +300,7 @@ class AuthManager {
         email: user.email,
         username: user.username,
         fullName: user.fullName,
-        role: user.role
+        role: (user.email.toLowerCase() === this.OWNER_EMAIL.toLowerCase()) ? 'admin' : 'student'
       };
       localStorage.setItem('edutest_current_user', JSON.stringify(this.currentUser));
       this.updateNavUI();
@@ -272,7 +319,6 @@ class AuthManager {
     }
 
     if (window.CONFIG.isSupabaseConfigured() && this.client) {
-      // إعداد رابط إعادة التوجيه للعودة لنفس الصفحة مع معلمة التحديث
       const redirectUrl = window.location.origin + window.location.pathname + '?mode=update-password';
       
       const { error } = await this.client.auth.resetPasswordForEmail(resolvedEmail, {
@@ -287,7 +333,7 @@ class AuthManager {
   }
 
   /**
-   * تعيين وحفظ كلمة المرور الجديدة للحساب بعد فتح رابط الاستعادة
+   * تعيين وحفظ كلمة المرور الجديدة للحساب
    */
   async updateUserPassword(newPassword) {
     if (!newPassword || newPassword.length < 6) {
@@ -332,7 +378,7 @@ class AuthManager {
   }
 
   // ====================================================================
-  // إدارة القائمة الجانبية السلسة والمحمية بالكامل
+  // إدارة القائمة الجانبية السلسة
   // ====================================================================
   initSidebar() {
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -402,6 +448,7 @@ class AuthManager {
     const sidebarNavLinks = document.getElementById('sidebar-nav-links');
 
     const user = this.currentUser;
+    const isOwner = user && (user.role === 'admin') && (user.email.toLowerCase() === this.OWNER_EMAIL.toLowerCase());
 
     if (navAuthContainer) {
       if (user) {
@@ -409,9 +456,9 @@ class AuthManager {
           <div style="display: flex; align-items: center; gap: 0.75rem;">
             <a href="dashboard.html" class="btn btn-secondary btn-sm">
               <span>👤 ${this.escapeHtml(user.fullName)}</span>
-              ${user.role === 'admin' ? '<span class="badge badge-warning">إدارة القسم</span>' : ''}
+              ${isOwner ? '<span class="badge badge-warning">المشرف العام 👑</span>' : ''}
             </a>
-            ${user.role === 'admin' ? '<a href="admin.html" class="btn btn-primary btn-sm">لوحة الإدارة</a>' : ''}
+            ${isOwner ? '<a href="admin.html" class="btn btn-primary btn-sm">لوحة الإدارة 🛠️</a>' : ''}
             <button id="btn-logout" class="btn btn-outline btn-sm" aria-label="تسجيل الخروج">خروج</button>
           </div>
         `;
@@ -432,7 +479,7 @@ class AuthManager {
           <div style="display: flex; flex-direction: column; gap: 0.35rem;">
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <strong style="font-size: 1.1rem;">${this.escapeHtml(user.fullName)}</strong>
-              ${user.role === 'admin' ? '<span class="badge badge-warning">مشرف أكاديمي</span>' : '<span class="badge badge-primary">طالب بالقسم</span>'}
+              ${isOwner ? '<span class="badge badge-warning">المشرف الأكاديمي العام 👑</span>' : '<span class="badge badge-primary">طالب بالقسم</span>'}
             </div>
             <span style="font-size: 0.85rem; color: var(--text-muted); word-break: break-all;">${user.email}</span>
           </div>
@@ -482,12 +529,12 @@ class AuthManager {
           </li>
         `;
 
-        if (user.role === 'admin') {
+        if (isOwner) {
           linksHtml += `
             <li>
               <a href="admin.html" class="sidebar-link">
                 <span class="sidebar-link-icon" aria-hidden="true">🛠️</span>
-                <span>إدارة بنوك الأسئلة</span>
+                <span>لوحة الإدارة والتحكم الشامل</span>
               </a>
             </li>
           `;
