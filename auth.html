@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=1.0.2">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="manifest" href="manifest.json">
@@ -369,17 +369,19 @@
     </div>
   </footer>
 
-  <script src="js/config.js"></script>
-  <script src="js/a11y.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/db.js"></script>
+  <script src="js/config.js?v=1.0.2"></script>
+  <script src="js/a11y.js?v=1.0.2"></script>
+  <script src="js/auth.js?v=1.0.2"></script>
+  <script src="js/db.js?v=1.0.2"></script>
   <script>
     let currentMode = 'login'; // login | signup | forgot | update-password
 
     document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
-      await window.authManager.init();
+      if (window.authManager && typeof window.authManager.init === 'function') {
+        await window.authManager.init();
+      }
 
       // فحص معلمات الرابط (URL parameters & Hash) لتحديد الحالة
       const params = new URLSearchParams(window.location.search);
@@ -397,7 +399,7 @@
       }
 
       // إذا كان مسجل دخوله مسبقاً وليس في وضع تحديث كلمة المرور
-      if (window.authManager.isAuthenticated() && currentMode !== 'update-password') {
+      if (window.authManager && window.authManager.isAuthenticated && window.authManager.isAuthenticated() && currentMode !== 'update-password') {
         window.location.href = 'dashboard.html';
         return;
       }
@@ -540,7 +542,19 @@
       btn.textContent = 'جاري التحقق من الحساب...';
 
       try {
-        await window.authManager.signIn(identifier, password);
+        if (window.authManager && typeof window.authManager.signIn === 'function') {
+          await window.authManager.signIn(identifier, password);
+        } else {
+          // مسار احتياطي مباشر
+          const cleanEmail = identifier.includes('@') ? identifier : (
+            ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem'].includes(identifier.toLowerCase())
+              ? 'abdualaziz.yemen@gmail.com'
+              : identifier
+          );
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const { error } = await client.auth.signInWithPassword({ email: cleanEmail, password });
+          if (error) throw error;
+        }
         
         if (remember) {
           localStorage.setItem('madarej_remembered_identifier', identifier);
@@ -548,13 +562,14 @@
           localStorage.removeItem('madarej_remembered_identifier');
         }
 
-        const user = window.authManager.getUser();
-        const welcomeMsg = user.role === 'admin' 
+        const user = (window.authManager && typeof window.authManager.getUser === 'function') ? window.authManager.getUser() : null;
+        const isAdmin = user ? (user.role === 'admin') : (identifier.toLowerCase().includes('admin') || identifier.toLowerCase().includes('abdualaziz'));
+        const welcomeMsg = isAdmin 
           ? 'مرحباً بك فضيلة المشرف الأكاديمي! جاري التوجيه إلى لوحة الإدارة...' 
-          : 'مرحباً بك يا ' + user.fullName + '! جاري توجيهك إلى لوحة درجاتك...';
+          : 'مرحباً بك! جاري توجيهك إلى لوحة درجاتك الأكاديمية...';
 
         showSuccess(welcomeMsg);
-        redirectAfterAuth(user.role === 'admin' ? 'admin.html' : 'dashboard.html');
+        redirectAfterAuth(isAdmin ? 'admin.html' : 'dashboard.html');
       } catch (err) {
         console.error(err);
         showError(err.message || 'فشل تسجيل الدخول. يرجى التحقق من بياناتك.');
@@ -594,7 +609,20 @@
       btn.textContent = 'جاري إنشاء وتفعيل الحساب...';
 
       try {
-        const res = await window.authManager.signUp(fullname, username, email, password);
+        let res;
+        if (window.authManager && typeof window.authManager.signUp === 'function') {
+          res = await window.authManager.signUp(fullname, username, email, password);
+        } else {
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: fullname, username: username.toLowerCase(), role: 'student' } }
+          });
+          if (error) throw error;
+          res = { requiresEmailConfirmation: !data.session };
+        }
+
         if (res.requiresEmailConfirmation) {
           showSuccess('تم تسجيل حسابك بنجاح! يرجى فتح بريدك الإلكتروني (' + email + ') والضغط على رابط التأكيد المرفق.');
           btn.disabled = false;
@@ -611,7 +639,7 @@
       }
     }
 
-    // 3. معالجة طلب استعادة كلمة المرور
+    // 3. معالجة طلب استعادة كلمة المرور (مع مسار احتياطي مضاد للكاش بنسبة 100%)
     async function handleForgotSubmit(e) {
       e.preventDefault();
       hideAlerts();
@@ -628,12 +656,48 @@
       btn.textContent = 'جاري إرسال الرابط...';
 
       try {
-        const res = await window.authManager.sendPasswordReset(identifier);
-        showSuccess('✅ تم إرسال رابط استعادة كلمة المرور إلى بريدك: (' + res.email + '). يرجى مراجعة بريدك الوارد (وصندوق الرسائل غير المرغوب فيها Spam) والضغط على الرابط لتعيين كلمة مرور جديدة.');
+        let sentEmail = identifier;
+
+        // استدعاء دالة authManager إذا كانت متوفرة
+        if (window.authManager && typeof window.authManager.sendPasswordReset === 'function') {
+          const res = await window.authManager.sendPasswordReset(identifier);
+          sentEmail = res.email || identifier;
+        } else {
+          // مسار مباشر وسريع عبر عميل Supabase الرسمي
+          const ADMINS = {
+            'admin': 'abdualaziz.yemen@gmail.com',
+            'abdulaziz': 'abdualaziz.yemen@gmail.com',
+            'abdeh': 'abdualaziz.yemen@gmail.com',
+            'owner': 'abdualaziz.yemen@gmail.com',
+            'aziz': 'abdualaziz.yemen@gmail.com',
+            'hatem': 'abdualaziz.yemen@gmail.com',
+            'elias': 'eliassadiqrajih1@gmail.com'
+          };
+          
+          let cleanEmail = identifier.trim();
+          if (!cleanEmail.includes('@') && ADMINS[cleanEmail.toLowerCase()]) {
+            cleanEmail = ADMINS[cleanEmail.toLowerCase()];
+          }
+
+          if (!cleanEmail.includes('@')) {
+            throw new Error('يرجى إدخال عنوان البريد الإلكتروني المسجل كاملاً (مثال: student@example.com).');
+          }
+
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const redirectUrl = window.location.origin + window.location.pathname + '?mode=update-password';
+          const { error } = await client.auth.resetPasswordForEmail(cleanEmail, {
+            redirectTo: redirectUrl
+          });
+
+          if (error) throw error;
+          sentEmail = cleanEmail;
+        }
+
+        showSuccess('✅ تم إرسال رابط استعادة كلمة المرور بنجاح إلى: (' + sentEmail + '). يرجى فتح بريدك الإلكتروني والضغط على الرابط لتعيين كلمة مرور جديدة.');
         btn.textContent = 'تم الإرسال بنجاح ✓';
       } catch (err) {
         console.error(err);
-        showError(err.message || 'تعذر إرسال رابط الاستعادة.');
+        showError(err.message || 'تعذر إرسال رابط الاستعادة. يرجى التأكد من كتابة البريد بشكل صحيح.');
         btn.disabled = false;
         btn.textContent = '📨 إرسال رابط استعادة كلمة المرور';
       }
@@ -667,7 +731,14 @@
       btn.textContent = 'جاري حفظ وتحديث كلمة المرور...';
 
       try {
-        await window.authManager.updateUserPassword(newPassword);
+        if (window.authManager && typeof window.authManager.updateUserPassword === 'function') {
+          await window.authManager.updateUserPassword(newPassword);
+        } else {
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const { error } = await client.auth.updateUser({ password: newPassword });
+          if (error) throw error;
+        }
+
         showSuccess('🎉 تم تحديث كلمة المرور بنجاح! جاري تسجيل دخولك إلى لوحة التحكم...');
         setTimeout(() => {
           window.location.href = 'dashboard.html';
@@ -709,6 +780,6 @@
       if (succ) succ.style.display = 'none';
     }
   </script>
-  <script src="js/pwa.js"></script>
+  <script src="js/pwa.js?v=1.0.2"></script>
 </body>
 </html>
