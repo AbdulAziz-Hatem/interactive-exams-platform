@@ -454,6 +454,7 @@ class AuthManager {
       if (user) {
         navAuthContainer.innerHTML = `
           <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <a href="about.html" class="btn btn-outline btn-sm desktop-only">عن مدارج 🏛️</a>
             <a href="dashboard.html" class="btn btn-secondary btn-sm">
               <span>👤 ${this.escapeHtml(user.fullName)}</span>
               ${isOwner ? '<span class="badge badge-warning">المشرف العام 👑</span>' : ''}
@@ -466,6 +467,7 @@ class AuthManager {
       } else {
         navAuthContainer.innerHTML = `
           <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <a href="about.html" class="btn btn-outline btn-sm">عن مدارج 🏛️</a>
             <a href="auth.html?mode=login" class="btn btn-secondary btn-sm">دخول الطالب</a>
             <a href="auth.html?mode=signup" class="btn btn-primary btn-sm">حساب جديد</a>
           </div>
@@ -506,9 +508,15 @@ class AuthManager {
           </a>
         </li>
         <li>
+          <a href="about.html" class="sidebar-link">
+            <span class="sidebar-link-icon" aria-hidden="true">🏛️</span>
+            <span>عن منصة مدارج (الرؤية والرسالة)</span>
+          </a>
+        </li>
+        <li>
           <a href="index.html#subjects-section" class="sidebar-link">
             <span class="sidebar-link-icon" aria-hidden="true">📚</span>
-            <span>مقررات القسم واختباراتها</span>
+            <span>مقررات المنصة وبنوك الأسئلة</span>
           </a>
         </li>
       `;

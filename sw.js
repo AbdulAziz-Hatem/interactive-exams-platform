@@ -1,15 +1,16 @@
 /**
  * عامل الخدمة المتقدم لتشغيل منصة مدارج دون اتصال (Offline Service Worker)
  * معتمد لقسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء
- * الإصدار: v1.0.3
+ * الإصدار: v1.0.4
  * استراتيجية: Network-First للبرمجيات والصفحات و Cache-First للأصول
  */
 
-const CACHE_NAME = 'madarej-cache-v1.0.3';
+const CACHE_NAME = 'madarej-cache-v1.0.4';
 
 const STATIC_ASSETS = [
   './',
   './index.html',
+  './about.html',
   './auth.html',
   './dashboard.html',
   './subject.html',
@@ -35,7 +36,7 @@ const STATIC_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] جاري تثبيت كاش مدارج v1.0.3...');
+      console.log('[Service Worker] جاري تثبيت كاش مدارج v1.0.4...');
       return cache.addAll(STATIC_ASSETS);
     }).then(() => self.skipWaiting())
   );
