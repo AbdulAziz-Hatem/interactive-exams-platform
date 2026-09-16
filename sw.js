@@ -5,7 +5,7 @@
  * استراتيجية: Network-First للبرمجيات والصفحات و Cache-First للأصول
  */
 
-const CACHE_NAME = 'madarej-cache-v1.0.4';
+const CACHE_NAME = 'madarej-cache-v1.0.5';
 
 const STATIC_ASSETS = [
   './',

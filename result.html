@@ -1,494 +1,494 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نتيجة الاختبار والمراجعة الأكاديمية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e40af">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>نتيجة الاختبار والمراجعة الأكاديمية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/style.css">
+ <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+ <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+ <link rel="manifest" href="manifest.json">
+ <meta name="theme-color" content="#1e40af">
+ <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
-  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+ <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الأكاديمي -->
-  <header class="navbar" role="banner">
-    <div class="container nav-container">
-      <div class="nav-right">
-        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
-          <span class="hamburger-bar" aria-hidden="true"></span>
-          <span class="hamburger-bar" aria-hidden="true"></span>
-          <span class="hamburger-bar" aria-hidden="true"></span>
-        </button>
-        <a href="index.html" class="brand">
-          <span class="brand-badge">مدارج</span>
-          <div class="brand-text-wrapper">
-            <span class="brand-title">منصة مدارج</span>
-            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
-          </div>
-        </a>
-      </div>
-      <div class="nav-left">
-        <div id="nav-auth-container" class="desktop-only"></div>
-        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
-      </div>
-    </div>
-  </header>
+ <!-- شريط التنقل العلوي الأكاديمي -->
+ <header class="navbar" role="banner">
+ <div class="container nav-container">
+ <div class="nav-right">
+ <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ </button>
+ <a href="index.html" class="brand">
+ <span class="brand-badge">مدارج</span>
+ <div class="brand-text-wrapper">
+ <span class="brand-title">منصة مدارج</span>
+ <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
+ </div>
+ </a>
+ </div>
+ <div class="nav-left">
+ <div id="nav-auth-container" class="desktop-only"></div>
+ <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
+ </div>
+ </div>
+ </header>
 
-  <!-- خلفية التعتيم والقائمة الجانبية -->
-  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
-  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
-    <div class="sidebar-header">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="brand-badge">مدارج</span>
-        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
-      </div>
-      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
-    </div>
-    <div id="sidebar-user-area" class="sidebar-user-card"></div>
-    <nav role="navigation" aria-label="روابط القائمة">
-      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
-    </nav>
-    <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
-    </div>
-  </aside>
+ <!-- خلفية التعتيم والقائمة الجانبية -->
+ <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+ <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+ <div class="sidebar-header">
+ <div style="display: flex; align-items: center; gap: 0.5rem;">
+ <span class="brand-badge">مدارج</span>
+ <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+ </div>
+ <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+ </div>
+ <div id="sidebar-user-area" class="sidebar-user-card"></div>
+ <nav role="navigation" aria-label="روابط القائمة">
+ <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+ </nav>
+ <div class="sidebar-footer">
+ <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
+ </div>
+ </aside>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
-    <div id="result-app">
-      <div class="card" style="text-align: center; padding: 3.5rem;">
-        <p class="text-muted">جاري احتساب النتيجة وجلب التغذية الراجعة من السحابة...</p>
-      </div>
-    </div>
-  </main>
+ <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+ <div id="result-app">
+ <div class="card" style="text-align: center; padding: 3.5rem;">
+ <p class="text-muted">جاري احتساب النتيجة وجلب التغذية الراجعة من السحابة...</p>
+ </div>
+ </div>
+ </main>
 
-    <footer class="footer" role="contentinfo">
-    <div class="container footer-content">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="brand-badge">مدارج</span>
-        <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
-      </div>
-      <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
-        منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
-      </p>
-      <ul class="footer-links">
-        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
-        <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
-        <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
-        <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
-        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
-      </ul>
-      <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
-        جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
-      </p>
-    </div>
-  </footer>
+ <footer class="footer" role="contentinfo">
+ <div class="container footer-content">
+ <div style="display: flex; align-items: center; gap: 0.5rem;">
+ <span class="brand-badge">مدارج</span>
+ <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
+ </div>
+ <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
+ منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
+ </p>
+ <ul class="footer-links">
+ <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+ <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
+ <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
+ <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
+ <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+ </ul>
+ <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
+ جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
+ </p>
+ </div>
+ </footer>
 
-  <script src="js/config.js"></script>
-  <script src="js/a11y.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/bookmarks.js"></script>
-  <script>
-    let currentSubmission = null;
+ <script src="js/config.js"></script>
+ <script src="js/a11y.js"></script>
+ <script src="js/auth.js"></script>
+ <script src="js/db.js"></script>
+ <script src="js/bookmarks.js"></script>
+ <script>
+ let currentSubmission = null;
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
+ document.addEventListener('DOMContentLoaded', async  => {
+ document.getElementById('theme-toggle')?.addEventListener('click',  => window.a11y?.toggleTheme);
 
-      await window.authManager.init();
-      window.db.init();
+ await window.authManager.init;
+ window.db.init;
 
-      const params = new URLSearchParams(window.location.search);
-      const submissionId = params.get('submission_id');
+ const params = new URLSearchParams(window.location.search);
+ const submissionId = params.get('submission_id');
 
-      if (!submissionId) {
-        alert('لم يتم تحديد معرف النتيجة!');
-        window.location.href = 'index.html';
-        return;
-      }
+ if (!submissionId) {
+ alert('لم يتم تحديد معرف النتيجة!');
+ window.location.href = 'index.html';
+ return;
+ }
 
-      loadResult(submissionId);
-    });
+ loadResult(submissionId);
+ });
 
-    async function loadResult(submissionId) {
-      try {
-        const sub = await window.db.getSubmissionById(submissionId);
-        if (!sub) {
-          alert('تعذر العثور على سجل النتيجة الأكاديمية!');
-          window.location.href = 'index.html';
-          return;
-        }
+ async function loadResult(submissionId) {
+ try {
+ const sub = await window.db.getSubmissionById(submissionId);
+ if (!sub) {
+ alert('تعذر العثور على سجل النتيجة الأكاديمية!');
+ window.location.href = 'index.html';
+ return;
+ }
 
-        currentSubmission = sub;
-        const app = document.getElementById('result-app');
-        const isPassed = sub.passed;
-        const bannerClass = isPassed ? 'passed' : 'failed';
-        const statusText = isPassed ? 'مبارك! تم اجتياز الاختبار بنجاح 🎉' : 'للأسف لم يتم اجتياز الاختبار هذه المرة ⚠️';
+ currentSubmission = sub;
+ const app = document.getElementById('result-app');
+ const isPassed = sub.passed;
+ const bannerClass = isPassed ? 'passed': 'failed';
+ const statusText = isPassed ? 'مبارك! تم اجتياز الاختبار بنجاح ': 'للأسف لم يتم اجتياز الاختبار هذه المرة تنبيه:';
 
-        const voiceAnnounce = `تم الانتهاء من الاختبار. ${statusText}. درجتك هي: ${sub.percentage} بالمائة. حصلت على ${sub.score} من إجمالي ${sub.total_points} نقطة.`;
-        window.a11y?.announce(voiceAnnounce, 'assertive');
+ const voiceAnnounce = `تم الانتهاء من الاختبار. ${statusText}. درجتك هي: ${sub.percentage} بالمائة. حصلت على ${sub.score} من إجمالي ${sub.total_points} نقطة.`;
+ window.a11y?.announce(voiceAnnounce, 'assertive');
 
-        const details = sub.review_details || [];
-        const reviewItemsHtml = details.map((d, index) => {
-          const itemClass = d.is_correct ? 'correct' : 'wrong';
-          const badgeHtml = d.is_correct 
-            ? '<span class="badge badge-success">إجابة صحيحة ✓</span>'
-            : '<span class="badge badge-danger">إجابة غير صحيحة ✗</span>';
+ const details = sub.review_details || [];
+ const reviewItemsHtml = details.map((d, index) => {
+ const itemClass = d.is_correct ? 'correct': 'wrong';
+ const badgeHtml = d.is_correct
+ ? '<span class="badge badge-success">إجابة صحيحة صحيحة</span>'
+: '<span class="badge badge-danger">إجابة غير صحيحة غير صحيحة</span>';
 
-          const isSaved = window.bookmarksManager?.isBookmarked(d.question_id);
-          const bookmarkText = isSaved ? 'محفوظة للمراجعة ★' : 'حفظ للمراجعة ☆';
-          const bookmarkClass = isSaved ? 'btn-bookmark bookmarked' : 'btn-bookmark';
+ const isSaved = window.bookmarksManager?.isBookmarked(d.question_id);
+ const bookmarkText = isSaved ? 'محفوظة للمراجعة ': 'حفظ للمراجعة ';
+ const bookmarkClass = isSaved ? 'btn-bookmark bookmarked': 'btn-bookmark';
 
-          return `
-            <article class="review-item ${itemClass}" aria-labelledby="rev-q-${index}">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1;">
-                  <h4 id="rev-q-${index}" style="font-size: 1.2rem; font-weight: 800; line-height: 1.5;">
-                    المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
-                  </h4>
-                </div>
-                <div style="display: flex; gap: 0.5rem; align-items: center;">
-                  ${badgeHtml}
-                  <button type="button" class="${bookmarkClass} btn-bookmark-item" data-qid="${d.question_id}" data-idx="${index}" aria-pressed="${isSaved}" aria-label="${isSaved ? 'إزالة المسألة من قائمة المراجعة' : 'حفظ المسألة في قائمة المراجعة للمذاكرة لاحقاً'}">
-                    <span>${bookmarkText}</span>
-                  </button>
-                </div>
-              </div>
+ return `
+ <article class="review-item ${itemClass}" aria-labelledby="rev-q-${index}">
+ <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
+ <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1;">
+ <h4 id="rev-q-${index}" style="font-size: 1.2rem; font-weight: 800; line-height: 1.5;">
+ المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
+ </h4>
+ </div>
+ <div style="display: flex; gap: 0.5rem; align-items: center;">
+ ${badgeHtml}
+ <button type="button" class="${bookmarkClass} btn-bookmark-item" data-qid="${d.question_id}" data-idx="${index}" aria-pressed="${isSaved}" aria-label="${isSaved ? 'إزالة المسألة من قائمة المراجعة': 'حفظ المسألة في قائمة المراجعة للمذاكرة لاحقاً'}">
+ <span>${bookmarkText}</span>
+ </button>
+ </div>
+ </div>
 
-              <div style="margin: 0.85rem 0; font-size: 1.02rem;">
-                <p style="margin-bottom: 0.35rem;">
-                  <strong>الإجابة النموذجية الصحيحة:</strong> 
-                  <span style="color: var(--success); font-weight: 800;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
-                </p>
-              </div>
+ <div style="margin: 0.85rem 0; font-size: 1.02rem;">
+ <p style="margin-bottom: 0.35rem;">
+ <strong>الإجابة النموذجية الصحيحة:</strong>
+ <span style="color: var(--success); font-weight: 800;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
+ </p>
+ </div>
 
-              ${d.explanation ? `
-                <div class="explanation-box">
-                  <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(d.explanation)}
-                </div>
-              ` : ''}
-            </article>
-          `;
-        }).join('');
+ ${d.explanation ? `
+ <div class="explanation-box">
+ <strong> التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(d.explanation)}
+ </div>
+ `: ''}
+ </article>
+ `;
+ }).join('');
 
-        app.innerHTML = `
-          <section class="result-banner ${bannerClass}" role="region" aria-label="ملخص النتيجة الأكاديمية">
-            <h1 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 0.5rem;">${statusText}</h1>
-            <div class="score-display">${sub.percentage}%</div>
-            <p style="font-size: 1.25rem; font-weight: 700;">
-              الدرجة المحققة: ${sub.score} من أصل ${sub.total_points} نقطة
-            </p>
-            <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.95;">
-              درجة النجاح المقررة: ${sub.passing_percentage || 50}%
-            </p>
+ app.innerHTML = `
+ <section class="result-banner ${bannerClass}" role="region" aria-label="ملخص النتيجة الأكاديمية">
+ <h1 style="font-size: 2.1rem; font-weight: 900; margin-bottom: 0.5rem;">${statusText}</h1>
+ <div class="score-display">${sub.percentage}%</div>
+ <p style="font-size: 1.25rem; font-weight: 700;">
+ الدرجة المحققة: ${sub.score} من أصل ${sub.total_points} نقطة
+ </p>
+ <p style="font-size: 0.95rem; margin-top: 0.5rem; opacity: 0.95;">
+ درجة النجاح المقررة: ${sub.passing_percentage || 50}%
+ </p>
 
-            <div style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap;">
-              <button id="btn-export-pdf" class="btn btn-primary btn-sm" aria-label="طباعة وتصدير كشف النتيجة بصيغة PDF">
-                📄 طباعة وتصدير كشف النتيجة (PDF)
-              </button>
-              <button id="btn-download-report-html" class="btn btn-secondary btn-sm" aria-label="تحميل التقرير كملف مستقل">
-                📥 حفظ تقرير مستقل
-              </button>
-              <a href="exam.html?id=${sub.exam_id}" class="btn btn-secondary btn-sm">إعادة المحاولة (بترتيب عشوائي جديد) ↺</a>
-              <a href="dashboard.html" class="btn btn-secondary btn-sm">لوحة الطالب 📋</a>
-              <a href="dashboard.html?tab=bookmarks" class="btn btn-outline btn-sm">المسائل المحفوظة ⭐</a>
-            </div>
-          </section>
+ <div style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 1.75rem; flex-wrap: wrap;">
+ <button id="btn-export-pdf" class="btn btn-primary btn-sm" aria-label="طباعة وتصدير كشف النتيجة بصيغة PDF">
+ طباعة وتصدير كشف النتيجة (PDF)
+ </button>
+ <button id="btn-download-report-html" class="btn btn-secondary btn-sm" aria-label="تحميل التقرير كملف مستقل">
+ حفظ تقرير مستقل
+ </button>
+ <a href="exam.html?id=${sub.exam_id}" class="btn btn-secondary btn-sm">إعادة المحاولة (بترتيب عشوائي جديد) ↺</a>
+ <a href="dashboard.html" class="btn btn-secondary btn-sm">لوحة الطالب </a>
+ <a href="dashboard.html?tab=bookmarks" class="btn btn-outline btn-sm">المسائل المحفوظة </a>
+ </div>
+ </section>
 
-          <section aria-labelledby="review-section-title">
-            <div class="card-header">
-              <div>
-                <h2 id="review-section-title" style="font-size: 1.55rem; font-weight: 800;">
-                  المراجعة التأصيلية والتعليلات العلمية
-                </h2>
-                <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
-                  بيان وجه الصواب وتوثيق مسائل الاختبار وفق المراجع المعتمدة لأساتذة القسم.
-                </p>
-              </div>
-              <span class="badge badge-primary">${details.length} مسائل</span>
-            </div>
+ <section aria-labelledby="review-section-title">
+ <div class="card-header">
+ <div>
+ <h2 id="review-section-title" style="font-size: 1.55rem; font-weight: 800;">
+ المراجعة التأصيلية والتعليلات العلمية
+ </h2>
+ <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+ بيان وجه الصواب وتوثيق مسائل الاختبار وفق المراجع المعتمدة لأساتذة القسم.
+ </p>
+ </div>
+ <span class="badge badge-primary">${details.length} مسائل</span>
+ </div>
 
-            <div class="reviews-list">
-              ${reviewItemsHtml || '<p class="text-muted">لا تتوفر تفاصيل مراجعة إضافية لهذا السجل.</p>'}
-            </div>
-          </section>
-        `;
+ <div class="reviews-list">
+ ${reviewItemsHtml || '<p class="text-muted">لا تتوفر تفاصيل مراجعة إضافية لهذا السجل.</p>'}
+ </div>
+ </section>
+ `;
 
-        // ربط أزرار الحفظ (Bookmark) في شاشة المراجعة
-        document.querySelectorAll('.btn-bookmark-item').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const idx = parseInt(btn.getAttribute('data-idx'), 10);
-            const item = details[idx];
-            if (item) {
-              const saved = window.bookmarksManager?.toggle({
-                id: item.question_id,
-                exam_id: sub.exam_id,
-                exam_title: sub.exams?.title || 'مقرر تخصصي',
-                question_text: item.question_text,
-                correct_choice_text: item.correct_choice_text,
-                explanation: item.explanation || ''
-              });
+ // ربط أزرار الحفظ (Bookmark) في شاشة المراجعة
+ document.querySelectorAll('.btn-bookmark-item').forEach(btn => {
+ btn.addEventListener('click', (e) => {
+ const idx = parseInt(btn.getAttribute('data-idx'), 10);
+ const item = details[idx];
+ if (item) {
+ const saved = window.bookmarksManager?.toggle({
+ id: item.question_id,
+ exam_id: sub.exam_id,
+ exam_title: sub.exams?.title || 'مقرر تخصصي',
+ question_text: item.question_text,
+ correct_choice_text: item.correct_choice_text,
+ explanation: item.explanation || ''
+ });
 
-              btn.className = saved ? 'btn-bookmark bookmarked btn-bookmark-item' : 'btn-bookmark btn-bookmark-item';
-              btn.setAttribute('aria-pressed', String(saved));
-              btn.querySelector('span').textContent = saved ? 'محفوظة للمراجعة ★' : 'حفظ للمراجعة ☆';
-            }
-          });
-        });
+ btn.className = saved ? 'btn-bookmark bookmarked btn-bookmark-item': 'btn-bookmark btn-bookmark-item';
+ btn.setAttribute('aria-pressed', String(saved));
+ btn.querySelector('span').textContent = saved ? 'محفوظة للمراجعة ': 'حفظ للمراجعة ';
+ }
+ });
+ });
 
-        // ربط زر تصدير الـ PDF الأكاديمي عبر المحرك المعزول
-        document.getElementById('btn-export-pdf')?.addEventListener('click', () => {
-          printAcademicReport();
-        });
+ // ربط زر تصدير الـ PDF الأكاديمي عبر المحرك المعزول
+ document.getElementById('btn-export-pdf')?.addEventListener('click',  => {
+ printAcademicReport;
+ });
 
-        // ربط زر تنزيل التقرير كملف مستقل
-        document.getElementById('btn-download-report-html')?.addEventListener('click', () => {
-          downloadAcademicReportFile();
-        });
+ // ربط زر تنزيل التقرير كملف مستقل
+ document.getElementById('btn-download-report-html')?.addEventListener('click',  => {
+ downloadAcademicReportFile;
+ });
 
-        window.a11y?.focusElement('#review-section-title');
-      } catch (err) {
-        console.error(err);
-        alert('حدث خطأ أثناء عرض النتيجة: ' + err.message);
-      }
-    }
+ window.a11y?.focusElement('#review-section-title');
+ } catch (err) {
+ console.error(err);
+ alert('حدث خطأ أثناء عرض النتيجة: ' + err.message);
+ }
+ }
 
-    /**
-     * محرك توليد وثيقة الطباعة الأكاديمية المعزولة مع حماية تامة للاتجاه والخطوط العربية
-     */
-    function buildPrintableDocumentHtml() {
-      if (!currentSubmission) return '';
-      const sub = currentSubmission;
-      const user = window.authManager?.getUser();
-      const studentName = user?.fullName || sub.user_name || 'طالب بقسم القرآن الكريم وعلومه';
-      const isPassed = sub.passed;
+ /**
+ * محرك توليد وثيقة الطباعة الأكاديمية المعزولة مع حماية تامة للاتجاه والخطوط العربية
+ */
+ function buildPrintableDocumentHtml {
+ if (!currentSubmission) return '';
+ const sub = currentSubmission;
+ const user = window.authManager?.getUser;
+ const studentName = user?.fullName || sub.user_name || 'طالب بقسم القرآن الكريم وعلومه';
+ const isPassed = sub.passed;
 
-      const dateStr = new Date(sub.completed_at || Date.now()).toLocaleDateString('ar-YE', {
-        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-      });
-      const docId = `DOC-${String(sub.id).substring(0, 8)}`;
+ const dateStr = new Date(sub.completed_at || Date.now).toLocaleDateString('ar-YE', {
+ year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+ });
+ const docId = `DOC-${String(sub.id).substring(0, 8)}`;
 
-      const details = sub.review_details || [];
-      const questionsRows = details.map((d, index) => {
-        const statusText = d.is_correct ? 'صحيحة ✓' : 'غير صحيحة ✗';
-        const statusColor = d.is_correct ? '#166534' : '#991b1b';
-        return `
-          <div style="border: 1px solid #cbd5e1; border-right: 6px solid ${statusColor}; border-radius: 6px; padding: 12px 14px; margin-bottom: 12px; page-break-inside: avoid; background: #ffffff; direction: rtl !important; text-align: right !important;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; direction: rtl !important;">
-              <strong style="font-size: 11pt; color: #0f172a; direction: rtl !important; text-align: right !important;">
-                المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
-              </strong>
-              <span style="font-size: 9.5pt; font-weight: 800; color: ${statusColor};">${statusText}</span>
-            </div>
-            <div style="font-size: 10pt; margin-bottom: 6px; direction: rtl !important; text-align: right !important;">
-              <strong>الإجابة النموذجية المعتمدة:</strong>
-              <span style="color: #166534; font-weight: 700;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
-            </div>
-            ${d.explanation ? `
-              <div style="background: #f8fafc; border-right: 3px solid #1e40af; padding: 8px 12px; font-size: 9.5pt; color: #334155; line-height: 1.6; direction: rtl !important; text-align: right !important; margin-top: 4px;">
-                <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(d.explanation)}
-              </div>
-            ` : ''}
-          </div>
-        `;
-      }).join('');
+ const details = sub.review_details || [];
+ const questionsRows = details.map((d, index) => {
+ const statusText = d.is_correct ? 'صحيحة صحيحة': 'غير صحيحة غير صحيحة';
+ const statusColor = d.is_correct ? '#166534': '#991b1b';
+ return `
+ <div style="border: 1px solid #cbd5e1; border-right: 6px solid ${statusColor}; border-radius: 6px; padding: 12px 14px; margin-bottom: 12px; page-break-inside: avoid; background: #ffffff; direction: rtl!important; text-align: right!important;">
+ <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; direction: rtl!important;">
+ <strong style="font-size: 11pt; color: #0f172a; direction: rtl!important; text-align: right!important;">
+ المسألة ${index + 1}: ${window.authManager.escapeHtml(d.question_text)}
+ </strong>
+ <span style="font-size: 9.5pt; font-weight: 800; color: ${statusColor};">${statusText}</span>
+ </div>
+ <div style="font-size: 10pt; margin-bottom: 6px; direction: rtl!important; text-align: right!important;">
+ <strong>الإجابة النموذجية المعتمدة:</strong>
+ <span style="color: #166534; font-weight: 700;">${window.authManager.escapeHtml(d.correct_choice_text)}</span>
+ </div>
+ ${d.explanation ? `
+ <div style="background: #f8fafc; border-right: 3px solid #1e40af; padding: 8px 12px; font-size: 9.5pt; color: #334155; line-height: 1.6; direction: rtl!important; text-align: right!important; margin-top: 4px;">
+ <strong> التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(d.explanation)}
+ </div>
+ `: ''}
+ </div>
+ `;
+ }).join('');
 
-      return `<!DOCTYPE html>
+ return `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>كشف نتيجة ومراجعة تفصيلية — ${window.authManager.escapeHtml(studentName)}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    @page {
-      size: A4 portrait;
-      margin: 12mm 15mm;
-      direction: rtl;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      direction: rtl !important;
-      text-align: right !important;
-      unicode-bidi: isolate !important;
-      font-family: 'Cairo', 'Traditional Arabic', Arial, Tahoma, sans-serif !important;
-    }
-    html, body {
-      direction: rtl !important;
-      text-align: right !important;
-      background: #ffffff !important;
-      color: #0f172a !important;
-      padding: 10px;
-      font-size: 10.5pt;
-      line-height: 1.6;
-      width: 100%;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
-    }
-    .header-box {
-      border-bottom: 2px solid #000000;
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      direction: rtl !important;
-    }
-    .header-center {
-      text-align: center !important;
-      flex: 1;
-      direction: rtl !important;
-    }
-    .info-table {
-      width: 100%;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 10px 14px;
-      margin-bottom: 18px;
-      background: #f8fafc;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      font-size: 10pt;
-      direction: rtl !important;
-      text-align: right !important;
-    }
-    .banner-box {
-      border: 2px solid ${isPassed ? '#166534' : '#991b1b'};
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center !important;
-      margin-bottom: 18px;
-      background: ${isPassed ? '#f0fdf4' : '#fef2f2'};
-      direction: rtl !important;
-    }
-    .footer-stamp {
-      border-top: 1px solid #cbd5e1;
-      padding-top: 10px;
-      margin-top: 25px;
-      text-align: center !important;
-      font-size: 8.5pt;
-      color: #64748b;
-      page-break-inside: avoid;
-      direction: rtl !important;
-    }
-  </style>
+ <meta charset="UTF-8">
+ <title>كشف نتيجة ومراجعة تفصيلية — ${window.authManager.escapeHtml(studentName)}</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+ <style>
+ @page {
+ size: A4 portrait;
+ margin: 12mm 15mm;
+ direction: rtl;
+ }
+ * {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ direction: rtl!important;
+ text-align: right!important;
+ unicode-bidi: isolate!important;
+ font-family: 'Cairo', 'Traditional Arabic', Arial, Tahoma, sans-serif!important;
+ }
+ html, body {
+ direction: rtl!important;
+ text-align: right!important;
+ background: #ffffff!important;
+ color: #0f172a!important;
+ padding: 10px;
+ font-size: 10.5pt;
+ line-height: 1.6;
+ width: 100%;
+ -webkit-print-color-adjust: exact!important;
+ print-color-adjust: exact!important;
+ }
+.header-box {
+ border-bottom: 2px solid #000000;
+ padding-bottom: 12px;
+ margin-bottom: 16px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ direction: rtl!important;
+ }
+.header-center {
+ text-align: center!important;
+ flex: 1;
+ direction: rtl!important;
+ }
+.info-table {
+ width: 100%;
+ border: 1px solid #cbd5e1;
+ border-radius: 6px;
+ padding: 10px 14px;
+ margin-bottom: 18px;
+ background: #f8fafc;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 8px;
+ font-size: 10pt;
+ direction: rtl!important;
+ text-align: right!important;
+ }
+.banner-box {
+ border: 2px solid ${isPassed ? '#166534': '#991b1b'};
+ border-radius: 8px;
+ padding: 12px;
+ text-align: center!important;
+ margin-bottom: 18px;
+ background: ${isPassed ? '#f0fdf4': '#fef2f2'};
+ direction: rtl!important;
+ }
+.footer-stamp {
+ border-top: 1px solid #cbd5e1;
+ padding-top: 10px;
+ margin-top: 25px;
+ text-align: center!important;
+ font-size: 8.5pt;
+ color: #64748b;
+ page-break-inside: avoid;
+ direction: rtl!important;
+ }
+ </style>
 </head>
 <body>
-  <div class="header-box">
-    <div style="text-align: right; direction: rtl !important;">
-      <strong style="font-size: 11pt; display: block;">الجمهورية اليمنية</strong>
-      <span style="font-size: 10pt; display: block;">جامعة صنعاء</span>
-      <span style="font-size: 9.5pt; display: block; color: #475569;">كلية التربية — قسم القرآن الكريم وعلومه</span>
-    </div>
-    <div class="header-center">
-      <h1 style="font-size: 15pt; font-weight: 900; color: #1e40af; margin-bottom: 2px;">منصة مدارج للتقييم الأكاديمي</h1>
-      <h2 style="font-size: 11pt; font-weight: 700; color: #0f172a;">كشف نتيجة ومراجعة تفصيلية للاختبار</h2>
-    </div>
-    <div style="text-align: left; font-size: 9pt; color: #475569;" dir="ltr">
-      <span style="display: block;">${docId}</span>
-      <span style="display: block;">${dateStr}</span>
-    </div>
-  </div>
+ <div class="header-box">
+ <div style="text-align: right; direction: rtl!important;">
+ <strong style="font-size: 11pt; display: block;">الجمهورية اليمنية</strong>
+ <span style="font-size: 10pt; display: block;">جامعة صنعاء</span>
+ <span style="font-size: 9.5pt; display: block; color: #475569;">كلية التربية — قسم القرآن الكريم وعلومه</span>
+ </div>
+ <div class="header-center">
+ <h1 style="font-size: 15pt; font-weight: 900; color: #1e40af; margin-bottom: 2px;">منصة مدارج للتقييم الأكاديمي</h1>
+ <h2 style="font-size: 11pt; font-weight: 700; color: #0f172a;">كشف نتيجة ومراجعة تفصيلية للاختبار</h2>
+ </div>
+ <div style="text-align: left; font-size: 9pt; color: #475569;" dir="ltr">
+ <span style="display: block;">${docId}</span>
+ <span style="display: block;">${dateStr}</span>
+ </div>
+ </div>
 
-  <div class="info-table">
-    <div><strong>اسم الطالب:</strong> ${window.authManager.escapeHtml(studentName)}</div>
-    <div><strong>المقرر التخصصي:</strong> ${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'قسم القرآن الكريم وعلومه')}</div>
-    <div><strong>النموذج الاختباري:</strong> ${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</div>
-    <div><strong>النتيجة النهائية:</strong> ${sub.score} / ${sub.total_points} (${sub.percentage}%) — <strong>${isPassed ? 'ناجح ومجتاز ✓' : 'راسب وغير مجتاز ✗'}</strong></div>
-  </div>
+ <div class="info-table">
+ <div><strong>اسم الطالب:</strong> ${window.authManager.escapeHtml(studentName)}</div>
+ <div><strong>المقرر التخصصي:</strong> ${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'قسم القرآن الكريم وعلومه')}</div>
+ <div><strong>النموذج الاختباري:</strong> ${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</div>
+ <div><strong>النتيجة النهائية:</strong> ${sub.score} / ${sub.total_points} (${sub.percentage}%) — <strong>${isPassed ? 'ناجح ومجتاز صحيحة': 'راسب وغير مجتاز غير صحيحة'}</strong></div>
+ </div>
 
-  <div class="banner-box">
-    <h3 style="font-size: 13pt; font-weight: 900; color: ${isPassed ? '#166534' : '#991b1b'}; margin-bottom: 4px;">
-      ${isPassed ? 'تم اجتياز الاختبار بنجاح 🎉' : 'لم يتم اجتياز الاختبار هذه المرة'}
-    </h3>
-    <p style="font-size: 10pt; color: #334155;">
-      حصل الطالب على <strong>${sub.score} من أصل ${sub.total_points} درجة</strong> بنسبة مئوية <strong>${sub.percentage}%</strong> (نسبة النجاح المقررة: ${sub.passing_percentage || 50}%)
-    </p>
-  </div>
+ <div class="banner-box">
+ <h3 style="font-size: 13pt; font-weight: 900; color: ${isPassed ? '#166534': '#991b1b'}; margin-bottom: 4px;">
+ ${isPassed ? 'تم اجتياز الاختبار بنجاح ': 'لم يتم اجتياز الاختبار هذه المرة'}
+ </h3>
+ <p style="font-size: 10pt; color: #334155;">
+ حصل الطالب على <strong>${sub.score} من أصل ${sub.total_points} درجة</strong> بنسبة مئوية <strong>${sub.percentage}%</strong> (نسبة النجاح المقررة: ${sub.passing_percentage || 50}%)
+ </p>
+ </div>
 
-  <div style="margin-bottom: 12px; direction: rtl !important;">
-    <h4 style="font-size: 11pt; font-weight: 800; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; margin-bottom: 12px; direction: rtl !important; text-align: right !important;">
-      المراجعة التأصيلية والتعليلات العلمية للمسائل (${details.length} مسائل):
-    </h4>
-    ${questionsRows}
-  </div>
+ <div style="margin-bottom: 12px; direction: rtl!important;">
+ <h4 style="font-size: 11pt; font-weight: 800; border-bottom: 1px solid #cbd5e1; padding-bottom: 6px; margin-bottom: 12px; direction: rtl!important; text-align: right!important;">
+ المراجعة التأصيلية والتعليلات العلمية للمسائل (${details.length} مسائل):
+ </h4>
+ ${questionsRows}
+ </div>
 
-  <div class="footer-stamp">
-    <p>وثيقة أكاديمية إلكترونية صادرة عبر منصة مدارج للتقييم الأكاديمي الذاتي — قسم القرآن الكريم وعلومه، كلية التربية، جامعة صنعاء © 2026</p>
-  </div>
+ <div class="footer-stamp">
+ <p>وثيقة أكاديمية إلكترونية صادرة عبر منصة مدارج للتقييم الأكاديمي الذاتي — قسم القرآن الكريم وعلومه، كلية التربية، جامعة صنعاء © 2026</p>
+ </div>
 </body>
 </html>`;
-    }
+ }
 
-    /**
-     * طباعة معزولة ومضمونة تمنع انعكاس الحروف
-     */
-    async function printAcademicReport() {
-      const htmlContent = buildPrintableDocumentHtml();
-      if (!htmlContent) return;
+ /**
+ * طباعة معزولة ومضمونة تمنع انعكاس الحروف
+ */
+ async function printAcademicReport {
+ const htmlContent = buildPrintableDocumentHtml;
+ if (!htmlContent) return;
 
-      window.a11y?.announce('جاري تهيئة الخط العربي وتجهيز كشف النتيجة للطباعة...');
+ window.a11y?.announce('جاري تهيئة الخط العربي وتجهيز كشف النتيجة للطباعة...');
 
-      let iframe = document.getElementById('madarej-print-frame');
-      if (iframe) iframe.remove();
+ let iframe = document.getElementById('madarej-print-frame');
+ if (iframe) iframe.remove;
 
-      iframe = document.createElement('iframe');
-      iframe.id = 'madarej-print-frame';
-      iframe.style.position = 'fixed';
-      iframe.style.right = '0';
-      iframe.style.bottom = '0';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = '0';
-      document.body.appendChild(iframe);
+ iframe = document.createElement('iframe');
+ iframe.id = 'madarej-print-frame';
+ iframe.style.position = 'fixed';
+ iframe.style.right = '0';
+ iframe.style.bottom = '0';
+ iframe.style.width = '0';
+ iframe.style.height = '0';
+ iframe.style.border = '0';
+ document.body.appendChild(iframe);
 
-      const frameDoc = iframe.contentWindow.document;
-      frameDoc.open();
-      frameDoc.write(htmlContent);
-      frameDoc.close();
+ const frameDoc = iframe.contentWindow.document;
+ frameDoc.open;
+ frameDoc.write(htmlContent);
+ frameDoc.close;
 
-      // انتظار جاهزية الخط العربي لضمان اكتمال التشكيل والربط
-      if (frameDoc.fonts) {
-        await frameDoc.fonts.ready;
-      }
+ // انتظار جاهزية الخط العربي لضمان اكتمال التشكيل والربط
+ if (frameDoc.fonts) {
+ await frameDoc.fonts.ready;
+ }
 
-      setTimeout(() => {
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
-        window.a11y?.announce('تم فتح نافذة الطباعة');
-      }, 350);
-    }
+ setTimeout( => {
+ iframe.contentWindow.focus;
+ iframe.contentWindow.print;
+ window.a11y?.announce('تم فتح نافذة الطباعة');
+ }, 350);
+ }
 
-    /**
-     * تحميل التقرير كملف HTML مستقل يعمل أوفلاين ويُطبع في أي جهاز
-     */
-    function downloadAcademicReportFile() {
-      const htmlContent = buildPrintableDocumentHtml();
-      if (!htmlContent) return;
+ /**
+ * تحميل التقرير كملف HTML مستقل يعمل أوفلاين ويُطبع في أي جهاز
+ */
+ function downloadAcademicReportFile {
+ const htmlContent = buildPrintableDocumentHtml;
+ if (!htmlContent) return;
 
-      const sub = currentSubmission;
-      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `كشف_نتيجة_${sub?.exams?.title || 'الاختبار'}.html`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      window.a11y?.announce('تم تحميل ملف التقرير الأكاديمي بنجاح');
-    }
-  </script>
-  <script src="js/pwa.js"></script>
+ const sub = currentSubmission;
+ const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+ const url = URL.createObjectURL(blob);
+ const a = document.createElement('a');
+ a.href = url;
+ a.download = `كشف_نتيجة_${sub?.exams?.title || 'الاختبار'}.html`;
+ document.body.appendChild(a);
+ a.click;
+ a.remove;
+ URL.revokeObjectURL(url);
+ window.a11y?.announce('تم تحميل ملف التقرير الأكاديمي بنجاح');
+ }
+ </script>
+ <script src="js/pwa.js"></script>
 </body>
 </html>

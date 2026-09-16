@@ -1,338 +1,338 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>عن منصة مدارج | الرؤية، الرسالة، الأهداف الاستراتيجية والقيم الجوهرية</title>
-  <meta name="description" content="التعريف الرسمي بمنصة مدارج للتقويم والقياس الأكاديمي الذكي: الرؤية المؤسسية، الرسالة التعليمية، الأهداف الاستراتيجية، والقيم الحاكمة للمنظومة.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=1.0.3">
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e40af">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>عن منصة مدارج | الرؤية، الرسالة، الأهداف الاستراتيجية والقيم الجوهرية</title>
+ <meta name="description" content="التعريف الرسمي بمنصة مدارج للتقويم والقياس الأكاديمي الذكي: الرؤية المؤسسية، الرسالة التعليمية، الأهداف الاستراتيجية، والقيم الحاكمة للمنظومة.">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/style.css?v=1.0.3">
+ <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+ <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+ <link rel="manifest" href="manifest.json">
+ <meta name="theme-color" content="#1e40af">
+ <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
-  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+ <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الأكاديمي الموحد لمنصة مدارج -->
-  <header class="navbar" role="banner">
-    <div class="container nav-container">
-      <div class="nav-right">
-        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
-          <span class="hamburger-bar" aria-hidden="true"></span>
-          <span class="hamburger-bar" aria-hidden="true"></span>
-          <span class="hamburger-bar" aria-hidden="true"></span>
-        </button>
-        <a href="index.html" class="brand" aria-label="منصة مدارج - الرئيسية">
-          <span class="brand-badge">مدارج</span>
-          <div class="brand-text-wrapper">
-            <span class="brand-title">منصة مدارج</span>
-            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس المعرفي</span>
-          </div>
-        </a>
-      </div>
+ <!-- شريط التنقل العلوي الأكاديمي الموحد لمنصة مدارج -->
+ <header class="navbar" role="banner">
+ <div class="container nav-container">
+ <div class="nav-right">
+ <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ </button>
+ <a href="index.html" class="brand" aria-label="منصة مدارج - الرئيسية">
+ <span class="brand-badge">مدارج</span>
+ <div class="brand-text-wrapper">
+ <span class="brand-title">منصة مدارج</span>
+ <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس المعرفي</span>
+ </div>
+ </a>
+ </div>
 
-      <div class="nav-left">
-        <div id="nav-auth-container" class="desktop-only"></div>
-        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر بين الليلي والنهاري">
-          🌓
-        </button>
-      </div>
-    </div>
-  </header>
+ <div class="nav-left">
+ <div id="nav-auth-container" class="desktop-only"></div>
+ <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر بين الليلي والنهاري">
+ المظهر
+ </button>
+ </div>
+ </div>
+ </header>
 
-  <!-- خلفية التعتيم والقائمة الجانبية الموحدة -->
-  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
-  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
-    <div class="sidebar-header">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="brand-badge">مدارج</span>
-        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
-      </div>
-      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
-    </div>
-    <div id="sidebar-user-area" class="sidebar-user-card"></div>
-    <nav role="navigation" aria-label="روابط القائمة">
-      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
-    </nav>
-    <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
-    </div>
-  </aside>
+ <!-- خلفية التعتيم والقائمة الجانبية الموحدة -->
+ <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+ <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+ <div class="sidebar-header">
+ <div style="display: flex; align-items: center; gap: 0.5rem;">
+ <span class="brand-badge">مدارج</span>
+ <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+ </div>
+ <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+ </div>
+ <div id="sidebar-user-area" class="sidebar-user-card"></div>
+ <nav role="navigation" aria-label="روابط القائمة">
+ <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+ </nav>
+ <div class="sidebar-footer">
+ <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
+ </div>
+ </aside>
 
-  <main id="main-content" class="container" role="main" style="padding-top: 2.5rem; padding-bottom: 4rem;">
-    
-    <!-- Hero التعريف المؤسسي بالمنصة -->
-    <section class="hero" aria-labelledby="about-title" style="padding-top: 1rem; padding-bottom: 2.5rem;">
-      <div class="platform-pill">
-        <span>🏛️ الهوية المؤسسية والاستراتيجية الأكاديمية</span>
-      </div>
-      <h1 id="about-title" style="font-size: 2.45rem; font-weight: 900; line-height: 1.3; margin-bottom: 1.25rem;">
-        منصة «مَدَارِج» للتقويم والقياس الأكاديمي
-      </h1>
-      <p style="font-size: 1.18rem; max-width: 860px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
-        منظومة رقمية رائدة ومستقلة، أُسست لتكون معياراً متقدماً في تصميم بنوك الأسئلة، وإجراء الاختبارات التفاعلية، وقياس المخرجات التعليمية في الجامعات والمعاهد التخصصية؛ انطلاقاً من قسم القرآن الكريم وعلومه كنموذج تطبيقي أول، لترتقي بالتحصيل العلمي وفق أحدث تقنيات الإتاحة والذكاء البرمجي.
-      </p>
+ <main id="main-content" class="container" role="main" style="padding-top: 2.5rem; padding-bottom: 4rem;">
 
-      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-        <a href="#vision-mission" class="btn btn-primary btn-sm">الرؤية والرسالة 📜</a>
-        <a href="#strategic-goals" class="btn btn-secondary btn-sm">الأهداف الاستراتيجية 🎯</a>
-        <a href="#core-values" class="btn btn-secondary btn-sm">القيم الجوهرية ⭐</a>
-        <a href="#supervision" class="btn btn-outline btn-sm">الإشراف والريادة 👑</a>
-      </div>
-    </section>
+ <!-- Hero التعريف المؤسسي بالمنصة -->
+ <section class="hero" aria-labelledby="about-title" style="padding-top: 1rem; padding-bottom: 2.5rem;">
+ <div class="platform-pill">
+ <span> الهوية المؤسسية والاستراتيجية الأكاديمية</span>
+ </div>
+ <h1 id="about-title" style="font-size: 2.45rem; font-weight: 900; line-height: 1.3; margin-bottom: 1.25rem;">
+ منصة «مَدَارِج» للتقويم والقياس الأكاديمي
+ </h1>
+ <p style="font-size: 1.18rem; max-width: 860px; margin: 0 auto; line-height: 1.8; color: var(--text-muted);">
+ منظومة رقمية رائدة ومستقلة، أُسست لتكون معياراً متقدماً في تصميم بنوك الأسئلة، وإجراء الاختبارات التفاعلية، وقياس المخرجات التعليمية في الجامعات والمعاهد التخصصية؛ انطلاقاً من قسم القرآن الكريم وعلومه كنموذج تطبيقي أول، لترتقي بالتحصيل العلمي وفق أحدث تقنيات الإتاحة والذكاء البرمجي.
+ </p>
 
-    <!-- الرؤية والرسالة -->
-    <section id="vision-mission" aria-labelledby="vision-heading" style="margin-bottom: 3.5rem;">
-      <h2 id="vision-heading" class="sr-only">رؤية ورسالة منصة مدارج</h2>
-      <div class="vision-mission-grid">
-        
-        <article class="vision-card">
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-            <span style="font-size: 2rem;" aria-hidden="true">🔭</span>
-            <h2 style="font-size: 1.55rem; font-weight: 900; color: var(--primary);">رؤية المنصة (Our Vision)</h2>
-          </div>
-          <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-main); font-weight: 600;">
-            أن تكون منصة «مَدَارِج» المنظومة الرائدة والموثوقة في التحول الرقمي للتقويم والقياس المعرفي في الجامعات والمؤسسات التعليمية؛ بيئةً ومحتوى، لتشكل صرحاً معرفياً يجمع بين أصالة التأصيل العلمي للعلوم الإنسانية والشرعية، ورصانة المعايير التقنية العالمية، ومحفزاً لتمكين الطلاب في مسيرتهم نحو الامتياز الأكاديمي.
-          </p>
-        </article>
+ <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+ <a href="#vision-mission" class="btn btn-primary btn-sm">الرؤية والرسالة </a>
+ <a href="#strategic-goals" class="btn btn-secondary btn-sm">الأهداف الاستراتيجية </a>
+ <a href="#core-values" class="btn btn-secondary btn-sm">القيم الجوهرية </a>
+ <a href="#supervision" class="btn btn-outline btn-sm">الإشراف والريادة </a>
+ </div>
+ </section>
 
-        <article class="mission-card">
-          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-            <span style="font-size: 2rem;" aria-hidden="true">🎯</span>
-            <h2 style="font-size: 1.55rem; font-weight: 900; color: var(--accent);">رسالة المنصة (Our Mission)</h2>
-          </div>
-          <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-main); font-weight: 600;">
-            توفير بيئة اختبارية تفاعلية آمنة، عادلة، وشاملة لجميع الطلاب دون استثناء -بمن فيهم ذوو الإعاقة البصرية ومستخدمو قارئات الشاشة- تعتمد على بنوك أسئلة معيارية محكمة، وتصحيح سحابي لحظي مقترن بالتعليل العلمي وتأصيل المسائل، لتمكين الطلاب من القياس الذاتي المستمر، ومساعدة المشرفين الأكاديميين على رصد وتحليل كفاءة التحصيل بدقة واحترافية.
-          </p>
-        </article>
+ <!-- الرؤية والرسالة -->
+ <section id="vision-mission" aria-labelledby="vision-heading" style="margin-bottom: 3.5rem;">
+ <h2 id="vision-heading" class="sr-only">رؤية ورسالة منصة مدارج</h2>
+ <div class="vision-mission-grid">
 
-      </div>
-    </section>
+ <article class="vision-card">
+ <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+ <span style="font-size: 2rem;" aria-hidden="true"></span>
+ <h2 style="font-size: 1.55rem; font-weight: 900; color: var(--primary);">رؤية المنصة (Our Vision)</h2>
+ </div>
+ <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-main); font-weight: 600;">
+ أن تكون منصة «مَدَارِج» المنظومة الرائدة والموثوقة في التحول الرقمي للتقويم والقياس المعرفي في الجامعات والمؤسسات التعليمية؛ بيئةً ومحتوى، لتشكل صرحاً معرفياً يجمع بين أصالة التأصيل العلمي للعلوم الإنسانية والشرعية، ورصانة المعايير التقنية العالمية، ومحفزاً لتمكين الطلاب في مسيرتهم نحو الامتياز الأكاديمي.
+ </p>
+ </article>
 
-    <!-- الأهداف الاستراتيجية -->
-    <section id="strategic-goals" aria-labelledby="goals-heading" style="margin-bottom: 4rem;">
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <span class="badge badge-primary" style="margin-bottom: 0.5rem;">خارطة العمل المؤسسي</span>
-        <h2 id="goals-heading" style="font-size: 2rem; font-weight: 900;">الأهداف الاستراتيجية لمنصة مدارج</h2>
-        <p class="text-muted" style="max-width: 650px; margin: 0.5rem auto 0; font-size: 1rem;">
-          خمس غايات محورية تقود عمليات التطوير وبناء بنوك الأسئلة وإدارة المقررات
-        </p>
-      </div>
+ <article class="mission-card">
+ <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+ <span style="font-size: 2rem;" aria-hidden="true"></span>
+ <h2 style="font-size: 1.55rem; font-weight: 900; color: var(--accent);">رسالة المنصة (Our Mission)</h2>
+ </div>
+ <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-main); font-weight: 600;">
+ توفير بيئة اختبارية تفاعلية آمنة، عادلة، وشاملة لجميع الطلاب دون استثناء -بمن فيهم ذوو الإعاقة البصرية ومستخدمو قارئات الشاشة- تعتمد على بنوك أسئلة معيارية محكمة، وتصحيح سحابي لحظي مقترن بالتعليل العلمي وتأصيل المسائل، لتمكين الطلاب من القياس الذاتي المستمر، ومساعدة المشرفين الأكاديميين على رصد وتحليل كفاءة التحصيل بدقة واحترافية.
+ </p>
+ </article>
 
-      <div class="strategic-goals-list">
-        
-        <div class="strategic-goal-item">
-          <div class="goal-number" aria-hidden="true">١</div>
-          <div class="goal-content">
-            <h3>الارتقاء بأنماط التقويم الأكاديمي من الحفظ المجرد إلى القياس التحليلي</h3>
-            <p>
-              تجاوز النمطية التقليدية للاختبارات الورقية، والانتقال إلى نماذج اختبارية ذكية تغطي مستويات بلوم المعرفية (التذكر، الفهم، التطبيق، التحليل، والاستنباط)، مع توفير تغذية راجعة تصحيحية فورية ترشد الطالب لوجه الصواب.
-            </p>
-          </div>
-        </div>
+ </div>
+ </section>
 
-        <div class="strategic-goal-item">
-          <div class="goal-number" aria-hidden="true">٢</div>
-          <div class="goal-content">
-            <h3>بناء وتأصيل بنوك الأسئلة المعيارية المقيدة بالمرجعيات العلمية</h3>
-            <p>
-              تطوير بنوك أسئلة موثوقة ومحكمة تعتمد كلياً وحصرياً على مفردات المقررات الأكاديمية والمراجع المعتمدة لأساتذة الأقسام العلمية، وضمان شموليتها لمفردات المنهج دون حشو أو إخلال.
-            </p>
-          </div>
-        </div>
+ <!-- الأهداف الاستراتيجية -->
+ <section id="strategic-goals" aria-labelledby="goals-heading" style="margin-bottom: 4rem;">
+ <div style="text-align: center; margin-bottom: 2rem;">
+ <span class="badge badge-primary" style="margin-bottom: 0.5rem;">خارطة العمل المؤسسي</span>
+ <h2 id="goals-heading" style="font-size: 2rem; font-weight: 900;">الأهداف الاستراتيجية لمنصة مدارج</h2>
+ <p class="text-muted" style="max-width: 650px; margin: 0.5rem auto 0; font-size: 1rem;">
+ خمس غايات محورية تقود عمليات التطوير وبناء بنوك الأسئلة وإدارة المقررات
+ </p>
+ </div>
 
-        <div class="strategic-goal-item">
-          <div class="goal-number" aria-hidden="true">٣</div>
-          <div class="goal-content">
-            <h3>تحقيق الشمولية الرقمية والوصول العادل للجميع (WCAG 2.1 AA)</h3>
-            <p>
-              التصميم الموجه لإتاحة وصول المكفوفين وذوي الإعاقة عبر التوافق الجذري مع قارئات الشاشة (TalkBack وغيره)، ودعم التباين العالي، والتحكم بلوحة المفاتيح، لضمان استقلالية كاملة لكل طالب وطالبة.
-            </p>
-          </div>
-        </div>
+ <div class="strategic-goals-list">
 
-        <div class="strategic-goal-item">
-          <div class="goal-number" aria-hidden="true">٤</div>
-          <div class="goal-content">
-            <h3>تمكين الإشراف الأكاديمي والتحليل الإحصائي الدقيق للأداء</h3>
-            <p>
-              تزويد المشرف الأكاديمي العام بلوحة تحكم مركزية تمكنه من إدارة المقررات، وتفعيل أو حجب النماذج بنقرة واحدة، ومتابعة سجلات الطلاب وكشوفاتهم التفصيلية، وتحليل مؤشرات النجاح والمسائل الأكثر صعوبة.
-            </p>
-          </div>
-        </div>
+ <div class="strategic-goal-item">
+ <div class="goal-number" aria-hidden="true">١</div>
+ <div class="goal-content">
+ <h3>الارتقاء بأنماط التقويم الأكاديمي من الحفظ المجرد إلى القياس التحليلي</h3>
+ <p>
+ تجاوز النمطية التقليدية للاختبارات الورقية، والانتقال إلى نماذج اختبارية ذكية تغطي مستويات بلوم المعرفية (التذكر، الفهم، التطبيق، التحليل، والاستنباط)، مع توفير تغذية راجعة تصحيحية فورية ترشد الطالب لوجه الصواب.
+ </p>
+ </div>
+ </div>
 
-        <div class="strategic-goal-item">
-          <div class="goal-number" aria-hidden="true">٥</div>
-          <div class="goal-content">
-            <h3>الاستدامة التقنية والسيادة الرقمية المستمرة (Triple Redundancy)</h3>
-            <p>
-              بناء بنية استضافة سحابية ثلاثية متوازية (Vercel + Netlify + GitHub Pages) تعمل على قاعدة بيانات موحدة، مع دعم كامل للعمل دون اتصال (Offline-First PWA)، لضمان عدم توقف المنصة في بيئات الشبكة الضعيفة.
-            </p>
-          </div>
-        </div>
+ <div class="strategic-goal-item">
+ <div class="goal-number" aria-hidden="true">٢</div>
+ <div class="goal-content">
+ <h3>بناء وتأصيل بنوك الأسئلة المعيارية المقيدة بالمرجعيات العلمية</h3>
+ <p>
+ تطوير بنوك أسئلة موثوقة ومحكمة تعتمد كلياً وحصرياً على مفردات المقررات الأكاديمية والمراجع المعتمدة لأساتذة الأقسام العلمية، وضمان شموليتها لمفردات المنهج دون حشو أو إخلال.
+ </p>
+ </div>
+ </div>
 
-      </div>
-    </section>
+ <div class="strategic-goal-item">
+ <div class="goal-number" aria-hidden="true">٣</div>
+ <div class="goal-content">
+ <h3>تحقيق الشمولية الرقمية والوصول العادل للجميع (WCAG 2.1 AA)</h3>
+ <p>
+ التصميم الموجه لإتاحة وصول المكفوفين وذوي الإعاقة عبر التوافق الجذري مع قارئات الشاشة (TalkBack وغيره)، ودعم التباين العالي، والتحكم بلوحة المفاتيح، لضمان استقلالية كاملة لكل طالب وطالبة.
+ </p>
+ </div>
+ </div>
 
-    <!-- القيم الجوهرية -->
-    <section id="core-values" aria-labelledby="values-heading" style="margin-bottom: 4rem;">
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <span class="badge badge-warning" style="margin-bottom: 0.5rem;">المبادئ الحاكمة</span>
-        <h2 id="values-heading" style="font-size: 2rem; font-weight: 900;">القيم الجوهرية لمنصة مدارج</h2>
-        <p class="text-muted" style="max-width: 650px; margin: 0.5rem auto 0; font-size: 1rem;">
-          المعايير الأخلاقية والأكاديمية التي تنضبط بها كافة عمليات المنظومة
-        </p>
-      </div>
+ <div class="strategic-goal-item">
+ <div class="goal-number" aria-hidden="true">٤</div>
+ <div class="goal-content">
+ <h3>تمكين الإشراف الأكاديمي والتحليل الإحصائي الدقيق للأداء</h3>
+ <p>
+ تزويد المشرف الأكاديمي العام بلوحة تحكم مركزية تمكنه من إدارة المقررات، وتفعيل أو حجب النماذج بنقرة واحدة، ومتابعة سجلات الطلاب وكشوفاتهم التفصيلية، وتحليل مؤشرات النجاح والمسائل الأكثر صعوبة.
+ </p>
+ </div>
+ </div>
 
-      <div class="values-grid">
-        
-        <div class="value-card">
-          <span class="value-icon" aria-hidden="true">📖</span>
-          <h3 class="value-title">الأصالة العلمية</h3>
-          <p class="value-desc">
-            الالتزام الصارم بالمراجع الموثقة ونصوص المقررات المقرة، وتوثيق التعليلات العلمية لكل مسألة من مظانها المعتمدة.
-          </p>
-        </div>
+ <div class="strategic-goal-item">
+ <div class="goal-number" aria-hidden="true">٥</div>
+ <div class="goal-content">
+ <h3>الاستدامة التقنية والسيادة الرقمية المستمرة (Triple Redundancy)</h3>
+ <p>
+ بناء بنية استضافة سحابية ثلاثية متوازية (Vercel + Netlify + GitHub Pages) تعمل على قاعدة بيانات موحدة، مع دعم كامل للعمل دون اتصال (Offline-First PWA)، لضمان عدم توقف المنصة في بيئات الشبكة الضعيفة.
+ </p>
+ </div>
+ </div>
 
-        <div class="value-card">
-          <span class="value-icon" aria-hidden="true">⚖️</span>
-          <h3 class="value-title">العدالة وتكافؤ الفرص</h3>
-          <p class="value-desc">
-            معايير تقييم موحدة وعادلة تطبق بنزاهة على جميع الطلاب، مع ضمان إزالة أي عوائق تقنية تحول دون أداء الاختبار.
-          </p>
-        </div>
+ </div>
+ </section>
 
-        <div class="value-card">
-          <span class="value-icon" aria-hidden="true">🔒</span>
-          <h3 class="value-title">النزاهة والأمان الرقمي</h3>
-          <p class="value-desc">
-            منظومة حماية متكاملة ضد التلاعب؛ تعتمد التصحيح السحابي المشفر، والترتيب العشوائي للأسئلة والخيارات في كل محاولة.
-          </p>
-        </div>
+ <!-- القيم الجوهرية -->
+ <section id="core-values" aria-labelledby="values-heading" style="margin-bottom: 4rem;">
+ <div style="text-align: center; margin-bottom: 2rem;">
+ <span class="badge badge-warning" style="margin-bottom: 0.5rem;">المبادئ الحاكمة</span>
+ <h2 id="values-heading" style="font-size: 2rem; font-weight: 900;">القيم الجوهرية لمنصة مدارج</h2>
+ <p class="text-muted" style="max-width: 650px; margin: 0.5rem auto 0; font-size: 1rem;">
+ المعايير الأخلاقية والأكاديمية التي تنضبط بها كافة عمليات المنظومة
+ </p>
+ </div>
 
-        <div class="value-card">
-          <span class="value-icon" aria-hidden="true">💡</span>
-          <h3 class="value-title">التعلم بالتقييم</h3>
-          <p class="value-desc">
-            الاختبار في مدارج ليس وسيلة رصد درجات فحسب، بل هو محطة تعليمية تثبت المعلومة عبر شرح دلالة الصواب والخطأ.
-          </p>
-        </div>
+ <div class="values-grid">
 
-        <div class="value-card">
-          <span class="value-icon" aria-hidden="true">🇾🇪</span>
-          <h3 class="value-title">السيادة والاستقلالية</h3>
-          <p class="value-desc">
-            منظومة برمجية حرة، مبنية ومطورة ومُدارة بكفاءة وطنية يمنية ذاتية، ومستقلة تماماً لخدمة التعليم الجامعي.
-          </p>
-        </div>
+ <div class="value-card">
+ <span class="value-icon" aria-hidden="true"></span>
+ <h3 class="value-title">الأصالة العلمية</h3>
+ <p class="value-desc">
+ الالتزام الصارم بالمراجع الموثقة ونصوص المقررات المقرة، وتوثيق التعليلات العلمية لكل مسألة من مظانها المعتمدة.
+ </p>
+ </div>
 
-      </div>
-    </section>
+ <div class="value-card">
+ <span class="value-icon" aria-hidden="true"></span>
+ <h3 class="value-title">العدالة وتكافؤ الفرص</h3>
+ <p class="value-desc">
+ معايير تقييم موحدة وعادلة تطبق بنزاهة على جميع الطلاب، مع ضمان إزالة أي عوائق تقنية تحول دون أداء الاختبار.
+ </p>
+ </div>
 
-    <!-- البنية التقنية ومعايير الجودة -->
-    <section aria-labelledby="tech-heading" class="card" style="margin-bottom: 3.5rem; padding: 2.25rem;">
-      <h2 id="tech-heading" style="font-size: 1.65rem; font-weight: 800; margin-bottom: 1.25rem; color: var(--primary);">
-        🏛️ البنية الهندسية ومعايير الجودة في «مدارج»
-      </h2>
-      <div class="features-grid" style="margin-top: 1rem;">
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">🛡️ البنية الثلاثية (Triple Redundancy)</h3>
-          <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
-            تعمل المنصة بالتزامن اللحظي عبر ثلاث استضافات سحابية مستقلة (Vercel + Netlify + GitHub Pages) موصولة بقاعدة بيانات سحابية موحدة؛ لتفادي أي انقطاع نهائياً.
-          </p>
-        </div>
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">⚡ تقنية PWA والعمل دون اتصال</h3>
-          <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
-            تدعم المنصة التثبيت الفوري كتطبيق هاتف، مع تخزين مؤقت للواجهات، وحفظ محلي لإجابات الاختبار ومزامنتها تلقائياً عند عودة الإنترنت.
-          </p>
-        </div>
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">♿ إتاحة الوصول الشامل (WCAG 2.1)</h3>
-          <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
-            تطابق صارم مع المعايير الدولية للإتاحة الرقمية: وسوم دلالية كاملة، إعلانات صوتية لقارئات الشاشة، ودعم اختصارات لوحة المفاتيح والاهتزاز اللمسي.
-          </p>
-        </div>
-        <div>
-          <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;">📄 كشوفات تقييم أكاديمية دقيقة (PDF)</h3>
-          <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
-            محرك تصدير وطباعة معزول بخط Cairo العربي وجداول الربط والتشكيل، ينتج وثيقة نتيجة رسمية معتمدة قابلة للحفظ والمشاركة.
-          </p>
-        </div>
-      </div>
-    </section>
+ <div class="value-card">
+ <span class="value-icon" aria-hidden="true"></span>
+ <h3 class="value-title">النزاهة والأمان الرقمي</h3>
+ <p class="value-desc">
+ منظومة حماية متكاملة ضد التلاعب؛ تعتمد التصحيح السحابي المشفر، والترتيب العشوائي للأسئلة والخيارات في كل محاولة.
+ </p>
+ </div>
 
-    <!-- الإشراف العام والمؤسس -->
-    <section id="supervision" aria-labelledby="supervision-heading">
-      <article class="founder-card">
-        <div class="founder-header">
-          <div class="founder-avatar" aria-hidden="true">ع</div>
-          <div>
-            <span class="badge badge-warning" style="margin-bottom: 0.25rem;">الريادة والإشراف العام</span>
-            <h2 id="supervision-heading" style="font-size: 1.65rem; font-weight: 900; color: var(--text-main);">
-              عبد العزيز أمين راجح حاتم
-            </h2>
-            <p style="font-size: 0.95rem; color: var(--text-muted); font-weight: 600;">
-              مؤسس والمشرف الأكاديمي العام على منصة «مَدَارِج» للتقويم والقياس
-            </p>
-          </div>
-        </div>
+ <div class="value-card">
+ <span class="value-icon" aria-hidden="true"></span>
+ <h3 class="value-title">التعلم بالتقييم</h3>
+ <p class="value-desc">
+ الاختبار في مدارج ليس وسيلة رصد درجات فحسب، بل هو محطة تعليمية تثبت المعلومة عبر شرح دلالة الصواب والخطأ.
+ </p>
+ </div>
 
-        <div style="font-size: 1.05rem; line-height: 1.85; color: var(--text-main);">
-          <p style="margin-bottom: 0.85rem;">
-            «إن الغاية الكبرى من بناء منصة <strong>مدارج</strong> هي تجاوز حواجز التقييم التقليدي، وتحويل الاختبار الأكاديمي من محطة توتر وقلق إلى تجربة تعلم تأصيلية راسخة. لقد أردنا لهذه المنظومة أن تكون حرة، موثوقة، ومفتوحة لكافة الطلاب دون أي عائق حسي أو تقني، تنطلق من رحاب علوم القرآن الكريم والدراسات الجامعية الرصينة، وتوظف أحدث ما وصلت إليه تقنيات البرمجيات السحابية الحديثة لخدمة طالب العلم».
-          </p>
-        </div>
+ <div class="value-card">
+ <span class="value-icon" aria-hidden="true"></span>
+ <h3 class="value-title">السيادة والاستقلالية</h3>
+ <p class="value-desc">
+ منظومة برمجية حرة، مبنية ومطورة ومُدارة بكفاءة وطنية يمنية ذاتية، ومستقلة تماماً لخدمة التعليم الجامعي.
+ </p>
+ </div>
 
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem;">
-          <a href="index.html#subjects-section" class="btn btn-primary btn-sm">استعراض المقررات والاختبارات 📚</a>
-          <a href="auth.html" class="btn btn-secondary btn-sm">بوابة الدخول وإنشاء الحساب 👤</a>
-          <a href="admin.html" class="btn btn-outline btn-sm">لوحة الإشراف العام 🛠️</a>
-        </div>
-      </article>
-    </section>
+ </div>
+ </section>
 
-  </main>
+ <!-- البنية التقنية ومعايير الجودة -->
+ <section aria-labelledby="tech-heading" class="card" style="margin-bottom: 3.5rem; padding: 2.25rem;">
+ <h2 id="tech-heading" style="font-size: 1.65rem; font-weight: 800; margin-bottom: 1.25rem; color: var(--primary);">
+ البنية الهندسية ومعايير الجودة في «مدارج»
+ </h2>
+ <div class="features-grid" style="margin-top: 1rem;">
+ <div>
+ <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;"> البنية الثلاثية (Triple Redundancy)</h3>
+ <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
+ تعمل المنصة بالتزامن اللحظي عبر ثلاث استضافات سحابية مستقلة (Vercel + Netlify + GitHub Pages) موصولة بقاعدة بيانات سحابية موحدة؛ لتفادي أي انقطاع نهائياً.
+ </p>
+ </div>
+ <div>
+ <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;"> تقنية PWA والعمل دون اتصال</h3>
+ <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
+ تدعم المنصة التثبيت الفوري كتطبيق هاتف، مع تخزين مؤقت للواجهات، وحفظ محلي لإجابات الاختبار ومزامنتها تلقائياً عند عودة الإنترنت.
+ </p>
+ </div>
+ <div>
+ <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;"> إتاحة الوصول الشامل (WCAG 2.1)</h3>
+ <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
+ تطابق صارم مع المعايير الدولية للإتاحة الرقمية: وسوم دلالية كاملة، إعلانات صوتية لقارئات الشاشة، ودعم اختصارات لوحة المفاتيح والاهتزاز اللمسي.
+ </p>
+ </div>
+ <div>
+ <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.35rem;"> كشوفات تقييم أكاديمية دقيقة (PDF)</h3>
+ <p style="font-size: 0.94rem; color: var(--text-muted); line-height: 1.65;">
+ محرك تصدير وطباعة معزول بخط Cairo العربي وجداول الربط والتشكيل، ينتج وثيقة نتيجة رسمية معتمدة قابلة للحفظ والمشاركة.
+ </p>
+ </div>
+ </div>
+ </section>
 
-  <!-- الفوتر الأكاديمي الشامل لمنصة مدارج -->
-  <footer class="footer" role="contentinfo">
-    <div class="container footer-content">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="brand-badge">مدارج</span>
-        <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
-      </div>
-      <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
-        منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
-      </p>
-      <ul class="footer-links">
-        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
-        <li><a href="about.html" class="footer-link" style="color: var(--primary); font-weight: 800;">عن منصة مدارج</a></li>
-        <li><a href="index.html#subjects-section" class="footer-link">المقررات التخصصية</a></li>
-        <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
-        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
-      </ul>
-      <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
-        جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
-      </p>
-    </div>
-  </footer>
+ <!-- الإشراف العام والمؤسس -->
+ <section id="supervision" aria-labelledby="supervision-heading">
+ <article class="founder-card">
+ <div class="founder-header">
+ <div class="founder-avatar" aria-hidden="true">ع</div>
+ <div>
+ <span class="badge badge-warning" style="margin-bottom: 0.25rem;">الريادة والإشراف العام</span>
+ <h2 id="supervision-heading" style="font-size: 1.65rem; font-weight: 900; color: var(--text-main);">
+ عبد العزيز أمين راجح حاتم
+ </h2>
+ <p style="font-size: 0.95rem; color: var(--text-muted); font-weight: 600;">
+ مؤسس والمشرف الأكاديمي العام على منصة «مَدَارِج» للتقويم والقياس
+ </p>
+ </div>
+ </div>
 
-  <script src="js/config.js?v=1.0.3"></script>
-  <script src="js/a11y.js?v=1.0.3"></script>
-  <script src="js/auth.js?v=1.0.3"></script>
-  <script src="js/pwa.js?v=1.0.3"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
-      if (window.authManager && typeof window.authManager.init === 'function') {
-        await window.authManager.init();
-      }
-    });
-  </script>
+ <div style="font-size: 1.05rem; line-height: 1.85; color: var(--text-main);">
+ <p style="margin-bottom: 0.85rem;">
+ «إن الغاية الكبرى من بناء منصة <strong>مدارج</strong> هي تجاوز حواجز التقييم التقليدي، وتحويل الاختبار الأكاديمي من محطة توتر وقلق إلى تجربة تعلم تأصيلية راسخة. لقد أردنا لهذه المنظومة أن تكون حرة، موثوقة، ومفتوحة لكافة الطلاب دون أي عائق حسي أو تقني، تنطلق من رحاب علوم القرآن الكريم والدراسات الجامعية الرصينة، وتوظف أحدث ما وصلت إليه تقنيات البرمجيات السحابية الحديثة لخدمة طالب العلم».
+ </p>
+ </div>
+
+ <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem;">
+ <a href="index.html#subjects-section" class="btn btn-primary btn-sm">استعراض المقررات والاختبارات </a>
+ <a href="auth.html" class="btn btn-secondary btn-sm">بوابة الدخول وإنشاء الحساب </a>
+ <a href="admin.html" class="btn btn-outline btn-sm">لوحة الإشراف العام </a>
+ </div>
+ </article>
+ </section>
+
+ </main>
+
+ <!-- الفوتر الأكاديمي الشامل لمنصة مدارج -->
+ <footer class="footer" role="contentinfo">
+ <div class="container footer-content">
+ <div style="display: flex; align-items: center; gap: 0.5rem;">
+ <span class="brand-badge">مدارج</span>
+ <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
+ </div>
+ <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
+ منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
+ </p>
+ <ul class="footer-links">
+ <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+ <li><a href="about.html" class="footer-link" style="color: var(--primary); font-weight: 800;">عن منصة مدارج</a></li>
+ <li><a href="index.html#subjects-section" class="footer-link">المقررات التخصصية</a></li>
+ <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
+ <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+ </ul>
+ <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
+ جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
+ </p>
+ </div>
+ </footer>
+
+ <script src="js/config.js?v=1.0.3"></script>
+ <script src="js/a11y.js?v=1.0.3"></script>
+ <script src="js/auth.js?v=1.0.3"></script>
+ <script src="js/pwa.js?v=1.0.3"></script>
+ <script>
+ document.addEventListener('DOMContentLoaded', async  => {
+ document.getElementById('theme-toggle')?.addEventListener('click',  => window.a11y?.toggleTheme);
+ if (window.authManager && typeof window.authManager.init === 'function') {
+ await window.authManager.init;
+ }
+ });
+ </script>
 </body>
 </html>

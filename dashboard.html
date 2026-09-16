@@ -1,394 +1,394 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة الطالب الأكاديمية | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e40af">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>لوحة الطالب الأكاديمية | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="css/style.css">
+ <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+ <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+ <link rel="manifest" href="manifest.json">
+ <meta name="theme-color" content="#1e40af">
+ <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
-  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+ <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
-  <!-- شريط التنقل العلوي الأكاديمي -->
-  <header class="navbar" role="banner">
-    <div class="container nav-container">
-      <div class="nav-right">
-        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
-          <span class="hamburger-bar" aria-hidden="true"></span>
-          <span class="hamburger-bar" aria-hidden="true"></span>
-          <span class="hamburger-bar" aria-hidden="true"></span>
-        </button>
-        <a href="index.html" class="brand">
-          <span class="brand-badge">مدارج</span>
-          <div class="brand-text-wrapper">
-            <span class="brand-title">منصة مدارج</span>
-            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
-          </div>
-        </a>
-      </div>
-      <div class="nav-left">
-        <div id="nav-auth-container" class="desktop-only"></div>
-        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
-      </div>
-    </div>
-  </header>
+ <!-- شريط التنقل العلوي الأكاديمي -->
+ <header class="navbar" role="banner">
+ <div class="container nav-container">
+ <div class="nav-right">
+ <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ <span class="hamburger-bar" aria-hidden="true"></span>
+ </button>
+ <a href="index.html" class="brand">
+ <span class="brand-badge">مدارج</span>
+ <div class="brand-text-wrapper">
+ <span class="brand-title">منصة مدارج</span>
+ <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
+ </div>
+ </a>
+ </div>
+ <div class="nav-left">
+ <div id="nav-auth-container" class="desktop-only"></div>
+ <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
+ </div>
+ </div>
+ </header>
 
-  <!-- خلفية التعتيم والقائمة الجانبية -->
-  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
-  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
-    <div class="sidebar-header">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="brand-badge">مدارج</span>
-        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
-      </div>
-      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
-    </div>
-    <div id="sidebar-user-area" class="sidebar-user-card"></div>
-    <nav role="navigation" aria-label="روابط القائمة">
-      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
-    </nav>
-    <div class="sidebar-footer">
-      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
-    </div>
-  </aside>
+ <!-- خلفية التعتيم والقائمة الجانبية -->
+ <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+ <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+ <div class="sidebar-header">
+ <div style="display: flex; align-items: center; gap: 0.5rem;">
+ <span class="brand-badge">مدارج</span>
+ <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+ </div>
+ <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+ </div>
+ <div id="sidebar-user-area" class="sidebar-user-card"></div>
+ <nav role="navigation" aria-label="روابط القائمة">
+ <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+ </nav>
+ <div class="sidebar-footer">
+ <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
+ </div>
+ </aside>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
-    
-    <!-- بطاقة الترحيب بطلبة القسم والإحصائيات التراكمية -->
-    <section class="card" aria-labelledby="dash-welcome">
-      <div class="card-header">
-        <div>
-          <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
-            <span>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</span>
-          </div>
-          <h1 id="dash-welcome" style="font-size: 1.7rem; font-weight: 800;">سجل الطالب الأكاديمي</h1>
-          <p id="dash-user-email" class="text-muted" style="font-size: 0.95rem; margin-top: 0.25rem;">جاري مزامنة الملف الشخصي...</p>
-        </div>
-        <div>
-          <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات والاختبارات ❯</a>
-        </div>
-      </div>
+ <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
 
-      <!-- إحصائيات التحصيل الأكاديمي السريعة -->
-      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 1rem 0 0 0;">
-        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
-          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">إجمالي الاختبارات المنجزة بالقسم</span>
-          <strong id="stat-total-exams" style="font-size: 2.2rem; color: var(--primary);">0</strong>
-        </div>
-        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
-          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">الاختبارات المجتازة بنجاح</span>
-          <strong id="stat-passed-exams" style="font-size: 2.2rem; color: var(--success);">0</strong>
-        </div>
-        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
-          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">متوسط النسبة التراكمية</span>
-          <strong id="stat-avg-score" style="font-size: 2.2rem; color: var(--text-main);">0%</strong>
-        </div>
-        <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
-          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">المسائل المحفوظة للمراجعة</span>
-          <strong id="stat-bookmarks-count" style="font-size: 2.2rem; color: var(--gold);">0</strong>
-        </div>
-      </div>
-    </section>
+ <!-- بطاقة الترحيب بطلبة القسم والإحصائيات التراكمية -->
+ <section class="card" aria-labelledby="dash-welcome">
+ <div class="card-header">
+ <div>
+ <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
+ <span>قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</span>
+ </div>
+ <h1 id="dash-welcome" style="font-size: 1.7rem; font-weight: 800;">سجل الطالب الأكاديمي</h1>
+ <p id="dash-user-email" class="text-muted" style="font-size: 0.95rem; margin-top: 0.25rem;">جاري مزامنة الملف الشخصي...</p>
+ </div>
+ <div>
+ <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات والاختبارات ></a>
+ </div>
+ </div>
 
-    <!-- تبويبات التنقل بين السجل والمسائل المحفوظة -->
-    <section class="card" aria-labelledby="section-records-title">
-      <div class="dash-tabs" role="tablist" aria-label="أقسام سجل الطالب">
-        <button type="button" role="tab" id="tab-btn-history" class="dash-tab-btn active" aria-selected="true" aria-controls="history-container">
-          <span>📋 سجل الاختبارات والمحاولات</span>
-        </button>
-        <button type="button" role="tab" id="tab-btn-bookmarks" class="dash-tab-btn" aria-selected="false" aria-controls="bookmarks-container">
-          <span>⭐ المسائل المحفوظة للمراجعة</span>
-          <span class="badge badge-warning" id="tab-bookmarks-badge">0</span>
-        </button>
-      </div>
+ <!-- إحصائيات التحصيل الأكاديمي السريعة -->
+ <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 1rem 0 0 0;">
+ <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+ <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">إجمالي الاختبارات المنجزة بالقسم</span>
+ <strong id="stat-total-exams" style="font-size: 2.2rem; color: var(--primary);">0</strong>
+ </div>
+ <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+ <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">الاختبارات المجتازة بنجاح</span>
+ <strong id="stat-passed-exams" style="font-size: 2.2rem; color: var(--success);">0</strong>
+ </div>
+ <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+ <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">متوسط النسبة التراكمية</span>
+ <strong id="stat-avg-score" style="font-size: 2.2rem; color: var(--text-main);">0%</strong>
+ </div>
+ <div style="background: var(--surface-secondary); padding: 1.35rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+ <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; display: block;">المسائل المحفوظة للمراجعة</span>
+ <strong id="stat-bookmarks-count" style="font-size: 2.2rem; color: var(--gold);">0</strong>
+ </div>
+ </div>
+ </section>
 
-      <!-- تبويب 1: سجل الاختبارات السابقة -->
-      <div id="history-container" role="tabpanel" aria-labelledby="tab-btn-history" aria-live="polite">
-        <p class="text-muted">جاري تحميل سجل الاختبارات من الخادم السحابي...</p>
-      </div>
+ <!-- تبويبات التنقل بين السجل والمسائل المحفوظة -->
+ <section class="card" aria-labelledby="section-records-title">
+ <div class="dash-tabs" role="tablist" aria-label="أقسام سجل الطالب">
+ <button type="button" role="tab" id="tab-btn-history" class="dash-tab-btn active" aria-selected="true" aria-controls="history-container">
+ <span> سجل الاختبارات والمحاولات</span>
+ </button>
+ <button type="button" role="tab" id="tab-btn-bookmarks" class="dash-tab-btn" aria-selected="false" aria-controls="bookmarks-container">
+ <span> المسائل المحفوظة للمراجعة</span>
+ <span class="badge badge-warning" id="tab-bookmarks-badge">0</span>
+ </button>
+ </div>
 
-      <!-- تبويب 2: بنك المسائل المحفوظة للمراجعة (Feature 2) -->
-      <div id="bookmarks-container" role="tabpanel" aria-labelledby="tab-btn-bookmarks" style="display: none;" aria-live="polite">
-        <p class="text-muted">جاري قراءة المسائل المحفوظة...</p>
-      </div>
-    </section>
+ <!-- تبويب 1: سجل الاختبارات السابقة -->
+ <div id="history-container" role="tabpanel" aria-labelledby="tab-btn-history" aria-live="polite">
+ <p class="text-muted">جاري تحميل سجل الاختبارات من الخادم السحابي...</p>
+ </div>
 
-  </main>
+ <!-- تبويب 2: بنك المسائل المحفوظة للمراجعة (Feature 2) -->
+ <div id="bookmarks-container" role="tabpanel" aria-labelledby="tab-btn-bookmarks" style="display: none;" aria-live="polite">
+ <p class="text-muted">جاري قراءة المسائل المحفوظة...</p>
+ </div>
+ </section>
 
-    <footer class="footer" role="contentinfo">
-    <div class="container footer-content">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span class="brand-badge">مدارج</span>
-        <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
-      </div>
-      <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
-        منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
-      </p>
-      <ul class="footer-links">
-        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
-        <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
-        <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
-        <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
-        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
-      </ul>
-      <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
-        جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
-      </p>
-    </div>
-  </footer>
+ </main>
 
-  <script src="js/config.js"></script>
-  <script src="js/a11y.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/bookmarks.js"></script>
-  <script>
-    let currentTab = 'history';
+ <footer class="footer" role="contentinfo">
+ <div class="container footer-content">
+ <div style="display: flex; align-items: center; gap: 0.5rem;">
+ <span class="brand-badge">مدارج</span>
+ <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
+ </div>
+ <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
+ منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
+ </p>
+ <ul class="footer-links">
+ <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+ <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
+ <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
+ <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
+ <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+ </ul>
+ <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
+ جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
+ </p>
+ </div>
+ </footer>
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
+ <script src="js/config.js"></script>
+ <script src="js/a11y.js"></script>
+ <script src="js/auth.js"></script>
+ <script src="js/db.js"></script>
+ <script src="js/bookmarks.js"></script>
+ <script>
+ let currentTab = 'history';
 
-      const user = await window.authManager.init();
-      if (!user) {
-        window.location.href = 'auth.html?redirect=dashboard.html';
-        return;
-      }
+ document.addEventListener('DOMContentLoaded', async  => {
+ document.getElementById('theme-toggle')?.addEventListener('click',  => window.a11y?.toggleTheme);
 
-      window.db.init();
+ const user = await window.authManager.init;
+ if (!user) {
+ window.location.href = 'auth.html?redirect=dashboard.html';
+ return;
+ }
 
-      document.getElementById('dash-welcome').textContent = `أهلاً بك، الطالب/ ${user.fullName}`;
-      document.getElementById('dash-user-email').textContent = `البريد الأكاديمي: ${user.email} | الصفة: ${user.role === 'admin' ? 'مشرف أكاديمي' : 'طالب بقسم القرآن الكريم وعلومه'}`;
+ window.db.init;
 
-      // إعداد التبويبات
-      setupTabs();
+ document.getElementById('dash-welcome').textContent = `أهلاً بك، الطالب/ ${user.fullName}`;
+ document.getElementById('dash-user-email').textContent = `البريد الأكاديمي: ${user.email} | الصفة: ${user.role === 'admin' ? 'مشرف أكاديمي': 'طالب بقسم القرآن الكريم وعلومه'}`;
 
-      // تحميل السجل والمسائل المحفوظة
-      loadUserHistory(user.id);
-      renderBookmarksList();
+ // إعداد التبويبات
+ setupTabs;
 
-      // فتح تبويب المفضلة مباشرة إذا ورد بالرابط ?tab=bookmarks
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('tab') === 'bookmarks') {
-        switchTab('bookmarks');
-      }
-    });
+ // تحميل السجل والمسائل المحفوظة
+ loadUserHistory(user.id);
+ renderBookmarksList;
 
-    function setupTabs() {
-      const btnHistory = document.getElementById('tab-btn-history');
-      const btnBookmarks = document.getElementById('tab-btn-bookmarks');
+ // فتح تبويب المفضلة مباشرة إذا ورد بالرابط ?tab=bookmarks
+ const params = new URLSearchParams(window.location.search);
+ if (params.get('tab') === 'bookmarks') {
+ switchTab('bookmarks');
+ }
+ });
 
-      btnHistory.addEventListener('click', () => switchTab('history'));
-      btnBookmarks.addEventListener('click', () => switchTab('bookmarks'));
-    }
+ function setupTabs {
+ const btnHistory = document.getElementById('tab-btn-history');
+ const btnBookmarks = document.getElementById('tab-btn-bookmarks');
 
-    function switchTab(tabName) {
-      currentTab = tabName;
-      const btnHistory = document.getElementById('tab-btn-history');
-      const btnBookmarks = document.getElementById('tab-btn-bookmarks');
-      const containerHistory = document.getElementById('history-container');
-      const containerBookmarks = document.getElementById('bookmarks-container');
+ btnHistory.addEventListener('click',  => switchTab('history'));
+ btnBookmarks.addEventListener('click',  => switchTab('bookmarks'));
+ }
 
-      if (tabName === 'history') {
-        btnHistory.classList.add('active');
-        btnHistory.setAttribute('aria-selected', 'true');
-        btnBookmarks.classList.remove('active');
-        btnBookmarks.setAttribute('aria-selected', 'false');
+ function switchTab(tabName) {
+ currentTab = tabName;
+ const btnHistory = document.getElementById('tab-btn-history');
+ const btnBookmarks = document.getElementById('tab-btn-bookmarks');
+ const containerHistory = document.getElementById('history-container');
+ const containerBookmarks = document.getElementById('bookmarks-container');
 
-        containerHistory.style.display = 'block';
-        containerBookmarks.style.display = 'none';
-        window.a11y?.announce('تم التبديل إلى سجل الاختبارات');
-      } else {
-        btnBookmarks.classList.add('active');
-        btnBookmarks.setAttribute('aria-selected', 'true');
-        btnHistory.classList.remove('active');
-        btnHistory.setAttribute('aria-selected', 'false');
+ if (tabName === 'history') {
+ btnHistory.classList.add('active');
+ btnHistory.setAttribute('aria-selected', 'true');
+ btnBookmarks.classList.remove('active');
+ btnBookmarks.setAttribute('aria-selected', 'false');
 
-        containerBookmarks.style.display = 'block';
-        containerHistory.style.display = 'none';
-        renderBookmarksList();
-        window.a11y?.announce('تم التبديل إلى قائمة المسائل المحفوظة للمراجعة');
-      }
-    }
+ containerHistory.style.display = 'block';
+ containerBookmarks.style.display = 'none';
+ window.a11y?.announce('تم التبديل إلى سجل الاختبارات');
+ } else {
+ btnBookmarks.classList.add('active');
+ btnBookmarks.setAttribute('aria-selected', 'true');
+ btnHistory.classList.remove('active');
+ btnHistory.setAttribute('aria-selected', 'false');
 
-    async function loadUserHistory(userId) {
-      try {
-        const history = await window.db.getUserSubmissions(userId);
-        const container = document.getElementById('history-container');
+ containerBookmarks.style.display = 'block';
+ containerHistory.style.display = 'none';
+ renderBookmarksList;
+ window.a11y?.announce('تم التبديل إلى قائمة المسائل المحفوظة للمراجعة');
+ }
+ }
 
-        const total = history.length;
-        const passed = history.filter(h => h.passed).length;
-        const avg = total > 0 
-          ? Math.round(history.reduce((acc, curr) => acc + (parseFloat(curr.percentage) || 0), 0) / total) 
-          : 0;
+ async function loadUserHistory(userId) {
+ try {
+ const history = await window.db.getUserSubmissions(userId);
+ const container = document.getElementById('history-container');
 
-        document.getElementById('stat-total-exams').textContent = total;
-        document.getElementById('stat-passed-exams').textContent = passed;
-        document.getElementById('stat-avg-score').textContent = `${avg}%`;
+ const total = history.length;
+ const passed = history.filter(h => h.passed).length;
+ const avg = total > 0
+ ? Math.round(history.reduce((acc, curr) => acc + (parseFloat(curr.percentage) || 0), 0) / total)
+: 0;
 
-        if (total === 0) {
-          container.innerHTML = `
-            <div style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
-              <p style="font-size: 1.05rem;">لم تقم بخوض أي نموذج اختباري حتى الآن.</p>
-              <a href="index.html#subjects-section" class="btn btn-primary btn-sm" style="margin-top: 1rem;">خوض أول اختبار تجريبي لمقررات القسم ❯</a>
-            </div>
-          `;
-          return;
-        }
+ document.getElementById('stat-total-exams').textContent = total;
+ document.getElementById('stat-passed-exams').textContent = passed;
+ document.getElementById('stat-avg-score').textContent = `${avg}%`;
 
-        container.innerHTML = `
-          <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; text-align: right; min-width: 600px;">
-              <thead>
-                <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.9rem;">
-                  <th style="padding: 0.75rem 0.5rem;">اسم الاختبار</th>
-                  <th style="padding: 0.75rem 0.5rem;">المقرر التخصصي</th>
-                  <th style="padding: 0.75rem 0.5rem;">الدرجة</th>
-                  <th style="padding: 0.75rem 0.5rem;">النسبة</th>
-                  <th style="padding: 0.75rem 0.5rem;">الحالة</th>
-                  <th style="padding: 0.75rem 0.5rem;">التاريخ</th>
-                  <th style="padding: 0.75rem 0.5rem;">الإجراء</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${history.map(item => {
-                  const dateStr = new Date(item.completed_at).toLocaleDateString('ar-YE', {
-                    year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                  });
-                  const statusBadge = item.passed 
-                    ? '<span class="badge badge-success">مجتاز ✓</span>'
-                    : '<span class="badge badge-danger">راسب ✗</span>';
+ if (total === 0) {
+ container.innerHTML = `
+ <div style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+ <p style="font-size: 1.05rem;">لم تقم بخوض أي نموذج اختباري حتى الآن.</p>
+ <a href="index.html#subjects-section" class="btn btn-primary btn-sm" style="margin-top: 1rem;">خوض أول اختبار تجريبي لمقررات القسم ></a>
+ </div>
+ `;
+ return;
+ }
 
-                  return `
-                    <tr style="border-bottom: 1px solid var(--border-light); font-size: 0.95rem;">
-                      <td style="padding: 0.9rem 0.5rem; font-weight: 700;">
-                        ${window.authManager.escapeHtml(item.exams?.title || 'اختبار')}
-                      </td>
-                      <td style="padding: 0.9rem 0.5rem; color: var(--text-muted);">
-                        ${window.authManager.escapeHtml(item.exams?.subjects?.title || 'عام')}
-                      </td>
-                      <td style="padding: 0.9rem 0.5rem; font-weight: 600;">${item.score} / ${item.total_points}</td>
-                      <td style="padding: 0.9rem 0.5rem; font-weight: 800; color: var(--primary);">${item.percentage}%</td>
-                      <td style="padding: 0.9rem 0.5rem;">${statusBadge}</td>
-                      <td style="padding: 0.9rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
-                      <td style="padding: 0.9rem 0.5rem;">
-                        <a href="result.html?submission_id=${item.id}" class="btn btn-secondary btn-sm" aria-label="عرض مراجعة نتيجة اختبار ${window.authManager.escapeHtml(item.exams?.title || '')}">
-                          عرض المراجعة والتعليل
-                        </a>
-                      </td>
-                    </tr>
-                  `;
-                }).join('')}
-              </tbody>
-            </table>
-          </div>
-        `;
-      } catch (err) {
-        console.error(err);
-        alert('حدث خطأ أثناء جلب السجل: ' + err.message);
-      }
-    }
+ container.innerHTML = `
+ <div style="overflow-x: auto;">
+ <table style="width: 100%; border-collapse: collapse; text-align: right; min-width: 600px;">
+ <thead>
+ <tr style="border-bottom: 2px solid var(--border); color: var(--text-muted); font-size: 0.9rem;">
+ <th style="padding: 0.75rem 0.5rem;">اسم الاختبار</th>
+ <th style="padding: 0.75rem 0.5rem;">المقرر التخصصي</th>
+ <th style="padding: 0.75rem 0.5rem;">الدرجة</th>
+ <th style="padding: 0.75rem 0.5rem;">النسبة</th>
+ <th style="padding: 0.75rem 0.5rem;">الحالة</th>
+ <th style="padding: 0.75rem 0.5rem;">التاريخ</th>
+ <th style="padding: 0.75rem 0.5rem;">الإجراء</th>
+ </tr>
+ </thead>
+ <tbody>
+ ${history.map(item => {
+ const dateStr = new Date(item.completed_at).toLocaleDateString('ar-YE', {
+ year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+ });
+ const statusBadge = item.passed
+ ? '<span class="badge badge-success">مجتاز صحيحة</span>'
+: '<span class="badge badge-danger">راسب غير صحيحة</span>';
 
-    function renderBookmarksList() {
-      const container = document.getElementById('bookmarks-container');
-      const items = window.bookmarksManager?.getAll() || [];
+ return `
+ <tr style="border-bottom: 1px solid var(--border-light); font-size: 0.95rem;">
+ <td style="padding: 0.9rem 0.5rem; font-weight: 700;">
+ ${window.authManager.escapeHtml(item.exams?.title || 'اختبار')}
+ </td>
+ <td style="padding: 0.9rem 0.5rem; color: var(--text-muted);">
+ ${window.authManager.escapeHtml(item.exams?.subjects?.title || 'عام')}
+ </td>
+ <td style="padding: 0.9rem 0.5rem; font-weight: 600;">${item.score} / ${item.total_points}</td>
+ <td style="padding: 0.9rem 0.5rem; font-weight: 800; color: var(--primary);">${item.percentage}%</td>
+ <td style="padding: 0.9rem 0.5rem;">${statusBadge}</td>
+ <td style="padding: 0.9rem 0.5rem; font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
+ <td style="padding: 0.9rem 0.5rem;">
+ <a href="result.html?submission_id=${item.id}" class="btn btn-secondary btn-sm" aria-label="عرض مراجعة نتيجة اختبار ${window.authManager.escapeHtml(item.exams?.title || '')}">
+ عرض المراجعة والتعليل
+ </a>
+ </td>
+ </tr>
+ `;
+ }).join('')}
+ </tbody>
+ </table>
+ </div>
+ `;
+ } catch (err) {
+ console.error(err);
+ alert('حدث خطأ أثناء جلب السجل: ' + err.message);
+ }
+ }
 
-      // تحديث شارات العداد
-      document.getElementById('stat-bookmarks-count').textContent = items.length;
-      document.getElementById('tab-bookmarks-badge').textContent = items.length;
+ function renderBookmarksList {
+ const container = document.getElementById('bookmarks-container');
+ const items = window.bookmarksManager?.getAll || [];
 
-      if (items.length === 0) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
-            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">⭐</div>
-            <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">لم تقم بحفظ أي مسائل للمراجعة بعد</h3>
-            <p style="max-width: 550px; margin: 0 auto 1.5rem; line-height: 1.7; font-size: 0.95rem;">
-              يمكنك الضغط على زر <strong>(حفظ للمراجعة ☆)</strong> بجوار أي مسألة أثناء خوض الاختبارات أو في صفحة مراجعة النتائج لتثبيتها هنا ومذاكرتها قبل الامتحانات النهائية.
-            </p>
-            <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات وبدء التدريب ❯</a>
-          </div>
-        `;
-        return;
-      }
+ // تحديث شارات العداد
+ document.getElementById('stat-bookmarks-count').textContent = items.length;
+ document.getElementById('tab-bookmarks-badge').textContent = items.length;
 
-      container.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-          <span style="font-weight: 700; color: var(--text-muted); font-size: 0.95rem;">
-            لديك <strong style="color: var(--gold);">${items.length}</strong> مسائل محفوظة للمذاكرة والتأصيل
-          </span>
-          <button type="button" id="btn-clear-all-bookmarks" class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);">
-            إفراغ القائمة 🗑️
-          </button>
-        </div>
+ if (items.length === 0) {
+ container.innerHTML = `
+ <div style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
+ <div style="font-size: 2.5rem; margin-bottom: 0.75rem;"></div>
+ <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text-main);">لم تقم بحفظ أي مسائل للمراجعة بعد</h3>
+ <p style="max-width: 550px; margin: 0 auto 1.5rem; line-height: 1.7; font-size: 0.95rem;">
+ يمكنك الضغط على زر <strong>(حفظ للمراجعة )</strong> بجوار أي مسألة أثناء خوض الاختبارات أو في صفحة مراجعة النتائج لتثبيتها هنا ومذاكرتها قبل الامتحانات النهائية.
+ </p>
+ <a href="index.html#subjects-section" class="btn btn-primary btn-sm">تصفح المقررات وبدء التدريب ></a>
+ </div>
+ `;
+ return;
+ }
 
-        <div class="bookmarks-cards-list">
-          ${items.map((item, idx) => `
-            <article class="bookmark-card" id="bookmark-card-${item.id}">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
-                <div>
-                  <span class="badge badge-warning" style="margin-bottom: 0.35rem;">مسألة محفوظة #${idx + 1}</span>
-                  <span class="badge badge-primary" style="margin-bottom: 0.35rem;">${window.authManager.escapeHtml(item.exam_title || 'مقرر تخصصي')}</span>
-                </div>
-                <button type="button" class="btn btn-secondary btn-sm btn-delete-bookmark" data-id="${item.id}" aria-label="حذف المسألة رقم ${idx + 1} من المحفوظات">
-                  حذف من المحفوظات ✕
-                </button>
-              </div>
+ container.innerHTML = `
+ <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+ <span style="font-weight: 700; color: var(--text-muted); font-size: 0.95rem;">
+ لديك <strong style="color: var(--gold);">${items.length}</strong> مسائل محفوظة للمذاكرة والتأصيل
+ </span>
+ <button type="button" id="btn-clear-all-bookmarks" class="btn btn-outline btn-sm" style="color: var(--danger); border-color: var(--danger);">
+ إفراغ القائمة
+ </button>
+ </div>
 
-              <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.85rem; line-height: 1.5;">
-                ${window.authManager.escapeHtml(item.question_text)}
-              </h3>
+ <div class="bookmarks-cards-list">
+ ${items.map((item, idx) => `
+ <article class="bookmark-card" id="bookmark-card-${item.id}">
+ <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
+ <div>
+ <span class="badge badge-warning" style="margin-bottom: 0.35rem;">مسألة محفوظة #${idx + 1}</span>
+ <span class="badge badge-primary" style="margin-bottom: 0.35rem;">${window.authManager.escapeHtml(item.exam_title || 'مقرر تخصصي')}</span>
+ </div>
+ <button type="button" class="btn btn-secondary btn-sm btn-delete-bookmark" data-id="${item.id}" aria-label="حذف المسألة رقم ${idx + 1} من المحفوظات">
+ حذف من المحفوظات ✕
+ </button>
+ </div>
 
-              ${item.correct_choice_text ? `
-                <div style="margin-bottom: 0.75rem; font-size: 1rem;">
-                  <strong>الإجابة النموذجية الصحيحة:</strong> 
-                  <span style="color: var(--success); font-weight: 800;">${window.authManager.escapeHtml(item.correct_choice_text)}</span>
-                </div>
-              ` : ''}
+ <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 0.85rem; line-height: 1.5;">
+ ${window.authManager.escapeHtml(item.question_text)}
+ </h3>
 
-              ${item.choices && item.choices.length > 0 && !item.correct_choice_text ? `
-                <div style="margin-bottom: 0.75rem;">
-                  <strong style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">خيارات المسألة:</strong>
-                  <ul style="list-style: disc; padding-right: 1.5rem; font-size: 0.95rem; color: var(--text-main);">
-                    ${item.choices.map(c => `<li>${window.authManager.escapeHtml(c.choice_text || c.text || '')}</li>`).join('')}
-                  </ul>
-                </div>
-              ` : ''}
+ ${item.correct_choice_text ? `
+ <div style="margin-bottom: 0.75rem; font-size: 1rem;">
+ <strong>الإجابة النموذجية الصحيحة:</strong>
+ <span style="color: var(--success); font-weight: 800;">${window.authManager.escapeHtml(item.correct_choice_text)}</span>
+ </div>
+ `: ''}
 
-              ${item.explanation ? `
-                <div class="explanation-box" style="margin-top: 0.75rem;">
-                  <strong>💡 التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(item.explanation)}
-                </div>
-              ` : ''}
-            </article>
-          `).join('')}
-        </div>
-      `;
+ ${item.choices && item.choices.length > 0 &&!item.correct_choice_text ? `
+ <div style="margin-bottom: 0.75rem;">
+ <strong style="font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 0.35rem;">خيارات المسألة:</strong>
+ <ul style="list-style: disc; padding-right: 1.5rem; font-size: 0.95rem; color: var(--text-main);">
+ ${item.choices.map(c => `<li>${window.authManager.escapeHtml(c.choice_text || c.text || '')}</li>`).join('')}
+ </ul>
+ </div>
+ `: ''}
 
-      // ربط أحداث الحذف الفردي
-      container.querySelectorAll('.btn-delete-bookmark').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const qid = btn.getAttribute('data-id');
-          window.bookmarksManager?.remove(qid);
-          renderBookmarksList();
-        });
-      });
+ ${item.explanation ? `
+ <div class="explanation-box" style="margin-top: 0.75rem;">
+ <strong> التعليل العلمي وتأصيل المسألة:</strong> ${window.authManager.escapeHtml(item.explanation)}
+ </div>
+ `: ''}
+ </article>
+ `).join('')}
+ </div>
+ `;
 
-      // ربط حدث إفراغ الكل
-      document.getElementById('btn-clear-all-bookmarks')?.addEventListener('click', () => {
-        if (confirm('هل أنت متأكد من رغبتك في حذف كافة المسائل المحفوظة للمراجعة؟')) {
-          window.bookmarksManager?.clearAll();
-          renderBookmarksList();
-        }
-      });
-    }
-  </script>
-  <script src="js/pwa.js"></script>
+ // ربط أحداث الحذف الفردي
+ container.querySelectorAll('.btn-delete-bookmark').forEach(btn => {
+ btn.addEventListener('click',  => {
+ const qid = btn.getAttribute('data-id');
+ window.bookmarksManager?.remove(qid);
+ renderBookmarksList;
+ });
+ });
+
+ // ربط حدث إفراغ الكل
+ document.getElementById('btn-clear-all-bookmarks')?.addEventListener('click',  => {
+ if (confirm('هل أنت متأكد من رغبتك في حذف كافة المسائل المحفوظة للمراجعة؟')) {
+ window.bookmarksManager?.clearAll;
+ renderBookmarksList;
+ }
+ });
+ }
+ </script>
+ <script src="js/pwa.js"></script>
 </body>
 </html>
