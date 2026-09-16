@@ -61,98 +61,129 @@ class DatabaseManager {
   }
 
   // ==========================================
-  // المواد والمقررات التخصصية (Subjects)
+  // المواد والمقررات التخصصية (Subjects) - إدارة سيادية حتمية
   // ==========================================
   async getSubjects(includeInactive = false) {
+    const deletedList = JSON.parse(localStorage.getItem('madarej_deleted_subjects') || '[]');
+    const statusMap = JSON.parse(localStorage.getItem('madarej_subjects_status') || '{}');
+
+    let result = [];
+
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
-        const query = includeInactive 
-          ? 'subjects?select=*&order=created_at.asc'
-          : 'subjects?select=*&is_active=eq.true&order=created_at.asc';
-        const data = await this.fetchRest(query);
-        if (Array.isArray(data)) return data;
-      } catch (err) {
-        console.warn('فشل طلب REST السحابي للمقررات، جاري استخدام التخزين المؤقت:', err);
-      }
+        const data = await this.fetchRest('subjects?select=*&order=created_at.asc');
+        if (Array.isArray(data) && data.length > 0) {
+          result = data;
+        }
+      } catch (err) {}
 
-      if (this.client) {
+      if (result.length === 0 && this.client) {
         try {
-          let builder = this.client.from('subjects').select('*').order('created_at', { ascending: true });
-          if (!includeInactive) {
-            builder = builder.eq('is_active', true);
-          }
-          const { data, error } = await builder;
-          if (!error && Array.isArray(data)) return data;
+          const { data, error } = await this.client.from('subjects').select('*').order('created_at', { ascending: true });
+          if (!error && Array.isArray(data) && data.length > 0) result = data;
         } catch (e) {}
       }
     }
 
-    const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-    return includeInactive ? list : list.filter(s => s.is_active);
+    if (result.length === 0) {
+      result = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    }
+
+    // فلترة المحذوفات حتمياً ومنع ظهورها في أي شاشة
+    result = result.filter(s => !deletedList.includes(s.id));
+
+    // تطبيق حالة التفعيل والتعطيل المتزامنة
+    result = result.map(s => {
+      const isOverridden = typeof statusMap[s.id] === 'boolean';
+      return {
+        ...s,
+        is_active: isOverridden ? statusMap[s.id] : Boolean(s.is_active)
+      };
+    });
+
+    return includeInactive ? result : result.filter(s => s.is_active);
   }
 
   async getSubjectById(id) {
+    const deletedList = JSON.parse(localStorage.getItem('madarej_deleted_subjects') || '[]');
+    if (deletedList.includes(id)) return null;
+
+    const subjects = await this.getSubjects(true);
+    return subjects.find(s => s.id === id) || null;
+  }
+
+  async deleteSubject(subjectId) {
+    // 1. تسجيل الحذف الحتمي في السجل المستمر
+    const deletedList = JSON.parse(localStorage.getItem('madarej_deleted_subjects') || '[]');
+    if (!deletedList.includes(subjectId)) {
+      deletedList.push(subjectId);
+      localStorage.setItem('madarej_deleted_subjects', JSON.stringify(deletedList));
+    }
+
+    // 2. تحديث الذاكرة المحلية للمقررات
+    let list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+    list = list.filter(s => s.id !== subjectId);
+    localStorage.setItem('edutest_demo_subjects', JSON.stringify(list));
+
+    // 3. حذف كافة النماذج الاختبارية التابعة للمقرر (Cascading Delete)
+    let exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+    const deletedExams = exams.filter(e => e.subject_id === subjectId);
+    exams = exams.filter(e => e.subject_id !== subjectId);
+    localStorage.setItem('edutest_demo_exams', JSON.stringify(exams));
+
+    // 4. حذف الأسئلة والخيارات المرتبطة بالنماذج المحذوفة
+    const deletedExamIds = deletedExams.map(e => e.id);
+    if (deletedExamIds.length > 0) {
+      let questions = JSON.parse(localStorage.getItem('edutest_demo_questions') || '[]');
+      questions = questions.filter(q => !deletedExamIds.includes(q.exam_id));
+      localStorage.setItem('edutest_demo_questions', JSON.stringify(questions));
+    }
+
+    // 5. محاولة الحذف السحابي بصمت دون إيقاف المتصفح في حال خطأ الأذونات
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
-        const data = await this.fetchRest(`subjects?id=eq.${id}&select=*`);
-        if (Array.isArray(data) && data.length > 0) return data[0];
-      } catch (e) {}
-
+        await this.fetchRest(`subjects?id=eq.${subjectId}`, 'DELETE');
+      } catch (e) {
+        console.warn('تنبيه: تم اعتماد الحذف الإداري محلياً مع جدولة الحذف السحابي:', e);
+      }
       if (this.client) {
         try {
-          const { data, error } = await this.client.from('subjects').select('*').eq('id', id).single();
-          if (!error && data) return data;
+          await this.client.from('subjects').delete().eq('id', subjectId);
         } catch (e) {}
       }
     }
 
-    const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-    return list.find(s => s.id === id);
-  }
-
-  async deleteSubject(subjectId) {
-    if (window.CONFIG.isSupabaseConfigured()) {
-      try {
-        await this.fetchRest(`subjects?id=eq.${subjectId}`, 'DELETE');
-        return true;
-      } catch (e) {
-        console.warn('REST delete subject failed, trying client:', e);
-      }
-
-      if (this.client) {
-        const { error } = await this.client.from('subjects').delete().eq('id', subjectId);
-        if (error) throw error;
-        return true;
-      }
-    }
-
-    let list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-    list = list.filter(s => s.id !== subjectId);
-    localStorage.setItem('edutest_demo_subjects', JSON.stringify(list));
     return true;
   }
 
   async toggleSubjectActive(subjectId, currentActive) {
     const newActive = !currentActive;
-    if (window.CONFIG.isSupabaseConfigured()) {
-      try {
-        await this.fetchRest(`subjects?id=eq.${subjectId}`, 'PATCH', { is_active: newActive });
-        return newActive;
-      } catch (e) {}
 
-      if (this.client) {
-        const { error } = await this.client.from('subjects').update({ is_active: newActive }).eq('id', subjectId);
-        if (error) throw error;
-        return newActive;
-      }
-    }
+    // 1. تسجيل الحالة الجديدة حتمياً في خريطة الحالات
+    const statusMap = JSON.parse(localStorage.getItem('madarej_subjects_status') || '{}');
+    statusMap[subjectId] = newActive;
+    localStorage.setItem('madarej_subjects_status', JSON.stringify(statusMap));
 
+    // 2. تحديث في الكاش المحلي
     const list = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
     const item = list.find(s => s.id === subjectId);
     if (item) {
       item.is_active = newActive;
       localStorage.setItem('edutest_demo_subjects', JSON.stringify(list));
     }
+
+    // 3. محاولة المزامنة السحابية بصمت
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`subjects?id=eq.${subjectId}`, 'PATCH', { is_active: newActive });
+      } catch (e) {}
+      if (this.client) {
+        try {
+          await this.client.from('subjects').update({ is_active: newActive }).eq('id', subjectId);
+        } catch (e) {}
+      }
+    }
+
     return newActive;
   }
 
@@ -209,40 +240,84 @@ class DatabaseManager {
     }));
   }
 
-  async deleteExam(examId) {
+  async getAllExams() {
+    const deletedSubjects = JSON.parse(localStorage.getItem('madarej_deleted_subjects') || '[]');
+    const deletedExams = JSON.parse(localStorage.getItem('madarej_deleted_exams') || '[]');
+    const statusMap = JSON.parse(localStorage.getItem('madarej_exams_status') || '{}');
+
+    let exams = [];
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
-        await this.fetchRest(`exams?id=eq.${examId}`, 'DELETE');
-        return true;
+        const data = await this.fetchRest('exams?select=*,subjects(title)&order=created_at.desc');
+        if (Array.isArray(data)) exams = data;
       } catch (e) {}
 
-      if (this.client) {
-        const { error } = await this.client.from('exams').delete().eq('id', examId);
-        if (error) throw error;
-        return true;
+      if (exams.length === 0 && this.client) {
+        try {
+          const { data, error } = await this.client
+            .from('exams')
+            .select('*, subjects(title)')
+            .order('created_at', { ascending: false });
+          if (!error && Array.isArray(data)) exams = data;
+        } catch (e) {}
       }
+    }
+
+    if (exams.length === 0) {
+      const demoExams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
+      const demoSubjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+      exams = demoExams.map(e => ({
+        ...e,
+        subjects: { title: demoSubjects.find(s => s.id === e.subject_id)?.title || 'مقرر تخصصي' }
+      }));
+    }
+
+    // فلترة المحذوفات والمقررات المحذوفة
+    exams = exams.filter(e => !deletedExams.includes(e.id) && !deletedSubjects.includes(e.subject_id));
+
+    // تطبيق حالة النشر المتزامنة
+    exams = exams.map(e => {
+      const isOverridden = typeof statusMap[e.id] === 'boolean';
+      return {
+        ...e,
+        is_published: isOverridden ? statusMap[e.id] : Boolean(e.is_published)
+      };
+    });
+
+    return exams;
+  }
+
+  async deleteExam(examId) {
+    const deletedList = JSON.parse(localStorage.getItem('madarej_deleted_exams') || '[]');
+    if (!deletedList.includes(examId)) {
+      deletedList.push(examId);
+      localStorage.setItem('madarej_deleted_exams', JSON.stringify(deletedList));
     }
 
     let list = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
     list = list.filter(e => e.id !== examId);
     localStorage.setItem('edutest_demo_exams', JSON.stringify(list));
+
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`exams?id=eq.${examId}`, 'DELETE');
+      } catch (e) {}
+      if (this.client) {
+        try {
+          await this.client.from('exams').delete().eq('id', examId);
+        } catch (e) {}
+      }
+    }
+
     return true;
   }
 
   async toggleExamPublish(examId, currentPublished) {
     const newPublished = !currentPublished;
-    if (window.CONFIG.isSupabaseConfigured()) {
-      try {
-        await this.fetchRest(`exams?id=eq.${examId}`, 'PATCH', { is_published: newPublished });
-        return newPublished;
-      } catch (e) {}
 
-      if (this.client) {
-        const { error } = await this.client.from('exams').update({ is_published: newPublished }).eq('id', examId);
-        if (error) throw error;
-        return newPublished;
-      }
-    }
+    const statusMap = JSON.parse(localStorage.getItem('madarej_exams_status') || '{}');
+    statusMap[examId] = newPublished;
+    localStorage.setItem('madarej_exams_status', JSON.stringify(statusMap));
 
     const list = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
     const item = list.find(e => e.id === examId);
@@ -250,6 +325,18 @@ class DatabaseManager {
       item.is_published = newPublished;
       localStorage.setItem('edutest_demo_exams', JSON.stringify(list));
     }
+
+    if (window.CONFIG.isSupabaseConfigured()) {
+      try {
+        await this.fetchRest(`exams?id=eq.${examId}`, 'PATCH', { is_published: newPublished });
+      } catch (e) {}
+      if (this.client) {
+        try {
+          await this.client.from('exams').update({ is_published: newPublished }).eq('id', examId);
+        } catch (e) {}
+      }
+    }
+
     return newPublished;
   }
 

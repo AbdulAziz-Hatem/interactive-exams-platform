@@ -622,7 +622,7 @@
     }
 
     // ========================================================
-    // إدارة النماذج الاختبارية
+    // إدارة النماذج الاختبارية (بمفاتيح تبديل ومجموعات أزرار اختيار)
     // ========================================================
     async function loadExamsTable() {
       const tbody = document.getElementById('tbody-exams');
@@ -630,14 +630,12 @@
         const exams = await window.db.getAllExams();
 
         if (!exams || exams.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2rem;">لا توجد أي نماذج اختبارية منشورة بالقسم حالياً.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">لا توجد أي نماذج اختبارية منشورة بالقسم حالياً.</td></tr>`;
           return;
         }
 
         tbody.innerHTML = exams.map(ex => {
-          const statusBadge = ex.is_published
-            ? '<span class="badge badge-success">منشور للطلاب 🟢</span>'
-            : '<span class="badge badge-warning">مسودة مخفية ⚪</span>';
+          const isPub = Boolean(ex.is_published);
 
           return `
             <tr>
@@ -645,39 +643,112 @@
               <td style="color: var(--primary); font-weight: 700;">${window.authManager.escapeHtml(ex.subjects?.title || 'عام')}</td>
               <td>${ex.duration_minutes > 0 ? ex.duration_minutes + ' دقيقة' : 'مفتوح'}</td>
               <td>${ex.passing_percentage}%</td>
-              <td>${statusBadge}</td>
+              <td>
+                <!-- مفتاح تبديل النشر متوافق مع قارئات الشاشة (Toggle Switch) -->
+                <button 
+                  type="button" 
+                  role="switch" 
+                  aria-checked="${isPub}" 
+                  class="a11y-switch-btn btn-switch-exam" 
+                  data-id="${ex.id}" 
+                  data-title="${window.authManager.escapeHtml(ex.title)}"
+                  data-pub="${isPub}"
+                  aria-label="حالة نموذج ${window.authManager.escapeHtml(ex.title)}: ${isPub ? 'منشور للطلاب، انقر للتحويل إلى مسودة' : 'مسودة مخفية، انقر للنشر للطلاب'}"
+                >
+                  <span class="switch-track" aria-hidden="true">
+                    <span class="switch-thumb"></span>
+                  </span>
+                  <span class="switch-label-text">${isPub ? 'منشور للطلاب 🟢' : 'مسودة مخفية ⚪'}</span>
+                </button>
+              </td>
               <td>
                 <div class="table-actions">
-                  <button type="button" class="btn-icon btn-icon-danger btn-delete-exam" data-id="${ex.id}" data-title="${window.authManager.escapeHtml(ex.title)}">
+                  <button type="button" class="btn-icon btn-icon-danger btn-delete-exam" data-id="${ex.id}" data-title="${window.authManager.escapeHtml(ex.title)}" aria-label="حذف نموذج ${window.authManager.escapeHtml(ex.title)}">
                     🗑️ حذف
                   </button>
-                  <button type="button" class="btn-icon btn-icon-warning btn-toggle-exam" data-id="${ex.id}" data-pub="${Boolean(ex.is_published)}">
-                    ${ex.is_published ? 'إلغاء النشر' : 'نشر للطلاب'}
-                  </button>
+
+                  <a href="exam.html?id=${ex.id}" class="btn-icon btn-icon-primary" target="_blank" aria-label="معاينة نموذج ${window.authManager.escapeHtml(ex.title)}">
+                    👁️ معاينة
+                  </a>
+
+                  <!-- مجموعة أزرار اختيار النشر لقارئات الشاشة (Radio Group) -->
+                  <div role="radiogroup" class="a11y-status-radiogroup" aria-label="تحديد حالة نشر نموذج ${window.authManager.escapeHtml(ex.title)}">
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${isPub ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-exam ${isPub ? 'selected-active' : ''}" 
+                      data-id="${ex.id}" 
+                      data-target="true" 
+                      data-title="${window.authManager.escapeHtml(ex.title)}"
+                      aria-label="نشر نموذج ${window.authManager.escapeHtml(ex.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>منشور 🟢</span>
+                    </button>
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${!isPub ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-exam ${!isPub ? 'selected-inactive' : ''}" 
+                      data-id="${ex.id}" 
+                      data-target="false" 
+                      data-title="${window.authManager.escapeHtml(ex.title)}"
+                      aria-label="إخفاء نموذج ${window.authManager.escapeHtml(ex.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>مسودة ⚪</span>
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>
           `;
         }).join('');
 
+        // 1. ربط مفتاح التبديل (Toggle Switch)
+        tbody.querySelectorAll('.btn-switch-exam').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const eid = btn.getAttribute('data-id');
+            const etitle = btn.getAttribute('data-title');
+            const curPub = btn.getAttribute('data-pub') === 'true';
+            btn.disabled = true;
+            try {
+              const newPub = await window.db.toggleExamPublish(eid, curPub);
+              const msg = newPub ? `تم نشر نموذج (${etitle}) للطلاب 🟢` : `تم تحويل نموذج (${etitle}) إلى مسودة مخفية ⚪`;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (e) {
+              btn.disabled = false;
+            }
+          });
+        });
+
+        // 2. ربط مجموعة أزرار الاختيار (Radio Group)
+        tbody.querySelectorAll('.btn-radio-exam').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const eid = btn.getAttribute('data-id');
+            const etitle = btn.getAttribute('data-title');
+            const targetPub = btn.getAttribute('data-target') === 'true';
+            try {
+              await window.db.toggleExamPublish(eid, !targetPub);
+              const msg = targetPub ? `تم نشر نموذج (${etitle}) للطلاب 🟢` : `تم إخفاء نموذج (${etitle}) كمسودة ⚪`;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (e) {}
+          });
+        });
+
+        // 3. ربط حذف النموذج
         tbody.querySelectorAll('.btn-delete-exam').forEach(btn => {
           btn.addEventListener('click', async () => {
             const eid = btn.getAttribute('data-id');
             const etitle = btn.getAttribute('data-title');
             if (confirm(`هل أنت متأكد من حذف النموذج الاختباري (${etitle}) نهائياً؟`)) {
               await window.db.deleteExam(eid);
-              alert('تم حذف النموذج الاختباري بنجاح!');
+              window.a11y?.announce(`تم حذف النموذج الاختباري ${etitle} بنجاح`);
               await refreshAllData();
             }
-          });
-        });
-
-        tbody.querySelectorAll('.btn-toggle-exam').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const eid = btn.getAttribute('data-id');
-            const curPub = btn.getAttribute('data-pub') === 'true';
-            await window.db.toggleExamPublish(eid, curPub);
-            await refreshAllData();
           });
         });
 

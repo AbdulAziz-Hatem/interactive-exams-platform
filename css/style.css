@@ -1878,3 +1878,139 @@ body {
   gap: 0.75rem;
   flex-wrap: wrap;
 }
+
+
+/* ====================================================================
+   Accessible Toggle Switches & Radio Groups (WCAG 2.1 AA Compliant)
+   مفاتيح تبديل ومجموعات أزرار اختيار متوافقة جذرياً مع قارئات الشاشة
+   ==================================================================== */
+
+/* مفتاح التبديل المتوافق (role="switch") */
+.a11y-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 42px;
+}
+
+.a11y-switch-btn:hover {
+  background: var(--surface-tertiary);
+  transform: translateY(-1px);
+}
+
+.a11y-switch-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.switch-track {
+  width: 44px;
+  height: 24px;
+  background: #cbd5e1;
+  border-radius: var(--radius-full);
+  position: relative;
+  transition: background 0.25s ease;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .switch-track {
+  background: #334155;
+}
+
+.switch-thumb {
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* حالة التفعيل (aria-checked="true") */
+.a11y-switch-btn[aria-checked="true"] .switch-track {
+  background: var(--success);
+}
+
+.a11y-switch-btn[aria-checked="true"] .switch-thumb {
+  transform: translateX(-20px);
+}
+
+.a11y-switch-btn[aria-checked="false"] .switch-track {
+  background: #94a3b8;
+}
+
+/* مجموعة أزرار الاختيار للحالة (role="radiogroup") */
+.a11y-status-radiogroup {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px;
+  gap: 3px;
+}
+
+.a11y-radio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: calc(var(--radius-md) - 3px);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 38px;
+}
+
+.a11y-radio-btn:hover {
+  color: var(--text-main);
+  background: var(--surface-tertiary);
+}
+
+.a11y-radio-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.a11y-radio-btn[aria-checked="true"] {
+  background: var(--surface);
+  color: var(--text-main);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.a11y-radio-btn.selected-active[aria-checked="true"] {
+  color: var(--success);
+  font-weight: 800;
+}
+
+.a11y-radio-btn.selected-inactive[aria-checked="true"] {
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.radio-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
