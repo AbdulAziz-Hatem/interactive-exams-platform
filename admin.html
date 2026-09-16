@@ -543,75 +543,139 @@
     async function loadSubjectsTable() {
       const tbody = document.getElementById('tbody-subjects');
       try {
-        const subjects = await window.db.getSubjects(true); // جلب الجميع بما فيها المعطلة
+        const subjects = await window.db.getSubjects(true);
 
         if (!subjects || subjects.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2rem;">لا توجد أي مقررات مسجلة بالقسم حالياً.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">لا توجد أي مقررات مسجلة بالمنصة حالياً.</td></tr>`;
           return;
         }
 
         tbody.innerHTML = subjects.map(s => {
           const dateStr = s.created_at ? new Date(s.created_at).toLocaleDateString('ar-YE') : '—';
-          const statusBadge = s.is_active 
-            ? '<span class="badge badge-success">نشط متاح 🟢</span>'
-            : '<span class="badge badge-danger">معطل ومخفي 🔴</span>';
+          const isActive = Boolean(s.is_active);
 
           return `
             <tr id="row-subj-${s.id}">
               <td style="font-weight: 700; color: var(--primary);" dir="ltr">${window.authManager.escapeHtml(s.code || '—')}</td>
               <td style="font-weight: 800; font-size: 1.05rem;">${window.authManager.escapeHtml(s.title)}</td>
-              <td>${statusBadge}</td>
+              <td>
+                <!-- مفتاح تبديل الحالة متوافق مع قارئات الشاشة (Toggle Switch) -->
+                <button 
+                  type="button" 
+                  role="switch" 
+                  aria-checked="${isActive}" 
+                  class="a11y-switch-btn btn-switch-subject" 
+                  data-id="${s.id}" 
+                  data-title="${window.authManager.escapeHtml(s.title)}"
+                  data-active="${isActive}"
+                  aria-label="حالة مقرر ${window.authManager.escapeHtml(s.title)}: ${isActive ? 'نشط ومتاح للطلاب، انقر مرتين للتعطيل والإخفاء' : 'معطل ومخفي عن الطلاب، انقر مرتين للتفعيل والإظهار'}"
+                >
+                  <span class="switch-track" aria-hidden="true">
+                    <span class="switch-thumb"></span>
+                  </span>
+                  <span class="switch-label-text">${isActive ? 'نشط متاح 🟢' : 'معطل ومخفي 🔴'}</span>
+                </button>
+              </td>
               <td style="color: var(--text-muted); font-size: 0.88rem;">${dateStr}</td>
               <td>
                 <div class="table-actions">
-                  <button type="button" class="btn-icon btn-icon-danger btn-delete-subject" data-id="${s.id}" data-title="${window.authManager.escapeHtml(s.title)}" aria-label="حذف مقرر ${window.authManager.escapeHtml(s.title)}">
+                  <!-- زر الحذف الحتمي -->
+                  <button type="button" class="btn-icon btn-icon-danger btn-delete-subject" data-id="${s.id}" data-title="${window.authManager.escapeHtml(s.title)}" aria-label="حذف مقرر ${window.authManager.escapeHtml(s.title)} نهائياً">
                     🗑️ حذف المقرر
                   </button>
-                  <button type="button" class="btn-icon btn-icon-warning btn-toggle-subject" data-id="${s.id}" data-active="${Boolean(s.is_active)}" aria-label="تبديل حالة مقرر ${window.authManager.escapeHtml(s.title)}">
-                    ${s.is_active ? 'إخفاء وتعطيل 👁️' : 'تفعيل وإظهار 👁️'}
-                  </button>
+
+                  <!-- مجموعة أزرار اختيار الحالة لقارئات الشاشة (Radio Group) -->
+                  <div role="radiogroup" class="a11y-status-radiogroup" aria-label="تحديد حالة ظهور مقرر ${window.authManager.escapeHtml(s.title)}">
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${isActive ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-subject ${isActive ? 'selected-active' : ''}" 
+                      data-id="${s.id}" 
+                      data-target="true" 
+                      data-title="${window.authManager.escapeHtml(s.title)}"
+                      aria-label="تفعيل مقرر ${window.authManager.escapeHtml(s.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>نشط 🟢</span>
+                    </button>
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${!isActive ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-subject ${!isActive ? 'selected-inactive' : ''}" 
+                      data-id="${s.id}" 
+                      data-target="false" 
+                      data-title="${window.authManager.escapeHtml(s.title)}"
+                      aria-label="تعطيل مقرر ${window.authManager.escapeHtml(s.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>مخفي 🔴</span>
+                    </button>
+                  </div>
                 </div>
               </td>
             </tr>
           `;
         }).join('');
 
-        // ربط أحداث الحذف المباشر للمقرر
+        // 1. ربط مفتاح التبديل المتوافق (Toggle Switch)
+        tbody.querySelectorAll('.btn-switch-subject').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const sid = btn.getAttribute('data-id');
+            const stitle = btn.getAttribute('data-title');
+            const curActive = btn.getAttribute('data-active') === 'true';
+            btn.disabled = true;
+            try {
+              const newActive = await window.db.toggleSubjectActive(sid, curActive);
+              const msg = newActive ? `تم تفعيل وإظهار مقرر (${stitle}) للطلاب 🟢` : `تم تعطيل وإخفاء مقرر (${stitle}) عن الطلاب 🔴`;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (err) {
+              btn.disabled = false;
+            }
+          });
+        });
+
+        // 2. ربط مجموعة أزرار الاختيار (Radio Group)
+        tbody.querySelectorAll('.btn-radio-subject').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const sid = btn.getAttribute('data-id');
+            const stitle = btn.getAttribute('data-title');
+            const targetActive = btn.getAttribute('data-target') === 'true';
+            try {
+              await window.db.toggleSubjectActive(sid, !targetActive);
+              const msg = targetActive ? `تم تفعيل مقرر (${stitle}) 🟢` : `تم إخفاء مقرر (${stitle}) 🔴`;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (e) {}
+          });
+        });
+
+        // 3. ربط أحداث الحذف الحتمي للمقرر
         tbody.querySelectorAll('.btn-delete-subject').forEach(btn => {
           btn.addEventListener('click', async () => {
             const sid = btn.getAttribute('data-id');
             const stitle = btn.getAttribute('data-title');
 
-            const confirmMsg = `⚠️ تحذير إداري هام:\n\nهل أنت متأكد من رغبتك في حذف مقرر (${stitle}) نهائياً؟\n\n• سيؤدي هذا الإجراء إلى حذف كافة النماذج الاختبارية والأسئلة المرتبطة به فوراً من قاعدة البيانات السحابية.\n• هذا الإجراء لا يمكن التراجع عنه.`;
+            const confirmMsg = `⚠️ تحذير إداري:
+
+هل أنت متأكد من رغبتك في حذف مقرر (${stitle}) نهائياً؟
+
+• سيتم فوراً حذف المقرر وجميع النماذج الاختبارية والأسئلة التابعة له من كافة الواجهات.
+• هذا الإجراء نهائي ولا يمكن التراجع عنه.`;
 
             if (confirm(confirmMsg)) {
               try {
                 btn.disabled = true;
                 btn.textContent = 'جاري الحذف...';
                 await window.db.deleteSubject(sid);
-                alert(`تم بنجاح حذف مقرر (${stitle}) وجميع بياناته المرتبطة سحابياً!`);
+                window.a11y?.announce(`تم بنجاح حذف مقرر ${stitle} وكافة اختباراته وأسئلته`);
                 await refreshAllData();
               } catch (err) {
-                alert('حدث خطأ أثناء حذف المقرر: ' + err.message);
                 btn.disabled = false;
                 btn.textContent = '🗑️ حذف المقرر';
               }
-            }
-          });
-        });
-
-        // ربط أحداث التفعيل والتعطيل
-        tbody.querySelectorAll('.btn-toggle-subject').forEach(btn => {
-          btn.addEventListener('click', async () => {
-            const sid = btn.getAttribute('data-id');
-            const curActive = btn.getAttribute('data-active') === 'true';
-            btn.disabled = true;
-            try {
-              await window.db.toggleSubjectActive(sid, curActive);
-              await refreshAllData();
-            } catch (err) {
-              alert('حدث خطأ أثناء تبديل الحالة: ' + err.message);
-              btn.disabled = false;
             }
           });
         });
@@ -621,9 +685,6 @@
       }
     }
 
-    // ========================================================
-    // إدارة النماذج الاختبارية (بمفاتيح تبديل ومجموعات أزرار اختيار)
-    // ========================================================
     async function loadExamsTable() {
       const tbody = document.getElementById('tbody-exams');
       try {
