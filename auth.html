@@ -1,790 +1,800 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>تسجيل الدخول وإدارة الحسابات | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="css/style.css?v=1.0.3">
- <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
- <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
- <link rel="manifest" href="manifest.json">
- <meta name="theme-color" content="#1e40af">
- <link rel="apple-touch-icon" href="icons/icon-192.png">
- <style>
-.input-wrapper {
- position: relative;
- display: flex;
- align-items: center;
- }
-.input-wrapper.form-input {
- padding-left: 2.75rem;
- }
-.toggle-password-btn {
- position: absolute;
- left: 0.65rem;
- background: none;
- border: none;
- color: var(--text-muted);
- cursor: pointer;
- padding: 0.4rem;
- border-radius: var(--radius-sm);
- display: flex;
- align-items: center;
- justify-content: center;
- font-size: 1.15rem;
- transition: color 0.2s;
- }
-.toggle-password-btn:hover {
- color: var(--primary);
- }
-.field-hint {
- font-size: 0.82rem;
- color: var(--text-muted);
- margin-top: 4px;
- display: block;
- line-height: 1.4;
- }
-.auth-badge-admin {
- display: inline-flex;
- align-items: center;
- gap: 0.35rem;
- padding: 0.25rem 0.65rem;
- border-radius: var(--radius-full);
- background: var(--gold-light);
- color: var(--gold);
- border: 1px solid #fde68a;
- font-size: 0.82rem;
- font-weight: 800;
- margin-top: 0.35rem;
- }
-.info-alert {
- padding: 0.85rem 1rem;
- border-radius: var(--radius-md);
- background: var(--primary-light);
- border: 1px solid var(--primary-border);
- color: var(--primary);
- font-size: 0.92rem;
- margin-bottom: 1.25rem;
- line-height: 1.6;
- }
- </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول وإدارة الحسابات | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=1.0.3">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <style>
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-wrapper .form-input {
+      padding-left: 2.75rem;
+    }
+    .toggle-password-btn {
+      position: absolute;
+      left: 0.65rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.4rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      transition: color 0.2s;
+    }
+    .toggle-password-btn:hover {
+      color: var(--primary);
+    }
+    .field-hint {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: block;
+      line-height: 1.4;
+    }
+    .auth-badge-admin {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: var(--gold-light);
+      color: var(--gold);
+      border: 1px solid #fde68a;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-top: 0.35rem;
+    }
+    .info-alert {
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      color: var(--primary);
+      font-size: 0.92rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
- <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
-
- <!-- شريط التنقل العلوي الأكاديمي -->
- <header class="navbar" role="banner">
- <div class="container nav-container">
- <div class="nav-right">
- <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- </button>
- <a href="index.html" class="brand">
- <span class="brand-badge">مدارج</span>
- <div class="brand-text-wrapper">
- <span class="brand-title">منصة مدارج</span>
- <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
- </div>
- </a>
- </div>
- <div class="nav-left">
- <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
- </div>
- </div>
- </header>
-
- <!-- خلفية التعتيم والقائمة الجانبية -->
- <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
- <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
- <div class="sidebar-header">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
- </div>
- <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
- </div>
- <div id="sidebar-user-area" class="sidebar-user-card"></div>
- <nav role="navigation" aria-label="روابط القائمة">
- <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
- </nav>
- <div class="sidebar-footer">
- <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
- </div>
- </aside>
-
- <main id="main-content" class="container" role="main" style="max-width: 500px; margin-top: 3rem; margin-bottom: 4rem;">
- <div class="card" style="box-shadow: var(--shadow-md); border-top: 4px solid var(--primary);">
-
- <div style="text-align: center; margin-bottom: 1.25rem;">
- <span id="auth-tag" class="badge badge-primary" style="margin-bottom: 0.5rem;">بوابة الدخول المعتمدة</span>
- <h1 id="auth-heading" style="font-size: 1.65rem; font-weight: 800; color: var(--text-main);">تسجيل الدخول</h1>
- <p id="auth-subheading" class="text-muted" style="font-size: 0.88rem; margin-top: 0.25rem;">
- مخصصة لطلبة وأساتذة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء
- </p>
- </div>
-
- <!-- تنبيهات الحالة والخطأ -->
- <div id="auth-error-alert" class="alert alert-danger" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--danger-light); color: var(--danger); margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.5;" role="alert" aria-live="assertive"></div>
- <div id="auth-success-alert" class="alert alert-success" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--success-light); color: var(--success); margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.5;" role="status" aria-live="polite"></div>
-
- <!-- تبويبات التبديل بين الدخول والتسجيل -->
- <div id="auth-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem;">
- <button type="button" id="tab-login" class="btn btn-primary btn-sm" style="flex: 1;" aria-selected="true">تسجيل الدخول</button>
- <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب جديد</button>
- </div>
-
- <!-- 1. نموذج تسجيل الدخول (اسم المستخدم أو البريد) -->
- <form id="form-login" novalidate>
- <div class="form-group">
- <label for="login-identifier" class="form-label">اسم المستخدم أو البريد الإلكتروني *</label>
- <input
- type="text"
- id="login-identifier"
- class="form-input"
- placeholder="مثال: admin أو abdulaziz أو student@example.com"
- autocomplete="username"
- dir="auto"
- required
- >
- <span id="admin-detector-hint" class="field-hint">
- يمكن لمالك الموقع والمشرف كتابة اسم المستخدم (مثل: admin أو abdulaziz).
- </span>
- </div>
-
- <div class="form-group">
- <label for="login-password" class="form-label">كلمة المرور *</label>
- <div class="input-wrapper">
- <input
- type="password"
- id="login-password"
- class="form-input"
- placeholder="••••••••"
- dir="ltr"
- autocomplete="current-password"
- required
- >
- <button type="button" class="toggle-password-btn" data-target="login-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">عرض</button>
- </div>
-
- <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
- <label style="font-size: 0.88rem; display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main);">
- <input type="checkbox" id="remember-me" checked>
- <span>تذكر بياناتي على هذا الجهاز</span>
- </label>
- <button type="button" id="btn-goto-forgot" style="background: none; border: none; color: var(--primary); font-size: 0.88rem; font-weight: 700; cursor: pointer; text-decoration: underline; font-family: inherit;">
- هل نسيت كلمة المرور؟
- </button>
- </div>
- </div>
-
- <button type="submit" id="btn-submit-login" class="btn btn-primary btn-block" style="margin-top: 1.25rem;">
- تسجيل الدخول
- </button>
- </form>
-
- <!-- 2. نموذج إنشاء حساب طالب جديد -->
- <form id="form-signup" style="display: none;" novalidate>
- <div class="form-group">
- <label for="signup-fullname" class="form-label">الاسم الكامل للطالب (كما في الكشف الجامعي) *</label>
- <input
- type="text"
- id="signup-fullname"
- class="form-input"
- placeholder="مثال: عبد العزيز أمين راجح حاتم"
- autocomplete="name"
- required
- >
- </div>
-
- <div class="form-group">
- <label for="signup-username" class="form-label">اسم المستخدم (Username) *</label>
- <input
- type="text"
- id="signup-username"
- class="form-input"
- placeholder="مثال: student2026 أو الرقم الجامعي"
- dir="ltr"
- autocomplete="username"
- required
- >
- <span class="field-hint">يُستخدم لتسجيل الدخول السريع بدلاً من كتابة البريد الإلكتروني.</span>
- </div>
-
- <div class="form-group">
- <label for="signup-email" class="form-label">البريد الإلكتروني *</label>
- <input
- type="email"
- id="signup-email"
- class="form-input"
- placeholder="student@example.com"
- dir="ltr"
- autocomplete="email"
- required
- >
- <span class="field-hint">ضروري لاستعادة كلمة المرور في حال نسيانها وتلقي إشعارات الدرجات.</span>
- </div>
-
- <div class="form-group">
- <label for="signup-password" class="form-label">كلمة المرور *</label>
- <div class="input-wrapper">
- <input
- type="password"
- id="signup-password"
- class="form-input"
- placeholder="••••••••"
- dir="ltr"
- autocomplete="new-password"
- required
- >
- <button type="button" class="toggle-password-btn" data-target="signup-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">عرض</button>
- </div>
- <span class="field-hint">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
- </div>
-
- <div class="form-group">
- <label for="signup-confirm-password" class="form-label">تأكيد كلمة المرور *</label>
- <div class="input-wrapper">
- <input
- type="password"
- id="signup-confirm-password"
- class="form-input"
- placeholder="••••••••"
- dir="ltr"
- autocomplete="new-password"
- required
- >
- <button type="button" class="toggle-password-btn" data-target="signup-confirm-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">عرض</button>
- </div>
- </div>
-
- <button type="submit" id="btn-submit-signup" class="btn btn-primary btn-block" style="margin-top: 1.25rem;">
- إنشاء وتفعيل الحساب الأكاديمي
- </button>
- </form>
-
- <!-- 3. نموذج استعادة كلمة المرور (Forgot Password) -->
- <form id="form-forgot" style="display: none;" novalidate>
- <div class="info-alert">
- ملاحظة: أدخل بريدك الإلكتروني المسجل في المنصة أو اسم المستخدم، وسنرسل لك رابطاً مباشراً وآمناً لتعيين كلمة مرور جديدة لحسابك فوراً.
- </div>
-
- <div class="form-group">
- <label for="forgot-identifier" class="form-label">البريد الإلكتروني أو اسم المستخدم *</label>
- <input
- type="text"
- id="forgot-identifier"
- class="form-input"
- placeholder="مثال: student@example.com أو abdulaziz"
- dir="ltr"
- autocomplete="email"
- required
- >
- <span class="field-hint">سيتم إرسال رسالة بريدية برابط التحقق المباشر.</span>
- </div>
-
- <button type="submit" id="btn-submit-forgot" class="btn btn-primary btn-block" style="margin-top: 1rem;">
- إرسال رابط استعادة كلمة المرور
- </button>
-
- <div style="text-align: center; margin-top: 1.25rem;">
- <button type="button" id="btn-back-to-login" class="btn btn-secondary btn-sm">
- ← العودة إلى تسجيل الدخول
- </button>
- </div>
- </form>
-
- <!-- 4. نموذج تعيين كلمة مرور جديدة بعد النقر على الرابط (Update Password) -->
- <form id="form-update-password" style="display: none;" novalidate>
- <div class="info-alert" style="background: var(--success-light); color: var(--success); border-color: #bbf7d0;">
- تم التحقق من رابط الاستعادة بنجاح! أدخل كلمة المرور الجديدة التي ترغب في استخدامها.
- </div>
-
- <div class="form-group">
- <label for="new-password" class="form-label">كلمة المرور الجديدة *</label>
- <div class="input-wrapper">
- <input
- type="password"
- id="new-password"
- class="form-input"
- placeholder="••••••••"
- dir="ltr"
- autocomplete="new-password"
- required
- >
- <button type="button" class="toggle-password-btn" data-target="new-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">عرض</button>
- </div>
- <span class="field-hint">يجب ألا تقل عن 6 أحرف.</span>
- </div>
-
- <div class="form-group">
- <label for="confirm-new-password" class="form-label">تأكيد كلمة المرور الجديدة *</label>
- <div class="input-wrapper">
- <input
- type="password"
- id="confirm-new-password"
- class="form-input"
- placeholder="••••••••"
- dir="ltr"
- autocomplete="new-password"
- required
- >
- <button type="button" class="toggle-password-btn" data-target="confirm-new-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">عرض</button>
- </div>
- </div>
-
- <button type="submit" id="btn-submit-new-password" class="btn btn-success btn-block" style="margin-top: 1.25rem;">
- حفظ كلمة المرور الجديدة وتسجيل الدخول
- </button>
- </form>
-
- <!-- تذييل التبديل المساعد -->
- <div id="auth-switch-footer" style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
- <span id="auth-switch-text">طالب جديد في القسم؟</span>
- <button type="button" id="btn-toggle-mode" style="background: none; border: none; color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; font-family: inherit;">
- تسجيل حساب الآن
- </button>
- </div>
-
- </div>
- </main>
-
- <footer class="footer" role="contentinfo">
- <div class="container footer-content">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
- </div>
- <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
- منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
- </p>
- <ul class="footer-links">
- <li><a href="index.html" class="footer-link">الرئيسية</a></li>
- <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
- <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
- <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
- <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
- </ul>
- <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
- جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
- </p>
- </div>
- </footer>
-
- <script src="js/config.js?v=1.0.3"></script>
- <script src="js/a11y.js?v=1.0.3"></script>
- <script src="js/auth.js?v=1.0.3"></script>
- <script src="js/db.js?v=1.0.3"></script>
- <script>
- let currentMode = 'login'; // login | signup | forgot | update-password
-
- document.addEventListener('DOMContentLoaded', async  => {
- document.getElementById('theme-toggle')?.addEventListener('click',  => window.a11y?.toggleTheme);
-
- if (window.authManager && typeof window.authManager.init === 'function') {
- await window.authManager.init;
- }
-
- // فحص معلمات الرابط لتحديد الحالة
- const params = new URLSearchParams(window.location.search);
- const hash = window.location.hash || '';
-
- if (hash.includes('type=recovery') || params.get('mode') === 'update-password' || params.get('mode') === 'reset') {
- setMode('update-password');
- } else if (params.get('mode') === 'signup') {
- setMode('signup');
- } else if (params.get('mode') === 'forgot') {
- setMode('forgot');
- } else {
- setMode('login');
- }
-
- if (window.authManager && window.authManager.isAuthenticated && window.authManager.isAuthenticated && currentMode!== 'update-password') {
- const u = window.authManager.getUser;
- window.location.href = (u && u.role === 'admin') ? 'admin.html': 'dashboard.html';
- return;
- }
-
- const rememberedUser = localStorage.getItem('madarej_remembered_identifier');
- if (rememberedUser && document.getElementById('login-identifier')) {
- document.getElementById('login-identifier').value = rememberedUser;
- checkAdminIdentifier(rememberedUser);
- }
-
- // أزرار التبديل
- document.getElementById('tab-login')?.addEventListener('click',  => setMode('login'));
- document.getElementById('tab-signup')?.addEventListener('click',  => setMode('signup'));
- document.getElementById('btn-goto-forgot')?.addEventListener('click',  => setMode('forgot'));
- document.getElementById('btn-back-to-login')?.addEventListener('click',  => setMode('login'));
- document.getElementById('btn-toggle-mode')?.addEventListener('click',  => {
- setMode(currentMode === 'login' ? 'signup': 'login');
- });
-
- // أزرار إظهار/إخفاء كلمات المرور
- document.querySelectorAll('.toggle-password-btn').forEach(btn => {
- btn.addEventListener('click',  => {
- const targetId = btn.getAttribute('data-target');
- const input = document.getElementById(targetId);
- if (!input) return;
- const isPassword = input.type === 'password';
- input.type = isPassword ? 'text': 'password';
- btn.setAttribute('aria-label', isPassword ? 'إخفاء كلمة المرور': 'إظهار كلمة المرور');
- btn.textContent = isPassword ? 'إخفاء' : 'عرض';
- });
- });
-
- // نماذج الإرسال
- document.getElementById('form-login')?.addEventListener('submit', handleLoginSubmit);
- document.getElementById('form-signup')?.addEventListener('submit', handleSignupSubmit);
- document.getElementById('form-forgot')?.addEventListener('submit', handleForgotSubmit);
- document.getElementById('form-update-password')?.addEventListener('submit', handleUpdatePasswordSubmit);
-
- // مراقبة كتابة اسم المستخدم لاكتشاف حساب المشرف الأكاديمي العام حصرياً
- document.getElementById('login-identifier')?.addEventListener('input', (e) => {
- checkAdminIdentifier(e.target.value);
- });
- });
-
- function checkAdminIdentifier(val) {
- const clean = (val || '').trim.toLowerCase;
- const hint = document.getElementById('admin-detector-hint');
- if (!hint) return;
-
- const adminAliases = ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem', 'abdualaziz.yemen@gmail.com'];
- if (adminAliases.includes(clean)) {
- hint.innerHTML = '<span class="auth-badge-admin"> حساب المشرف الأكاديمي العام (عبد العزيز حاتم)</span>';
- } else {
- hint.textContent = 'يمكن لمالك الموقع والمشرف كتابة اسم المستخدم (مثل: admin أو abdulaziz).';
- }
- }
-
- function setMode(mode) {
- currentMode = mode;
- hideAlerts;
-
- const tabs = document.getElementById('auth-tabs');
- const heading = document.getElementById('auth-heading');
- const subheading = document.getElementById('auth-subheading');
- const tag = document.getElementById('auth-tag');
- const switchFooter = document.getElementById('auth-switch-footer');
- const switchText = document.getElementById('auth-switch-text');
- const toggleBtn = document.getElementById('btn-toggle-mode');
-
- const formLogin = document.getElementById('form-login');
- const formSignup = document.getElementById('form-signup');
- const formForgot = document.getElementById('form-forgot');
- const formUpdatePwd = document.getElementById('form-update-password');
-
- const tabLogin = document.getElementById('tab-login');
- const tabSignup = document.getElementById('tab-signup');
-
- formLogin.style.display = 'none';
- formSignup.style.display = 'none';
- formForgot.style.display = 'none';
- formUpdatePwd.style.display = 'none';
-
- if (mode === 'login') {
- formLogin.style.display = 'block';
- tabs.style.display = 'flex';
- switchFooter.style.display = 'block';
- heading.textContent = 'تسجيل الدخول إلى حسابك';
- subheading.textContent = 'بوابة طلبة وأساتذة قسم القرآن الكريم وعلومه';
- tag.textContent = 'بوابة الدخول المعتمدة';
- switchText.textContent = 'طالب جديد في القسم؟';
- toggleBtn.textContent = 'تسجيل حساب الآن';
- tabLogin.className = 'btn btn-primary btn-sm';
- tabSignup.className = 'btn btn-secondary btn-sm';
- tabLogin.setAttribute('aria-selected', 'true');
- tabSignup.setAttribute('aria-selected', 'false');
- window.a11y?.announce('نموذج تسجيل الدخول');
- } else if (mode === 'signup') {
- formSignup.style.display = 'block';
- tabs.style.display = 'flex';
- switchFooter.style.display = 'block';
- heading.textContent = 'تسجيل طالب جديد بالقسم';
- subheading.textContent = 'أنشئ حسابك الأكاديمي لحفظ نتائجك ومتابعة درجاتك في المقررات';
- tag.textContent = 'تسجيل طالب جديد';
- switchText.textContent = 'لديك حساب مسجل بالفعل؟';
- toggleBtn.textContent = 'تسجيل الدخول';
- tabSignup.className = 'btn btn-primary btn-sm';
- tabLogin.className = 'btn btn-secondary btn-sm';
- tabSignup.setAttribute('aria-selected', 'true');
- tabLogin.setAttribute('aria-selected', 'false');
- window.a11y?.announce('نموذج تسجيل طالب جديد');
- } else if (mode === 'forgot') {
- formForgot.style.display = 'block';
- tabs.style.display = 'none';
- switchFooter.style.display = 'none';
- heading.textContent = 'استعادة كلمة المرور';
- subheading.textContent = 'أدخل بريدك الإلكتروني لإرسال رابط إعادة تعيين آمن';
- tag.textContent = 'أمان الحساب';
- window.a11y?.announce('نموذج استعادة كلمة المرور');
- } else if (mode === 'update-password') {
- formUpdatePwd.style.display = 'block';
- tabs.style.display = 'none';
- switchFooter.style.display = 'none';
- heading.textContent = 'تعيين كلمة مرور جديدة';
- subheading.textContent = 'أدخل كلمة المرور الجديدة لتحديث حسابك والدخول';
- tag.textContent = 'تحديث كلمة المرور';
- window.a11y?.announce('نموذج تعيين كلمة المرور الجديدة');
- }
- }
-
- // 1. معالجة تسجيل الدخول
- async function handleLoginSubmit(e) {
- e.preventDefault;
- hideAlerts;
-
- const identifier = document.getElementById('login-identifier').value.trim;
- const password = document.getElementById('login-password').value;
- const remember = document.getElementById('remember-me').checked;
- const btn = document.getElementById('btn-submit-login');
-
- if (!identifier ||!password) {
- showError('يرجى إدخال اسم المستخدم/البريد الإلكتروني وكلمة المرور.');
- return;
- }
-
- btn.disabled = true;
- btn.textContent = 'جاري التحقق من الحساب...';
-
- try {
- if (window.authManager && typeof window.authManager.signIn === 'function') {
- await window.authManager.signIn(identifier, password);
- } else {
- const isOwner = ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem'].includes(identifier.toLowerCase) || identifier.toLowerCase === 'abdualaziz.yemen@gmail.com';
- const cleanEmail = isOwner ? 'abdualaziz.yemen@gmail.com': identifier;
- const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
- const { error } = await client.auth.signInWithPassword({ email: cleanEmail, password });
- if (error) throw error;
- }
-
- if (remember) {
- localStorage.setItem('madarej_remembered_identifier', identifier);
- } else {
- localStorage.removeItem('madarej_remembered_identifier');
- }
-
- const user = (window.authManager && typeof window.authManager.getUser === 'function') ? window.authManager.getUser: null;
- const isOwner = user ? (user.role === 'admin'): (identifier.toLowerCase.includes('admin') || identifier.toLowerCase.includes('abdualaziz'));
-
- const welcomeMsg = isOwner
- ? 'مرحباً بك فضيلة المشرف الأكاديمي العام (عبد العزيز حاتم)! جاري التوجيه إلى لوحة الإدارة والتحكم الشامل...'
-: 'مرحباً بك! جاري توجيهك إلى لوحة درجاتك الأكاديمية...';
-
- showSuccess(welcomeMsg);
- redirectAfterAuth(isOwner ? 'admin.html': 'dashboard.html');
- } catch (err) {
- console.error(err);
- showError(err.message || 'فشل تسجيل الدخول. يرجى التحقق من بياناتك.');
- btn.disabled = false;
- btn.textContent = 'تسجيل الدخول';
- }
- }
-
- // 2. معالجة إنشاء الحساب
- async function handleSignupSubmit(e) {
- e.preventDefault;
- hideAlerts;
-
- const fullname = document.getElementById('signup-fullname').value.trim;
- const username = document.getElementById('signup-username').value.trim;
- const email = document.getElementById('signup-email').value.trim;
- const password = document.getElementById('signup-password').value;
- const confirmPwd = document.getElementById('signup-confirm-password').value;
- const btn = document.getElementById('btn-submit-signup');
-
- if (!fullname ||!username ||!email ||!password ||!confirmPwd) {
- showError('يرجى ملء جميع الحقول المطلوبة لإنشاء الحساب.');
- return;
- }
-
- if (password.length < 6) {
- showError('كلمة المرور يجب ألا تقل عن 6 أحرف أو أرقام.');
- return;
- }
-
- if (password!== confirmPwd) {
- showError('كلمة المرور وتأكيدها غير متطابقين.');
- return;
- }
-
- btn.disabled = true;
- btn.textContent = 'جاري إنشاء وتفعيل الحساب...';
-
- try {
- let res;
- if (window.authManager && typeof window.authManager.signUp === 'function') {
- res = await window.authManager.signUp(fullname, username, email, password);
- } else {
- const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
- const { data, error } = await client.auth.signUp({
- email,
- password,
- options: { data: { full_name: fullname, username: username.toLowerCase, role: 'student' } }
- });
- if (error) throw error;
- res = { requiresEmailConfirmation:!data.session };
- }
-
- if (res.requiresEmailConfirmation) {
- showSuccess('تم تسجيل حسابك بنجاح! يرجى فتح بريدك الإلكتروني (' + email + ') والضغط على رابط التأكيد المرفق.');
- btn.disabled = false;
- btn.textContent = 'تم التسجيل بنجاح صحيحة';
- } else {
- showSuccess('تم تفعيل حسابك الأكاديمي بنجاح! جاري التوجيه إلى لوحة الطالب...');
- redirectAfterAuth('dashboard.html');
- }
- } catch (err) {
- console.error(err);
- showError(err.message || 'حدث خطأ أثناء إنشاء الحساب.');
- btn.disabled = false;
- btn.textContent = 'إنشاء وتفعيل الحساب الأكاديمي';
- }
- }
-
- // 3. معالجة طلب استعادة كلمة المرور
- async function handleForgotSubmit(e) {
- e.preventDefault;
- hideAlerts;
-
- const identifier = document.getElementById('forgot-identifier').value.trim;
- const btn = document.getElementById('btn-submit-forgot');
-
- if (!identifier) {
- showError('يرجى إدخال البريد الإلكتروني أو اسم المستخدم لإرسال رابط الاستعادة.');
- return;
- }
-
- btn.disabled = true;
- btn.textContent = 'جاري إرسال الرابط...';
-
- try {
- let sentEmail = identifier;
-
- if (window.authManager && typeof window.authManager.sendPasswordReset === 'function') {
- const res = await window.authManager.sendPasswordReset(identifier);
- sentEmail = res.email || identifier;
- } else {
- const ADMINS = {
- 'admin': 'abdualaziz.yemen@gmail.com',
- 'abdulaziz': 'abdualaziz.yemen@gmail.com',
- 'abdeh': 'abdualaziz.yemen@gmail.com',
- 'owner': 'abdualaziz.yemen@gmail.com',
- 'aziz': 'abdualaziz.yemen@gmail.com',
- 'hatem': 'abdualaziz.yemen@gmail.com'
- };
-
- let cleanEmail = identifier.trim;
- if (!cleanEmail.includes('@') && ADMINS[cleanEmail.toLowerCase]) {
- cleanEmail = ADMINS[cleanEmail.toLowerCase];
- }
-
- if (!cleanEmail.includes('@')) {
- throw new Error('يرجى إدخال عنوان البريد الإلكتروني المسجل كاملاً (مثال: student@example.com).');
- }
-
- const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
- const redirectUrl = window.location.origin + window.location.pathname + '?mode=update-password';
- const { error } = await client.auth.resetPasswordForEmail(cleanEmail, {
- redirectTo: redirectUrl
- });
-
- if (error) throw error;
- sentEmail = cleanEmail;
- }
-
- showSuccess('تم إرسال رابط استعادة كلمة المرور بنجاح إلى: (' + sentEmail + '). يرجى فتح بريدك الإلكتروني والضغط على الرابط لتعيين كلمة مرور جديدة.');
- btn.textContent = 'تم الإرسال بنجاح صحيحة';
- } catch (err) {
- console.error(err);
- showError(err.message || 'تعذر إرسال رابط الاستعادة. يرجى التأكد من كتابة البريد بشكل صحيح.');
- btn.disabled = false;
- btn.textContent = ' إرسال رابط استعادة كلمة المرور';
- }
- }
-
- // 4. معالجة تعيين كلمة المرور الجديدة
- async function handleUpdatePasswordSubmit(e) {
- e.preventDefault;
- hideAlerts;
-
- const newPassword = document.getElementById('new-password').value;
- const confirmNewPassword = document.getElementById('confirm-new-password').value;
- const btn = document.getElementById('btn-submit-new-password');
-
- if (!newPassword ||!confirmNewPassword) {
- showError('يرجى ملء حقلي كلمة المرور وتأكيدها.');
- return;
- }
-
- if (newPassword.length < 6) {
- showError('يجب ألا تقل كلمة المرور عن 6 أحرف.');
- return;
- }
-
- if (newPassword!== confirmNewPassword) {
- showError('كلمتا المرور غير متطابقتين.');
- return;
- }
-
- btn.disabled = true;
- btn.textContent = 'جاري حفظ وتحديث كلمة المرور...';
-
- try {
- if (window.authManager && typeof window.authManager.updateUserPassword === 'function') {
- await window.authManager.updateUserPassword(newPassword);
- } else {
- const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
- const { error } = await client.auth.updateUser({ password: newPassword });
- if (error) throw error;
- }
-
- showSuccess(' تم تحديث كلمة المرور بنجاح! جاري تسجيل دخولك إلى لوحة التحكم...');
- setTimeout( => {
- window.location.href = 'dashboard.html';
- }, 1200);
- } catch (err) {
- console.error(err);
- showError(err.message || 'فشل تحديث كلمة المرور.');
- btn.disabled = false;
- btn.textContent = ' حفظ كلمة المرور الجديدة وتسجيل الدخول';
- }
- }
-
- function redirectAfterAuth(defaultTarget = 'dashboard.html') {
- const params = new URLSearchParams(window.location.search);
- const redirect = params.get('redirect') || defaultTarget;
- setTimeout( => {
- window.location.href = redirect;
- }, 700);
- }
-
- function showError(msg) {
- const el = document.getElementById('auth-error-alert');
- el.textContent = msg;
- el.style.display = 'block';
- window.a11y?.announce(msg, 'assertive');
- }
-
- function showSuccess(msg) {
- const el = document.getElementById('auth-success-alert');
- el.textContent = msg;
- el.style.display = 'block';
- window.a11y?.announce(msg, 'polite');
- }
-
- function hideAlerts {
- const err = document.getElementById('auth-error-alert');
- const succ = document.getElementById('auth-success-alert');
- if (err) err.style.display = 'none';
- if (succ) succ.style.display = 'none';
- }
- </script>
- <script src="js/pwa.js?v=1.0.3"></script>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+
+  <!-- شريط التنقل العلوي الأكاديمي -->
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
+          </div>
+        </a>
+      </div>
+      <div class="nav-left">
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
+    </div>
+  </aside>
+
+  <main id="main-content" class="container" role="main" style="max-width: 500px; margin-top: 3rem; margin-bottom: 4rem;">
+    <div class="card" style="box-shadow: var(--shadow-md); border-top: 4px solid var(--primary);">
+      
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span id="auth-tag" class="badge badge-primary" style="margin-bottom: 0.5rem;">بوابة الدخول المعتمدة</span>
+        <h1 id="auth-heading" style="font-size: 1.65rem; font-weight: 800; color: var(--text-main);">تسجيل الدخول</h1>
+        <p id="auth-subheading" class="text-muted" style="font-size: 0.88rem; margin-top: 0.25rem;">
+          مخصصة لطلبة وأساتذة قسم القرآن الكريم وعلومه بكلية التربية — جامعة صنعاء
+        </p>
+      </div>
+
+      <!-- تنبيهات الحالة والخطأ -->
+      <div id="auth-error-alert" class="alert alert-danger" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--danger-light); color: var(--danger); margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.5;" role="alert" aria-live="assertive"></div>
+      <div id="auth-success-alert" class="alert alert-success" style="display: none; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--success-light); color: var(--success); margin-bottom: 1rem; font-size: 0.92rem; line-height: 1.5;" role="status" aria-live="polite"></div>
+
+      <!-- تبويبات التبديل بين الدخول والتسجيل -->
+      <div id="auth-tabs" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem;">
+        <button type="button" id="tab-login" class="btn btn-primary btn-sm" style="flex: 1;" aria-selected="true">تسجيل الدخول</button>
+        <button type="button" id="tab-signup" class="btn btn-secondary btn-sm" style="flex: 1;" aria-selected="false">إنشاء حساب جديد</button>
+      </div>
+
+      <!-- 1. نموذج تسجيل الدخول (اسم المستخدم أو البريد) -->
+      <form id="form-login" novalidate>
+        <div class="form-group">
+          <label for="login-identifier" class="form-label">اسم المستخدم أو البريد الإلكتروني *</label>
+          <input 
+            type="text" 
+            id="login-identifier" 
+            class="form-input" 
+            placeholder="مثال: admin أو abdulaziz أو student@example.com" 
+            autocomplete="username" 
+            dir="auto" 
+            required
+          >
+          <span id="admin-detector-hint" class="field-hint">
+            يمكن لمالك الموقع والمشرف كتابة اسم المستخدم (مثل: admin أو abdulaziz).
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password" class="form-label">كلمة المرور *</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="login-password" 
+              class="form-input" 
+              placeholder="••••••••" 
+              dir="ltr" 
+              autocomplete="current-password" 
+              required
+            >
+            <button type="button" class="toggle-password-btn" data-target="login-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">
+              
+            </button>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.6rem;">
+            <label style="font-size: 0.88rem; display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-main);">
+              <input type="checkbox" id="remember-me" checked>
+              <span>تذكر بياناتي على هذا الجهاز</span>
+            </label>
+            <button type="button" id="btn-goto-forgot" style="background: none; border: none; color: var(--primary); font-size: 0.88rem; font-weight: 700; cursor: pointer; text-decoration: underline; font-family: inherit;">
+              هل نسيت كلمة المرور؟
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-login" class="btn btn-primary btn-block" style="margin-top: 1.25rem;">
+          تسجيل الدخول
+        </button>
+      </form>
+
+      <!-- 2. نموذج إنشاء حساب طالب جديد -->
+      <form id="form-signup" style="display: none;" novalidate>
+        <div class="form-group">
+          <label for="signup-fullname" class="form-label">الاسم الكامل للطالب (كما في الكشف الجامعي) *</label>
+          <input 
+            type="text" 
+            id="signup-fullname" 
+            class="form-input" 
+            placeholder="مثال: عبد العزيز أمين راجح حاتم" 
+            autocomplete="name" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="signup-username" class="form-label">اسم المستخدم (Username) *</label>
+          <input 
+            type="text" 
+            id="signup-username" 
+            class="form-input" 
+            placeholder="مثال: student2026 أو الرقم الجامعي" 
+            dir="ltr" 
+            autocomplete="username" 
+            required
+          >
+          <span class="field-hint">يُستخدم لتسجيل الدخول السريع بدلاً من كتابة البريد الإلكتروني.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-email" class="form-label">البريد الإلكتروني *</label>
+          <input 
+            type="email" 
+            id="signup-email" 
+            class="form-input" 
+            placeholder="student@example.com" 
+            dir="ltr" 
+            autocomplete="email" 
+            required
+          >
+          <span class="field-hint">ضروري لاستعادة كلمة المرور في حال نسيانها وتلقي إشعارات الدرجات.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-password" class="form-label">كلمة المرور *</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="signup-password" 
+              class="form-input" 
+              placeholder="••••••••" 
+              dir="ltr" 
+              autocomplete="new-password" 
+              required
+            >
+            <button type="button" class="toggle-password-btn" data-target="signup-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">
+              
+            </button>
+          </div>
+          <span class="field-hint">يجب ألا تقل كلمة المرور عن 6 أحرف.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="signup-confirm-password" class="form-label">تأكيد كلمة المرور *</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="signup-confirm-password" 
+              class="form-input" 
+              placeholder="••••••••" 
+              dir="ltr" 
+              autocomplete="new-password" 
+              required
+            >
+            <button type="button" class="toggle-password-btn" data-target="signup-confirm-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">
+              
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-signup" class="btn btn-primary btn-block" style="margin-top: 1.25rem;">
+          إنشاء وتفعيل الحساب الأكاديمي
+        </button>
+      </form>
+
+      <!-- 3. نموذج استعادة كلمة المرور (Forgot Password) -->
+      <form id="form-forgot" style="display: none;" novalidate>
+        <div class="info-alert">
+          ملاحظة: أدخل بريدك الإلكتروني المسجل في المنصة أو اسم المستخدم، وسنرسل لك رابطاً مباشراً وآمناً لتعيين كلمة مرور جديدة لحسابك فوراً.
+        </div>
+
+        <div class="form-group">
+          <label for="forgot-identifier" class="form-label">البريد الإلكتروني أو اسم المستخدم *</label>
+          <input 
+            type="text" 
+            id="forgot-identifier" 
+            class="form-input" 
+            placeholder="مثال: student@example.com أو abdulaziz" 
+            dir="ltr" 
+            autocomplete="email" 
+            required
+          >
+          <span class="field-hint">سيتم إرسال رسالة بريدية برابط التحقق المباشر.</span>
+        </div>
+
+        <button type="submit" id="btn-submit-forgot" class="btn btn-primary btn-block" style="margin-top: 1rem;">
+           إرسال رابط استعادة كلمة المرور
+        </button>
+
+        <div style="text-align: center; margin-top: 1.25rem;">
+          <button type="button" id="btn-back-to-login" class="btn btn-secondary btn-sm">
+            ← العودة إلى تسجيل الدخول
+          </button>
+        </div>
+      </form>
+
+      <!-- 4. نموذج تعيين كلمة مرور جديدة بعد النقر على الرابط (Update Password) -->
+      <form id="form-update-password" style="display: none;" novalidate>
+        <div class="info-alert" style="background: var(--success-light); color: var(--success); border-color: #bbf7d0;">
+           تم التحقق من رابط الاستعادة بنجاح! أدخل كلمة المرور الجديدة التي ترغب في استخدامها.
+        </div>
+
+        <div class="form-group">
+          <label for="new-password" class="form-label">كلمة المرور الجديدة *</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="new-password" 
+              class="form-input" 
+              placeholder="••••••••" 
+              dir="ltr" 
+              autocomplete="new-password" 
+              required
+            >
+            <button type="button" class="toggle-password-btn" data-target="new-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">
+              
+            </button>
+          </div>
+          <span class="field-hint">يجب ألا تقل عن 6 أحرف.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="confirm-new-password" class="form-label">تأكيد كلمة المرور الجديدة *</label>
+          <div class="input-wrapper">
+            <input 
+              type="password" 
+              id="confirm-new-password" 
+              class="form-input" 
+              placeholder="••••••••" 
+              dir="ltr" 
+              autocomplete="new-password" 
+              required
+            >
+            <button type="button" class="toggle-password-btn" data-target="confirm-new-password" aria-label="إظهار كلمة المرور" title="إظهار/إخفاء">
+              
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-new-password" class="btn btn-success btn-block" style="margin-top: 1.25rem;">
+           حفظ كلمة المرور الجديدة وتسجيل الدخول
+        </button>
+      </form>
+
+      <!-- تذييل التبديل المساعد -->
+      <div id="auth-switch-footer" style="text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">
+        <span id="auth-switch-text">طالب جديد في القسم؟</span>
+        <button type="button" id="btn-toggle-mode" style="background: none; border: none; color: var(--primary); font-weight: 800; cursor: pointer; text-decoration: underline; font-family: inherit;">
+          تسجيل حساب الآن
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+    <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
+      </div>
+      <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
+        منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
+      </p>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+        <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
+        <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
+        <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
+        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+      </ul>
+      <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
+        جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/config.js?v=1.0.3"></script>
+  <script src="js/a11y.js?v=1.0.3"></script>
+  <script src="js/auth.js?v=1.0.3"></script>
+  <script src="js/db.js?v=1.0.3"></script>
+  <script>
+    let currentMode = 'login'; // login | signup | forgot | update-password
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
+
+      if (window.authManager && typeof window.authManager.init === 'function') {
+        await window.authManager.init();
+      }
+
+      // فحص معلمات الرابط لتحديد الحالة
+      const params = new URLSearchParams(window.location.search);
+      const hash = window.location.hash || '';
+
+      if (hash.includes('type=recovery') || params.get('mode') === 'update-password' || params.get('mode') === 'reset') {
+        setMode('update-password');
+      } else if (params.get('mode') === 'signup') {
+        setMode('signup');
+      } else if (params.get('mode') === 'forgot') {
+        setMode('forgot');
+      } else {
+        setMode('login');
+      }
+
+      if (window.authManager && window.authManager.isAuthenticated && window.authManager.isAuthenticated() && currentMode !== 'update-password') {
+        const u = window.authManager.getUser();
+        window.location.href = (u && u.role === 'admin') ? 'admin.html' : 'dashboard.html';
+        return;
+      }
+
+      const rememberedUser = localStorage.getItem('madarej_remembered_identifier');
+      if (rememberedUser && document.getElementById('login-identifier')) {
+        document.getElementById('login-identifier').value = rememberedUser;
+        checkAdminIdentifier(rememberedUser);
+      }
+
+      // أزرار التبديل
+      document.getElementById('tab-login')?.addEventListener('click', () => setMode('login'));
+      document.getElementById('tab-signup')?.addEventListener('click', () => setMode('signup'));
+      document.getElementById('btn-goto-forgot')?.addEventListener('click', () => setMode('forgot'));
+      document.getElementById('btn-back-to-login')?.addEventListener('click', () => setMode('login'));
+      document.getElementById('btn-toggle-mode')?.addEventListener('click', () => {
+        setMode(currentMode === 'login' ? 'signup' : 'login');
+      });
+
+      // أزرار إظهار/إخفاء كلمات المرور
+      document.querySelectorAll('.toggle-password-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          const input = document.getElementById(targetId);
+          if (!input) return;
+          const isPassword = input.type === 'password';
+          input.type = isPassword ? 'text' : 'password';
+          btn.setAttribute('aria-label', isPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور');
+          btn.textContent = isPassword ? '' : '';
+        });
+      });
+
+      // نماذج الإرسال
+      document.getElementById('form-login')?.addEventListener('submit', handleLoginSubmit);
+      document.getElementById('form-signup')?.addEventListener('submit', handleSignupSubmit);
+      document.getElementById('form-forgot')?.addEventListener('submit', handleForgotSubmit);
+      document.getElementById('form-update-password')?.addEventListener('submit', handleUpdatePasswordSubmit);
+
+      // مراقبة كتابة اسم المستخدم لاكتشاف حساب المشرف الأكاديمي العام حصرياً
+      document.getElementById('login-identifier')?.addEventListener('input', (e) => {
+        checkAdminIdentifier(e.target.value);
+      });
+    });
+
+    function checkAdminIdentifier(val) {
+      const clean = (val || '').trim().toLowerCase();
+      const hint = document.getElementById('admin-detector-hint');
+      if (!hint) return;
+
+      const adminAliases = ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem', 'abdualaziz.yemen@gmail.com'];
+      if (adminAliases.includes(clean)) {
+        hint.innerHTML = '<span class="auth-badge-admin"> حساب المشرف الأكاديمي العام (عبد العزيز حاتم)</span>';
+      } else {
+        hint.textContent = 'يمكن لمالك الموقع والمشرف كتابة اسم المستخدم (مثل: admin أو abdulaziz).';
+      }
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      hideAlerts();
+
+      const tabs = document.getElementById('auth-tabs');
+      const heading = document.getElementById('auth-heading');
+      const subheading = document.getElementById('auth-subheading');
+      const tag = document.getElementById('auth-tag');
+      const switchFooter = document.getElementById('auth-switch-footer');
+      const switchText = document.getElementById('auth-switch-text');
+      const toggleBtn = document.getElementById('btn-toggle-mode');
+
+      const formLogin = document.getElementById('form-login');
+      const formSignup = document.getElementById('form-signup');
+      const formForgot = document.getElementById('form-forgot');
+      const formUpdatePwd = document.getElementById('form-update-password');
+
+      const tabLogin = document.getElementById('tab-login');
+      const tabSignup = document.getElementById('tab-signup');
+
+      formLogin.style.display = 'none';
+      formSignup.style.display = 'none';
+      formForgot.style.display = 'none';
+      formUpdatePwd.style.display = 'none';
+
+      if (mode === 'login') {
+        formLogin.style.display = 'block';
+        tabs.style.display = 'flex';
+        switchFooter.style.display = 'block';
+        heading.textContent = 'تسجيل الدخول إلى حسابك';
+        subheading.textContent = 'بوابة طلبة وأساتذة قسم القرآن الكريم وعلومه';
+        tag.textContent = 'بوابة الدخول المعتمدة';
+        switchText.textContent = 'طالب جديد في القسم؟';
+        toggleBtn.textContent = 'تسجيل حساب الآن';
+        tabLogin.className = 'btn btn-primary btn-sm';
+        tabSignup.className = 'btn btn-secondary btn-sm';
+        tabLogin.setAttribute('aria-selected', 'true');
+        tabSignup.setAttribute('aria-selected', 'false');
+        window.a11y?.announce('نموذج تسجيل الدخول');
+      } else if (mode === 'signup') {
+        formSignup.style.display = 'block';
+        tabs.style.display = 'flex';
+        switchFooter.style.display = 'block';
+        heading.textContent = 'تسجيل طالب جديد بالقسم';
+        subheading.textContent = 'أنشئ حسابك الأكاديمي لحفظ نتائجك ومتابعة درجاتك في المقررات';
+        tag.textContent = 'تسجيل طالب جديد';
+        switchText.textContent = 'لديك حساب مسجل بالفعل؟';
+        toggleBtn.textContent = 'تسجيل الدخول';
+        tabSignup.className = 'btn btn-primary btn-sm';
+        tabLogin.className = 'btn btn-secondary btn-sm';
+        tabSignup.setAttribute('aria-selected', 'true');
+        tabLogin.setAttribute('aria-selected', 'false');
+        window.a11y?.announce('نموذج تسجيل طالب جديد');
+      } else if (mode === 'forgot') {
+        formForgot.style.display = 'block';
+        tabs.style.display = 'none';
+        switchFooter.style.display = 'none';
+        heading.textContent = 'استعادة كلمة المرور';
+        subheading.textContent = 'أدخل بريدك الإلكتروني لإرسال رابط إعادة تعيين آمن';
+        tag.textContent = 'أمان الحساب';
+        window.a11y?.announce('نموذج استعادة كلمة المرور');
+      } else if (mode === 'update-password') {
+        formUpdatePwd.style.display = 'block';
+        tabs.style.display = 'none';
+        switchFooter.style.display = 'none';
+        heading.textContent = 'تعيين كلمة مرور جديدة';
+        subheading.textContent = 'أدخل كلمة المرور الجديدة لتحديث حسابك والدخول';
+        tag.textContent = 'تحديث كلمة المرور';
+        window.a11y?.announce('نموذج تعيين كلمة المرور الجديدة');
+      }
+    }
+
+    // 1. معالجة تسجيل الدخول
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const identifier = document.getElementById('login-identifier').value.trim();
+      const password = document.getElementById('login-password').value;
+      const remember = document.getElementById('remember-me').checked;
+      const btn = document.getElementById('btn-submit-login');
+
+      if (!identifier || !password) {
+        showError('يرجى إدخال اسم المستخدم/البريد الإلكتروني وكلمة المرور.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'جاري التحقق من الحساب...';
+
+      try {
+        if (window.authManager && typeof window.authManager.signIn === 'function') {
+          await window.authManager.signIn(identifier, password);
+        } else {
+          const isOwner = ['admin', 'abdulaziz', 'abdeh', 'owner', 'aziz', 'hatem'].includes(identifier.toLowerCase()) || identifier.toLowerCase() === 'abdualaziz.yemen@gmail.com';
+          const cleanEmail = isOwner ? 'abdualaziz.yemen@gmail.com' : identifier;
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const { error } = await client.auth.signInWithPassword({ email: cleanEmail, password });
+          if (error) throw error;
+        }
+        
+        if (remember) {
+          localStorage.setItem('madarej_remembered_identifier', identifier);
+        } else {
+          localStorage.removeItem('madarej_remembered_identifier');
+        }
+
+        const user = (window.authManager && typeof window.authManager.getUser === 'function') ? window.authManager.getUser() : null;
+        const isOwner = user ? (user.role === 'admin') : (identifier.toLowerCase().includes('admin') || identifier.toLowerCase().includes('abdualaziz'));
+        
+        const welcomeMsg = isOwner 
+          ? 'مرحباً بك فضيلة المشرف الأكاديمي العام (عبد العزيز حاتم)! جاري التوجيه إلى لوحة الإدارة والتحكم الشامل...' 
+          : 'مرحباً بك! جاري توجيهك إلى لوحة درجاتك الأكاديمية...';
+
+        showSuccess(welcomeMsg);
+        redirectAfterAuth(isOwner ? 'admin.html' : 'dashboard.html');
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'فشل تسجيل الدخول. يرجى التحقق من بياناتك.');
+        btn.disabled = false;
+        btn.textContent = 'تسجيل الدخول';
+      }
+    }
+
+    // 2. معالجة إنشاء الحساب
+    async function handleSignupSubmit(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const fullname = document.getElementById('signup-fullname').value.trim();
+      const username = document.getElementById('signup-username').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      const confirmPwd = document.getElementById('signup-confirm-password').value;
+      const btn = document.getElementById('btn-submit-signup');
+
+      if (!fullname || !username || !email || !password || !confirmPwd) {
+        showError('يرجى ملء جميع الحقول المطلوبة لإنشاء الحساب.');
+        return;
+      }
+
+      if (password.length < 6) {
+        showError('كلمة المرور يجب ألا تقل عن 6 أحرف أو أرقام.');
+        return;
+      }
+
+      if (password !== confirmPwd) {
+        showError('كلمة المرور وتأكيدها غير متطابقين.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'جاري إنشاء وتفعيل الحساب...';
+
+      try {
+        let res;
+        if (window.authManager && typeof window.authManager.signUp === 'function') {
+          res = await window.authManager.signUp(fullname, username, email, password);
+        } else {
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const { data, error } = await client.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: fullname, username: username.toLowerCase(), role: 'student' } }
+          });
+          if (error) throw error;
+          res = { requiresEmailConfirmation: !data.session };
+        }
+
+        if (res.requiresEmailConfirmation) {
+          showSuccess('تم تسجيل حسابك بنجاح! يرجى فتح بريدك الإلكتروني (' + email + ') والضغط على رابط التأكيد المرفق.');
+          btn.disabled = false;
+          btn.textContent = 'تم التسجيل بنجاح ✓';
+        } else {
+          showSuccess('تم تفعيل حسابك الأكاديمي بنجاح! جاري التوجيه إلى لوحة الطالب...');
+          redirectAfterAuth('dashboard.html');
+        }
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'حدث خطأ أثناء إنشاء الحساب.');
+        btn.disabled = false;
+        btn.textContent = 'إنشاء وتفعيل الحساب الأكاديمي';
+      }
+    }
+
+    // 3. معالجة طلب استعادة كلمة المرور
+    async function handleForgotSubmit(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const identifier = document.getElementById('forgot-identifier').value.trim();
+      const btn = document.getElementById('btn-submit-forgot');
+
+      if (!identifier) {
+        showError('يرجى إدخال البريد الإلكتروني أو اسم المستخدم لإرسال رابط الاستعادة.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'جاري إرسال الرابط...';
+
+      try {
+        let sentEmail = identifier;
+
+        if (window.authManager && typeof window.authManager.sendPasswordReset === 'function') {
+          const res = await window.authManager.sendPasswordReset(identifier);
+          sentEmail = res.email || identifier;
+        } else {
+          const ADMINS = {
+            'admin': 'abdualaziz.yemen@gmail.com',
+            'abdulaziz': 'abdualaziz.yemen@gmail.com',
+            'abdeh': 'abdualaziz.yemen@gmail.com',
+            'owner': 'abdualaziz.yemen@gmail.com',
+            'aziz': 'abdualaziz.yemen@gmail.com',
+            'hatem': 'abdualaziz.yemen@gmail.com'
+          };
+          
+          let cleanEmail = identifier.trim();
+          if (!cleanEmail.includes('@') && ADMINS[cleanEmail.toLowerCase()]) {
+            cleanEmail = ADMINS[cleanEmail.toLowerCase()];
+          }
+
+          if (!cleanEmail.includes('@')) {
+            throw new Error('يرجى إدخال عنوان البريد الإلكتروني المسجل كاملاً (مثال: student@example.com).');
+          }
+
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const redirectUrl = window.location.origin + window.location.pathname + '?mode=update-password';
+          const { error } = await client.auth.resetPasswordForEmail(cleanEmail, {
+            redirectTo: redirectUrl
+          });
+
+          if (error) throw error;
+          sentEmail = cleanEmail;
+        }
+
+        showSuccess(' تم إرسال رابط استعادة كلمة المرور بنجاح إلى: (' + sentEmail + '). يرجى فتح بريدك الإلكتروني والضغط على الرابط لتعيين كلمة مرور جديدة.');
+        btn.textContent = 'تم الإرسال بنجاح ✓';
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'تعذر إرسال رابط الاستعادة. يرجى التأكد من كتابة البريد بشكل صحيح.');
+        btn.disabled = false;
+        btn.textContent = ' إرسال رابط استعادة كلمة المرور';
+      }
+    }
+
+    // 4. معالجة تعيين كلمة المرور الجديدة
+    async function handleUpdatePasswordSubmit(e) {
+      e.preventDefault();
+      hideAlerts();
+
+      const newPassword = document.getElementById('new-password').value;
+      const confirmNewPassword = document.getElementById('confirm-new-password').value;
+      const btn = document.getElementById('btn-submit-new-password');
+
+      if (!newPassword || !confirmNewPassword) {
+        showError('يرجى ملء حقلي كلمة المرور وتأكيدها.');
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        showError('يجب ألا تقل كلمة المرور عن 6 أحرف.');
+        return;
+      }
+
+      if (newPassword !== confirmNewPassword) {
+        showError('كلمتا المرور غير متطابقتين.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'جاري حفظ وتحديث كلمة المرور...';
+
+      try {
+        if (window.authManager && typeof window.authManager.updateUserPassword === 'function') {
+          await window.authManager.updateUserPassword(newPassword);
+        } else {
+          const client = window.supabase.createClient(window.CONFIG.SUPABASE_URL, window.CONFIG.SUPABASE_ANON_KEY);
+          const { error } = await client.auth.updateUser({ password: newPassword });
+          if (error) throw error;
+        }
+
+        showSuccess(' تم تحديث كلمة المرور بنجاح! جاري تسجيل دخولك إلى لوحة التحكم...');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1200);
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'فشل تحديث كلمة المرور.');
+        btn.disabled = false;
+        btn.textContent = ' حفظ كلمة المرور الجديدة وتسجيل الدخول';
+      }
+    }
+
+    function redirectAfterAuth(defaultTarget = 'dashboard.html') {
+      const params = new URLSearchParams(window.location.search);
+      const redirect = params.get('redirect') || defaultTarget;
+      setTimeout(() => {
+        window.location.href = redirect;
+      }, 700);
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('auth-error-alert');
+      el.textContent = msg;
+      el.style.display = 'block';
+      window.a11y?.announce(msg, 'assertive');
+    }
+
+    function showSuccess(msg) {
+      const el = document.getElementById('auth-success-alert');
+      el.textContent = msg;
+      el.style.display = 'block';
+      window.a11y?.announce(msg, 'polite');
+    }
+
+    function hideAlerts() {
+      const err = document.getElementById('auth-error-alert');
+      const succ = document.getElementById('auth-success-alert');
+      if (err) err.style.display = 'none';
+      if (succ) succ.style.display = 'none';
+    }
+  </script>
+  <script src="js/pwa.js?v=1.0.3"></script>
 </body>
 </html>

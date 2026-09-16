@@ -1,416 +1,416 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>منصة مدارج | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
- <meta name="description" content="المنصة الأكاديمية التفاعلية المخصصة حصرياً لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، لمراجعة المقررات وخوض الاختبارات التفاعلية.">
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="css/style.css">
- <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
- <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
- <link rel="manifest" href="manifest.json">
- <meta name="theme-color" content="#1e40af">
- <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة مدارج | قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء</title>
+  <meta name="description" content="المنصة الأكاديمية التفاعلية المخصصة حصرياً لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، لمراجعة المقررات وخوض الاختبارات التفاعلية.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
- <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
- <!-- شريط التنقل العلوي الأكاديمي -->
- <header class="navbar" role="banner">
- <div class="container nav-container">
- <div class="nav-right">
- <button
- id="hamburger-btn"
- class="hamburger-btn"
- aria-expanded="false"
- aria-controls="mobile-sidebar"
- aria-label="فتح القائمة الرئيسية"
- >
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- </button>
+  <!-- شريط التنقل العلوي الأكاديمي -->
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <div class="nav-right">
+        <button 
+          id="hamburger-btn" 
+          class="hamburger-btn" 
+          aria-expanded="false" 
+          aria-controls="mobile-sidebar" 
+          aria-label="فتح القائمة الرئيسية"
+        >
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
 
- <a href="index.html" class="brand" aria-label="منصة مدارج - الرئيسية">
- <span class="brand-badge">مدارج</span>
- <div class="brand-text-wrapper">
- <span class="brand-title">منصة مدارج</span>
- <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
- </div>
- </a>
- </div>
+        <a href="index.html" class="brand" aria-label="منصة مدارج - الرئيسية">
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
+          </div>
+        </a>
+      </div>
 
- <div class="nav-left">
- <div id="nav-auth-container" class="desktop-only"></div>
- <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر بين الليلي والنهاري">
- المظهر
- </button>
- </div>
- </div>
- </header>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر بين الليلي والنهاري">
+          المظهر
+        </button>
+      </div>
+    </div>
+  </header>
 
- <!-- خلفية التعتيم للقائمة الجانبية (محمية ومخفية دلالياً عند الإغلاق) -->
- <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <!-- خلفية التعتيم للقائمة الجانبية (محمية ومخفية دلالياً عند الإغلاق) -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
 
- <!-- القائمة الجانبية السلسة (محمية دلالياً بـ aria-hidden لمنع قفزات قارئات الشاشة) -->
- <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
- <div class="sidebar-header">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
- </div>
- <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
- </div>
+  <!-- القائمة الجانبية السلسة (محمية دلالياً بـ aria-hidden لمنع قفزات قارئات الشاشة) -->
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
 
- <div id="sidebar-user-area" class="sidebar-user-card">
- <p class="text-muted" style="font-size: 0.9rem;">مرحباً بك في منصة مدارج!</p>
- </div>
+    <div id="sidebar-user-area" class="sidebar-user-card">
+      <p class="text-muted" style="font-size: 0.9rem;">مرحباً بك في منصة مدارج!</p>
+    </div>
 
- <nav role="navigation" aria-label="روابط القائمة">
- <ul id="sidebar-nav-links" class="sidebar-nav">
- <li>
- <a href="index.html" class="sidebar-link active">
- <span class="sidebar-link-icon" aria-hidden="true"></span>
- <span>الصفحة الرئيسية</span>
- </a>
- </li>
- <li>
- <a href="#subjects-section" class="sidebar-link">
- <span class="sidebar-link-icon" aria-hidden="true"></span>
- <span>مقررات القسم واختباراتها</span>
- </a>
- </li>
- </ul>
- </nav>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav">
+        <li>
+          <a href="index.html" class="sidebar-link active">
+            <span class="sidebar-link-icon" aria-hidden="true"></span>
+            <span>الصفحة الرئيسية</span>
+          </a>
+        </li>
+        <li>
+          <a href="#subjects-section" class="sidebar-link">
+            <span class="sidebar-link-icon" aria-hidden="true"></span>
+            <span>مقررات القسم واختباراتها</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
- <div class="sidebar-footer">
- <button id="sidebar-theme-btn" class="btn btn-secondary btn-sm btn-block">
- المظهر تبديل المظهر (ليلي / نهاري)
- </button>
- <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">
- منصة مدارج للتقويم والقياس الأكاديمي © 2026
- </span>
- </div>
- </aside>
+    <div class="sidebar-footer">
+      <button id="sidebar-theme-btn" class="btn btn-secondary btn-sm btn-block">
+        المظهر تبديل المظهر (ليلي / نهاري)
+      </button>
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">
+        منصة مدارج للتقويم والقياس الأكاديمي © 2026
+      </span>
+    </div>
+  </aside>
 
- <!-- المحتوى الرئيسي -->
- <main id="main-content" class="container" role="main">
+  <!-- المحتوى الرئيسي -->
+  <main id="main-content" class="container" role="main">
+    
+    <!-- قسم الترحيب المؤسسي العام لمنصة مدارج (Hero Section) -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="platform-pill">
+        <span aria-hidden="true"></span>
+        <span>المنظومة الأكاديمية للتقويم والقياس المعرفي</span>
+      </div>
 
- <!-- قسم الترحيب المؤسسي العام لمنصة مدارج (Hero Section) -->
- <section class="hero" aria-labelledby="hero-title">
- <div class="platform-pill">
- <span aria-hidden="true"></span>
- <span>المنظومة الأكاديمية للتقويم والقياس المعرفي</span>
- </div>
+      <h1 id="hero-title">منصة «مَدَارِج» للتقويم والقياس الأكاديمي الذكي</h1>
+      <p>
+        المنظومة الرقمية الرائدة في إعداد وإجراء الاختبارات المعيارية، وتأصيل المسائل بالتعليلات العلمية، والقياس المعرفي المستمر؛ تم تدشينها بنماذج قسم القرآن الكريم وعلومه بكلية التربية بجامعة صنعاء كصرح ريادي أول، لترتقي بالتحصيل الأكاديمي وفق أعلى معايير الجودة والشمولية الرقمية.
+      </p>
 
- <h1 id="hero-title">منصة «مَدَارِج» للتقويم والقياس الأكاديمي الذكي</h1>
- <p>
- المنظومة الرقمية الرائدة في إعداد وإجراء الاختبارات المعيارية، وتأصيل المسائل بالتعليلات العلمية، والقياس المعرفي المستمر؛ تم تدشينها بنماذج قسم القرآن الكريم وعلومه بكلية التربية بجامعة صنعاء كصرح ريادي أول، لترتقي بالتحصيل الأكاديمي وفق أعلى معايير الجودة والشمولية الرقمية.
- </p>
+      <div class="hero-actions">
+        <a href="#subjects-section" class="btn btn-primary btn-lg">تصفح المقررات وبنوك الأسئلة ❯</a>
+        <a href="about.html" class="btn btn-secondary btn-lg">عن المنصة: الرؤية والرسالة </a>
+        <a href="auth.html?mode=signup" class="btn btn-outline btn-lg">تسجيل طالب جديد </a>
+      </div>
+    </section>
 
- <div class="hero-actions">
- <a href="#subjects-section" class="btn btn-primary btn-lg">تصفح المقررات وبنوك الأسئلة ></a>
- <a href="about.html" class="btn btn-secondary btn-lg">عن المنصة: الرؤية والرسالة </a>
- <a href="auth.html?mode=signup" class="btn btn-outline btn-lg">تسجيل طالب جديد </a>
- </div>
- </section>
+    <!-- بطاقات الإحصائيات الأكاديمية -->
+    <section aria-label="إحصائيات المنصة الأكاديمية" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="stat-subjects-count">2</div>
+        <div class="stat-label">المقررات التخصصية المعتمدة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">تصحيح سحابي آمن ضد الغش</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">عشوائي</div>
+        <div class="stat-label">خلط الأسئلة والخيارات عند كل محاولة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">WCAG 2.1</div>
+        <div class="stat-label">إتاحة كاملة لقارئات الشاشة</div>
+      </div>
+    </section>
 
- <!-- بطاقات الإحصائيات الأكاديمية -->
- <section aria-label="إحصائيات المنصة الأكاديمية" class="stats-grid">
- <div class="stat-card">
- <div class="stat-number" id="stat-subjects-count">2</div>
- <div class="stat-label">المقررات التخصصية المعتمدة</div>
- </div>
- <div class="stat-card">
- <div class="stat-number">100%</div>
- <div class="stat-label">تصحيح سحابي آمن ضد الغش</div>
- </div>
- <div class="stat-card">
- <div class="stat-number">عشوائي</div>
- <div class="stat-label">خلط الأسئلة والخيارات عند كل محاولة</div>
- </div>
- <div class="stat-card">
- <div class="stat-number">WCAG 2.1</div>
- <div class="stat-label">إتاحة كاملة لقارئات الشاشة</div>
- </div>
- </section>
+    <!-- قسم المزايا المنهجية والأكاديمية -->
+    <section aria-labelledby="features-heading" style="margin-top: 3.5rem;">
+      <div class="card-header" style="border: none; text-align: center; justify-content: center;">
+        <h2 id="features-heading" style="font-size: 1.8rem; font-weight: 800;">خصائص المنصة ومزاياها لطلبة القسم</h2>
+      </div>
 
- <!-- قسم المزايا المنهجية والأكاديمية -->
- <section aria-labelledby="features-heading" style="margin-top: 3.5rem;">
- <div class="card-header" style="border: none; text-align: center; justify-content: center;">
- <h2 id="features-heading" style="font-size: 1.8rem; font-weight: 800;">خصائص المنصة ومزاياها لطلبة القسم</h2>
- </div>
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true"></div>
+          <h3 class="feature-title">مطابقة تامة للمقرر الجامعي</h3>
+          <p class="feature-desc">تُصاغ الأسئلة والنماذج التدريبية بدقة متناهية من المفردات والمراجع المعتمدة لدى أساتذة القسم، لترسيخ التحصيل الأكاديمي وضمان الجاهزية التامة.</p>
+        </article>
 
- <div class="features-grid">
- <article class="feature-card">
- <div class="feature-icon" aria-hidden="true"></div>
- <h3 class="feature-title">مطابقة تامة للمقرر الجامعي</h3>
- <p class="feature-desc">تُصاغ الأسئلة والنماذج التدريبية بدقة متناهية من المفردات والمراجع المعتمدة لدى أساتذة القسم، لترسيخ التحصيل الأكاديمي وضمان الجاهزية التامة.</p>
- </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true"></div>
+          <h3 class="feature-title">خلط عشوائي يرسخ الفهم</h3>
+          <p class="feature-desc">تعتمد المنصة خوارزمية علمية تعيد ترتيب الأسئلة والخيارات الأربعة في كل محاولة، لضمان استيعاب المسألة ذاتها ومنع الحفظ الصم للأرقام.</p>
+        </article>
 
- <article class="feature-card">
- <div class="feature-icon" aria-hidden="true"></div>
- <h3 class="feature-title">خلط عشوائي يرسخ الفهم</h3>
- <p class="feature-desc">تعتمد المنصة خوارزمية علمية تعيد ترتيب الأسئلة والخيارات الأربعة في كل محاولة، لضمان استيعاب المسألة ذاتها ومنع الحفظ الصم للأرقام.</p>
- </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true"></div>
+          <h3 class="feature-title">تعليلات وتأصيل للمسائل</h3>
+          <p class="feature-desc">عقب تسليم الاختبار، يحصل الطالب على كشف مراجعة نموذجي يبين الإجابة الصحيحة مع تعليل علمي يوضح مأخذ الحكم وأصله في المراجع المعتمدة.</p>
+        </article>
 
- <article class="feature-card">
- <div class="feature-icon" aria-hidden="true"></div>
- <h3 class="feature-title">تعليلات وتأصيل للمسائل</h3>
- <p class="feature-desc">عقب تسليم الاختبار، يحصل الطالب على كشف مراجعة نموذجي يبين الإجابة الصحيحة مع تعليل علمي يوضح مأخذ الحكم وأصله في المراجع المعتمدة.</p>
- </article>
+        <article class="feature-card">
+          <div class="feature-icon" aria-hidden="true"></div>
+          <h3 class="feature-title">ميسرة بالكامل للمكفوفين</h3>
+          <p class="feature-desc">صُممت المنصة وفق معايير الإتاحة الرقمية العالمية، وتدعم قارئات الشاشة (TalkBack وغيرها) بنطق تفاعلي لحظي للأرقام والخيارات والمؤقت.</p>
+        </article>
+      </div>
+    </section>
 
- <article class="feature-card">
- <div class="feature-icon" aria-hidden="true"></div>
- <h3 class="feature-title">ميسرة بالكامل للمكفوفين</h3>
- <p class="feature-desc">صُممت المنصة وفق معايير الإتاحة الرقمية العالمية، وتدعم قارئات الشاشة (TalkBack وغيرها) بنطق تفاعلي لحظي للأرقام والخيارات والمؤقت.</p>
- </article>
- </div>
- </section>
+    <!-- قسم المقررات والمواد الدراسية التخصصية -->
+    <section id="subjects-section" aria-labelledby="subjects-title" style="margin-top: 4rem;">
+      <div class="card-header">
+        <div>
+          <h2 id="subjects-title" style="font-size: 1.8rem; font-weight: 800;">مقررات قسم القرآن الكريم وعلومه</h2>
+          <p class="text-muted" style="margin-top: 0.25rem;">اختر المقرر المطلوب للاطلاع على بنوك الأسئلة والنماذج التدريبية التابعة له.</p>
+        </div>
+        <span class="badge badge-primary" id="subjects-count-badge">مقررات معتمدة</span>
+      </div>
 
- <!-- قسم المقررات والمواد الدراسية التخصصية -->
- <section id="subjects-section" aria-labelledby="subjects-title" style="margin-top: 4rem;">
- <div class="card-header">
- <div>
- <h2 id="subjects-title" style="font-size: 1.8rem; font-weight: 800;">مقررات قسم القرآن الكريم وعلومه</h2>
- <p class="text-muted" style="margin-top: 0.25rem;">اختر المقرر المطلوب للاطلاع على بنوك الأسئلة والنماذج التدريبية التابعة له.</p>
- </div>
- <span class="badge badge-primary" id="subjects-count-badge">مقررات معتمدة</span>
- </div>
+      <!-- حقل البحث المباشر في المواد (أمثلة عامة احترافية دون تفاصيل داخلية) -->
+      <div class="search-container">
+        <label for="subject-search-input" class="sr-only">ابحث عن مقرر أو رمز المادة في القسم</label>
+        <input 
+          type="search" 
+          id="subject-search-input" 
+          class="search-input" 
+          placeholder=" ابحث بالاسم أو رمز المقرر (مثال: علوم القرآن، أصول التفسير)..."
+          autocomplete="off"
+        />
+      </div>
 
- <!-- حقل البحث المباشر في المواد (أمثلة عامة احترافية دون تفاصيل داخلية) -->
- <div class="search-container">
- <label for="subject-search-input" class="sr-only">ابحث عن مقرر أو رمز المادة في القسم</label>
- <input
- type="search"
- id="subject-search-input"
- class="search-input"
- placeholder=" ابحث بالاسم أو رمز المقرر (مثال: علوم القرآن، أصول التفسير)..."
- autocomplete="off"
- />
- </div>
+      <!-- شبكة عرض المقررات مع التحميل الهيكلي (Skeleton Loading) -->
+      <div id="subjects-grid" class="grid" role="region" aria-live="polite">
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-icon"></div>
+          <div class="skeleton skeleton-badge"></div>
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-desc"></div>
+          <div class="skeleton skeleton-btn"></div>
+        </div>
+      </div>
+    </section>
 
- <!-- شبكة عرض المقررات مع التحميل الهيكلي (Skeleton Loading) -->
- <div id="subjects-grid" class="grid" role="region" aria-live="polite">
- <div class="skeleton-card">
- <div class="skeleton skeleton-icon"></div>
- <div class="skeleton skeleton-badge"></div>
- <div class="skeleton skeleton-title"></div>
- <div class="skeleton skeleton-desc"></div>
- <div class="skeleton skeleton-btn"></div>
- </div>
- </div>
- </section>
+    <!-- قسم الأسئلة الشائعة الأكاديمية (FAQ) -->
+    <section class="faq-section" aria-labelledby="faq-heading">
+      <div class="card-header" style="border: none; text-align: center; justify-content: center;">
+        <h2 id="faq-heading" style="font-size: 1.8rem; font-weight: 800;">الأسئلة الشائعة والإرشادات الأكاديمية</h2>
+      </div>
 
- <!-- قسم الأسئلة الشائعة الأكاديمية (FAQ) -->
- <section class="faq-section" aria-labelledby="faq-heading">
- <div class="card-header" style="border: none; text-align: center; justify-content: center;">
- <h2 id="faq-heading" style="font-size: 1.8rem; font-weight: 800;">الأسئلة الشائعة والإرشادات الأكاديمية</h2>
- </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>لمن خُصصت منصة مدارج للاختبارات؟</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" style="display: none;">
+          خُصصت المنصة حصرياً لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، وتوفر لهم بيئة ذاتية لمراجعة المقررات التخصصية ونماذج الاختبارات المعتمدة من أساتذة القسم.
+        </div>
+      </div>
 
- <div class="faq-item">
- <button type="button" class="faq-question" aria-expanded="false">
- <span>لمن خُصصت منصة مدارج للاختبارات؟</span>
- <span class="faq-icon" aria-hidden="true">+</span>
- </button>
- <div class="faq-answer" style="display: none;">
- خُصصت المنصة حصرياً لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، وتوفر لهم بيئة ذاتية لمراجعة المقررات التخصصية ونماذج الاختبارات المعتمدة من أساتذة القسم.
- </div>
- </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>ما هي المقررات المتاحة على المنصة؟</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" style="display: none;">
+          تغطي المنصة المقررات التخصصية المعتمدة لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، وتوفر نماذج تدريبية شاملة للمسائل المقررة وفق الأصول المنهجية المعتمدة لأساتذة القسم، مع إمكانية إضافة سائر المقررات الدراسية تباعاً.
+        </div>
+      </div>
 
- <div class="faq-item">
- <button type="button" class="faq-question" aria-expanded="false">
- <span>ما هي المقررات المتاحة على المنصة؟</span>
- <span class="faq-icon" aria-hidden="true">+</span>
- </button>
- <div class="faq-answer" style="display: none;">
- تغطي المنصة المقررات التخصصية المعتمدة لطلبة قسم القرآن الكريم وعلومه بكلية التربية في جامعة صنعاء، وتوفر نماذج تدريبية شاملة للمسائل المقررة وفق الأصول المنهجية المعتمدة لأساتذة القسم، مع إمكانية إضافة سائر المقررات الدراسية تباعاً.
- </div>
- </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>كيف تضمن المنصة دقة ونزاهة الاختبار؟</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" style="display: none;">
+          تعتمد المنصة خوارزمية Fisher-Yates لخلط الأسئلة والخيارات عشوائياً عند كل محاولة، مع تصحيح سحابي آمن داخل الخادم دون إرسال الإجابات الصحيحة إلى المتصفح، لمنع كشفها عبر أدوات الفحص، مما يمنح الطالب تقييماً حقيقياً لمستواه.
+        </div>
+      </div>
 
- <div class="faq-item">
- <button type="button" class="faq-question" aria-expanded="false">
- <span>كيف تضمن المنصة دقة ونزاهة الاختبار؟</span>
- <span class="faq-icon" aria-hidden="true">+</span>
- </button>
- <div class="faq-answer" style="display: none;">
- تعتمد المنصة خوارزمية Fisher-Yates لخلط الأسئلة والخيارات عشوائياً عند كل محاولة، مع تصحيح سحابي آمن داخل الخادم دون إرسال الإجابات الصحيحة إلى المتصفح، لمنع كشفها عبر أدوات الفحص، مما يمنح الطالب تقييماً حقيقياً لمستواه.
- </div>
- </div>
+      <div class="faq-item">
+        <button type="button" class="faq-question" aria-expanded="false">
+          <span>هل المنصة مجهزة للطلبة مستخدمي قارئات الشاشة؟</span>
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" style="display: none;">
+          نعم، صُممت المنصة وفق معايير الإتاحة العالمية WCAG 2.1 AA، مع دعم كامل لكافة قارئات الشاشة (مثل TalkBack)، وتنبيهات صوتية فورية لرقم السؤال، والخيارات، والمؤقت التنازلي، والنتيجة النهائية.
+        </div>
+      </div>
+    </section>
 
- <div class="faq-item">
- <button type="button" class="faq-question" aria-expanded="false">
- <span>هل المنصة مجهزة للطلبة مستخدمي قارئات الشاشة؟</span>
- <span class="faq-icon" aria-hidden="true">+</span>
- </button>
- <div class="faq-answer" style="display: none;">
- نعم، صُممت المنصة وفق معايير الإتاحة العالمية WCAG 2.1 AA، مع دعم كامل لكافة قارئات الشاشة (مثل TalkBack)، وتنبيهات صوتية فورية لرقم السؤال، والخيارات، والمؤقت التنازلي، والنتيجة النهائية.
- </div>
- </div>
- </section>
+  </main>
 
- </main>
+  <!-- تذييل الصفحة الأكاديمي المخصص -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.2rem;">منصة التقييم الذاتي والاختبارات التفاعلية</span>
+      </div>
+      <p style="color: var(--text-muted); max-width: 650px; font-size: 0.95rem; margin: 0 auto; line-height: 1.7;">
+        منظومة تعليمية ميسرة مكرسة لخدمة طلبة قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء.
+      </p>
 
- <!-- تذييل الصفحة الأكاديمي المخصص -->
- <footer class="footer" role="contentinfo">
- <div class="container footer-content">
- <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem;">
- <span class="brand-badge">مدارج</span>
- <span style="font-weight: 800; font-size: 1.2rem;">منصة التقييم الذاتي والاختبارات التفاعلية</span>
- </div>
- <p style="color: var(--text-muted); max-width: 650px; font-size: 0.95rem; margin: 0 auto; line-height: 1.7;">
- منظومة تعليمية ميسرة مكرسة لخدمة طلبة قسم القرآن الكريم وعلومه — كلية التربية، جامعة صنعاء.
- </p>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+        <li><a href="index.html#subjects-section" class="footer-link">مقررات القسم</a></li>
+        <li><a href="dashboard.html" class="footer-link">لوحة الطالب</a></li>
+        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+      </ul>
 
- <ul class="footer-links">
- <li><a href="index.html" class="footer-link">الرئيسية</a></li>
- <li><a href="index.html#subjects-section" class="footer-link">مقررات القسم</a></li>
- <li><a href="dashboard.html" class="footer-link">لوحة الطالب</a></li>
- <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
- </ul>
+      <div style="border-top: 1px solid var(--border-light); width: 100%; padding-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
+        <p>جميع الحقوق محفوظة © 2026 — عبد العزيز حاتم</p>
+        <p style="margin-top: 0.35rem;">جامعة صنعاء — كلية التربية | تصميم معتمد ومتاح بالكامل لقارئات الشاشة.</p>
+      </div>
+    </div>
+  </footer>
 
- <div style="border-top: 1px solid var(--border-light); width: 100%; padding-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted);">
- <p>جميع الحقوق محفوظة © 2026 — عبد العزيز حاتم</p>
- <p style="margin-top: 0.35rem;">جامعة صنعاء — كلية التربية | تصميم معتمد ومتاح بالكامل لقارئات الشاشة.</p>
- </div>
- </div>
- </footer>
+  <!-- ملفات الجافاسكربت -->
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    let allSubjects = [];
 
- <!-- ملفات الجافاسكربت -->
- <script src="js/config.js"></script>
- <script src="js/a11y.js"></script>
- <script src="js/auth.js"></script>
- <script src="js/db.js"></script>
- <script>
- let allSubjects = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. تفعيل المظهر (ليلي / نهاري)
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
+      document.getElementById('sidebar-theme-btn')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
- document.addEventListener('DOMContentLoaded',  => {
- // 1. تفعيل المظهر (ليلي / نهاري)
- document.getElementById('theme-toggle')?.addEventListener('click',  => window.a11y?.toggleTheme);
- document.getElementById('sidebar-theme-btn')?.addEventListener('click',  => window.a11y?.toggleTheme);
+      // 2. تفعيل الأسئلة الشائعة فوراً
+      setupFaqAccordion();
 
- // 2. تفعيل الأسئلة الشائعة فوراً
- setupFaqAccordion;
+      // 3. تفعيل البحث اللحظي في المقررات
+      const searchInput = document.getElementById('subject-search-input');
+      searchInput?.addEventListener('input', (e) => {
+        filterSubjects(e.target.value);
+      });
 
- // 3. تفعيل البحث اللحظي في المقررات
- const searchInput = document.getElementById('subject-search-input');
- searchInput?.addEventListener('input', (e) => {
- filterSubjects(e.target.value);
- });
+      // 4. تشغيل التهيئة السحابية في الخلفية
+      initAppAsync();
+    });
 
- // 4. تشغيل التهيئة السحابية في الخلفية
- initAppAsync;
- });
+    function setupFaqAccordion() {
+      const faqButtons = document.querySelectorAll('.faq-question');
+      faqButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+          const answer = btn.nextElementSibling;
+          const icon = btn.querySelector('.faq-icon');
 
- function setupFaqAccordion {
- const faqButtons = document.querySelectorAll('.faq-question');
- faqButtons.forEach(btn => {
- btn.addEventListener('click', (e) => {
- e.preventDefault;
- const isExpanded = btn.getAttribute('aria-expanded') === 'true';
- const answer = btn.nextElementSibling;
- const icon = btn.querySelector('.faq-icon');
+          btn.setAttribute('aria-expanded', String(!isExpanded));
+          if (icon) icon.textContent = isExpanded ? '+' : '−';
+          if (answer) answer.style.display = isExpanded ? 'none' : 'block';
+          
+          if (!isExpanded) {
+            window.a11y?.announce('تم عرض الإجابة');
+          }
+        });
+      });
+    }
 
- btn.setAttribute('aria-expanded', String(!isExpanded));
- if (icon) icon.textContent = isExpanded ? '+': '−';
- if (answer) answer.style.display = isExpanded ? 'none': 'block';
+    async function initAppAsync() {
+      try {
+        await window.authManager.init();
+      } catch (e) {
+        console.warn('Auth note:', e);
+      }
 
- if (!isExpanded) {
- window.a11y?.announce('تم عرض الإجابة');
- }
- });
- });
- }
+      window.db.init();
+      await loadLiveSubjects();
+    }
 
- async function initAppAsync {
- try {
- await window.authManager.init;
- } catch (e) {
- console.warn('Auth note:', e);
- }
+    async function loadLiveSubjects() {
+      const grid = document.getElementById('subjects-grid');
+      try {
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('تجاوزت مهلة الاتصال')), 4000)
+        );
+        allSubjects = await Promise.race([window.db.getSubjects(), timeoutPromise]);
 
- window.db.init;
- await loadLiveSubjects;
- }
+        const countEl = document.getElementById('stat-subjects-count');
+        if (countEl) countEl.textContent = allSubjects.length;
 
- async function loadLiveSubjects {
- const grid = document.getElementById('subjects-grid');
- try {
- const timeoutPromise = new Promise((_, reject) =>
- setTimeout( => reject(new Error('تجاوزت مهلة الاتصال')), 4000)
- );
- allSubjects = await Promise.race([window.db.getSubjects, timeoutPromise]);
+        const badgeEl = document.getElementById('subjects-count-badge');
+        if (badgeEl) badgeEl.textContent = `${allSubjects.length} مقررات معتمدة`;
 
- const countEl = document.getElementById('stat-subjects-count');
- if (countEl) countEl.textContent = allSubjects.length;
+        renderSubjects(allSubjects);
+        window.a11y?.announce(`تم تحميل ${allSubjects.length} مقررات دراسية`);
+      } catch (err) {
+        console.warn('استخدام التخزين البديل:', err);
+        allSubjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
+        if (allSubjects.length > 0) {
+          renderSubjects(allSubjects);
+        } else {
+          grid.innerHTML = `
+            <div class="card" style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
+              <p style="color: var(--text-muted); margin-bottom: 1rem;">جاري تحميل مقررات القسم من الخادم السحابي...</p>
+              <button onclick="loadLiveSubjects()" class="btn btn-primary btn-sm">إعادة المحاولة ↺</button>
+            </div>
+          `;
+        }
+      }
+    }
 
- const badgeEl = document.getElementById('subjects-count-badge');
- if (badgeEl) badgeEl.textContent = `${allSubjects.length} مقررات معتمدة`;
+    function renderSubjects(subjects) {
+      const grid = document.getElementById('subjects-grid');
+      if (!grid) return;
 
- renderSubjects(allSubjects);
- window.a11y?.announce(`تم تحميل ${allSubjects.length} مقررات دراسية`);
- } catch (err) {
- console.warn('استخدام التخزين البديل:', err);
- allSubjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
- if (allSubjects.length > 0) {
- renderSubjects(allSubjects);
- } else {
- grid.innerHTML = `
- <div class="card" style="text-align: center; padding: 2rem; grid-column: 1 / -1;">
- <p style="color: var(--text-muted); margin-bottom: 1rem;">جاري تحميل مقررات القسم من الخادم السحابي...</p>
- <button onclick="loadLiveSubjects" class="btn btn-primary btn-sm">إعادة المحاولة ↺</button>
- </div>
- `;
- }
- }
- }
+      if (!subjects || subjects.length === 0) {
+        grid.innerHTML = `
+          <div class="card" style="text-align: center; padding: 2.5rem; grid-column: 1 / -1;">
+            <p class="text-muted">لا توجد مقررات دراسية مطابقة للبحث حالياً.</p>
+          </div>
+        `;
+        return;
+      }
 
- function renderSubjects(subjects) {
- const grid = document.getElementById('subjects-grid');
- if (!grid) return;
+      grid.innerHTML = subjects.map(s => `
+        <article class="subject-card" aria-labelledby="subj-title-${s.id}">
+          <div class="subject-icon" aria-hidden="true"></div>
+          <span class="badge badge-primary" style="align-self: flex-start; margin-bottom: 0.5rem;">${s.code || 'مقرر تخصصي'}</span>
+          <h3 id="subj-title-${s.id}" class="subject-title">${window.authManager.escapeHtml(s.title)}</h3>
+          <p class="subject-desc">${window.authManager.escapeHtml(s.description || 'مقرر دراسي معتمد لطلبة قسم القرآن الكريم وعلومه.')}</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-light);">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">قسم القرآن الكريم وعلومه</span>
+            <a href="subject.html?id=${s.id}" class="btn btn-primary btn-sm" aria-label="عرض اختبارات مادة ${window.authManager.escapeHtml(s.title)}">
+              عرض الاختبارات ❯
+            </a>
+          </div>
+        </article>
+      `).join('');
+    }
 
- if (!subjects || subjects.length === 0) {
- grid.innerHTML = `
- <div class="card" style="text-align: center; padding: 2.5rem; grid-column: 1 / -1;">
- <p class="text-muted">لا توجد مقررات دراسية مطابقة للبحث حالياً.</p>
- </div>
- `;
- return;
- }
-
- grid.innerHTML = subjects.map(s => `
- <article class="subject-card" aria-labelledby="subj-title-${s.id}">
- <div class="subject-icon" aria-hidden="true"></div>
- <span class="badge badge-primary" style="align-self: flex-start; margin-bottom: 0.5rem;">${s.code || 'مقرر تخصصي'}</span>
- <h3 id="subj-title-${s.id}" class="subject-title">${window.authManager.escapeHtml(s.title)}</h3>
- <p class="subject-desc">${window.authManager.escapeHtml(s.description || 'مقرر دراسي معتمد لطلبة قسم القرآن الكريم وعلومه.')}</p>
- <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-light);">
- <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">قسم القرآن الكريم وعلومه</span>
- <a href="subject.html?id=${s.id}" class="btn btn-primary btn-sm" aria-label="عرض اختبارات مادة ${window.authManager.escapeHtml(s.title)}">
- عرض الاختبارات >
- </a>
- </div>
- </article>
- `).join('');
- }
-
- function filterSubjects(keyword) {
- const q = keyword.trim.toLowerCase;
- if (!q) {
- renderSubjects(allSubjects);
- return;
- }
- const filtered = allSubjects.filter(s =>
- (s.title && s.title.toLowerCase.includes(q)) ||
- (s.description && s.description.toLowerCase.includes(q)) ||
- (s.code && s.code.toLowerCase.includes(q))
- );
- renderSubjects(filtered);
- }
- </script>
- <script src="js/pwa.js"></script>
+    function filterSubjects(keyword) {
+      const q = keyword.trim().toLowerCase();
+      if (!q) {
+        renderSubjects(allSubjects);
+        return;
+      }
+      const filtered = allSubjects.filter(s => 
+        (s.title && s.title.toLowerCase().includes(q)) ||
+        (s.description && s.description.toLowerCase().includes(q)) ||
+        (s.code && s.code.toLowerCase().includes(q))
+      );
+      renderSubjects(filtered);
+    }
+  </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

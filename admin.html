@@ -1,1022 +1,1022 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>لوحة الإدارة الأكاديمية والتحكم الشامل | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="css/style.css">
- <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
- <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
- <link rel="manifest" href="manifest.json">
- <meta name="theme-color" content="#1e40af">
- <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة الإدارة الأكاديمية والتحكم الشامل | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
- <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
- <!-- شريط التنقل العلوي الأكاديمي -->
- <header class="navbar" role="banner">
- <div class="container nav-container">
- <div class="nav-right">
- <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- </button>
- <a href="index.html" class="brand">
- <span class="brand-badge">مدارج</span>
- <div class="brand-text-wrapper">
- <span class="brand-title">لوحة الإشراف والتحكم الأكاديمي</span>
- <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
- </div>
- </a>
- </div>
- <div class="nav-left">
- <div id="nav-auth-container" class="desktop-only"></div>
- <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
- </div>
- </div>
- </header>
+  <!-- شريط التنقل العلوي الأكاديمي -->
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">لوحة الإشراف والتحكم الأكاديمي</span>
+            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
+          </div>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
+      </div>
+    </div>
+  </header>
 
- <!-- خلفية التعتيم والقائمة الجانبية -->
- <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
- <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
- <div class="sidebar-header">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
- </div>
- <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
- </div>
- <div id="sidebar-user-area" class="sidebar-user-card"></div>
- <nav role="navigation" aria-label="روابط القائمة">
- <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
- </nav>
- <div class="sidebar-footer">
- <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
- </div>
- </aside>
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع" aria-hidden="true">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
+    </div>
+  </aside>
 
- <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+    
+    <!-- بطاقة الترحيب بالمشرف وإحصائيات النظام الحية -->
+    <section class="card" aria-labelledby="admin-welcome-title" style="border-top: 4px solid var(--primary);">
+      <div class="card-header" style="border: none; padding-bottom: 0;">
+        <div>
+          <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
+            <span>كلية التربية — جامعة صنعاء | إدارة قسم القرآن الكريم وعلومه</span>
+          </div>
+          <h1 id="admin-welcome-title" style="font-size: 1.85rem; font-weight: 900;">لوحة التحكم والإشراف الأكاديمي الشامل</h1>
+          <p id="admin-user-info" class="text-muted" style="margin-top: 0.25rem; font-size: 0.95rem;">جاري مزامنة بيانات المشرف...</p>
+        </div>
+        <div>
+          <button id="btn-refresh-admin-data" class="btn btn-secondary btn-sm" aria-label="تحديث البيانات فورياً">
+            تحديث البيانات ↺
+          </button>
+        </div>
+      </div>
 
- <!-- بطاقة الترحيب بالمشرف وإحصائيات النظام الحية -->
- <section class="card" aria-labelledby="admin-welcome-title" style="border-top: 4px solid var(--primary);">
- <div class="card-header" style="border: none; padding-bottom: 0;">
- <div>
- <div class="faculty-pill" style="margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.75rem;">
- <span>كلية التربية — جامعة صنعاء | إدارة قسم القرآن الكريم وعلومه</span>
- </div>
- <h1 id="admin-welcome-title" style="font-size: 1.85rem; font-weight: 900;">لوحة التحكم والإشراف الأكاديمي الشامل</h1>
- <p id="admin-user-info" class="text-muted" style="margin-top: 0.25rem; font-size: 0.95rem;">جاري مزامنة بيانات المشرف...</p>
- </div>
- <div>
- <button id="btn-refresh-admin-data" class="btn btn-secondary btn-sm" aria-label="تحديث البيانات فورياً">
- تحديث البيانات ↺
- </button>
- </div>
- </div>
+      <!-- مؤشرات النظام الحية -->
+      <div class="stats-grid" style="margin: 1.5rem 0 0.5rem;">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-admin-subjects">...</div>
+          <div class="stat-label">المقررات التخصصية</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-admin-exams">...</div>
+          <div class="stat-label">النماذج الاختبارية</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-admin-students">...</div>
+          <div class="stat-label">الطلاب المسجلين</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-admin-submissions">...</div>
+          <div class="stat-label">المحاولات المنجزة</div>
+        </div>
+      </div>
+    </section>
 
- <!-- مؤشرات النظام الحية -->
- <div class="stats-grid" style="margin: 1.5rem 0 0.5rem;">
- <div class="stat-card">
- <div class="stat-number" id="stat-admin-subjects">...</div>
- <div class="stat-label">المقررات التخصصية</div>
- </div>
- <div class="stat-card">
- <div class="stat-number" id="stat-admin-exams">...</div>
- <div class="stat-label">النماذج الاختبارية</div>
- </div>
- <div class="stat-card">
- <div class="stat-number" id="stat-admin-students">...</div>
- <div class="stat-label">الطلاب المسجلين</div>
- </div>
- <div class="stat-card">
- <div class="stat-number" id="stat-admin-submissions">...</div>
- <div class="stat-label">المحاولات المنجزة</div>
- </div>
- </div>
- </section>
+    <!-- تبويبات إدارة النظام -->
+    <section class="card">
+      <div class="dash-tabs" role="tablist" aria-label="أقسام لوحة الإدارة">
+        <button type="button" role="tab" id="tab-btn-subjects" class="dash-tab-btn active" aria-selected="true">
+          <span> إدارة المقررات (حذف / تفعيل / إضافة)</span>
+        </button>
+        <button type="button" role="tab" id="tab-btn-exams" class="dash-tab-btn" aria-selected="false">
+          <span> إدارة النماذج وبنوك الأسئلة</span>
+        </button>
+        <button type="button" role="tab" id="tab-btn-students" class="dash-tab-btn" aria-selected="false">
+          <span> الإشراف على الطلاب وسجلاتهم</span>
+        </button>
+        <button type="button" role="tab" id="tab-btn-health" class="dash-tab-btn" aria-selected="false">
+          <span> حالة السحابة والأمان</span>
+        </button>
+      </div>
 
- <!-- تبويبات إدارة النظام -->
- <section class="card">
- <div class="dash-tabs" role="tablist" aria-label="أقسام لوحة الإدارة">
- <button type="button" role="tab" id="tab-btn-subjects" class="dash-tab-btn active" aria-selected="true">
- <span> إدارة المقررات (حذف / تفعيل / إضافة)</span>
- </button>
- <button type="button" role="tab" id="tab-btn-exams" class="dash-tab-btn" aria-selected="false">
- <span> إدارة النماذج وبنوك الأسئلة</span>
- </button>
- <button type="button" role="tab" id="tab-btn-students" class="dash-tab-btn" aria-selected="false">
- <span> الإشراف على الطلاب وسجلاتهم</span>
- </button>
- <button type="button" role="tab" id="tab-btn-health" class="dash-tab-btn" aria-selected="false">
- <span> حالة السحابة والأمان</span>
- </button>
- </div>
+      <!-- ======================================================= -->
+      <!-- التبويب 1: إدارة المقررات الدراسية الحالية (حذف مباشر + تفعيل + إضافة) -->
+      <!-- ======================================================= -->
+      <div id="view-subjects" role="tabpanel">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800;">قائمة المقررات التخصصية الحالية بالقسم</h2>
+            <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+              يمكنك حذف أي مقرر مباشرة بنقرة واحدة دون الحاجة لأي تعديل برمجي أو تدخل في قواعد البيانات.
+            </p>
+          </div>
+          <a href="#form-add-subject" class="btn btn-primary btn-sm"> إضافة مقرر تخصصي جديد</a>
+        </div>
 
- <!-- ======================================================= -->
- <!-- التبويب 1: إدارة المقررات الدراسية الحالية (حذف مباشر + تفعيل + إضافة) -->
- <!-- ======================================================= -->
- <div id="view-subjects" role="tabpanel">
- <div class="card-header">
- <div>
- <h2 style="font-size: 1.35rem; font-weight: 800;">قائمة المقررات التخصصية الحالية بالقسم</h2>
- <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
- يمكنك حذف أي مقرر مباشرة بنقرة واحدة دون الحاجة لأي تعديل برمجي أو تدخل في قواعد البيانات.
- </p>
- </div>
- <a href="#form-add-subject" class="btn btn-primary btn-sm">إضافة إضافة مقرر تخصصي جديد</a>
- </div>
+        <div style="overflow-x: auto; margin-bottom: 2rem;">
+          <table class="admin-table" id="table-subjects">
+            <thead>
+              <tr>
+                <th>رمز المقرر</th>
+                <th>اسم المقرر الدراسي</th>
+                <th>الحالة</th>
+                <th>تاريخ الإضافة</th>
+                <th>الإجراءات الإدارية المباشرة</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-subjects">
+              <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">جاري جلب المقررات...</td></tr>
+            </tbody>
+          </table>
+        </div>
 
- <div style="overflow-x: auto; margin-bottom: 2rem;">
- <table class="admin-table" id="table-subjects">
- <thead>
- <tr>
- <th>رمز المقرر</th>
- <th>اسم المقرر الدراسي</th>
- <th>الحالة</th>
- <th>تاريخ الإضافة</th>
- <th>الإجراءات الإدارية المباشرة</th>
- </tr>
- </thead>
- <tbody id="tbody-subjects">
- <tr><td colspan="5" style="text-align: center; color: var(--text-muted);">جاري جلب المقررات...</td></tr>
- </tbody>
- </table>
- </div>
+        <!-- نموذج إضافة مقرر جديد -->
+        <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+          <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem;">إضافة مقرر تخصصي جديد للقسم</h3>
+          <form id="form-add-subject">
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
+              <div class="form-group">
+                <label for="subj-title" class="form-label">اسم المقرر التخصصي *</label>
+                <input type="text" id="subj-title" class="form-input" placeholder="مثال: التفسير الموضوعي" required>
+              </div>
+              <div class="form-group">
+                <label for="subj-code" class="form-label">رمز المقرر / الكود الأكاديمي *</label>
+                <input type="text" id="subj-code" class="form-input" placeholder="مثال: TAFSIR_MAWDU" dir="ltr" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="subj-description" class="form-label">توصيف المقرر ومفردات الخطة الدراسية المعتمدة</label>
+              <textarea id="subj-description" class="form-textarea" rows="2" placeholder="اكتب نبذة عن مفردات المقرر ونطاق الاختبار..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">حفظ ونشر المقرر سحابياً </button>
+          </form>
+        </div>
+      </div>
 
- <!-- نموذج إضافة مقرر جديد -->
- <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem;">إضافة مقرر تخصصي جديد للقسم</h3>
- <form id="form-add-subject">
- <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
- <div class="form-group">
- <label for="subj-title" class="form-label">اسم المقرر التخصصي *</label>
- <input type="text" id="subj-title" class="form-input" placeholder="مثال: التفسير الموضوعي" required>
- </div>
- <div class="form-group">
- <label for="subj-code" class="form-label">رمز المقرر / الكود الأكاديمي *</label>
- <input type="text" id="subj-code" class="form-input" placeholder="مثال: TAFSIR_MAWDU" dir="ltr" required>
- </div>
- </div>
- <div class="form-group">
- <label for="subj-description" class="form-label">توصيف المقرر ومفردات الخطة الدراسية المعتمدة</label>
- <textarea id="subj-description" class="form-textarea" rows="2" placeholder="اكتب نبذة عن مفردات المقرر ونطاق الاختبار..."></textarea>
- </div>
- <button type="submit" class="btn btn-primary btn-sm">حفظ ونشر المقرر سحابياً </button>
- </form>
- </div>
- </div>
+      <!-- ======================================================= -->
+      <!-- التبويب 2: إدارة النماذج الاختبارية وبنوك الأسئلة -->
+      <!-- ======================================================= -->
+      <div id="view-exams" role="tabpanel" style="display: none;">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800;">النماذج الاختبارية المتاحة</h2>
+            <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+              إدارة النماذج، حذف الاختبارات، وتعديل إعدادات التوقيت ونسب النجاح.
+            </p>
+          </div>
+        </div>
 
- <!-- ======================================================= -->
- <!-- التبويب 2: إدارة النماذج الاختبارية وبنوك الأسئلة -->
- <!-- ======================================================= -->
- <div id="view-exams" role="tabpanel" style="display: none;">
- <div class="card-header">
- <div>
- <h2 style="font-size: 1.35rem; font-weight: 800;">النماذج الاختبارية المتاحة</h2>
- <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
- إدارة النماذج، حذف الاختبارات، وتعديل إعدادات التوقيت ونسب النجاح.
- </p>
- </div>
- </div>
+        <div style="overflow-x: auto; margin-bottom: 2.5rem;">
+          <table class="admin-table" id="table-exams">
+            <thead>
+              <tr>
+                <th>عنوان النموذج الاختباري</th>
+                <th>المقرر التابع له</th>
+                <th>المدة</th>
+                <th>نسبة النجاح</th>
+                <th>حالة النشر</th>
+                <th>الإجراءات الإدارية</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-exams">
+              <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">جاري جلب النماذج...</td></tr>
+            </tbody>
+          </table>
+        </div>
 
- <div style="overflow-x: auto; margin-bottom: 2.5rem;">
- <table class="admin-table" id="table-exams">
- <thead>
- <tr>
- <th>عنوان النموذج الاختباري</th>
- <th>المقرر التابع له</th>
- <th>المدة</th>
- <th>نسبة النجاح</th>
- <th>حالة النشر</th>
- <th>الإجراءات الإدارية</th>
- </tr>
- </thead>
- <tbody id="tbody-exams">
- <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">جاري جلب النماذج...</td></tr>
- </tbody>
- </table>
- </div>
+        <!-- إضافة نموذج اختباري جديد -->
+        <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 2rem;">
+          <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem;">إنشاء نموذج اختباري جديد لمقرر</h3>
+          <form id="form-add-exam">
+            <div class="form-group">
+              <label for="exam-select-subject" class="form-label">المقرر الدراسي التابع له النموذج *</label>
+              <select id="exam-select-subject" class="form-select" required>
+                <option value="">-- اختر المقرر الدراسي --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exam-title-input" class="form-label">عنوان النموذج الاختباري *</label>
+              <input type="text" id="exam-title-input" class="form-input" placeholder="مثال: الاختبار الفصلي الأول" required>
+            </div>
+            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
+              <div class="form-group">
+                <label for="exam-duration" class="form-label">المدة الزمنية (بالدقائق - 0 يعني مفتوح دون وقت)</label>
+                <input type="number" id="exam-duration" class="form-input" value="30" min="0" required>
+              </div>
+              <div class="form-group">
+                <label for="exam-passing" class="form-label">نسبة النجاح والاجتياز المقررة (%)</label>
+                <input type="number" id="exam-passing" class="form-input" value="60" min="1" max="100" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">إنشاء ونشر النموذج الاختباري</button>
+          </form>
+        </div>
 
- <!-- إضافة نموذج اختباري جديد -->
- <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 2rem;">
- <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 1rem;">إنشاء نموذج اختباري جديد لمقرر</h3>
- <form id="form-add-exam">
- <div class="form-group">
- <label for="exam-select-subject" class="form-label">المقرر الدراسي التابع له النموذج *</label>
- <select id="exam-select-subject" class="form-select" required>
- <option value="">-- اختر المقرر الدراسي --</option>
- </select>
- </div>
- <div class="form-group">
- <label for="exam-title-input" class="form-label">عنوان النموذج الاختباري *</label>
- <input type="text" id="exam-title-input" class="form-input" placeholder="مثال: الاختبار الفصلي الأول" required>
- </div>
- <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem 0;">
- <div class="form-group">
- <label for="exam-duration" class="form-label">المدة الزمنية (بالدقائق - 0 يعني مفتوح دون وقت)</label>
- <input type="number" id="exam-duration" class="form-input" value="30" min="0" required>
- </div>
- <div class="form-group">
- <label for="exam-passing" class="form-label">نسبة النجاح والاجتياز المقررة (%)</label>
- <input type="number" id="exam-passing" class="form-input" value="60" min="1" max="100" required>
- </div>
- </div>
- <button type="submit" class="btn btn-primary btn-sm">إنشاء ونشر النموذج الاختباري</button>
- </form>
- </div>
+        <!-- تغذية الأسئلة والاستيراد السريع -->
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 0;">
+          <!-- إضافة سؤال فردي -->
+          <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem;">إضافة مسألة فردية مع خياراتها وتعليلها</h3>
+            <form id="form-add-question">
+              <div class="form-group">
+                <label for="q-select-exam" class="form-label">اختر النموذج الاختباري المستهدف *</label>
+                <select id="q-select-exam" class="form-select" required>
+                  <option value="">-- اختر الاختبار --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="q-text" class="form-label">نص المسألة / السؤال الأكاديمي *</label>
+                <textarea id="q-text" class="form-textarea" rows="2" placeholder="اكتب نص المسألة بدقة تأصيلية..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="q-explanation" class="form-label">التعليل العلمي وتأصيل المسألة</label>
+                <textarea id="q-explanation" class="form-textarea" rows="2" placeholder="اكتب وجه الصواب والتوثيق من المراجع المعتمدة..."></textarea>
+              </div>
 
- <!-- تغذية الأسئلة والاستيراد السريع -->
- <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 0;">
- <!-- إضافة سؤال فردي -->
- <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem;">إضافة مسألة فردية مع خياراتها وتعليلها</h3>
- <form id="form-add-question">
- <div class="form-group">
- <label for="q-select-exam" class="form-label">اختر النموذج الاختباري المستهدف *</label>
- <select id="q-select-exam" class="form-select" required>
- <option value="">-- اختر الاختبار --</option>
- </select>
- </div>
- <div class="form-group">
- <label for="q-text" class="form-label">نص المسألة / السؤال الأكاديمي *</label>
- <textarea id="q-text" class="form-textarea" rows="2" placeholder="اكتب نص المسألة بدقة تأصيلية..." required></textarea>
- </div>
- <div class="form-group">
- <label for="q-explanation" class="form-label">التعليل العلمي وتأصيل المسألة</label>
- <textarea id="q-explanation" class="form-textarea" rows="2" placeholder="اكتب وجه الصواب والتوثيق من المراجع المعتمدة..."></textarea>
- </div>
+              <fieldset style="border: 1px solid var(--border); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
+                <legend style="font-weight: 700; font-size: 0.9rem; padding: 0 0.5rem;">خيارات الإجابة (حدد الإجابة الصحيحة)</legend>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="radio" name="correct_choice" id="r_c1" value="0" checked aria-label="الخيار الأول صحيح">
+                    <input type="text" id="c_text_0" class="form-input" placeholder="الخيار الأول (أ)" required>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="radio" name="correct_choice" id="r_c2" value="1" aria-label="الخيار الثاني صحيح">
+                    <input type="text" id="c_text_1" class="form-input" placeholder="الخيار الثاني (ب)" required>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="radio" name="correct_choice" id="r_c3" value="2" aria-label="الخيار الثالث صحيح">
+                    <input type="text" id="c_text_2" class="form-input" placeholder="الخيار الثالث (ج)">
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="radio" name="correct_choice" id="r_c4" value="3" aria-label="الخيار الرابع صحيح">
+                    <input type="text" id="c_text_3" class="form-input" placeholder="الخيار الرابع (د)">
+                  </div>
+                </div>
+              </fieldset>
+              <button type="submit" class="btn btn-primary btn-sm">حفظ وإضافة المسألة</button>
+            </form>
+          </div>
 
- <fieldset style="border: 1px solid var(--border); padding: 1rem; border-radius: var(--radius-sm); margin-bottom: 1rem;">
- <legend style="font-weight: 700; font-size: 0.9rem; padding: 0 0.5rem;">خيارات الإجابة (حدد الإجابة الصحيحة)</legend>
- <div style="display: flex; flex-direction: column; gap: 0.5rem;">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <input type="radio" name="correct_choice" id="r_c1" value="0" checked aria-label="الخيار الأول صحيح">
- <input type="text" id="c_text_0" class="form-input" placeholder="الخيار الأول (أ)" required>
- </div>
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <input type="radio" name="correct_choice" id="r_c2" value="1" aria-label="الخيار الثاني صحيح">
- <input type="text" id="c_text_1" class="form-input" placeholder="الخيار الثاني (ب)" required>
- </div>
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <input type="radio" name="correct_choice" id="r_c3" value="2" aria-label="الخيار الثالث صحيح">
- <input type="text" id="c_text_2" class="form-input" placeholder="الخيار الثالث (ج)">
- </div>
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <input type="radio" name="correct_choice" id="r_c4" value="3" aria-label="الخيار الرابع صحيح">
- <input type="text" id="c_text_3" class="form-input" placeholder="الخيار الرابع (د)">
- </div>
- </div>
- </fieldset>
- <button type="submit" class="btn btn-primary btn-sm">حفظ وإضافة المسألة</button>
- </form>
- </div>
-
- <!-- الاستيراد السريع لبنك الأسئلة (Bulk JSON) -->
- <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem;">استيراد بنك أسئلة دفعة واحدة </h3>
- <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
- يمكنك استيراد عشرات الأسئلة التخصصية دفعة واحدة بلصق مصفوفة JSON.
- </p>
- <form id="form-bulk-import">
- <div class="form-group">
- <label for="bulk-select-exam" class="form-label">النموذج المراد إضافة الأسئلة إليه *</label>
- <select id="bulk-select-exam" class="form-select" required>
- <option value="">-- اختر الاختبار --</option>
- </select>
- </div>
- <div class="form-group">
- <label for="bulk-json" class="form-label">مصفوفة الأسئلة بتنسيق JSON *</label>
- <textarea id="bulk-json" class="form-textarea" rows="8" dir="ltr" placeholder='[
- {
- "question_text": "ما هو المصدر الأول لتفسير القرآن الكريم؟",
- "explanation": "القرآن يفسر بعضه بعضاً وهو أعلى مراتب التفسير.",
- "choices": [
- { "text": "تفسير القرآن بالقرآن", "isCorrect": true },
- { "text": "أقوال التابعين", "isCorrect": false }
- ]
- }
+          <!-- الاستيراد السريع لبنك الأسئلة (Bulk JSON) -->
+          <div style="background: var(--surface-secondary); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <h3 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.5rem;">استيراد بنك أسئلة دفعة واحدة </h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+              يمكنك استيراد عشرات الأسئلة التخصصية دفعة واحدة بلصق مصفوفة JSON.
+            </p>
+            <form id="form-bulk-import">
+              <div class="form-group">
+                <label for="bulk-select-exam" class="form-label">النموذج المراد إضافة الأسئلة إليه *</label>
+                <select id="bulk-select-exam" class="form-select" required>
+                  <option value="">-- اختر الاختبار --</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="bulk-json" class="form-label">مصفوفة الأسئلة بتنسيق JSON *</label>
+                <textarea id="bulk-json" class="form-textarea" rows="8" dir="ltr" placeholder='[
+  {
+    "question_text": "ما هو المصدر الأول لتفسير القرآن الكريم؟",
+    "explanation": "القرآن يفسر بعضه بعضاً وهو أعلى مراتب التفسير.",
+    "choices": [
+      { "text": "تفسير القرآن بالقرآن", "isCorrect": true },
+      { "text": "أقوال التابعين", "isCorrect": false }
+    ]
+  }
 ]' required></textarea>
- </div>
- <button type="submit" class="btn btn-success btn-sm">بدء استيراد بنك الأسئلة سحابياً </button>
- </form>
- </div>
- </div>
- </div>
+              </div>
+              <button type="submit" class="btn btn-success btn-sm">بدء استيراد بنك الأسئلة سحابياً </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
- <!-- ======================================================= -->
- <!-- التبويب 3: الإشراف على الطلاب وسجل النشاط الحي -->
- <!-- ======================================================= -->
- <div id="view-students" role="tabpanel" style="display: none;">
- <div class="card-header">
- <div>
- <h2 style="font-size: 1.35rem; font-weight: 800;">الطلاب المسجلين بقسم القرآن الكريم وعلومه</h2>
- <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
- استعراض كافة الحسابات المسجلة ومتابعة صلاحياتهم.
- </p>
- </div>
- </div>
+      <!-- ======================================================= -->
+      <!-- التبويب 3: الإشراف على الطلاب وسجل النشاط الحي -->
+      <!-- ======================================================= -->
+      <div id="view-students" role="tabpanel" style="display: none;">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800;">الطلاب المسجلين بقسم القرآن الكريم وعلومه</h2>
+            <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+              استعراض كافة الحسابات المسجلة ومتابعة صلاحياتهم.
+            </p>
+          </div>
+        </div>
 
- <div style="overflow-x: auto; margin-bottom: 2.5rem;">
- <table class="admin-table" id="table-students">
- <thead>
- <tr>
- <th>اسم الطالب</th>
- <th>البريد الأكاديمي</th>
- <th>الصفة / الرتبة</th>
- <th>تاريخ الانضمام</th>
- </tr>
- </thead>
- <tbody id="tbody-students">
- <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">جاري جلب قائمة الطلاب...</td></tr>
- </tbody>
- </table>
- </div>
+        <div style="overflow-x: auto; margin-bottom: 2.5rem;">
+          <table class="admin-table" id="table-students">
+            <thead>
+              <tr>
+                <th>اسم الطالب</th>
+                <th>البريد الأكاديمي</th>
+                <th>الصفة / الرتبة</th>
+                <th>تاريخ الانضمام</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-students">
+              <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">جاري جلب قائمة الطلاب...</td></tr>
+            </tbody>
+          </table>
+        </div>
 
- <div class="card-header">
- <div>
- <h2 style="font-size: 1.35rem; font-weight: 800;">أحدث محاولات الاختبارات للطلاب (Live Audit)</h2>
- <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
- يمكن للمشرف الضغط على أي نتيجة للاطلاع على كشف المراجعة وإجابات الطالب تفصيلاً.
- </p>
- </div>
- </div>
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800;">أحدث محاولات الاختبارات للطلاب (Live Audit)</h2>
+            <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+              يمكن للمشرف الضغط على أي نتيجة للاطلاع على كشف المراجعة وإجابات الطالب تفصيلاً.
+            </p>
+          </div>
+        </div>
 
- <div style="overflow-x: auto;">
- <table class="admin-table" id="table-submissions">
- <thead>
- <tr>
- <th>اسم الطالب</th>
- <th>النموذج الاختباري</th>
- <th>المقرر</th>
- <th>الدرجة</th>
- <th>النسبة</th>
- <th>الحالة</th>
- <th>تاريخ الإنجاز</th>
- <th>المراجعة الأكاديمية</th>
- </tr>
- </thead>
- <tbody id="tbody-submissions">
- <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">جاري جلب سجل المحاولات...</td></tr>
- </tbody>
- </table>
- </div>
- </div>
+        <div style="overflow-x: auto;">
+          <table class="admin-table" id="table-submissions">
+            <thead>
+              <tr>
+                <th>اسم الطالب</th>
+                <th>النموذج الاختباري</th>
+                <th>المقرر</th>
+                <th>الدرجة</th>
+                <th>النسبة</th>
+                <th>الحالة</th>
+                <th>تاريخ الإنجاز</th>
+                <th>المراجعة الأكاديمية</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-submissions">
+              <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">جاري جلب سجل المحاولات...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
- <!-- ======================================================= -->
- <!-- التبويب 4: حالة النظام والأمان السحابي -->
- <!-- ======================================================= -->
- <div id="view-health" role="tabpanel" style="display: none;">
- <div class="card-header">
- <div>
- <h2 style="font-size: 1.35rem; font-weight: 800;">مؤشرات الأمان والسلامة السحابية</h2>
- <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
- تقرير التدقيق الأمني المباشر لحالة خادم قاعدة البيانات وسياسات الحماية.
- </p>
- </div>
- </div>
+      <!-- ======================================================= -->
+      <!-- التبويب 4: حالة النظام والأمان السحابي -->
+      <!-- ======================================================= -->
+      <div id="view-health" role="tabpanel" style="display: none;">
+        <div class="card-header">
+          <div>
+            <h2 style="font-size: 1.35rem; font-weight: 800;">مؤشرات الأمان والسلامة السحابية</h2>
+            <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.2rem;">
+              تقرير التدقيق الأمني المباشر لحالة خادم قاعدة البيانات وسياسات الحماية.
+            </p>
+          </div>
+        </div>
 
- <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
- <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
- <strong>خادم PostgreSQL السحابي</strong>
- <span class="badge badge-success">متصل ونشط </span>
- </div>
- <p style="font-size: 0.88rem; color: var(--text-muted);">
- الإصدار: PostgreSQL 17.6 (Frankfurt eu-central-1).
- </p>
- </div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+          <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <strong>خادم PostgreSQL السحابي</strong>
+              <span class="badge badge-success">متصل ونشط </span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              الإصدار: PostgreSQL 17.6 (Frankfurt eu-central-1).
+            </p>
+          </div>
 
- <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
- <strong>سياسات الأمان (RLS)</strong>
- <span class="badge badge-success">7 من 7 مفعلة </span>
- </div>
- <p style="font-size: 0.88rem; color: var(--text-muted);">
- عزل تام لكافة الجداول وحماية بنوك الأسئلة من الاستعلام المباشر.
- </p>
- </div>
+          <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <strong>سياسات الأمان (RLS)</strong>
+              <span class="badge badge-success">7 من 7 مفعلة </span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              عزل تام لكافة الجداول وحماية بنوك الأسئلة من الاستعلام المباشر.
+            </p>
+          </div>
 
- <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
- <strong>منع تصعيد الصلاحيات</strong>
- <span class="badge badge-success">محفز أمني نشط صحيحة</span>
- </div>
- <p style="font-size: 0.88rem; color: var(--text-muted);">
- محفز `trg_prevent_role_escalation` يمنع تعديل رتب المستخدمين.
- </p>
- </div>
+          <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <strong>منع تصعيد الصلاحيات</strong>
+              <span class="badge badge-success">محفز أمني نشط ✓</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              محفز `trg_prevent_role_escalation` يمنع تعديل رتب المستخدمين.
+            </p>
+          </div>
 
- <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
- <strong>مكافحة تضخيم الدرجات</strong>
- <span class="badge badge-success">فلترة أحادية نشطة صحيحة</span>
- </div>
- <p style="font-size: 0.88rem; color: var(--text-muted);">
- دالة `submit_exam_answers` تحظر احتساب أي سؤال مكرر.
- </p>
- </div>
- </div>
- </div>
+          <div style="background: var(--surface-secondary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <strong>مكافحة تضخيم الدرجات</strong>
+              <span class="badge badge-success">فلترة أحادية نشطة ✓</span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              دالة `submit_exam_answers` تحظر احتساب أي سؤال مكرر.
+            </p>
+          </div>
+        </div>
+      </div>
 
- </section>
+    </section>
 
- </main>
+  </main>
 
- <footer class="footer" role="contentinfo">
- <div class="container footer-content">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
- </div>
- <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
- منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
- </p>
- <ul class="footer-links">
- <li><a href="index.html" class="footer-link">الرئيسية</a></li>
- <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
- <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
- <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
- <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
- </ul>
- <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
- جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
- </p>
- </div>
- </footer>
+    <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
+      </div>
+      <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
+        منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
+      </p>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+        <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
+        <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
+        <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
+        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+      </ul>
+      <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
+        جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
+      </p>
+    </div>
+  </footer>
 
- <script src="js/config.js"></script>
- <script src="js/a11y.js"></script>
- <script src="js/auth.js"></script>
- <script src="js/db.js"></script>
- <script>
- let activeAdminTab = 'subjects';
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    let activeAdminTab = 'subjects';
 
- document.addEventListener('DOMContentLoaded', async  => {
- document.getElementById('theme-toggle')?.addEventListener('click',  => window.a11y?.toggleTheme);
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
 
- const user = await window.authManager.init;
- window.db.init;
+      const user = await window.authManager.init();
+      window.db.init();
 
- if (!user) {
- alert('يجب تسجيل الدخول أولاً للوصول للوحة الإدارة الأكاديمية.');
- window.location.href = 'auth.html?redirect=admin.html';
- return;
- }
+      if (!user) {
+        alert('يجب تسجيل الدخول أولاً للوصول للوحة الإدارة الأكاديمية.');
+        window.location.href = 'auth.html?redirect=admin.html';
+        return;
+      }
 
- if (user.role!== 'admin') {
- alert('عذراً! لا تملك صلاحيات المشرف الأكاديمي للوصول لهذه اللوحة.');
- window.location.href = 'dashboard.html';
- return;
- }
+      if (user.role !== 'admin') {
+        alert('عذراً! لا تملك صلاحيات المشرف الأكاديمي للوصول لهذه اللوحة.');
+        window.location.href = 'dashboard.html';
+        return;
+      }
 
- document.getElementById('admin-user-info').textContent =
- `المشرف الأكاديمي: ${user.fullName} (${user.email}) | الصلاحية: المشرف الأساسي للمنظومة`;
+      document.getElementById('admin-user-info').textContent = 
+        `المشرف الأكاديمي: ${user.fullName} (${user.email}) | الصلاحية: المشرف الأساسي للمنظومة`;
 
- setupAdminTabs;
- setupFormListeners;
- await refreshAllData;
+      setupAdminTabs();
+      setupFormListeners();
+      await refreshAllData();
 
- document.getElementById('btn-refresh-admin-data')?.addEventListener('click',  => refreshAllData);
- });
+      document.getElementById('btn-refresh-admin-data')?.addEventListener('click', () => refreshAllData());
+    });
 
- function setupAdminTabs {
- const tabs = [
- { btn: 'tab-btn-subjects', view: 'view-subjects', name: 'subjects' },
- { btn: 'tab-btn-exams', view: 'view-exams', name: 'exams' },
- { btn: 'tab-btn-students', view: 'view-students', name: 'students' },
- { btn: 'tab-btn-health', view: 'view-health', name: 'health' }
- ];
+    function setupAdminTabs() {
+      const tabs = [
+        { btn: 'tab-btn-subjects', view: 'view-subjects', name: 'subjects' },
+        { btn: 'tab-btn-exams', view: 'view-exams', name: 'exams' },
+        { btn: 'tab-btn-students', view: 'view-students', name: 'students' },
+        { btn: 'tab-btn-health', view: 'view-health', name: 'health' }
+      ];
 
- tabs.forEach(t => {
- document.getElementById(t.btn)?.addEventListener('click',  => {
- activeAdminTab = t.name;
- tabs.forEach(o => {
- const btnEl = document.getElementById(o.btn);
- const viewEl = document.getElementById(o.view);
- if (o.name === t.name) {
- btnEl.classList.add('active');
- btnEl.setAttribute('aria-selected', 'true');
- viewEl.style.display = 'block';
- } else {
- btnEl.classList.remove('active');
- btnEl.setAttribute('aria-selected', 'false');
- viewEl.style.display = 'none';
- }
- });
- window.a11y?.announce(`تم الانتقال إلى تبويب ${document.getElementById(t.btn).textContent}`);
- });
- });
- }
+      tabs.forEach(t => {
+        document.getElementById(t.btn)?.addEventListener('click', () => {
+          activeAdminTab = t.name;
+          tabs.forEach(o => {
+            const btnEl = document.getElementById(o.btn);
+            const viewEl = document.getElementById(o.view);
+            if (o.name === t.name) {
+              btnEl.classList.add('active');
+              btnEl.setAttribute('aria-selected', 'true');
+              viewEl.style.display = 'block';
+            } else {
+              btnEl.classList.remove('active');
+              btnEl.setAttribute('aria-selected', 'false');
+              viewEl.style.display = 'none';
+            }
+          });
+          window.a11y?.announce(`تم الانتقال إلى تبويب ${document.getElementById(t.btn).textContent}`);
+        });
+      });
+    }
 
- async function refreshAllData {
- await Promise.all([
- loadOverviewStats,
- loadSubjectsTable,
- loadExamsTable,
- loadStudentsTable,
- loadSubmissionsTable,
- refreshSelects
- ]);
- window.a11y?.announce('تم تحديث كافة بيانات الإدارة بنجاح');
- }
+    async function refreshAllData() {
+      await Promise.all([
+        loadOverviewStats(),
+        loadSubjectsTable(),
+        loadExamsTable(),
+        loadStudentsTable(),
+        loadSubmissionsTable(),
+        refreshSelects()
+      ]);
+      window.a11y?.announce('تم تحديث كافة بيانات الإدارة بنجاح');
+    }
 
- async function loadOverviewStats {
- try {
- const stats = await window.db.getAdminOverview;
- document.getElementById('stat-admin-subjects').textContent = stats.subjectsCount;
- document.getElementById('stat-admin-exams').textContent = stats.examsCount;
- document.getElementById('stat-admin-students').textContent = stats.studentsCount;
- document.getElementById('stat-admin-submissions').textContent = stats.submissionsCount;
- } catch (e) {
- console.warn('Error loading stats:', e);
- }
- }
+    async function loadOverviewStats() {
+      try {
+        const stats = await window.db.getAdminOverview();
+        document.getElementById('stat-admin-subjects').textContent = stats.subjectsCount;
+        document.getElementById('stat-admin-exams').textContent = stats.examsCount;
+        document.getElementById('stat-admin-students').textContent = stats.studentsCount;
+        document.getElementById('stat-admin-submissions').textContent = stats.submissionsCount;
+      } catch (e) {
+        console.warn('Error loading stats:', e);
+      }
+    }
 
- // ========================================================
- // إدارة المقررات (حذف مباشر + تفعيل/تعطيل)
- // ========================================================
- async function loadSubjectsTable {
- const tbody = document.getElementById('tbody-subjects');
- try {
- const subjects = await window.db.getSubjects(true);
+    // ========================================================
+    // إدارة المقررات (حذف مباشر + تفعيل/تعطيل)
+    // ========================================================
+    async function loadSubjectsTable() {
+      const tbody = document.getElementById('tbody-subjects');
+      try {
+        const subjects = await window.db.getSubjects(true);
 
- if (!subjects || subjects.length === 0) {
- tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">لا توجد أي مقررات مسجلة بالمنصة حالياً.</td></tr>`;
- return;
- }
+        if (!subjects || subjects.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">لا توجد أي مقررات مسجلة بالمنصة حالياً.</td></tr>`;
+          return;
+        }
 
- tbody.innerHTML = subjects.map(s => {
- const dateStr = s.created_at ? new Date(s.created_at).toLocaleDateString('ar-YE'): '—';
- const isActive = Boolean(s.is_active);
+        tbody.innerHTML = subjects.map(s => {
+          const dateStr = s.created_at ? new Date(s.created_at).toLocaleDateString('ar-YE') : '—';
+          const isActive = Boolean(s.is_active);
 
- return `
- <tr id="row-subj-${s.id}">
- <td style="font-weight: 700; color: var(--primary);" dir="ltr">${window.authManager.escapeHtml(s.code || '—')}</td>
- <td style="font-weight: 800; font-size: 1.05rem;">${window.authManager.escapeHtml(s.title)}</td>
- <td>
- <!-- مفتاح تبديل الحالة متوافق مع قارئات الشاشة (Toggle Switch) -->
- <button
- type="button"
- role="switch"
- aria-checked="${isActive}"
- class="a11y-switch-btn btn-switch-subject"
- data-id="${s.id}"
- data-title="${window.authManager.escapeHtml(s.title)}"
- data-active="${isActive}"
- aria-label="حالة مقرر ${window.authManager.escapeHtml(s.title)}: ${isActive ? 'نشط ومتاح للطلاب، انقر مرتين للتعطيل والإخفاء': 'معطل ومخفي عن الطلاب، انقر مرتين للتفعيل والإظهار'}"
- >
- <span class="switch-track" aria-hidden="true">
- <span class="switch-thumb"></span>
- </span>
- <span class="switch-label-text">${isActive ? 'نشط متاح ': 'معطل ومخفي '}</span>
- </button>
- </td>
- <td style="color: var(--text-muted); font-size: 0.88rem;">${dateStr}</td>
- <td>
- <div class="table-actions">
- <!-- زر الحذف الحتمي -->
- <button type="button" class="btn-icon btn-icon-danger btn-delete-subject" data-id="${s.id}" data-title="${window.authManager.escapeHtml(s.title)}" aria-label="حذف مقرر ${window.authManager.escapeHtml(s.title)} نهائياً">
- حذف المقرر
- </button>
+          return `
+            <tr id="row-subj-${s.id}">
+              <td style="font-weight: 700; color: var(--primary);" dir="ltr">${window.authManager.escapeHtml(s.code || '—')}</td>
+              <td style="font-weight: 800; font-size: 1.05rem;">${window.authManager.escapeHtml(s.title)}</td>
+              <td>
+                <!-- مفتاح تبديل الحالة متوافق مع قارئات الشاشة (Toggle Switch) -->
+                <button 
+                  type="button" 
+                  role="switch" 
+                  aria-checked="${isActive}" 
+                  class="a11y-switch-btn btn-switch-subject" 
+                  data-id="${s.id}" 
+                  data-title="${window.authManager.escapeHtml(s.title)}"
+                  data-active="${isActive}"
+                  aria-label="حالة مقرر ${window.authManager.escapeHtml(s.title)}: ${isActive ? 'نشط ومتاح للطلاب، انقر مرتين للتعطيل والإخفاء' : 'معطل ومخفي عن الطلاب، انقر مرتين للتفعيل والإظهار'}"
+                >
+                  <span class="switch-track" aria-hidden="true">
+                    <span class="switch-thumb"></span>
+                  </span>
+                  <span class="switch-label-text">${isActive ? 'نشط متاح ' : 'معطل ومخفي '}</span>
+                </button>
+              </td>
+              <td style="color: var(--text-muted); font-size: 0.88rem;">${dateStr}</td>
+              <td>
+                <div class="table-actions">
+                  <!-- زر الحذف الحتمي -->
+                  <button type="button" class="btn-icon btn-icon-danger btn-delete-subject" data-id="${s.id}" data-title="${window.authManager.escapeHtml(s.title)}" aria-label="حذف مقرر ${window.authManager.escapeHtml(s.title)} نهائياً">
+                     حذف المقرر
+                  </button>
 
- <!-- مجموعة أزرار اختيار الحالة لقارئات الشاشة (Radio Group) -->
- <div role="radiogroup" class="a11y-status-radiogroup" aria-label="تحديد حالة ظهور مقرر ${window.authManager.escapeHtml(s.title)}">
- <button
- type="button"
- role="radio"
- aria-checked="${isActive ? 'true': 'false'}"
- class="a11y-radio-btn btn-radio-subject ${isActive ? 'selected-active': ''}"
- data-id="${s.id}"
- data-target="true"
- data-title="${window.authManager.escapeHtml(s.title)}"
- aria-label="تفعيل مقرر ${window.authManager.escapeHtml(s.title)}"
- >
- <span class="radio-indicator" aria-hidden="true"></span>
- <span>نشط </span>
- </button>
- <button
- type="button"
- role="radio"
- aria-checked="${!isActive ? 'true': 'false'}"
- class="a11y-radio-btn btn-radio-subject ${!isActive ? 'selected-inactive': ''}"
- data-id="${s.id}"
- data-target="false"
- data-title="${window.authManager.escapeHtml(s.title)}"
- aria-label="تعطيل مقرر ${window.authManager.escapeHtml(s.title)}"
- >
- <span class="radio-indicator" aria-hidden="true"></span>
- <span>مخفي </span>
- </button>
- </div>
- </div>
- </td>
- </tr>
- `;
- }).join('');
+                  <!-- مجموعة أزرار اختيار الحالة لقارئات الشاشة (Radio Group) -->
+                  <div role="radiogroup" class="a11y-status-radiogroup" aria-label="تحديد حالة ظهور مقرر ${window.authManager.escapeHtml(s.title)}">
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${isActive ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-subject ${isActive ? 'selected-active' : ''}" 
+                      data-id="${s.id}" 
+                      data-target="true" 
+                      data-title="${window.authManager.escapeHtml(s.title)}"
+                      aria-label="تفعيل مقرر ${window.authManager.escapeHtml(s.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>نشط </span>
+                    </button>
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${!isActive ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-subject ${!isActive ? 'selected-inactive' : ''}" 
+                      data-id="${s.id}" 
+                      data-target="false" 
+                      data-title="${window.authManager.escapeHtml(s.title)}"
+                      aria-label="تعطيل مقرر ${window.authManager.escapeHtml(s.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>مخفي </span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
 
- // 1. ربط مفتاح التبديل المتوافق (Toggle Switch)
- tbody.querySelectorAll('.btn-switch-subject').forEach(btn => {
- btn.addEventListener('click', async  => {
- const sid = btn.getAttribute('data-id');
- const stitle = btn.getAttribute('data-title');
- const curActive = btn.getAttribute('data-active') === 'true';
- btn.disabled = true;
- try {
- const newActive = await window.db.toggleSubjectActive(sid, curActive);
- const msg = newActive ? `تم تفعيل وإظهار مقرر (${stitle}) للطلاب `: `تم تعطيل وإخفاء مقرر (${stitle}) عن الطلاب `;
- window.a11y?.announce(msg);
- await refreshAllData;
- } catch (err) {
- btn.disabled = false;
- }
- });
- });
+        // 1. ربط مفتاح التبديل المتوافق (Toggle Switch)
+        tbody.querySelectorAll('.btn-switch-subject').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const sid = btn.getAttribute('data-id');
+            const stitle = btn.getAttribute('data-title');
+            const curActive = btn.getAttribute('data-active') === 'true';
+            btn.disabled = true;
+            try {
+              const newActive = await window.db.toggleSubjectActive(sid, curActive);
+              const msg = newActive ? `تم تفعيل وإظهار مقرر (${stitle}) للطلاب ` : `تم تعطيل وإخفاء مقرر (${stitle}) عن الطلاب `;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (err) {
+              btn.disabled = false;
+            }
+          });
+        });
 
- // 2. ربط مجموعة أزرار الاختيار (Radio Group)
- tbody.querySelectorAll('.btn-radio-subject').forEach(btn => {
- btn.addEventListener('click', async  => {
- const sid = btn.getAttribute('data-id');
- const stitle = btn.getAttribute('data-title');
- const targetActive = btn.getAttribute('data-target') === 'true';
- try {
- await window.db.toggleSubjectActive(sid,!targetActive);
- const msg = targetActive ? `تم تفعيل مقرر (${stitle}) `: `تم إخفاء مقرر (${stitle}) `;
- window.a11y?.announce(msg);
- await refreshAllData;
- } catch (e) {}
- });
- });
+        // 2. ربط مجموعة أزرار الاختيار (Radio Group)
+        tbody.querySelectorAll('.btn-radio-subject').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const sid = btn.getAttribute('data-id');
+            const stitle = btn.getAttribute('data-title');
+            const targetActive = btn.getAttribute('data-target') === 'true';
+            try {
+              await window.db.toggleSubjectActive(sid, !targetActive);
+              const msg = targetActive ? `تم تفعيل مقرر (${stitle}) ` : `تم إخفاء مقرر (${stitle}) `;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (e) {}
+          });
+        });
 
- // 3. ربط أحداث الحذف الحتمي للمقرر
- tbody.querySelectorAll('.btn-delete-subject').forEach(btn => {
- btn.addEventListener('click', async  => {
- const sid = btn.getAttribute('data-id');
- const stitle = btn.getAttribute('data-title');
+        // 3. ربط أحداث الحذف الحتمي للمقرر
+        tbody.querySelectorAll('.btn-delete-subject').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const sid = btn.getAttribute('data-id');
+            const stitle = btn.getAttribute('data-title');
 
- const confirmMsg = `تنبيه: تحذير إداري:
+            const confirmMsg = `تنبيه: تحذير إداري:
 
 هل أنت متأكد من رغبتك في حذف مقرر (${stitle}) نهائياً؟
 
 • سيتم فوراً حذف المقرر وجميع النماذج الاختبارية والأسئلة التابعة له من كافة الواجهات.
 • هذا الإجراء نهائي ولا يمكن التراجع عنه.`;
 
- if (confirm(confirmMsg)) {
- try {
- btn.disabled = true;
- btn.textContent = 'جاري الحذف...';
- await window.db.deleteSubject(sid);
- window.a11y?.announce(`تم بنجاح حذف مقرر ${stitle} وكافة اختباراته وأسئلته`);
- await refreshAllData;
- } catch (err) {
- btn.disabled = false;
- btn.textContent = ' حذف المقرر';
- }
- }
- });
- });
+            if (confirm(confirmMsg)) {
+              try {
+                btn.disabled = true;
+                btn.textContent = 'جاري الحذف...';
+                await window.db.deleteSubject(sid);
+                window.a11y?.announce(`تم بنجاح حذف مقرر ${stitle} وكافة اختباراته وأسئلته`);
+                await refreshAllData();
+              } catch (err) {
+                btn.disabled = false;
+                btn.textContent = ' حذف المقرر';
+              }
+            }
+          });
+        });
 
- } catch (e) {
- tbody.innerHTML = `<tr><td colspan="5" style="color: var(--danger); text-align: center;">خطأ في جلب المقررات: ${e.message}</td></tr>`;
- }
- }
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="5" style="color: var(--danger); text-align: center;">خطأ في جلب المقررات: ${e.message}</td></tr>`;
+      }
+    }
 
- async function loadExamsTable {
- const tbody = document.getElementById('tbody-exams');
- try {
- const exams = await window.db.getAllExams;
+    async function loadExamsTable() {
+      const tbody = document.getElementById('tbody-exams');
+      try {
+        const exams = await window.db.getAllExams();
 
- if (!exams || exams.length === 0) {
- tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">لا توجد أي نماذج اختبارية منشورة بالقسم حالياً.</td></tr>`;
- return;
- }
+        if (!exams || exams.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">لا توجد أي نماذج اختبارية منشورة بالقسم حالياً.</td></tr>`;
+          return;
+        }
 
- tbody.innerHTML = exams.map(ex => {
- const isPub = Boolean(ex.is_published);
+        tbody.innerHTML = exams.map(ex => {
+          const isPub = Boolean(ex.is_published);
 
- return `
- <tr>
- <td style="font-weight: 800;">${window.authManager.escapeHtml(ex.title)}</td>
- <td style="color: var(--primary); font-weight: 700;">${window.authManager.escapeHtml(ex.subjects?.title || 'عام')}</td>
- <td>${ex.duration_minutes > 0 ? ex.duration_minutes + ' دقيقة': 'مفتوح'}</td>
- <td>${ex.passing_percentage}%</td>
- <td>
- <!-- مفتاح تبديل النشر متوافق مع قارئات الشاشة (Toggle Switch) -->
- <button
- type="button"
- role="switch"
- aria-checked="${isPub}"
- class="a11y-switch-btn btn-switch-exam"
- data-id="${ex.id}"
- data-title="${window.authManager.escapeHtml(ex.title)}"
- data-pub="${isPub}"
- aria-label="حالة نموذج ${window.authManager.escapeHtml(ex.title)}: ${isPub ? 'منشور للطلاب، انقر للتحويل إلى مسودة': 'مسودة مخفية، انقر للنشر للطلاب'}"
- >
- <span class="switch-track" aria-hidden="true">
- <span class="switch-thumb"></span>
- </span>
- <span class="switch-label-text">${isPub ? 'منشور للطلاب ': 'مسودة مخفية '}</span>
- </button>
- </td>
- <td>
- <div class="table-actions">
- <button type="button" class="btn-icon btn-icon-danger btn-delete-exam" data-id="${ex.id}" data-title="${window.authManager.escapeHtml(ex.title)}" aria-label="حذف نموذج ${window.authManager.escapeHtml(ex.title)}">
- حذف
- </button>
+          return `
+            <tr>
+              <td style="font-weight: 800;">${window.authManager.escapeHtml(ex.title)}</td>
+              <td style="color: var(--primary); font-weight: 700;">${window.authManager.escapeHtml(ex.subjects?.title || 'عام')}</td>
+              <td>${ex.duration_minutes > 0 ? ex.duration_minutes + ' دقيقة' : 'مفتوح'}</td>
+              <td>${ex.passing_percentage}%</td>
+              <td>
+                <!-- مفتاح تبديل النشر متوافق مع قارئات الشاشة (Toggle Switch) -->
+                <button 
+                  type="button" 
+                  role="switch" 
+                  aria-checked="${isPub}" 
+                  class="a11y-switch-btn btn-switch-exam" 
+                  data-id="${ex.id}" 
+                  data-title="${window.authManager.escapeHtml(ex.title)}"
+                  data-pub="${isPub}"
+                  aria-label="حالة نموذج ${window.authManager.escapeHtml(ex.title)}: ${isPub ? 'منشور للطلاب، انقر للتحويل إلى مسودة' : 'مسودة مخفية، انقر للنشر للطلاب'}"
+                >
+                  <span class="switch-track" aria-hidden="true">
+                    <span class="switch-thumb"></span>
+                  </span>
+                  <span class="switch-label-text">${isPub ? 'منشور للطلاب ' : 'مسودة مخفية '}</span>
+                </button>
+              </td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" class="btn-icon btn-icon-danger btn-delete-exam" data-id="${ex.id}" data-title="${window.authManager.escapeHtml(ex.title)}" aria-label="حذف نموذج ${window.authManager.escapeHtml(ex.title)}">
+                     حذف
+                  </button>
 
- <a href="exam.html?id=${ex.id}" class="btn-icon btn-icon-primary" target="_blank" aria-label="معاينة نموذج ${window.authManager.escapeHtml(ex.title)}">
- معاينة
- </a>
+                  <a href="exam.html?id=${ex.id}" class="btn-icon btn-icon-primary" target="_blank" aria-label="معاينة نموذج ${window.authManager.escapeHtml(ex.title)}">
+                     معاينة
+                  </a>
 
- <!-- مجموعة أزرار اختيار النشر لقارئات الشاشة (Radio Group) -->
- <div role="radiogroup" class="a11y-status-radiogroup" aria-label="تحديد حالة نشر نموذج ${window.authManager.escapeHtml(ex.title)}">
- <button
- type="button"
- role="radio"
- aria-checked="${isPub ? 'true': 'false'}"
- class="a11y-radio-btn btn-radio-exam ${isPub ? 'selected-active': ''}"
- data-id="${ex.id}"
- data-target="true"
- data-title="${window.authManager.escapeHtml(ex.title)}"
- aria-label="نشر نموذج ${window.authManager.escapeHtml(ex.title)}"
- >
- <span class="radio-indicator" aria-hidden="true"></span>
- <span>منشور </span>
- </button>
- <button
- type="button"
- role="radio"
- aria-checked="${!isPub ? 'true': 'false'}"
- class="a11y-radio-btn btn-radio-exam ${!isPub ? 'selected-inactive': ''}"
- data-id="${ex.id}"
- data-target="false"
- data-title="${window.authManager.escapeHtml(ex.title)}"
- aria-label="إخفاء نموذج ${window.authManager.escapeHtml(ex.title)}"
- >
- <span class="radio-indicator" aria-hidden="true"></span>
- <span>مسودة </span>
- </button>
- </div>
- </div>
- </td>
- </tr>
- `;
- }).join('');
+                  <!-- مجموعة أزرار اختيار النشر لقارئات الشاشة (Radio Group) -->
+                  <div role="radiogroup" class="a11y-status-radiogroup" aria-label="تحديد حالة نشر نموذج ${window.authManager.escapeHtml(ex.title)}">
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${isPub ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-exam ${isPub ? 'selected-active' : ''}" 
+                      data-id="${ex.id}" 
+                      data-target="true" 
+                      data-title="${window.authManager.escapeHtml(ex.title)}"
+                      aria-label="نشر نموذج ${window.authManager.escapeHtml(ex.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>منشور </span>
+                    </button>
+                    <button 
+                      type="button" 
+                      role="radio" 
+                      aria-checked="${!isPub ? 'true' : 'false'}" 
+                      class="a11y-radio-btn btn-radio-exam ${!isPub ? 'selected-inactive' : ''}" 
+                      data-id="${ex.id}" 
+                      data-target="false" 
+                      data-title="${window.authManager.escapeHtml(ex.title)}"
+                      aria-label="إخفاء نموذج ${window.authManager.escapeHtml(ex.title)}"
+                    >
+                      <span class="radio-indicator" aria-hidden="true"></span>
+                      <span>مسودة </span>
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
 
- // 1. ربط مفتاح التبديل (Toggle Switch)
- tbody.querySelectorAll('.btn-switch-exam').forEach(btn => {
- btn.addEventListener('click', async  => {
- const eid = btn.getAttribute('data-id');
- const etitle = btn.getAttribute('data-title');
- const curPub = btn.getAttribute('data-pub') === 'true';
- btn.disabled = true;
- try {
- const newPub = await window.db.toggleExamPublish(eid, curPub);
- const msg = newPub ? `تم نشر نموذج (${etitle}) للطلاب `: `تم تحويل نموذج (${etitle}) إلى مسودة مخفية `;
- window.a11y?.announce(msg);
- await refreshAllData;
- } catch (e) {
- btn.disabled = false;
- }
- });
- });
+        // 1. ربط مفتاح التبديل (Toggle Switch)
+        tbody.querySelectorAll('.btn-switch-exam').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const eid = btn.getAttribute('data-id');
+            const etitle = btn.getAttribute('data-title');
+            const curPub = btn.getAttribute('data-pub') === 'true';
+            btn.disabled = true;
+            try {
+              const newPub = await window.db.toggleExamPublish(eid, curPub);
+              const msg = newPub ? `تم نشر نموذج (${etitle}) للطلاب ` : `تم تحويل نموذج (${etitle}) إلى مسودة مخفية `;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (e) {
+              btn.disabled = false;
+            }
+          });
+        });
 
- // 2. ربط مجموعة أزرار الاختيار (Radio Group)
- tbody.querySelectorAll('.btn-radio-exam').forEach(btn => {
- btn.addEventListener('click', async  => {
- const eid = btn.getAttribute('data-id');
- const etitle = btn.getAttribute('data-title');
- const targetPub = btn.getAttribute('data-target') === 'true';
- try {
- await window.db.toggleExamPublish(eid,!targetPub);
- const msg = targetPub ? `تم نشر نموذج (${etitle}) للطلاب `: `تم إخفاء نموذج (${etitle}) كمسودة `;
- window.a11y?.announce(msg);
- await refreshAllData;
- } catch (e) {}
- });
- });
+        // 2. ربط مجموعة أزرار الاختيار (Radio Group)
+        tbody.querySelectorAll('.btn-radio-exam').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const eid = btn.getAttribute('data-id');
+            const etitle = btn.getAttribute('data-title');
+            const targetPub = btn.getAttribute('data-target') === 'true';
+            try {
+              await window.db.toggleExamPublish(eid, !targetPub);
+              const msg = targetPub ? `تم نشر نموذج (${etitle}) للطلاب ` : `تم إخفاء نموذج (${etitle}) كمسودة `;
+              window.a11y?.announce(msg);
+              await refreshAllData();
+            } catch (e) {}
+          });
+        });
 
- // 3. ربط حذف النموذج
- tbody.querySelectorAll('.btn-delete-exam').forEach(btn => {
- btn.addEventListener('click', async  => {
- const eid = btn.getAttribute('data-id');
- const etitle = btn.getAttribute('data-title');
- if (confirm(`هل أنت متأكد من حذف النموذج الاختباري (${etitle}) نهائياً؟`)) {
- await window.db.deleteExam(eid);
- window.a11y?.announce(`تم حذف النموذج الاختباري ${etitle} بنجاح`);
- await refreshAllData;
- }
- });
- });
+        // 3. ربط حذف النموذج
+        tbody.querySelectorAll('.btn-delete-exam').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const eid = btn.getAttribute('data-id');
+            const etitle = btn.getAttribute('data-title');
+            if (confirm(`هل أنت متأكد من حذف النموذج الاختباري (${etitle}) نهائياً؟`)) {
+              await window.db.deleteExam(eid);
+              window.a11y?.announce(`تم حذف النموذج الاختباري ${etitle} بنجاح`);
+              await refreshAllData();
+            }
+          });
+        });
 
- } catch (e) {
- tbody.innerHTML = `<tr><td colspan="6" style="color: var(--danger); text-align: center;">خطأ: ${e.message}</td></tr>`;
- }
- }
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="6" style="color: var(--danger); text-align: center;">خطأ: ${e.message}</td></tr>`;
+      }
+    }
 
- // ========================================================
- // الإشراف على الطلاب وسجلات المحاولات
- // ========================================================
- async function loadStudentsTable {
- const tbody = document.getElementById('tbody-students');
- try {
- const students = await window.db.getStudentsList;
- if (!students || students.length === 0) {
- tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">لا يوجد طلاب مسجلون بعد.</td></tr>`;
- return;
- }
+    // ========================================================
+    // الإشراف على الطلاب وسجلات المحاولات
+    // ========================================================
+    async function loadStudentsTable() {
+      const tbody = document.getElementById('tbody-students');
+      try {
+        const students = await window.db.getStudentsList();
+        if (!students || students.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">لا يوجد طلاب مسجلون بعد.</td></tr>`;
+          return;
+        }
 
- tbody.innerHTML = students.map(st => {
- const dateStr = st.created_at ? new Date(st.created_at).toLocaleDateString('ar-YE'): '—';
- const roleBadge = st.role === 'admin'
- ? '<span class="badge badge-warning">مشرف أكاديمي</span>'
-: '<span class="badge badge-primary">طالب بالقسم</span>';
+        tbody.innerHTML = students.map(st => {
+          const dateStr = st.created_at ? new Date(st.created_at).toLocaleDateString('ar-YE') : '—';
+          const roleBadge = st.role === 'admin' 
+            ? '<span class="badge badge-warning">مشرف أكاديمي</span>' 
+            : '<span class="badge badge-primary">طالب بالقسم</span>';
 
- return `
- <tr>
- <td style="font-weight: 800;">${window.authManager.escapeHtml(st.full_name || 'طالب')}</td>
- <td style="color: var(--text-muted); font-size: 0.9rem;" dir="ltr">${window.authManager.escapeHtml(st.email || '—')}</td>
- <td>${roleBadge}</td>
- <td style="color: var(--text-muted); font-size: 0.88rem;">${dateStr}</td>
- </tr>
- `;
- }).join('');
- } catch (e) {
- tbody.innerHTML = `<tr><td colspan="4" style="color: var(--danger); text-align: center;">خطأ: ${e.message}</td></tr>`;
- }
- }
+          return `
+            <tr>
+              <td style="font-weight: 800;">${window.authManager.escapeHtml(st.full_name || 'طالب')}</td>
+              <td style="color: var(--text-muted); font-size: 0.9rem;" dir="ltr">${window.authManager.escapeHtml(st.email || '—')}</td>
+              <td>${roleBadge}</td>
+              <td style="color: var(--text-muted); font-size: 0.88rem;">${dateStr}</td>
+            </tr>
+          `;
+        }).join('');
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="4" style="color: var(--danger); text-align: center;">خطأ: ${e.message}</td></tr>`;
+      }
+    }
 
- async function loadSubmissionsTable {
- const tbody = document.getElementById('tbody-submissions');
- try {
- const submissions = await window.db.getRecentSubmissions(20);
- if (!submissions || submissions.length === 0) {
- tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">لا توجد محاولات اختبارية بعد.</td></tr>`;
- return;
- }
+    async function loadSubmissionsTable() {
+      const tbody = document.getElementById('tbody-submissions');
+      try {
+        const submissions = await window.db.getRecentSubmissions(20);
+        if (!submissions || submissions.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">لا توجد محاولات اختبارية بعد.</td></tr>`;
+          return;
+        }
 
- tbody.innerHTML = submissions.map(sub => {
- const dateStr = sub.completed_at ? new Date(sub.completed_at).toLocaleDateString('ar-YE', {
- month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
- }): '—';
+        tbody.innerHTML = submissions.map(sub => {
+          const dateStr = sub.completed_at ? new Date(sub.completed_at).toLocaleDateString('ar-YE', {
+            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          }) : '—';
 
- const statusBadge = sub.passed
- ? '<span class="badge badge-success">مجتاز صحيحة</span>'
-: '<span class="badge badge-danger">راسب غير صحيحة</span>';
+          const statusBadge = sub.passed
+            ? '<span class="badge badge-success">مجتاز ✓</span>'
+            : '<span class="badge badge-danger">راسب ✗</span>';
 
- const studentName = sub.profiles?.full_name || sub.user_name || 'طالب';
+          const studentName = sub.profiles?.full_name || sub.user_name || 'طالب';
 
- return `
- <tr>
- <td style="font-weight: 700;">${window.authManager.escapeHtml(studentName)}</td>
- <td style="font-weight: 700;">${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</td>
- <td style="color: var(--text-muted);">${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'عام')}</td>
- <td>${sub.score} / ${sub.total_points}</td>
- <td style="font-weight: 800; color: var(--primary);">${sub.percentage}%</td>
- <td>${statusBadge}</td>
- <td style="font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
- <td>
- <a href="result.html?submission_id=${sub.id}" class="btn-icon btn-icon-primary" aria-label="عرض مراجعة نتيجة ${window.authManager.escapeHtml(studentName)}">
- عرض المراجعة >
- </a>
- </td>
- </tr>
- `;
- }).join('');
- } catch (e) {
- tbody.innerHTML = `<tr><td colspan="8" style="color: var(--danger); text-align: center;">خطأ: ${e.message}</td></tr>`;
- }
- }
+          return `
+            <tr>
+              <td style="font-weight: 700;">${window.authManager.escapeHtml(studentName)}</td>
+              <td style="font-weight: 700;">${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</td>
+              <td style="color: var(--text-muted);">${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'عام')}</td>
+              <td>${sub.score} / ${sub.total_points}</td>
+              <td style="font-weight: 800; color: var(--primary);">${sub.percentage}%</td>
+              <td>${statusBadge}</td>
+              <td style="font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
+              <td>
+                <a href="result.html?submission_id=${sub.id}" class="btn-icon btn-icon-primary" aria-label="عرض مراجعة نتيجة ${window.authManager.escapeHtml(studentName)}">
+                  عرض المراجعة ❯
+                </a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="8" style="color: var(--danger); text-align: center;">خطأ: ${e.message}</td></tr>`;
+      }
+    }
 
- async function refreshSelects {
- const subjects = await window.db.getSubjects(true);
- const exams = await window.db.getAllExams;
+    async function refreshSelects() {
+      const subjects = await window.db.getSubjects(true);
+      const exams = await window.db.getAllExams();
 
- const subjSelect = document.getElementById('exam-select-subject');
- if (subjSelect) {
- subjSelect.innerHTML = '<option value="">-- اختر المقرر الدراسي --</option>' +
- subjects.map(s => `<option value="${s.id}">${window.authManager.escapeHtml(s.title)} (${s.code || ''})</option>`).join('');
- }
+      const subjSelect = document.getElementById('exam-select-subject');
+      if (subjSelect) {
+        subjSelect.innerHTML = '<option value="">-- اختر المقرر الدراسي --</option>' + 
+          subjects.map(s => `<option value="${s.id}">${window.authManager.escapeHtml(s.title)} (${s.code || ''})</option>`).join('');
+      }
 
- const examSelectQ = document.getElementById('q-select-exam');
- const examSelectBulk = document.getElementById('bulk-select-exam');
- const examsOptions = '<option value="">-- اختر النموذج الاختباري --</option>' +
- exams.map(e => `<option value="${e.id}">${window.authManager.escapeHtml(e.title)} (${e.subjects?.title || ''})</option>`).join('');
+      const examSelectQ = document.getElementById('q-select-exam');
+      const examSelectBulk = document.getElementById('bulk-select-exam');
+      const examsOptions = '<option value="">-- اختر النموذج الاختباري --</option>' + 
+        exams.map(e => `<option value="${e.id}">${window.authManager.escapeHtml(e.title)} (${e.subjects?.title || ''})</option>`).join('');
 
- if (examSelectQ) examSelectQ.innerHTML = examsOptions;
- if (examSelectBulk) examSelectBulk.innerHTML = examsOptions;
- }
+      if (examSelectQ) examSelectQ.innerHTML = examsOptions;
+      if (examSelectBulk) examSelectBulk.innerHTML = examsOptions;
+    }
 
- function setupFormListeners {
- // 1. إضافة مقرر جديد
- document.getElementById('form-add-subject')?.addEventListener('submit', async (e) => {
- e.preventDefault;
- const title = document.getElementById('subj-title').value.trim;
- const code = document.getElementById('subj-code').value.trim.toUpperCase;
- const desc = document.getElementById('subj-description').value.trim;
+    function setupFormListeners() {
+      // 1. إضافة مقرر جديد
+      document.getElementById('form-add-subject')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('subj-title').value.trim();
+        const code = document.getElementById('subj-code').value.trim().toUpperCase();
+        const desc = document.getElementById('subj-description').value.trim();
 
- try {
- await window.db.createSubject(title, desc, code);
- alert(`تمت إضافة مقرر (${title}) بنجاح إلى قاعدة البيانات السحابية!`);
- document.getElementById('form-add-subject').reset;
- await refreshAllData;
- } catch (err) {
- alert('حدث خطأ أثناء إضافة المقرر: ' + err.message);
- }
- });
+        try {
+          await window.db.createSubject(title, desc, code);
+          alert(`تمت إضافة مقرر (${title}) بنجاح إلى قاعدة البيانات السحابية!`);
+          document.getElementById('form-add-subject').reset();
+          await refreshAllData();
+        } catch (err) {
+          alert('حدث خطأ أثناء إضافة المقرر: ' + err.message);
+        }
+      });
 
- // 2. إضافة نموذج اختباري
- document.getElementById('form-add-exam')?.addEventListener('submit', async (e) => {
- e.preventDefault;
- const subjectId = document.getElementById('exam-select-subject').value;
- const title = document.getElementById('exam-title-input').value.trim;
- const duration = document.getElementById('exam-duration').value;
- const passing = document.getElementById('exam-passing').value;
+      // 2. إضافة نموذج اختباري
+      document.getElementById('form-add-exam')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const subjectId = document.getElementById('exam-select-subject').value;
+        const title = document.getElementById('exam-title-input').value.trim();
+        const duration = document.getElementById('exam-duration').value;
+        const passing = document.getElementById('exam-passing').value;
 
- try {
- await window.db.createExam(subjectId, title, '', duration, passing, true);
- alert('تم إنشاء النموذج الاختباري بنجاح ونشره سحابياً!');
- document.getElementById('form-add-exam').reset;
- await refreshAllData;
- } catch (err) {
- alert('حدث خطأ أثناء إنشاء الاختبار: ' + err.message);
- }
- });
+        try {
+          await window.db.createExam(subjectId, title, '', duration, passing, true);
+          alert('تم إنشاء النموذج الاختباري بنجاح ونشره سحابياً!');
+          document.getElementById('form-add-exam').reset();
+          await refreshAllData();
+        } catch (err) {
+          alert('حدث خطأ أثناء إنشاء الاختبار: ' + err.message);
+        }
+      });
 
- // 3. إضافة مسألة فردية
- document.getElementById('form-add-question')?.addEventListener('submit', async (e) => {
- e.preventDefault;
- const examId = document.getElementById('q-select-exam').value;
- const qText = document.getElementById('q-text').value.trim;
- const explanation = document.getElementById('q-explanation').value.trim;
- const correctIdx = parseInt(document.querySelector('input[name="correct_choice"]:checked').value, 10);
+      // 3. إضافة مسألة فردية
+      document.getElementById('form-add-question')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const examId = document.getElementById('q-select-exam').value;
+        const qText = document.getElementById('q-text').value.trim();
+        const explanation = document.getElementById('q-explanation').value.trim();
+        const correctIdx = parseInt(document.querySelector('input[name="correct_choice"]:checked').value, 10);
 
- const choices = [];
- for (let i = 0; i < 4; i++) {
- const text = document.getElementById(`c_text_${i}`)?.value?.trim;
- if (text) {
- choices.push({ text, isCorrect: i === correctIdx });
- }
- }
+        const choices = [];
+        for (let i = 0; i < 4; i++) {
+          const text = document.getElementById(`c_text_${i}`)?.value?.trim();
+          if (text) {
+            choices.push({ text, isCorrect: i === correctIdx });
+          }
+        }
 
- if (choices.length < 2) {
- alert('يجب إدخال خيارين على الأقل للمسألة!');
- return;
- }
+        if (choices.length < 2) {
+          alert('يجب إدخال خيارين على الأقل للمسألة!');
+          return;
+        }
 
- try {
- await window.db.addQuestionWithChoices(examId, qText, explanation, 1, choices);
- alert('تمت إضافة المسألة وخياراتها بنجاح!');
- document.getElementById('q-text').value = '';
- document.getElementById('q-explanation').value = '';
- for (let i = 0; i < 4; i++) {
- const el = document.getElementById(`c_text_${i}`);
- if (el) el.value = '';
- }
- } catch (err) {
- alert('حدث خطأ أثناء إضافة السؤال: ' + err.message);
- }
- });
+        try {
+          await window.db.addQuestionWithChoices(examId, qText, explanation, 1, choices);
+          alert('تمت إضافة المسألة وخياراتها بنجاح!');
+          document.getElementById('q-text').value = '';
+          document.getElementById('q-explanation').value = '';
+          for (let i = 0; i < 4; i++) {
+            const el = document.getElementById(`c_text_${i}`);
+            if (el) el.value = '';
+          }
+        } catch (err) {
+          alert('حدث خطأ أثناء إضافة السؤال: ' + err.message);
+        }
+      });
 
- // 4. استيراد بنك أسئلة سريع بـ JSON
- document.getElementById('form-bulk-import')?.addEventListener('submit', async (e) => {
- e.preventDefault;
- const examId = document.getElementById('bulk-select-exam').value;
- const jsonStr = document.getElementById('bulk-json').value.trim;
+      // 4. استيراد بنك أسئلة سريع بـ JSON
+      document.getElementById('form-bulk-import')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const examId = document.getElementById('bulk-select-exam').value;
+        const jsonStr = document.getElementById('bulk-json').value.trim();
 
- try {
- const items = JSON.parse(jsonStr);
- if (!Array.isArray(items)) {
- throw new Error('يجب أن تكون المدخلات مصفوفة JSON تحتوي على كائنات الأسئلة [ {...} ]');
- }
+        try {
+          const items = JSON.parse(jsonStr);
+          if (!Array.isArray(items)) {
+            throw new Error('يجب أن تكون المدخلات مصفوفة JSON تحتوي على كائنات الأسئلة [ {...} ]');
+          }
 
- let count = 0;
- for (const item of items) {
- if (item.question_text && Array.isArray(item.choices) && item.choices.length >= 2) {
- await window.db.addQuestionWithChoices(
- examId,
- item.question_text,
- item.explanation || '',
- item.points || 1,
- item.choices
- );
- count++;
- }
- }
+          let count = 0;
+          for (const item of items) {
+            if (item.question_text && Array.isArray(item.choices) && item.choices.length >= 2) {
+              await window.db.addQuestionWithChoices(
+                examId,
+                item.question_text,
+                item.explanation || '',
+                item.points || 1,
+                item.choices
+              );
+              count++;
+            }
+          }
 
- alert(`تم بنجاح استيراد وإضافة ${count} مسألة إلى بنك أسئلة النموذج سحابياً!`);
- document.getElementById('bulk-json').value = '';
- await refreshAllData;
- } catch (err) {
- alert('خطأ في تنسيق JSON أو أثناء الاستيراد: ' + err.message);
- }
- });
- }
- </script>
- <script src="js/pwa.js"></script>
+          alert(`تم بنجاح استيراد وإضافة ${count} مسألة إلى بنك أسئلة النموذج سحابياً!`);
+          document.getElementById('bulk-json').value = '';
+          await refreshAllData();
+        } catch (err) {
+          alert('خطأ في تنسيق JSON أو أثناء الاستيراد: ' + err.message);
+        }
+      });
+    }
+  </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

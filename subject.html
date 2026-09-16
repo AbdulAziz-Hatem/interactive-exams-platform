@@ -1,202 +1,202 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>استعراض الاختبارات التخصصية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="css/style.css">
- <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
- <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
- <link rel="manifest" href="manifest.json">
- <meta name="theme-color" content="#1e40af">
- <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استعراض الاختبارات التخصصية | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1e40af">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
- <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
+  <a href="#main-content" class="sr-only">تخطي إلى المحتوى الرئيسي</a>
 
- <!-- شريط التنقل العلوي الأكاديمي -->
- <header class="navbar" role="banner">
- <div class="container nav-container">
- <div class="nav-right">
- <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- <span class="hamburger-bar" aria-hidden="true"></span>
- </button>
- <a href="index.html" class="brand">
- <span class="brand-badge">مدارج</span>
- <div class="brand-text-wrapper">
- <span class="brand-title">منصة مدارج</span>
- <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
- </div>
- </a>
- </div>
- <div class="nav-left">
- <div id="nav-auth-container" class="desktop-only"></div>
- <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
- </div>
- </div>
- </header>
+  <!-- شريط التنقل العلوي الأكاديمي -->
+  <header class="navbar" role="banner">
+    <div class="container nav-container">
+      <div class="nav-right">
+        <button id="hamburger-btn" class="hamburger-btn" aria-expanded="false" aria-controls="mobile-sidebar" aria-label="فتح القائمة الرئيسية">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+        <a href="index.html" class="brand">
+          <span class="brand-badge">مدارج</span>
+          <div class="brand-text-wrapper">
+            <span class="brand-title">منصة مدارج</span>
+            <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
+          </div>
+        </a>
+      </div>
+      <div class="nav-left">
+        <div id="nav-auth-container" class="desktop-only"></div>
+        <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">المظهر</button>
+      </div>
+    </div>
+  </header>
 
- <!-- خلفية التعتيم والقائمة الجانبية -->
- <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
- <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
- <div class="sidebar-header">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
- </div>
- <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
- </div>
- <div id="sidebar-user-area" class="sidebar-user-card"></div>
- <nav role="navigation" aria-label="روابط القائمة">
- <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
- </nav>
- <div class="sidebar-footer">
- <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
- </div>
- </aside>
+  <!-- خلفية التعتيم والقائمة الجانبية -->
+  <div id="sidebar-overlay" class="sidebar-overlay" aria-hidden="true"></div>
+  <aside id="mobile-sidebar" class="sidebar-drawer" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للموقع">
+    <div class="sidebar-header">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <span style="font-weight: 800; font-size: 1.15rem;">القائمة الرئيسية</span>
+      </div>
+      <button id="sidebar-close-btn" class="sidebar-close-btn" aria-label="إغلاق القائمة الجانبية">✕</button>
+    </div>
+    <div id="sidebar-user-area" class="sidebar-user-card"></div>
+    <nav role="navigation" aria-label="روابط القائمة">
+      <ul id="sidebar-nav-links" class="sidebar-nav"></ul>
+    </nav>
+    <div class="sidebar-footer">
+      <span style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">منصة مدارج للتقويم والقياس الأكاديمي © 2026</span>
+    </div>
+  </aside>
 
- <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+    
+    <div style="margin-bottom: 1.5rem;">
+      <a href="index.html#subjects-section" class="btn btn-secondary btn-sm">← العودة لقائمة مقررات القسم</a>
+    </div>
 
- <div style="margin-bottom: 1.5rem;">
- <a href="index.html#subjects-section" class="btn btn-secondary btn-sm">← العودة لقائمة مقررات القسم</a>
- </div>
+    <!-- بطاقة تفاصيل المقرر التخصصي -->
+    <section class="card" aria-labelledby="subj-heading">
+      <div class="card-header">
+        <div>
+          <span id="subj-code" class="badge badge-primary" style="margin-bottom: 0.5rem;">مقرر تخصصي</span>
+          <h1 id="subj-heading" style="font-size: 1.85rem; font-weight: 800;">جاري تحميل بيانات المقرر...</h1>
+        </div>
+      </div>
+      <p id="subj-desc" style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.75;">...</p>
+    </section>
 
- <!-- بطاقة تفاصيل المقرر التخصصي -->
- <section class="card" aria-labelledby="subj-heading">
- <div class="card-header">
- <div>
- <span id="subj-code" class="badge badge-primary" style="margin-bottom: 0.5rem;">مقرر تخصصي</span>
- <h1 id="subj-heading" style="font-size: 1.85rem; font-weight: 800;">جاري تحميل بيانات المقرر...</h1>
- </div>
- </div>
- <p id="subj-desc" style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.75;">...</p>
- </section>
+    <!-- قائمة الاختبارات المتاحة لهذا المقرر -->
+    <section aria-labelledby="exams-list-title" style="margin-top: 2rem;">
+      <div class="card-header" style="border: none; margin-bottom: 0.5rem;">
+        <h2 id="exams-list-title" style="font-size: 1.45rem; font-weight: 800;">
+          النماذج الاختبارية المعتمدة لهذا المقرر
+        </h2>
+      </div>
 
- <!-- قائمة الاختبارات المتاحة لهذا المقرر -->
- <section aria-labelledby="exams-list-title" style="margin-top: 2rem;">
- <div class="card-header" style="border: none; margin-bottom: 0.5rem;">
- <h2 id="exams-list-title" style="font-size: 1.45rem; font-weight: 800;">
- النماذج الاختبارية المعتمدة لهذا المقرر
- </h2>
- </div>
+      <div id="exams-container" class="grid" style="grid-template-columns: 1fr;" role="region" aria-live="polite">
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-title"></div>
+          <div class="skeleton skeleton-desc"></div>
+          <div class="skeleton skeleton-btn"></div>
+        </div>
+      </div>
+    </section>
 
- <div id="exams-container" class="grid" style="grid-template-columns: 1fr;" role="region" aria-live="polite">
- <div class="skeleton-card">
- <div class="skeleton skeleton-title"></div>
- <div class="skeleton skeleton-desc"></div>
- <div class="skeleton skeleton-btn"></div>
- </div>
- </div>
- </section>
+  </main>
 
- </main>
+    <footer class="footer" role="contentinfo">
+    <div class="container footer-content">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="brand-badge">مدارج</span>
+        <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
+      </div>
+      <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
+        منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
+      </p>
+      <ul class="footer-links">
+        <li><a href="index.html" class="footer-link">الرئيسية</a></li>
+        <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
+        <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
+        <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
+        <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
+      </ul>
+      <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
+        جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
+      </p>
+    </div>
+  </footer>
 
- <footer class="footer" role="contentinfo">
- <div class="container footer-content">
- <div style="display: flex; align-items: center; gap: 0.5rem;">
- <span class="brand-badge">مدارج</span>
- <strong style="font-size: 1.15rem; color: var(--text-main);">منصة مدارج للتقويم والقياس الأكاديمي</strong>
- </div>
- <p style="max-width: 600px; font-size: 0.9rem; margin: 0 auto;">
- منظومة اختبارية تفاعلية معتمدة تعتمد التقييم المعرفي الذاتي وبنوك الأسئلة المعيارية والوصول الشامل.
- </p>
- <ul class="footer-links">
- <li><a href="index.html" class="footer-link">الرئيسية</a></li>
- <li><a href="about.html" class="footer-link">عن منصة مدارج</a></li>
- <li><a href="index.html#subjects-section" class="footer-link">المقررات وبنوك الأسئلة</a></li>
- <li><a href="dashboard.html" class="footer-link">سجل الدرجات</a></li>
- <li><a href="auth.html" class="footer-link">تسجيل الدخول</a></li>
- </ul>
- <p style="font-size: 0.85rem; color: var(--text-muted); border-top: 1px solid var(--border-light); padding-top: 1rem; width: 100%;">
- جميع الحقوق محفوظة © 2026 — منصة مدارج للتقويم والقياس الأكاديمي | إشراف: عبد العزيز أمين راجح حاتم
- </p>
- </div>
- </footer>
+  <script src="js/config.js"></script>
+  <script src="js/a11y.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/db.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      document.getElementById('theme-toggle').addEventListener('click', () => window.a11y.toggleTheme());
 
- <script src="js/config.js"></script>
- <script src="js/a11y.js"></script>
- <script src="js/auth.js"></script>
- <script src="js/db.js"></script>
- <script>
- document.addEventListener('DOMContentLoaded', async  => {
- document.getElementById('theme-toggle').addEventListener('click',  => window.a11y.toggleTheme);
+      await window.authManager.init();
+      window.db.init();
 
- await window.authManager.init;
- window.db.init;
+      const params = new URLSearchParams(window.location.search);
+      const subjectId = params.get('id');
 
- const params = new URLSearchParams(window.location.search);
- const subjectId = params.get('id');
+      if (!subjectId) {
+        alert('لم يتم تحديد المقرر الدراسي!');
+        window.location.href = 'index.html';
+        return;
+      }
 
- if (!subjectId) {
- alert('لم يتم تحديد المقرر الدراسي!');
- window.location.href = 'index.html';
- return;
- }
+      loadSubjectAndExams(subjectId);
+    });
 
- loadSubjectAndExams(subjectId);
- });
+    async function loadSubjectAndExams(subjectId) {
+      try {
+        const subject = await window.db.getSubjectById(subjectId);
+        if (!subject) {
+          alert('المقرر المطلوب غير مسجل بالقسم!');
+          window.location.href = 'index.html';
+          return;
+        }
 
- async function loadSubjectAndExams(subjectId) {
- try {
- const subject = await window.db.getSubjectById(subjectId);
- if (!subject) {
- alert('المقرر المطلوب غير مسجل بالقسم!');
- window.location.href = 'index.html';
- return;
- }
+        document.getElementById('subj-code').textContent = subject.code || 'مقرر تخصصي';
+        document.getElementById('subj-heading').textContent = subject.title;
+        document.getElementById('subj-desc').textContent = subject.description || 'مقرر معتمد لطلبة قسم القرآن الكريم وعلومه.';
 
- document.getElementById('subj-code').textContent = subject.code || 'مقرر تخصصي';
- document.getElementById('subj-heading').textContent = subject.title;
- document.getElementById('subj-desc').textContent = subject.description || 'مقرر معتمد لطلبة قسم القرآن الكريم وعلومه.';
+        const exams = await window.db.getExamsBySubject(subjectId);
+        const container = document.getElementById('exams-container');
 
- const exams = await window.db.getExamsBySubject(subjectId);
- const container = document.getElementById('exams-container');
+        if (exams.length === 0) {
+          container.innerHTML = `
+            <div class="card" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">
+              <p style="font-size: 1.05rem;">لا توجد نماذج اختبارية منشورة لهذا المقرر حالياً.</p>
+            </div>
+          `;
+          return;
+        }
 
- if (exams.length === 0) {
- container.innerHTML = `
- <div class="card" style="text-align: center; color: var(--text-muted); padding: 2.5rem;">
- <p style="font-size: 1.05rem;">لا توجد نماذج اختبارية منشورة لهذا المقرر حالياً.</p>
- </div>
- `;
- return;
- }
+        container.innerHTML = exams.map(exam => `
+          <article class="card" aria-labelledby="exam-title-${exam.id}">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div style="flex: 1; min-width: 260px;">
+                <h3 id="exam-title-${exam.id}" style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.5rem;">
+                  ${window.authManager.escapeHtml(exam.title)}
+                </h3>
+                <p style="color: var(--text-muted); font-size: 0.98rem; margin-bottom: 1rem; line-height: 1.65;">
+                  ${window.authManager.escapeHtml(exam.description || 'نموذج اختباري تدريبي معتمد للمقرر.')}
+                </p>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                  <span class="badge badge-primary"> الوقت المحدد: ${exam.duration_minutes > 0 ? exam.duration_minutes + ' دقيقة' : 'مفتوح دون وقت'}</span>
+                  <span class="badge badge-success"> نسبة النجاح: ${exam.passing_percentage}%</span>
+                </div>
+              </div>
+              <div>
+                <a href="exam.html?id=${exam.id}" class="btn btn-primary" aria-label="بدء خوض اختبار ${window.authManager.escapeHtml(exam.title)}">
+                  خوض الاختبار الآن ❯
+                </a>
+              </div>
+            </div>
+          </article>
+        `).join('');
 
- container.innerHTML = exams.map(exam => `
- <article class="card" aria-labelledby="exam-title-${exam.id}">
- <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
- <div style="flex: 1; min-width: 260px;">
- <h3 id="exam-title-${exam.id}" style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.5rem;">
- ${window.authManager.escapeHtml(exam.title)}
- </h3>
- <p style="color: var(--text-muted); font-size: 0.98rem; margin-bottom: 1rem; line-height: 1.65;">
- ${window.authManager.escapeHtml(exam.description || 'نموذج اختباري تدريبي معتمد للمقرر.')}
- </p>
- <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
- <span class="badge badge-primary"> الوقت المحدد: ${exam.duration_minutes > 0 ? exam.duration_minutes + ' دقيقة': 'مفتوح دون وقت'}</span>
- <span class="badge badge-success"> نسبة النجاح: ${exam.passing_percentage}%</span>
- </div>
- </div>
- <div>
- <a href="exam.html?id=${exam.id}" class="btn btn-primary" aria-label="بدء خوض اختبار ${window.authManager.escapeHtml(exam.title)}">
- خوض الاختبار الآن >
- </a>
- </div>
- </div>
- </article>
- `).join('');
-
- window.a11y?.announce(`تم عرض ${exams.length} نماذج اختبارية لهذا المقرر`);
- } catch (err) {
- console.error(err);
- alert('حدث خطأ أثناء تحميل البيانات: ' + err.message);
- }
- }
- </script>
- <script src="js/pwa.js"></script>
+        window.a11y?.announce(`تم عرض ${exams.length} نماذج اختبارية لهذا المقرر`);
+      } catch (err) {
+        console.error(err);
+        alert('حدث خطأ أثناء تحميل البيانات: ' + err.message);
+      }
+    }
+  </script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>
