@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>خوض الاختبار | قسم القرآن الكريم وعلومه — جامعة صنعاء</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>خوض الاختبار التفاعلي | منصة مدارج للتقويم والقياس</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=1.0.4">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1e40af">
   <link rel="apple-touch-icon" href="icons/icon-192.png">
@@ -24,24 +24,29 @@
         <a href="index.html" class="brand" id="btn-exit-exam" aria-label="مغادرة الاختبار والعودة للرئيسية">
           <span class="brand-badge">مدارج</span>
           <div class="brand-text-wrapper">
-            <span class="brand-title" id="exam-nav-brand">جلسة الاختبار التفاعلي</span>
+            <span class="brand-title" id="exam-nav-brand">جلسة التقييم التفاعلي</span>
             <span class="brand-subtitle">المنظومة الأكاديمية للتقويم والقياس</span>
           </div>
         </a>
       </div>
 
       <div class="nav-left">
-        <!-- مؤقت الاختبار الصوتي والمرئي -->
+        <div id="streak-badge" class="streak-indicator" title="سلسلة الإجابات الصحيحة المتتالية">
+          <span>🔥</span>
+          <span id="streak-text">0 متتالي</span>
+        </div>
+
         <div id="timer-box" class="timer-box" role="timer" aria-label="الوقت المتبقي للاختبار">
           <span aria-hidden="true">⏱️</span>
           <span id="timer-time">00:00</span>
         </div>
+
         <button id="theme-toggle" class="btn btn-secondary btn-sm" aria-label="تبديل المظهر">🌓</button>
       </div>
     </div>
   </header>
 
-  <main id="main-content" class="container" role="main" style="margin-top: 2rem; margin-bottom: 4rem;">
+  <main id="main-content" class="container" role="main" style="margin-top: 1.75rem; margin-bottom: 4rem;">
     <div id="exam-app">
       
       <!-- شريط تفاصيل الاختبار وحالة التقدم -->
@@ -52,8 +57,14 @@
             المسألة <strong id="current-question-num" style="color: var(--primary);">1</strong> من إجمالي <strong id="total-questions-count">...</strong>
           </span>
         </div>
-        <div>
-          <span class="badge badge-primary">عشوائي: تم خلط الأسئلة والخيارات</span>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <span class="badge badge-primary">عشوائي: خلط الأسئلة والخيارات</span>
+          <button type="button" id="btn-sound-toggle" class="mode-toggle-btn" aria-label="تبديل المؤثرات الصوتية">
+            🔊 الصوت: مفعل
+          </button>
+          <button type="button" id="btn-mode-toggle" class="mode-toggle-btn active" aria-pressed="true" title="تبديل نمط التعلم الفوري">
+            ⚡ نمط التعلم الذاتي
+          </button>
         </div>
       </header>
 
@@ -70,32 +81,61 @@
         <div id="exam-progress-bar" class="progress-bar" style="width: 0%;"></div>
       </div>
 
-      <!-- منطقة عرض السؤال الحالي المحمية -->
-      <div id="question-render-area" tabindex="-1">
-        <div class="card" style="text-align: center; padding: 3.5rem;">
-          <p class="text-muted">جاري سحب الأسئلة وتجهيز الجلسة...</p>
+      <!-- خريطة الأسئلة السريعة (Question Jump Palette) -->
+      <div class="question-palette-container" id="question-palette-box">
+        <div class="question-palette-header">
+          <span>خريطة التنقل السريع بين المسائل (انقر للانتقال مباشرة) 🗺️:</span>
+          <span style="font-size: 0.8rem;">🟢 مجابة | ⚪ متبقية | ⭐ محفوظة</span>
+        </div>
+        <div class="question-palette-grid" id="palette-buttons-grid" role="toolbar" aria-label="أرقام مسائل الاختبار">
+          <!-- يتم ملء أزرار أرقام الأسئلة ديناميكياً -->
         </div>
       </div>
 
-      <!-- أزرار التنقل وتسليم الاختبار المتاحة -->
-      <nav class="exam-nav" aria-label="التنقل بين أسئلة الاختبار">
-        <button id="btn-prev" class="btn btn-secondary" disabled aria-label="الانتقال إلى المسألة السابقة">
-          ← المسألة السابقة
-        </button>
+      <!-- منطقة عرض السؤال الحالي -->
+      <div id="question-render-area" tabindex="-1">
+        <div class="card" style="text-align: center; padding: 3.5rem;">
+          <p class="text-muted">جاري سحب الأسئلة وتجهيز الجلسة التفاعلية...</p>
+        </div>
+      </div>
 
-        <button id="btn-next" class="btn btn-primary" aria-label="الانتقال إلى المسألة التالية">
-          المسألة التالية →
-        </button>
+      <!-- بطاقة التغذية الراجعة والتحفيز الذاتي (تظهر عند التحقق في نمط التعلم) -->
+      <div id="feedback-render-area" aria-live="polite"></div>
 
-        <button id="btn-submit-exam" class="btn btn-success" style="display: none;" aria-label="إنهاء وتسليم الاختبار الأكاديمي">
-          ✅ إنهاء وتسليم الاختبار الأكاديمي
-        </button>
+      <!-- أزرار التنقل الذكية وتسليم الاختبار -->
+      <nav class="exam-nav" aria-label="التنقل والتحكم في الاختبار">
+        <div class="exam-nav-group">
+          <button id="btn-prev" class="btn btn-secondary" disabled aria-label="الانتقال إلى المسألة السابقة">
+            المسألة السابقة [→]
+          </button>
+        </div>
+
+        <div id="nav-center-status" style="font-size: 0.95rem; font-weight: 700; color: var(--text-muted);">
+          المسألة <span id="nav-curr-idx">1</span> من <span id="nav-total-count">...</span>
+        </div>
+
+        <div class="exam-nav-group">
+          <!-- زر التحقق التفاعلي في نمط التعلم الذاتي -->
+          <button id="btn-check-answer" class="btn btn-primary" style="display: none;" aria-label="التحقق من صحة الإجابة">
+            ⚡ تحقق من الإجابة
+          </button>
+
+          <!-- زر الانتقال للمسألة التالية -->
+          <button id="btn-next" class="btn btn-primary" aria-label="الانتقال إلى المسألة التالية">
+            [←] المسألة التالية
+          </button>
+
+          <!-- زر إنهاء وتسليم الاختبار -->
+          <button id="btn-submit-exam" class="btn btn-success" style="display: none;" aria-label="إنهاء وتسليم الاختبار الأكاديمي">
+            ✅ إنهاء وتسليم الاختبار
+          </button>
+        </div>
       </nav>
 
     </div>
   </main>
 
-    <footer class="footer" role="contentinfo">
+  <footer class="footer" role="contentinfo">
     <div class="container footer-content">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span class="brand-badge">مدارج</span>
@@ -117,12 +157,12 @@
     </div>
   </footer>
 
-  <script src="js/config.js"></script>
-  <script src="js/a11y.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/db.js"></script>
-  <script src="js/bookmarks.js"></script>
-  <script src="js/exam.js"></script>
+  <script src="js/config.js?v=1.0.4"></script>
+  <script src="js/a11y.js?v=1.0.4"></script>
+  <script src="js/auth.js?v=1.0.4"></script>
+  <script src="js/db.js?v=1.0.4"></script>
+  <script src="js/bookmarks.js?v=1.0.4"></script>
+  <script src="js/exam.js?v=1.0.4"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('theme-toggle')?.addEventListener('click', () => window.a11y?.toggleTheme());
@@ -137,6 +177,6 @@
       window.examEngine.init();
     });
   </script>
-  <script src="js/pwa.js"></script>
+  <script src="js/pwa.js?v=1.0.4"></script>
 </body>
 </html>
