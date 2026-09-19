@@ -108,6 +108,14 @@ class DatabaseManager {
       result = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
     }
 
+        // دمج مقرر أحكام العقوبات التخصصي لضمان ظهوره الفوري والمستمر
+    if (typeof window !== 'undefined' && window.PENAL_LAW_CURRICULUM && window.PENAL_LAW_CURRICULUM.subject) {
+      const penalSubj = window.PENAL_LAW_CURRICULUM.subject;
+      if (!result.some(s => s.id === penalSubj.id)) {
+        result.push(penalSubj);
+      }
+    }
+
     // فلترة المحذوفات حتمياً ومنع ظهورها في أي شاشة
     result = result.filter(s => !deletedList.includes(s.id));
 
@@ -209,7 +217,19 @@ class DatabaseManager {
   // ==========================================
   // النماذج الاختبارية (Exams)
   // ==========================================
-  async getExamsBySubject(subjectId) {
+    async getExamsBySubject(subjectId) {
+    if (typeof window !== 'undefined' && window.PENAL_LAW_CURRICULUM && (subjectId === 'subj_penal_law_401' || subjectId === window.PENAL_LAW_CURRICULUM.subject.id)) {
+      const deletedExams = JSON.parse(localStorage.getItem('madarej_deleted_exams') || '[]');
+      const statusMap = JSON.parse(localStorage.getItem('madarej_exams_status') || '{}');
+      return window.PENAL_LAW_CURRICULUM.exams
+        .filter(e => !deletedExams.includes(e.id))
+        .map(e => ({
+          ...e,
+          is_published: typeof statusMap[e.id] === 'boolean' ? statusMap[e.id] : Boolean(e.is_published)
+        }))
+        .filter(e => e.is_published);
+    }
+
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
         const data = await this.fetchRest(`exams?subject_id=eq.${subjectId}&is_published=eq.true&order=created_at.asc&select=*`);
@@ -362,7 +382,48 @@ class DatabaseManager {
   // ==========================================
   // جلب أسئلة الاختبار للطالب (آمن ضد الغش)
   // ==========================================
-  async getExamForStudent(examId) {
+    async getExamForStudent(examId) {
+    if (typeof window !== 'undefined' && window.PENAL_LAW_CURRICULUM) {
+      const pExam = window.PENAL_LAW_CURRICULUM.exams.find(e => e.id === examId);
+      if (pExam) {
+        const pQuestions = window.PENAL_LAW_CURRICULUM.questions
+          .filter(q => q.exam_id === examId)
+          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+        const pChoices = window.PENAL_LAW_CURRICULUM.choices;
+        const safeQuestions = pQuestions.map(q => {
+          const qChoices = pChoices
+            .filter(c => c.question_id === q.id)
+            .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+            .map(c => ({
+              id: c.id,
+              choice_text: c.choice_text,
+              sort_order: c.sort_order
+            }));
+
+          return {
+            id: q.id,
+            question_text: q.question_text,
+            explanation: q.explanation,
+            points: q.points || 1,
+            sort_order: q.sort_order,
+            choices: qChoices
+          };
+        });
+
+        return {
+          exam: {
+            id: pExam.id,
+            title: pExam.title,
+            description: pExam.description,
+            duration_minutes: pExam.duration_minutes,
+            passing_percentage: pExam.passing_percentage
+          },
+          questions: safeQuestions
+        };
+      }
+    }
+
     if (window.CONFIG.isSupabaseConfigured() && navigator.onLine) {
       try {
         const data = await this.fetchRest('rpc/get_exam_for_student', 'POST', {
@@ -437,7 +498,64 @@ class DatabaseManager {
   // ==========================================
   // تصحيح الاختبار سحابياً وتسجيل النتيجة
   // ==========================================
-  async submitExam(examId, answers) {
+    async submitExam(examId, answers) {
+    if (typeof window !== 'undefined' && window.PENAL_LAW_CURRICULUM) {
+      const pExam = window.PENAL_LAW_CURRICULUM.exams.find(e => e.id === examId);
+      if (pExam) {
+        const user = window.authManager?.getUser() || { id: 'guest', fullName: 'طالب قسم القرآن الكريم' };
+        const pQuestions = window.PENAL_LAW_CURRICULUM.questions.filter(q => q.exam_id === examId);
+        const pChoices = window.PENAL_LAW_CURRICULUM.choices;
+
+        let totalPoints = 0;
+        let earnedScore = 0;
+        const reviewDetails = [];
+
+        for (const q of pQuestions) {
+          const qPoints = q.points || 1;
+          totalPoints += qPoints;
+
+          const studentAnswer = answers.find(a => a.question_id === q.id);
+          const correctChoice = pChoices.find(c => c.question_id === q.id && c.is_correct);
+          const isCorrect = Boolean(studentAnswer && correctChoice && studentAnswer.choice_id === correctChoice.id);
+
+          if (isCorrect) earnedScore += qPoints;
+
+          reviewDetails.push({
+            question_id: q.id,
+            question_text: q.question_text,
+            is_correct: isCorrect,
+            selected_choice_id: studentAnswer ? studentAnswer.choice_id : null,
+            correct_choice_id: correctChoice ? correctChoice.id : null,
+            correct_choice_text: correctChoice ? correctChoice.choice_text : 'غير محدد',
+            explanation: q.explanation || 'لا يوجد تعليق إضافي لهذه المسألة.'
+          });
+        }
+
+        const percentage = Math.round((earnedScore / (totalPoints || 1)) * 100);
+        const passed = percentage >= (pExam?.passing_percentage || 50);
+
+        const submission = {
+          id: 'sub_' + Date.now(),
+          exam_id: examId,
+          user_id: user.id,
+          user_name: user.fullName,
+          score: earnedScore,
+          total_points: totalPoints,
+          percentage: percentage,
+          passed: passed,
+          passing_percentage: pExam?.passing_percentage || 50,
+          completed_at: new Date().toISOString(),
+          review_details: reviewDetails
+        };
+
+        const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
+        submissions.unshift(submission);
+        localStorage.setItem('edutest_demo_submissions', JSON.stringify(submissions));
+
+        return submission;
+      }
+    }
+
     if (window.CONFIG.isSupabaseConfigured() && navigator.onLine) {
       try {
         const data = await this.fetchRest('rpc/submit_exam_answers', 'POST', {
