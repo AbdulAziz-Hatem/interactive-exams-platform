@@ -253,31 +253,7 @@ class DatabaseManager {
     return list.filter(e => e.subject_id === subjectId && e.is_published);
   }
 
-  async getAllExams() {
-    if (window.CONFIG.isSupabaseConfigured()) {
-      try {
-        const data = await this.fetchRest('exams?select=*,subjects(title)&order=created_at.desc');
-        if (Array.isArray(data)) return data;
-      } catch (e) {}
 
-      if (this.client) {
-        try {
-          const { data, error } = await this.client
-            .from('exams')
-            .select('*, subjects(title)')
-            .order('created_at', { ascending: false });
-          if (!error && Array.isArray(data)) return data;
-        } catch (e) {}
-      }
-    }
-
-    const exams = JSON.parse(localStorage.getItem('edutest_demo_exams') || '[]');
-    const subjects = JSON.parse(localStorage.getItem('edutest_demo_subjects') || '[]');
-    return exams.map(e => ({
-      ...e,
-      subjects: { title: subjects.find(s => s.id === e.subject_id)?.title || 'مقرر تخصصي' }
-    }));
-  }
 
   async getAllExams() {
     const deletedSubjects = JSON.parse(localStorage.getItem('madarej_deleted_subjects') || '[]');
@@ -322,6 +298,19 @@ class DatabaseManager {
         is_published: isOverridden ? statusMap[e.id] : Boolean(e.is_published)
       };
     });
+
+        // دمج امتحانات أحكام العقوبات
+    if (typeof window !== 'undefined' && window.PENAL_LAW_CURRICULUM && window.PENAL_LAW_CURRICULUM.exams) {
+      const pExams = window.PENAL_LAW_CURRICULUM.exams.map(e => ({
+        ...e,
+        subjects: { title: window.PENAL_LAW_CURRICULUM.subject.title }
+      }));
+      for (const pe of pExams) {
+        if (!exams.some(e => e.id === pe.id)) {
+          exams.push(pe);
+        }
+      }
+    }
 
     return exams;
   }
@@ -398,6 +387,7 @@ class DatabaseManager {
             .map(c => ({
               id: c.id,
               choice_text: c.choice_text,
+              is_correct: Boolean(c.is_correct),
               sort_order: c.sort_order
             }));
 

@@ -91,9 +91,18 @@ class ExamEngine {
 
     await window.authManager.init();
     if (!window.authManager.isAuthenticated()) {
-      window.a11y?.announce('يرجى تسجيل الدخول أولاً لتتمكن من خوض الاختبار', 'assertive');
-      window.location.href = `auth.html?redirect=exam.html?id=${this.examId}`;
-      return;
+      // إسناد جلسة طالب تلقائياً دون إعاقة لخوض الاختبار فوراً
+      const guestStudent = {
+        id: 'usr_guest_' + Date.now(),
+        email: 'student@su.edu.ye',
+        username: 'student',
+        fullName: 'طالب قسم القرآن الكريم وعلومه',
+        role: 'student',
+        token: window.CONFIG.SUPABASE_ANON_KEY
+      };
+      localStorage.setItem('edutest_current_user', JSON.stringify(guestStudent));
+      window.authManager.currentUser = guestStudent;
+      window.authManager.updateNavUI();
     }
 
     window.db.init();
