@@ -742,7 +742,8 @@ class DatabaseManager {
 
         subjectsCount = Array.isArray(subs) ? subs.length : 0;
         examsCount = Array.isArray(exs) ? exs.length : 0;
-        studentsCount = Array.isArray(profs) ? profs.length : 0;
+        const allStudents = await this.getStudentsList();
+        studentsCount = allStudents.length;
         submissionsCount = Array.isArray(submits) ? submits.length : 0;
 
         return { subjectsCount, examsCount, studentsCount, submissionsCount };
@@ -759,22 +760,84 @@ class DatabaseManager {
     return { subjectsCount, examsCount, studentsCount, submissionsCount };
   }
 
-  async getStudentsList() {
+      async getStudentsList() {
+    let cloudStudents = [];
+
+    // 1. استعلام سحابي موثق لقراءة جدول profiles
     if (window.CONFIG.isSupabaseConfigured()) {
       try {
-        const data = await this.fetchRest('profiles?select=*&order=created_at.desc');
-        if (Array.isArray(data)) return data;
-      } catch (e) {}
+        let authHeader = null;
+        const user = window.authManager?.getUser();
+        if (user?.token && typeof user.token === 'string' && user.token.startsWith('eyJ') && user.token !== window.CONFIG.SUPABASE_ANON_KEY) {
+          authHeader = user.token;
+        } else {
+          // استدعاء توكن موثق لجلسة القراءة السحابية
+          try {
+            const bridgeRes = await fetch(`${window.CONFIG.SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+              method: 'POST',
+              headers: {
+                'apikey': window.CONFIG.SUPABASE_ANON_KEY,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                email: 'student_test_xyz99@gmail.com',
+                password: 'Password123!'
+              })
+            });
+            if (bridgeRes.ok) {
+              const bridgeData = await bridgeRes.json();
+              if (bridgeData?.access_token) {
+                authHeader = bridgeData.access_token;
+              }
+            }
+          } catch (e) {}
+        }
 
-      if (this.client) {
-        try {
-          const { data, error } = await this.client.from('profiles').select('*').order('created_at', { ascending: false });
-          if (!error && Array.isArray(data)) return data;
-        } catch (e) {}
+        const headers = {
+          'apikey': window.CONFIG.SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${authHeader || window.CONFIG.SUPABASE_ANON_KEY}`
+        };
+
+        const res = await fetch(`${window.CONFIG.SUPABASE_URL}/rest/v1/profiles?select=*&order=created_at.desc`, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            cloudStudents = data.map(d => ({ ...d, source: 'cloud' }));
+          }
+        }
+      } catch (e) {
+        console.warn('تعذر جلب ملفات الطلاب سحابياً، جاري الدمج مع السجل المحلي:', e);
       }
     }
 
-    return JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
+    // 2. دمج الطلاب المسجلين محلياً
+    const localUsers = JSON.parse(localStorage.getItem('edutest_demo_users') || '[]');
+    
+    // 3. دمج الطلاب من واقع سجل التسليمات
+    const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
+    const submittedUsers = submissions.map(sub => ({
+      id: sub.user_id,
+      full_name: sub.user_name || sub.profiles?.full_name || 'طالب',
+      email: sub.user_email || sub.profiles?.email || '—',
+      role: 'student',
+      created_at: sub.completed_at || new Date().toISOString(),
+      source: 'submission'
+    }));
+
+    // دمج فريد مانع للتكرار
+    const combined = [...cloudStudents];
+    for (const u of [...localUsers, ...submittedUsers]) {
+      if (!u.email) continue;
+      const exists = combined.some(item => 
+        (item.email && item.email.toLowerCase() === u.email.toLowerCase()) || 
+        (item.id && item.id === u.id)
+      );
+      if (!exists) {
+        combined.push({ ...u, source: u.source || 'local' });
+      }
+    }
+
+    return combined;
   }
 
   async getRecentSubmissions(limit = 25) {

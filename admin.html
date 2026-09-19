@@ -840,10 +840,13 @@
 
           return `
             <tr>
-              <td style="font-weight: 800;">${window.authManager.escapeHtml(st.full_name || 'طالب')}</td>
-              <td style="color: var(--text-muted); font-size: 0.9rem;" dir="ltr">${window.authManager.escapeHtml(st.email || '—')}</td>
+              <td style="font-weight: 800; font-size: 1.02rem;">
+                ${window.authManager.escapeHtml(st.full_name || 'طالب')}
+                ${st.source === 'cloud' ? '<span class="badge badge-primary" style="margin-right: 0.5rem; font-size: 0.72rem;">سحابي موثق ☁️</span>' : '<span class="badge badge-secondary" style="margin-right: 0.5rem; font-size: 0.72rem;">مسجل محلياً 📱</span>'}
+              </td>
+              <td style="color: var(--primary); font-size: 0.92rem; font-weight: 600;" dir="ltr">${window.authManager.escapeHtml(st.email || '—')}</td>
               <td>${roleBadge}</td>
-              <td style="color: var(--text-muted); font-size: 0.88rem;">${dateStr}</td>
+              <td style="color: var(--text-muted); font-size: 0.88rem;" dir="ltr">${dateStr}</td>
             </tr>
           `;
         }).join('');
