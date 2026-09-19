@@ -132,14 +132,14 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_01",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الحد في اصطلاح الشريعة الإسلامية كما ورد في الشريحة هو:",
-    "explanation": "الحد شرعاً هو العقوبة المقدرة حقاً لله تعالى، فلا تجوز فيها الزيادة ولا النقصان ولا يسقطها العفو بعد بلوغها الحاكم.",
+    "question_text": "الحد في اصطلاح الشريعة الإسلامية وفق ما جاء في الشريحة 5 هو:",
+    "explanation": "تعريف الحد نصاً في الشريحة 5: 'هي الجرائم المعاقب عليها بحد، والحد هو العقوبة المقدرة حقاً لله'.",
     "points": 1,
     "sort_order": 1,
     "choices": [
       {
         "id": "q_p1_01_c1",
-        "choice_text": "العقوبة المقدرة حقاً لله تعالى",
+        "choice_text": "العقوبة المقدرة حقاً لله",
         "is_correct": true,
         "sort_order": 1
       },
@@ -157,7 +157,7 @@ window.PENAL_LAW_CURRICULUM = {
       },
       {
         "id": "q_p1_01_c4",
-        "choice_text": "التعويض المالي عن الجناية",
+        "choice_text": "المال الواجب بالجناية على النفس",
         "is_correct": false,
         "sort_order": 4
       }
@@ -166,32 +166,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_02",
     "exam_id": "exam_penal_lec1",
-    "question_text": "سلطة القاضي في جرائم الحدود تنحصر في:",
-    "explanation": "سلطة القاضي في الحدود هي 'التنفيذ فقط' متى ثبتت الجريمة بشروطها وانتفت الشبهات.",
+    "question_text": "سلطة القاضي في جرائم الحدود وفق شريحة أنواع الجرائم هي:",
+    "explanation": "سلطة القاضي في الحدود نصاً في الشريحة 5 هي: 'التنفيذ فقط'.",
     "points": 1,
     "sort_order": 2,
     "choices": [
       {
         "id": "q_p1_02_c1",
-        "choice_text": "السلطة المطلقة بين العفو والتشديد",
-        "is_correct": false,
+        "choice_text": "التنفيذ فقط",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_02_c2",
-        "choice_text": "التنفيذ فقط",
-        "is_correct": true,
+        "choice_text": "سلطة مطلقة",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_02_c3",
-        "choice_text": "تخفيض العقوبة عند توبة الجاني",
+        "choice_text": "التخيير بين العقوبات",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_02_c4",
-        "choice_text": "استبدال الحد بالتعزير",
+        "choice_text": "العفو والصلح",
         "is_correct": false,
         "sort_order": 4
       }
@@ -200,32 +200,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_03",
     "exam_id": "exam_penal_lec1",
-    "question_text": "هل يدخل العفو في جرائم الحدود بعد ثبوتها وبلوغها القاضي؟",
-    "explanation": "جرائم الحدود حق خالص لله تعالى، فلا يملك الحاكم ولا القاضي ولا المجني عليه إسقاطها بالعفو.",
+    "question_text": "هل يدخل العفو في جرائم الحدود وفق شريحة أنواع الجرائم؟",
+    "explanation": "في جدول الشريحة 5: هل يدخل فيها العفو في الحدود؟ الإجابة نصاً: 'لا'.",
     "points": 1,
     "sort_order": 3,
     "choices": [
       {
         "id": "q_p1_03_c1",
-        "choice_text": "نعم يجوز للحاكم العفو مطلقاً",
-        "is_correct": false,
+        "choice_text": "لا",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_03_c2",
-        "choice_text": "نعم إذا رضي المجني عليه",
+        "choice_text": "نعم",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_03_c3",
-        "choice_text": "لا يدخل فيها العفو",
-        "is_correct": true,
+        "choice_text": "يجوز لولي الأمر فقط",
+        "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_03_c4",
-        "choice_text": "يجوز العفو في ثلث العقوبة فقط",
+        "choice_text": "يجوز للمجني عليه فقط",
         "is_correct": false,
         "sort_order": 4
       }
@@ -234,32 +234,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_04",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الجرائم التي يُعاقب عليها بقصاص أو دية تكون سلطة القاضي فيها:",
-    "explanation": "سلطة القاضي في القصاص والدية هي التنفيذ فقط لحكم الشارع عند طلب أولياء الدم المستحقين.",
+    "question_text": "جرائم القصاص والدية في الشريحة 5 هي الجرائم التي يُعاقب عليها بـ:",
+    "explanation": "تعريف القصاص والدية نصاً في الشريحة 5: 'هي الجرائم التي يُعاقب عليها بقصاص أو دية'.",
     "points": 1,
     "sort_order": 4,
     "choices": [
       {
         "id": "q_p1_04_c1",
-        "choice_text": "سلطة مطلقة",
+        "choice_text": "بحد مقدر حقاً لله",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_04_c2",
-        "choice_text": "التنفيذ فقط",
+        "choice_text": "بقصاص أو دية",
         "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_04_c3",
-        "choice_text": "التخيير بين القتل والغرامة",
+        "choice_text": "بعقوبة تعزيرية فقط",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_04_c4",
-        "choice_text": "إسقاط العقوبة باجتهاده",
+        "choice_text": "بالحبس واللوم",
         "is_correct": false,
         "sort_order": 4
       }
@@ -268,32 +268,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_05",
     "exam_id": "exam_penal_lec1",
-    "question_text": "هل يدخل العفو في عقوبة القصاص والدية؟",
-    "explanation": "القصاص والدية حق للآدمي (أولياء الدم والمجني عليه)، ولهم حق العفو مجاناً أو على الدية.",
+    "question_text": "سلطة القاضي في جرائم القصاص والدية وفق الشريحة 5 هي:",
+    "explanation": "سلطة القاضي في القصاص والدية نصاً في الشريحة 5 هي: 'التنفيذ فقط'.",
     "points": 1,
     "sort_order": 5,
     "choices": [
       {
         "id": "q_p1_05_c1",
-        "choice_text": "لا يدخل فيها العفو لأنها حق لله",
+        "choice_text": "سلطة مطلقة",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_05_c2",
-        "choice_text": "نعم يدخل فيها العفو من أولياء الدم",
+        "choice_text": "التنفيذ فقط",
         "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_05_c3",
-        "choice_text": "يجوز العفو في الدية دون القصاص",
+        "choice_text": "تحديد مقدار الدية باجتهاده",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_05_c4",
-        "choice_text": "لا عفو إلا بإذن الحاكم",
+        "choice_text": "إسقاط القصاص دون إذن الأولياء",
         "is_correct": false,
         "sort_order": 4
       }
@@ -302,32 +302,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_06",
     "exam_id": "exam_penal_lec1",
-    "question_text": "التعازير في الشريعة الإسلامية هي:",
-    "explanation": "التعازير هي الجرائم التي لم يضع الشارع لها عقوبة مقدرة محددة، بل فوض تقديرها للقاضي.",
+    "question_text": "هل يدخل العفو في جرائم القصاص والدية وفق الشريحة 5؟",
+    "explanation": "في جدول الشريحة 5: هل يدخل فيها العفو في القصاص والدية؟ الإجابة نصاً: 'نعم'.",
     "points": 1,
     "sort_order": 6,
     "choices": [
       {
         "id": "q_p1_06_c1",
-        "choice_text": "الجرائم المعاقب عليها بحد مقدر",
-        "is_correct": false,
+        "choice_text": "نعم",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_06_c2",
-        "choice_text": "الجرائم التي فيها القصاص فقط",
+        "choice_text": "لا",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_06_c3",
-        "choice_text": "الجرائم غير المقدرة شرعاً ويُعاقب عليها بعقوبة تعزيرية أو أكثر",
-        "is_correct": true,
+        "choice_text": "لا يجوز مطلقاً",
+        "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_06_c4",
-        "choice_text": "الجرائم التي كفارتها الصيام فقط",
+        "choice_text": "يدخل في الخطأ دون العمد",
         "is_correct": false,
         "sort_order": 4
       }
@@ -336,32 +336,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_07",
     "exam_id": "exam_penal_lec1",
-    "question_text": "سلطة القاضي في جرائم التعازير هي:",
-    "explanation": "يمتلك القاضي في التعازير سلطة مطلقة في اختيار العقوبة الملائمة الرادعة للجاني من بين العقوبات التعزيرية.",
+    "question_text": "التعازير في الشريحة 5 هي الجرائم:",
+    "explanation": "تعريف التعازير نصاً في الشريحة 5: 'هي الجرائم غير المقدرة شرعاً، ويُعاقب عليها بعقوبة تعزيرية أو أكثر'.",
     "points": 1,
     "sort_order": 7,
     "choices": [
       {
         "id": "q_p1_07_c1",
-        "choice_text": "التنفيذ فقط دون أي تقدير",
+        "choice_text": "المقدرة حقاً لله تعالى",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_07_c2",
-        "choice_text": "سلطة مطلقة في تقدير العقوبة ونوعها بحسب الجريمة والجاني",
-        "is_correct": true,
+        "choice_text": "المعاقب عليها بقصاص أو دية",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_07_c3",
-        "choice_text": "مقيدة بالجلد أربعين جلدة فقط",
-        "is_correct": false,
+        "choice_text": "غير المقدرة شرعاً، ويُعاقب عليها بعقوبة تعزيرية أو أكثر",
+        "is_correct": true,
         "sort_order": 3
       },
       {
         "id": "q_p1_07_c4",
-        "choice_text": "التخيير بين القصاص والدية",
+        "choice_text": "التي تسقط بالتقادم",
         "is_correct": false,
         "sort_order": 4
       }
@@ -370,32 +370,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_08",
     "exam_id": "exam_penal_lec1",
-    "question_text": "هل يدخل العفو في جرائم التعزير؟",
-    "explanation": "التعازير تقبل العفو من ولي الأمر إذا رأى في ذلك مصلحة راجحة، ما لم يتعلق بها حق لآدمي.",
+    "question_text": "سلطة القاضي في جرائم التعازير وفق الشريحة 5 هي:",
+    "explanation": "سلطة القاضي في التعازير نصاً في الشريحة 5 هي: 'سلطة مطلقة'.",
     "points": 1,
     "sort_order": 8,
     "choices": [
       {
         "id": "q_p1_08_c1",
-        "choice_text": "نعم يجوز لولي الأمر أو القاضي العفو فيها لمصلحة معتبرة",
-        "is_correct": true,
+        "choice_text": "التنفيذ فقط",
+        "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_08_c2",
-        "choice_text": "لا يجوز العفو فيها بحال",
-        "is_correct": false,
+        "choice_text": "سلطة مطلقة",
+        "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_08_c3",
-        "choice_text": "لا يعفو إلا المجني عليه وحده",
+        "choice_text": "سلطة مقيدة بحدود معينة",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_08_c4",
-        "choice_text": "العفو محرم في التعازير",
+        "choice_text": "التنفيذ بعد موافقة البرلمان",
         "is_correct": false,
         "sort_order": 4
       }
@@ -404,32 +404,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_09",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الركن الشرعي للجريمة يعني:",
-    "explanation": "الركن الشرعي هو وجود نص التجريم والعقاب (مبدأ شرعية الجرائم والعقوبات).",
+    "question_text": "هل يدخل العفو في جرائم التعازير وفق الشريحة 5؟",
+    "explanation": "في جدول الشريحة 5: هل يدخل فيها العفو في التعازير؟ الإجابة نصاً: 'نعم'.",
     "points": 1,
     "sort_order": 9,
     "choices": [
       {
         "id": "q_p1_09_c1",
-        "choice_text": "إتيان العمل المادي المحظور",
-        "is_correct": false,
+        "choice_text": "نعم",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_09_c2",
-        "choice_text": "أن يكون الجاني مكلفاً بالغاً عاقلاً",
+        "choice_text": "لا",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_09_c3",
-        "choice_text": "أن يكون هناك نص يحظر الفعل ويُعاقب عليه",
-        "is_correct": true,
+        "choice_text": "لا يدخل فيها العفو مطلقاً كالحدود",
+        "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_09_c4",
-        "choice_text": "حصول النتيجة الإجرامية ووفاة المجني عليه",
+        "choice_text": "لا يجوز العفو إلا للمصلحة الأجنبية",
         "is_correct": false,
         "sort_order": 4
       }
@@ -438,32 +438,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_10",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الركن المادي للجريمة هو:",
-    "explanation": "الركن المادي هو السلوك الخارجي الملموس سواء كان حركة إيجابية (فعل) أو سلبية (امتناع عن واجب).",
+    "question_text": "الركن الشرعي للجريمة في الشريحة 6 يعني:",
+    "explanation": "الركن الشرعي نصاً في الشريحة 6 هو: 'أن يكون هناك نص يحظر الفعل ويُعاقب عليه'.",
     "points": 1,
     "sort_order": 10,
     "choices": [
       {
         "id": "q_p1_10_c1",
-        "choice_text": "وجود النص المحرم في القرآن والسنة",
-        "is_correct": false,
+        "choice_text": "أن يكون هناك نص يحظر الفعل ويُعاقب عليه",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_10_c2",
-        "choice_text": "إتيان العمل المكوّن للجريمة سواءً كان فعلاً أو امتناعاً",
-        "is_correct": true,
+        "choice_text": "إتيان العمل المادي باليد",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_10_c3",
-        "choice_text": "قصد الإضرار بالغير دون حركة بدنية",
+        "choice_text": "أن يكون الجاني مكلفاً عاقلاً",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_10_c4",
-        "choice_text": "أهلية الجاني للمسؤولية الجنائية",
+        "choice_text": "حصول الضرر في الواقع",
         "is_correct": false,
         "sort_order": 4
       }
@@ -472,32 +472,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_11",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الركن الأدبي للجريمة يتطلب:",
-    "explanation": "الركن الأدبي (المعنوي) يعني الإسناد والمسؤولية الجنائية؛ بأن يكون الفاعل مكلفاً عاقلاً مختاراً.",
+    "question_text": "الركن المادي للجريمة في الشريحة 6 يعني:",
+    "explanation": "الركن المادي نصاً في الشريحة 6 هو: 'إتيان العمل المكوّن للجريمة سواءً كان فعلاً أو امتناعاً'.",
     "points": 1,
     "sort_order": 11,
     "choices": [
       {
         "id": "q_p1_11_c1",
-        "choice_text": "إيقاع العقوبة بآلة حادة",
+        "choice_text": "وجود الآية أو الحديث المحرم",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_11_c2",
-        "choice_text": "أن يكون الجاني مكلفاً (أي مسؤولاً عن الجريمة)",
+        "choice_text": "إتيان العمل المكوّن للجريمة سواءً كان فعلاً أو امتناعاً",
         "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_11_c3",
-        "choice_text": "وجود ولي دم يطالب بالحق",
+        "choice_text": "أن يكون الجاني مسؤولاً جنائياً",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_11_c4",
-        "choice_text": "نقل الجثمان إلى مكان الجريمة",
+        "choice_text": "حضور أربعة شهداء",
         "is_correct": false,
         "sort_order": 4
       }
@@ -506,32 +506,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_12",
     "exam_id": "exam_penal_lec1",
-    "question_text": "إذا ارتكب غير المكلف (كالصبي غير المميز أو المجنون) فعلاً محظوراً، فإن الجريمة تنتفي لتخلف الركن:",
-    "explanation": "غير المكلف ينعدم عنده الركن الأدبي (المسؤولية الجنائية)، فلا عقوبة جنائية عليه لعدم التكليف.",
+    "question_text": "الركن الأدبي للجريمة في الشريحة 6 يعني:",
+    "explanation": "الركن الأدبي نصاً في الشريحة 6 هو: 'أن يكون الجاني مُكلفاً (أي مسؤلاً عن الجريمة)'.",
     "points": 1,
     "sort_order": 12,
     "choices": [
       {
         "id": "q_p1_12_c1",
-        "choice_text": "الشرعي",
-        "is_correct": false,
+        "choice_text": "أن يكون الجاني مُكلفاً (أي مسؤلاً عن الجريمة)",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_12_c2",
-        "choice_text": "المادي",
+        "choice_text": "أن يعتذر الجاني بأدب أمام القاضي",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_12_c3",
-        "choice_text": "الأدبي",
-        "is_correct": true,
+        "choice_text": "أن تكون الجريمة ضد الأخلاق فقط",
+        "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_12_c4",
-        "choice_text": "الوضعي",
+        "choice_text": "أن يكون هناك نص قانوني",
         "is_correct": false,
         "sort_order": 4
       }
@@ -540,32 +540,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_13",
     "exam_id": "exam_penal_lec1",
-    "question_text": "امتناع الأم عمداً عن إرضاع وليدها حتى مات جوعاً، يمثل جريمة قتل من حيث الركن المادي بصورة:",
-    "explanation": "الركن المادي يتكون إما من فعل إيجابي أو من امتناع سلبي عن واجب يفرضه الشرع أو القانون.",
+    "question_text": "تنقسم أنواع القتل في الشريعة الإسلامية وفق ما جاء في الشريحة 7 إلى:",
+    "explanation": "أنواع القتل نصاً في الشريحة 7 هي ثلاثة: (1) القتل العمد، (2) القتل شبه العمد، (3) القتل الخطأ.",
     "points": 1,
     "sort_order": 13,
     "choices": [
       {
         "id": "q_p1_13_c1",
-        "choice_text": "الفعل الإيجابي",
+        "choice_text": "نوعين: عمد وغير عمد",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_13_c2",
-        "choice_text": "الامتناع",
+        "choice_text": "ثلاثة أنواع: القتل العمد، والقتل شبه العمد، والقتل الخطأ",
         "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_13_c3",
-        "choice_text": "شبهة المحل",
+        "choice_text": "أربعة أنواع بإضافة ما أجري مجرى الخطأ",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_13_c4",
-        "choice_text": "الخطأ المحض",
+        "choice_text": "خمسة أنواع بحسب الآلة",
         "is_correct": false,
         "sort_order": 4
       }
@@ -574,32 +574,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_14",
     "exam_id": "exam_penal_lec1",
-    "question_text": "تنقسم أنواع القتل في الشريعة الإسلامية وفق شرائح المقرر إلى:",
-    "explanation": "أنواع القتل المعتمدة في الشريحة هي ثلاثة: القتل العمد، والقتل شبه العمد، والقتل الخطأ.",
+    "question_text": "القتل العمد يُعد أحد أقسام:",
+    "explanation": "القتل العمد هو النوع الأول من أنواع القتل الواردة في الشريحة 7 من المحاضرة الأولى.",
     "points": 1,
     "sort_order": 14,
     "choices": [
       {
         "id": "q_p1_14_c1",
-        "choice_text": "نوعين: عمد وغير عمد",
-        "is_correct": false,
+        "choice_text": "أنواع القتل في الشريعة المنصوص عليها في الشريحة 7",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_14_c2",
-        "choice_text": "ثلاثة أنواع: العمد، وشبه العمد، والخطأ",
-        "is_correct": true,
+        "choice_text": "التعازير غير المقدرة",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_14_c3",
-        "choice_text": "أربعة أنواع بإضافة ما أُجري مجرى الخطأ",
+        "choice_text": "أركان الجريمة الأدبية",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_14_c4",
-        "choice_text": "خمسة أنواع",
+        "choice_text": "شبهات الحدود",
         "is_correct": false,
         "sort_order": 4
       }
@@ -608,32 +608,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_15",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الكتاب المقرر المعتمد لمادة أحكام العقوبات وفق ما نصت عليه الشريحة الأولى هو:",
-    "explanation": "المصدر المعتمد نصاً في شرائح أ.م.د. عبد الكريم الوظاف هو كتاب (التشريع الجنائي الإسلامي لعبد القادر عودة).",
+    "question_text": "القتل شبه العمد يُعد أحد أقسام:",
+    "explanation": "القتل شبه العمد هو النوع الثاني المنصوص عليه في الشريحة 7 من المحاضرة الأولى.",
     "points": 1,
     "sort_order": 15,
     "choices": [
       {
         "id": "q_p1_15_c1",
-        "choice_text": "المغني لابن قدامة",
-        "is_correct": false,
+        "choice_text": "أنواع القتل في الشريعة المنصوص عليها في الشريحة 7",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_15_c2",
-        "choice_text": "التشريع الجنائي الإسلامي لعبد القادر عودة",
-        "is_correct": true,
+        "choice_text": "الركن الشرعي",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_15_c3",
-        "choice_text": "بداية المجتهد لابن رشد",
+        "choice_text": "الركن المادي بالامتناع",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_15_c4",
-        "choice_text": "سبل السلام للصنعاني",
+        "choice_text": "جرائم الحدود الخالصة لله",
         "is_correct": false,
         "sort_order": 4
       }
@@ -642,32 +642,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_16",
     "exam_id": "exam_penal_lec1",
-    "question_text": "من الفروق الجوهرية بين الحدود والتعازير أن عقوبة الحدود:",
-    "explanation": "عقوبة الحد مقدرة ومحددة بالنص، بينما التعزير عقوبة غير مقدرة متروكة لاجتهاد القاضي.",
+    "question_text": "القتل الخطأ يُعد أحد أقسام:",
+    "explanation": "القتل الخطأ هو النوع الثالث المنصوص عليه في الشريحة 7 من المحاضرة الأولى.",
     "points": 1,
     "sort_order": 16,
     "choices": [
       {
         "id": "q_p1_16_c1",
-        "choice_text": "مقدرة شرعاً بينما التعازير غير مقدرة",
+        "choice_text": "أنواع القتل في الشريعة المنصوص عليها في الشريحة 7",
         "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_16_c2",
-        "choice_text": "متروكة للقاضي بينما التعازير محددة",
+        "choice_text": "الركن الأدبي للجريمة",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_16_c3",
-        "choice_text": "يقبل فيها عفو الحاكم مطلقاً",
+        "choice_text": "الجرائم التعزيرية المطلقة",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_16_c4",
-        "choice_text": "خاصة بالأموال فقط",
+        "choice_text": "موانع التكليف",
         "is_correct": false,
         "sort_order": 4
       }
@@ -676,32 +676,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_17",
     "exam_id": "exam_penal_lec1",
-    "question_text": "إذا عفى أولياء المقتول عمداً عن القصاص، فإن سلطة القاضي تكون:",
-    "explanation": "القصاص يقبل العفو من أولياء الدم، وإذا سقط القصاص بالعفو انتقل الحكم إلى الدية أو التعزير.",
+    "question_text": "المصدر والكتاب المقرر المعتمد في المادة وفق ما نصت عليه الشريحة 1 هو:",
+    "explanation": "المصدر المنصوص عليه في واجهة شرائح المحاضرة الأولى هو: 'الكتاب المقرر (التشريع الجنائي الإسلامي لعبد القادر عودة)'.",
     "points": 1,
     "sort_order": 17,
     "choices": [
       {
         "id": "q_p1_17_c1",
-        "choice_text": "رفض العفو وإعدام الجاني حتماً",
-        "is_correct": false,
+        "choice_text": "التشريع الجنائي الإسلامي لعبد القادر عودة",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_17_c2",
-        "choice_text": "إسقاط القصاص واستيفاء الدية أو التعزير بحسب مقتضى العفو",
-        "is_correct": true,
+        "choice_text": "المدونة لسحنون",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_17_c3",
-        "choice_text": "معاقبة أولياء الدم بالسجن",
+        "choice_text": "فتح القدير لابن الهمام",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_17_c4",
-        "choice_text": "إحالة القضية إلى محكمة أجنبية",
+        "choice_text": "الأم للإمام الشافعي",
         "is_correct": false,
         "sort_order": 4
       }
@@ -710,32 +710,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_18",
     "exam_id": "exam_penal_lec1",
-    "question_text": "كل فعل لم يرد نص صريح بتحريمه ولا عقوبة عليه في الشريعة، يمتنع تجريمه تطبيقاً لركن الجريمة:",
-    "explanation": "الركن الشرعي يقتضي خضوع الفعل لنص تحريمي سابق، عملاً بقاعدة: لا جريمة ولا عقوبة إلا بنص شرعي.",
+    "question_text": "أستاذ المادة ومعد هذه الشرائح كما هو مسطر في الشريحة الأولى هو:",
+    "explanation": "معد الشرائح نصاً هو: أ.م.د. عبدالكريم محمد عبدالله الوظّاف.",
     "points": 1,
     "sort_order": 18,
     "choices": [
       {
         "id": "q_p1_18_c1",
-        "choice_text": "المادي",
-        "is_correct": false,
+        "choice_text": "أ.م.د. عبد الكريم محمد عبد الله الوظّاف",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_18_c2",
-        "choice_text": "الشرعي",
-        "is_correct": true,
+        "choice_text": "أ.د. سعد إبراهيم العلوي",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_18_c3",
-        "choice_text": "الأدبي",
+        "choice_text": "د. عبد الله محمد الدرسي",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_18_c4",
-        "choice_text": "المدني",
+        "choice_text": "د. جميل اللاحجي",
         "is_correct": false,
         "sort_order": 4
       }
@@ -744,32 +744,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_19",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الامتناع في الركن المادي للجريمة يشترط فيه أن يكون:",
-    "explanation": "الامتناع المعاقب عليه جنائياً هو الإحجام عن القيام بفعل أوجبه الشارع وكان في مقدور المكلف أداؤه.",
+    "question_text": "النوع الوحيد من الجرائم الذي يمتلك فيه القاضي (سلطة مطلقة) وفق الشريحة 5 هو:",
+    "explanation": "التعازير هي النوع الوحيد في جدول الشريحة 5 الذي سلطة القاضي فيه: 'سلطة مطلقة'.",
     "points": 1,
     "sort_order": 19,
     "choices": [
       {
         "id": "q_p1_19_c1",
-        "choice_text": "امتناعاً عن أمر مباح",
+        "choice_text": "الحدود",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_19_c2",
-        "choice_text": "امتناعاً عن واجب شرعي أو قانوني يتعين على المكلف فعله",
-        "is_correct": true,
+        "choice_text": "القصاص والدية",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_19_c3",
-        "choice_text": "امتناعاً قلبياً مجرداً",
-        "is_correct": false,
+        "choice_text": "التعازير",
+        "is_correct": true,
         "sort_order": 3
       },
       {
         "id": "q_p1_19_c4",
-        "choice_text": "امتناعاً مصحوباً بالضرب",
+        "choice_text": "جميع الجرائم السابقة",
         "is_correct": false,
         "sort_order": 4
       }
@@ -778,32 +778,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_20",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الحدود شرعت لحماية:",
-    "explanation": "الحدود حق لله تعالى، أي أنها شرعت لحفظ المقاصد الشرعية الكلية والمصلحة العامة للأمة ككل.",
+    "question_text": "النوع الوحيد من الجرائم الذي (لا يدخل فيه العفو) قطعاً وفق الشريحة 5 هو:",
+    "explanation": "الحدود هي النوع الوحيد في جدول الشريحة 5 الذي دُوّن أمامه في خانة العفو: 'لا'.",
     "points": 1,
     "sort_order": 20,
     "choices": [
       {
         "id": "q_p1_20_c1",
-        "choice_text": "المصالح الفردية البحتة",
-        "is_correct": false,
+        "choice_text": "الحدود",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_20_c2",
-        "choice_text": "حقوق الله تعالى وحفظ النظام والمقاصد الضرورية للمجتمع",
-        "is_correct": true,
+        "choice_text": "القصاص والدية",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_20_c3",
-        "choice_text": "خزينة الدولة وبيت المال فقط",
+        "choice_text": "التعازير",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_20_c4",
-        "choice_text": "علاقات التجارة الخارجية",
+        "choice_text": "القتل شبه العمد",
         "is_correct": false,
         "sort_order": 4
       }
@@ -812,32 +812,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_21",
     "exam_id": "exam_penal_lec1",
-    "question_text": "إذا تنازل المسروق منه عن حقه قبل إبلاغ الحاكم، فهل يصح ذلك؟",
-    "explanation": "العفو في السرقة جائز قبل رفع الأمر إلى الحاكم، فإذا رُفع إلى القاضي وثبت حَرُمَ العفو وسقطت الشفاعة.",
+    "question_text": "سلطة القاضي في جرائم الحدود وجرائم القصاص والدية تتفقان في الشريحة 5 في أن كلاً منهما:",
+    "explanation": "كلا النوعين (الحدود، والقصاص والدية) نصت الشريحة 5 على أن سلطة القاضي فيهما هي: 'التنفيذ فقط'.",
     "points": 1,
     "sort_order": 21,
     "choices": [
       {
         "id": "q_p1_21_c1",
-        "choice_text": "نعم يصح ويسقط الحد ما دام قبل رفع الأمر للحاكم",
-        "is_correct": true,
+        "choice_text": "سلطة مطلقة",
+        "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_21_c2",
-        "choice_text": "لا يصح مطلقاً",
-        "is_correct": false,
+        "choice_text": "التنفيذ فقط",
+        "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_21_c3",
-        "choice_text": "يجب جلده بدلاً من القطع",
+        "choice_text": "التخيير بين الجلد والغرامة",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_21_c4",
-        "choice_text": "يتحول إلى قصاص",
+        "choice_text": "سقوط الحكم بالتقادم",
         "is_correct": false,
         "sort_order": 4
       }
@@ -846,32 +846,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_22",
     "exam_id": "exam_penal_lec1",
-    "question_text": "عقوبة القصاص تختص بالاعتداء على:",
-    "explanation": "القصاص والدية عقوبتان مقررتان شرعاً للجنايات الواقعة على النفس (القتل) وما دون النفس (الأطراف والجروح).",
+    "question_text": "جرائم القصاص والدية وجرائم التعازير تتفقان في الشريحة 5 في مسألة العفو في أن:",
+    "explanation": "في جدول الشريحة 5، خانة العفو في كل من (القصاص والدية) و(التعازير) هي: 'نعم'.",
     "points": 1,
     "sort_order": 22,
     "choices": [
       {
         "id": "q_p1_22_c1",
-        "choice_text": "الأموال فقط",
+        "choice_text": "كلاهما لا يدخل فيهما العفو",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_22_c2",
-        "choice_text": "النفس وما دون النفس",
+        "choice_text": "كلاهما يدخل فيهما العفو (نعم)",
         "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_22_c3",
-        "choice_text": "الأعراض والعفة فقط",
+        "choice_text": "العفو فيهما بيد القاضي حصراً",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_22_c4",
-        "choice_text": "الدولة ونظام الحكم فقط",
+        "choice_text": "العفو فيهما باطل",
         "is_correct": false,
         "sort_order": 4
       }
@@ -880,32 +880,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_23",
     "exam_id": "exam_penal_lec1",
-    "question_text": "التعزير يثبت على:",
-    "explanation": "التعزير مشروع في كل معصية أو ذنب أو عدوان ليس فيه حد مقدر شرعاً ولا كفارة مقدرة.",
+    "question_text": "العمل المكوّن للركن المادي للجريمة في الشريحة 6 يتحقق إما بـ:",
+    "explanation": "نصت الشريحة 6 صراحة على أن العمل المكون للجريمة في الركن المادي يكون: 'سواءً كان فعلاً أو امتناعاً'.",
     "points": 1,
     "sort_order": 23,
     "choices": [
       {
         "id": "q_p1_23_c1",
-        "choice_text": "كل معصية لا حد فيها ولا كفارة",
+        "choice_text": "فعل أو امتناع",
         "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_23_c2",
-        "choice_text": "الجرائم المقدرة في القرآن فقط",
+        "choice_text": "نية أو هاجس",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_23_c3",
-        "choice_text": "القتل العمد المحض فقط",
+        "choice_text": "قول فقط دون حركة",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_23_c4",
-        "choice_text": "جرائم الردة فقط",
+        "choice_text": "رضا المجني عليه فقط",
         "is_correct": false,
         "sort_order": 4
       }
@@ -914,32 +914,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_24",
     "exam_id": "exam_penal_lec1",
-    "question_text": "هل يحق للقاضي تشديد عقوبة التعزير بحسب خطورة الجاني وسوابقه؟",
-    "explanation": "في التعزير ينظر القاضي إلى ملابسات الجريمة وحال الجاني وظروفه فيشدد أو يخفف بحسب المصلحة الردعية.",
+    "question_text": "إذا قام شخص بحركة إيجابية نهى عنها الشرع كإطلاق النار على إنسان، فهذا يمثل الركن المادي بصورة:",
+    "explanation": "إتيان السلوك الإيجابي المحظور هو الصورة الأولى من صورتي الركن المادي وهو 'الفعل'.",
     "points": 1,
     "sort_order": 24,
     "choices": [
       {
         "id": "q_p1_24_c1",
-        "choice_text": "نعم لأن له سلطة مطلقة وينظر لشخصية الجاني والجريمة معاً",
-        "is_correct": true,
+        "choice_text": "الامتناع",
+        "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_24_c2",
-        "choice_text": "لا لأن التعزير محدد بنص قطعي لا يتغير",
-        "is_correct": false,
+        "choice_text": "الفعل",
+        "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_24_c3",
-        "choice_text": "يحق له التشديد بالقتل فقط",
+        "choice_text": "الركن الشرعي",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_24_c4",
-        "choice_text": "التعزير ثابت لا يتدرج",
+        "choice_text": "الركن الأدبي",
         "is_correct": false,
         "sort_order": 4
       }
@@ -948,32 +948,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_25",
     "exam_id": "exam_penal_lec1",
-    "question_text": "أي من الآتي يُعد ركناً أدبياً (معنوياً) في الجريمة؟",
-    "explanation": "أهلية التكليف من العقل والبلوغ والاختيار والقصد تمثل جوهر الركن الأدبي والمعنوي.",
+    "question_text": "إذا امتنع شخص عمداً عن واجب شرعي كامتناع الأم عن إرضاع وليدها حتى مات، فهذا يمثل الركن المادي بصورة:",
+    "explanation": "الإحجام والامتناع عن واجب مفروض يمثل الصورة الثانية من صورتي الركن المادي وهي 'الامتناع'.",
     "points": 1,
     "sort_order": 25,
     "choices": [
       {
         "id": "q_p1_25_c1",
-        "choice_text": "طعن المجني عليه بالسكين",
+        "choice_text": "الفعل الإيجابي",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_25_c2",
-        "choice_text": "سريان السم في البدن وموت الضحية",
-        "is_correct": false,
+        "choice_text": "الامتناع",
+        "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_25_c3",
-        "choice_text": "أهلية التكليف والقصد الجنائي والإدراك",
-        "is_correct": true,
+        "choice_text": "انتفاء الجريمة",
+        "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_25_c4",
-        "choice_text": "نص آية تحريم القتل في القرآن",
+        "choice_text": "الركن الشرعي",
         "is_correct": false,
         "sort_order": 4
       }
@@ -982,32 +982,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_26",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الجرائم التي لا يملك القاضي فيها إلا تطبيق النص حرفياً دون تخفيف أو تبديل هي:",
-    "explanation": "سلطة القاضي في الحدود والقصاص هي التنفيذ الصارم لحكم الشرع دون تفويض في تغيير العقوبة.",
+    "question_text": "إذا لم يوجد نص شرعي يحظر الفعل ويعاقب عليه، فإن الجريمة تنتفي لتخلف الركن:",
+    "explanation": "الركن الشرعي نصاً في الشريحة 6 هو وجود النص الحاظر والمعاقب؛ فإذا انعدم النص انعدم الركن الشرعي وبطل التجريم.",
     "points": 1,
     "sort_order": 26,
     "choices": [
       {
         "id": "q_p1_26_c1",
-        "choice_text": "التعازير",
+        "choice_text": "المادي",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_26_c2",
-        "choice_text": "الحدود والقصاص قبل العفو",
+        "choice_text": "الشرعي",
         "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_26_c3",
-        "choice_text": "المخالفات الإدارية",
+        "choice_text": "الأدبي",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_26_c4",
-        "choice_text": "جرائم المرور",
+        "choice_text": "الوضعي",
         "is_correct": false,
         "sort_order": 4
       }
@@ -1016,32 +1016,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_27",
     "exam_id": "exam_penal_lec1",
-    "question_text": "من صور الركن المادي بطريق الامتناع:",
-    "explanation": "امتناع الحارس أو المكلف بالإنقاذ مع القدرة عليه يمثل صورة الركن المادي السلبي (الامتناع).",
+    "question_text": "المقصود بكون الجاني (مكلفاً) في الركن الأدبي في الشريحة 6 هو:",
+    "explanation": "فسرت الشريحة 6 كون الجاني مكلفاً في الركن الأدبي بعبارة: '(أي مسؤلاً عن الجريمة)'.",
     "points": 1,
     "sort_order": 27,
     "choices": [
       {
         "id": "q_p1_27_c1",
-        "choice_text": "إطلاق الرصاص على إنسان",
-        "is_correct": false,
+        "choice_text": "أن يكون مسؤولاً عن الجريمة",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_27_c2",
-        "choice_text": "إلقاء إنسان في البحر",
+        "choice_text": "أن يكون موظفاً في الدولة",
         "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_27_c3",
-        "choice_text": "امتناع الحارس المكلف بحماية الغريق عن إنقاذه مع قدرته",
-        "is_correct": true,
+        "choice_text": "أن يكون لديه مال كافٍ",
+        "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_27_c4",
-        "choice_text": "الضرب بالعصا الغليظة",
+        "choice_text": "أن يكون مدعياً بالحق المدني",
         "is_correct": false,
         "sort_order": 4
       }
@@ -1050,32 +1050,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_28",
     "exam_id": "exam_penal_lec1",
-    "question_text": "الفرق الأساسي بين القصاص والحدود من حيث إسقاط العقوبة هو:",
-    "explanation": "القصاص حق للمجني عليه وأولياء دمه فلهم إسقاطه، بخلاف الحدود التي هي حق لله فلا يملك أحد إسقاطها.",
+    "question_text": "إذا باشر الفعل المحظور شخص مجنون فاقد العقل، فإن المسؤولية الجنائية تسقط عنه لتخلف الركن:",
+    "explanation": "المجنون فاقد لأهلية التكليف، فينتفي في حقه الركن الأدبي (المسؤولية الجنائية).",
     "points": 1,
     "sort_order": 28,
     "choices": [
       {
         "id": "q_p1_28_c1",
-        "choice_text": "الحدود تسقط بعفو الحاكم والقصاص لا يسقط",
+        "choice_text": "الشرعي",
         "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_28_c2",
-        "choice_text": "القصاص يسقط بعفو أولياء الدم والحدود لا تسقط بالعفو بعد البلوغ للحاكم",
-        "is_correct": true,
+        "choice_text": "المادي",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_28_c3",
-        "choice_text": "كلاهما يسقطان بالعفو مطلقاً",
-        "is_correct": false,
+        "choice_text": "الأدبي",
+        "is_correct": true,
         "sort_order": 3
       },
       {
         "id": "q_p1_28_c4",
-        "choice_text": "كلاهما لا يقبلان العفو بحال",
+        "choice_text": "التنفيذي",
         "is_correct": false,
         "sort_order": 4
       }
@@ -1084,32 +1084,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_29",
     "exam_id": "exam_penal_lec1",
-    "question_text": "عقوبة الدية تعتبر:",
-    "explanation": "الدية عقوبة مالية مقررة شرعاً في الاعتداء على النفوس والأطراف بدلاً عن القصاص أو أصالة في الخطأ.",
+    "question_text": "عدد أركان الجريمة العامة وفق ما تضمنته الشريحة 6 هو:",
+    "explanation": "أركان الجريمة نصاً في الشريحة 6 ثلاثة: الركن الشرعي، الركن المادي، الركن الأدبي.",
     "points": 1,
     "sort_order": 29,
     "choices": [
       {
         "id": "q_p1_29_c1",
-        "choice_text": "عقوبة بديلة أو أصلية في جرائم الاعتداء على النفس وما دون النفس",
-        "is_correct": true,
+        "choice_text": "ركنان اثنان",
+        "is_correct": false,
         "sort_order": 1
       },
       {
         "id": "q_p1_29_c2",
-        "choice_text": "عقوبة حدية في السرقة",
-        "is_correct": false,
+        "choice_text": "ثلاثة أركان (الشرعي، المادي، الأدبي)",
+        "is_correct": true,
         "sort_order": 2
       },
       {
         "id": "q_p1_29_c3",
-        "choice_text": "عقوبة تعزيرية في الردة",
+        "choice_text": "أربعة أركان",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_29_c4",
-        "choice_text": "كفارة خاصة بالصيام",
+        "choice_text": "خمسة أركان",
         "is_correct": false,
         "sort_order": 4
       }
@@ -1118,32 +1118,32 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_30",
     "exam_id": "exam_penal_lec1",
-    "question_text": "إذا باشر الجريمة صبي غير مميز بتحريض من شخص بالغ، فالمسؤولية الجنائية الكاملة تقع على:",
-    "explanation": "الصبي غير مكلف وينتفي في حقه الركن الأدبي، ويعامل المحرض البالغ كفاعل معنوي مباشر للجريمة.",
+    "question_text": "أسئلة المناقشة في نهاية المحاضرة الأولى (الشريحة 8) طلبت شرح وبيان:",
+    "explanation": "الشريحة 8 تضمنت ثلاثة أسئلة مناقشة حصرية للمحاضرة الأولى: أنواع الجرائم والفروق بينها، أركان الجريمة، وأنواع القتل.",
     "points": 1,
     "sort_order": 30,
     "choices": [
       {
         "id": "q_p1_30_c1",
-        "choice_text": "الصبي وحده",
-        "is_correct": false,
+        "choice_text": "أنواع الجرائم والفرق بينها، وتعداد أركان الجريمة، وذكر أنواع القتل",
+        "is_correct": true,
         "sort_order": 1
       },
       {
         "id": "q_p1_30_c2",
-        "choice_text": "المحرض البالغ لتوفر الركن الأدبي والقصد لديه واستخدامه الصبي كأداة",
-        "is_correct": true,
+        "choice_text": "أحكام حد الرجم في الزنى",
+        "is_correct": false,
         "sort_order": 2
       },
       {
         "id": "q_p1_30_c3",
-        "choice_text": "تسقط الجريمة عن الاثنين",
+        "choice_text": "شروط إحصان القذف",
         "is_correct": false,
         "sort_order": 3
       },
       {
         "id": "q_p1_30_c4",
-        "choice_text": "يُحد الصبي ويُعفى البالغ",
+        "choice_text": "شروط الحرز في السرقة",
         "is_correct": false,
         "sort_order": 4
       }
@@ -11524,7 +11524,7 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_01_c1",
     "question_id": "q_p1_01",
-    "choice_text": "العقوبة المقدرة حقاً لله تعالى",
+    "choice_text": "العقوبة المقدرة حقاً لله",
     "is_correct": true,
     "sort_order": 1
   },
@@ -11545,819 +11545,819 @@ window.PENAL_LAW_CURRICULUM = {
   {
     "id": "q_p1_01_c4",
     "question_id": "q_p1_01",
-    "choice_text": "التعويض المالي عن الجناية",
+    "choice_text": "المال الواجب بالجناية على النفس",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_02_c1",
     "question_id": "q_p1_02",
-    "choice_text": "السلطة المطلقة بين العفو والتشديد",
-    "is_correct": false,
+    "choice_text": "التنفيذ فقط",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_02_c2",
     "question_id": "q_p1_02",
-    "choice_text": "التنفيذ فقط",
-    "is_correct": true,
+    "choice_text": "سلطة مطلقة",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_02_c3",
     "question_id": "q_p1_02",
-    "choice_text": "تخفيض العقوبة عند توبة الجاني",
+    "choice_text": "التخيير بين العقوبات",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_02_c4",
     "question_id": "q_p1_02",
-    "choice_text": "استبدال الحد بالتعزير",
+    "choice_text": "العفو والصلح",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_03_c1",
     "question_id": "q_p1_03",
-    "choice_text": "نعم يجوز للحاكم العفو مطلقاً",
-    "is_correct": false,
+    "choice_text": "لا",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_03_c2",
     "question_id": "q_p1_03",
-    "choice_text": "نعم إذا رضي المجني عليه",
+    "choice_text": "نعم",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_03_c3",
     "question_id": "q_p1_03",
-    "choice_text": "لا يدخل فيها العفو",
-    "is_correct": true,
+    "choice_text": "يجوز لولي الأمر فقط",
+    "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_03_c4",
     "question_id": "q_p1_03",
-    "choice_text": "يجوز العفو في ثلث العقوبة فقط",
+    "choice_text": "يجوز للمجني عليه فقط",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_04_c1",
     "question_id": "q_p1_04",
-    "choice_text": "سلطة مطلقة",
+    "choice_text": "بحد مقدر حقاً لله",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_04_c2",
     "question_id": "q_p1_04",
-    "choice_text": "التنفيذ فقط",
+    "choice_text": "بقصاص أو دية",
     "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_04_c3",
     "question_id": "q_p1_04",
-    "choice_text": "التخيير بين القتل والغرامة",
+    "choice_text": "بعقوبة تعزيرية فقط",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_04_c4",
     "question_id": "q_p1_04",
-    "choice_text": "إسقاط العقوبة باجتهاده",
+    "choice_text": "بالحبس واللوم",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_05_c1",
     "question_id": "q_p1_05",
-    "choice_text": "لا يدخل فيها العفو لأنها حق لله",
+    "choice_text": "سلطة مطلقة",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_05_c2",
     "question_id": "q_p1_05",
-    "choice_text": "نعم يدخل فيها العفو من أولياء الدم",
+    "choice_text": "التنفيذ فقط",
     "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_05_c3",
     "question_id": "q_p1_05",
-    "choice_text": "يجوز العفو في الدية دون القصاص",
+    "choice_text": "تحديد مقدار الدية باجتهاده",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_05_c4",
     "question_id": "q_p1_05",
-    "choice_text": "لا عفو إلا بإذن الحاكم",
+    "choice_text": "إسقاط القصاص دون إذن الأولياء",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_06_c1",
     "question_id": "q_p1_06",
-    "choice_text": "الجرائم المعاقب عليها بحد مقدر",
-    "is_correct": false,
+    "choice_text": "نعم",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_06_c2",
     "question_id": "q_p1_06",
-    "choice_text": "الجرائم التي فيها القصاص فقط",
+    "choice_text": "لا",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_06_c3",
     "question_id": "q_p1_06",
-    "choice_text": "الجرائم غير المقدرة شرعاً ويُعاقب عليها بعقوبة تعزيرية أو أكثر",
-    "is_correct": true,
+    "choice_text": "لا يجوز مطلقاً",
+    "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_06_c4",
     "question_id": "q_p1_06",
-    "choice_text": "الجرائم التي كفارتها الصيام فقط",
+    "choice_text": "يدخل في الخطأ دون العمد",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_07_c1",
     "question_id": "q_p1_07",
-    "choice_text": "التنفيذ فقط دون أي تقدير",
+    "choice_text": "المقدرة حقاً لله تعالى",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_07_c2",
     "question_id": "q_p1_07",
-    "choice_text": "سلطة مطلقة في تقدير العقوبة ونوعها بحسب الجريمة والجاني",
-    "is_correct": true,
+    "choice_text": "المعاقب عليها بقصاص أو دية",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_07_c3",
     "question_id": "q_p1_07",
-    "choice_text": "مقيدة بالجلد أربعين جلدة فقط",
-    "is_correct": false,
+    "choice_text": "غير المقدرة شرعاً، ويُعاقب عليها بعقوبة تعزيرية أو أكثر",
+    "is_correct": true,
     "sort_order": 3
   },
   {
     "id": "q_p1_07_c4",
     "question_id": "q_p1_07",
-    "choice_text": "التخيير بين القصاص والدية",
+    "choice_text": "التي تسقط بالتقادم",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_08_c1",
     "question_id": "q_p1_08",
-    "choice_text": "نعم يجوز لولي الأمر أو القاضي العفو فيها لمصلحة معتبرة",
-    "is_correct": true,
+    "choice_text": "التنفيذ فقط",
+    "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_08_c2",
     "question_id": "q_p1_08",
-    "choice_text": "لا يجوز العفو فيها بحال",
-    "is_correct": false,
+    "choice_text": "سلطة مطلقة",
+    "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_08_c3",
     "question_id": "q_p1_08",
-    "choice_text": "لا يعفو إلا المجني عليه وحده",
+    "choice_text": "سلطة مقيدة بحدود معينة",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_08_c4",
     "question_id": "q_p1_08",
-    "choice_text": "العفو محرم في التعازير",
+    "choice_text": "التنفيذ بعد موافقة البرلمان",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_09_c1",
     "question_id": "q_p1_09",
-    "choice_text": "إتيان العمل المادي المحظور",
-    "is_correct": false,
+    "choice_text": "نعم",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_09_c2",
     "question_id": "q_p1_09",
-    "choice_text": "أن يكون الجاني مكلفاً بالغاً عاقلاً",
+    "choice_text": "لا",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_09_c3",
     "question_id": "q_p1_09",
-    "choice_text": "أن يكون هناك نص يحظر الفعل ويُعاقب عليه",
-    "is_correct": true,
+    "choice_text": "لا يدخل فيها العفو مطلقاً كالحدود",
+    "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_09_c4",
     "question_id": "q_p1_09",
-    "choice_text": "حصول النتيجة الإجرامية ووفاة المجني عليه",
+    "choice_text": "لا يجوز العفو إلا للمصلحة الأجنبية",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_10_c1",
     "question_id": "q_p1_10",
-    "choice_text": "وجود النص المحرم في القرآن والسنة",
-    "is_correct": false,
+    "choice_text": "أن يكون هناك نص يحظر الفعل ويُعاقب عليه",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_10_c2",
     "question_id": "q_p1_10",
-    "choice_text": "إتيان العمل المكوّن للجريمة سواءً كان فعلاً أو امتناعاً",
-    "is_correct": true,
+    "choice_text": "إتيان العمل المادي باليد",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_10_c3",
     "question_id": "q_p1_10",
-    "choice_text": "قصد الإضرار بالغير دون حركة بدنية",
+    "choice_text": "أن يكون الجاني مكلفاً عاقلاً",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_10_c4",
     "question_id": "q_p1_10",
-    "choice_text": "أهلية الجاني للمسؤولية الجنائية",
+    "choice_text": "حصول الضرر في الواقع",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_11_c1",
     "question_id": "q_p1_11",
-    "choice_text": "إيقاع العقوبة بآلة حادة",
+    "choice_text": "وجود الآية أو الحديث المحرم",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_11_c2",
     "question_id": "q_p1_11",
-    "choice_text": "أن يكون الجاني مكلفاً (أي مسؤولاً عن الجريمة)",
+    "choice_text": "إتيان العمل المكوّن للجريمة سواءً كان فعلاً أو امتناعاً",
     "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_11_c3",
     "question_id": "q_p1_11",
-    "choice_text": "وجود ولي دم يطالب بالحق",
+    "choice_text": "أن يكون الجاني مسؤولاً جنائياً",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_11_c4",
     "question_id": "q_p1_11",
-    "choice_text": "نقل الجثمان إلى مكان الجريمة",
+    "choice_text": "حضور أربعة شهداء",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_12_c1",
     "question_id": "q_p1_12",
-    "choice_text": "الشرعي",
-    "is_correct": false,
+    "choice_text": "أن يكون الجاني مُكلفاً (أي مسؤلاً عن الجريمة)",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_12_c2",
     "question_id": "q_p1_12",
-    "choice_text": "المادي",
+    "choice_text": "أن يعتذر الجاني بأدب أمام القاضي",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_12_c3",
     "question_id": "q_p1_12",
-    "choice_text": "الأدبي",
-    "is_correct": true,
+    "choice_text": "أن تكون الجريمة ضد الأخلاق فقط",
+    "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_12_c4",
     "question_id": "q_p1_12",
-    "choice_text": "الوضعي",
+    "choice_text": "أن يكون هناك نص قانوني",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_13_c1",
     "question_id": "q_p1_13",
-    "choice_text": "الفعل الإيجابي",
+    "choice_text": "نوعين: عمد وغير عمد",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_13_c2",
     "question_id": "q_p1_13",
-    "choice_text": "الامتناع",
+    "choice_text": "ثلاثة أنواع: القتل العمد، والقتل شبه العمد، والقتل الخطأ",
     "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_13_c3",
     "question_id": "q_p1_13",
-    "choice_text": "شبهة المحل",
+    "choice_text": "أربعة أنواع بإضافة ما أجري مجرى الخطأ",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_13_c4",
     "question_id": "q_p1_13",
-    "choice_text": "الخطأ المحض",
+    "choice_text": "خمسة أنواع بحسب الآلة",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_14_c1",
     "question_id": "q_p1_14",
-    "choice_text": "نوعين: عمد وغير عمد",
-    "is_correct": false,
+    "choice_text": "أنواع القتل في الشريعة المنصوص عليها في الشريحة 7",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_14_c2",
     "question_id": "q_p1_14",
-    "choice_text": "ثلاثة أنواع: العمد، وشبه العمد، والخطأ",
-    "is_correct": true,
+    "choice_text": "التعازير غير المقدرة",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_14_c3",
     "question_id": "q_p1_14",
-    "choice_text": "أربعة أنواع بإضافة ما أُجري مجرى الخطأ",
+    "choice_text": "أركان الجريمة الأدبية",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_14_c4",
     "question_id": "q_p1_14",
-    "choice_text": "خمسة أنواع",
+    "choice_text": "شبهات الحدود",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_15_c1",
     "question_id": "q_p1_15",
-    "choice_text": "المغني لابن قدامة",
-    "is_correct": false,
+    "choice_text": "أنواع القتل في الشريعة المنصوص عليها في الشريحة 7",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_15_c2",
     "question_id": "q_p1_15",
-    "choice_text": "التشريع الجنائي الإسلامي لعبد القادر عودة",
-    "is_correct": true,
+    "choice_text": "الركن الشرعي",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_15_c3",
     "question_id": "q_p1_15",
-    "choice_text": "بداية المجتهد لابن رشد",
+    "choice_text": "الركن المادي بالامتناع",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_15_c4",
     "question_id": "q_p1_15",
-    "choice_text": "سبل السلام للصنعاني",
+    "choice_text": "جرائم الحدود الخالصة لله",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_16_c1",
     "question_id": "q_p1_16",
-    "choice_text": "مقدرة شرعاً بينما التعازير غير مقدرة",
+    "choice_text": "أنواع القتل في الشريعة المنصوص عليها في الشريحة 7",
     "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_16_c2",
     "question_id": "q_p1_16",
-    "choice_text": "متروكة للقاضي بينما التعازير محددة",
+    "choice_text": "الركن الأدبي للجريمة",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_16_c3",
     "question_id": "q_p1_16",
-    "choice_text": "يقبل فيها عفو الحاكم مطلقاً",
+    "choice_text": "الجرائم التعزيرية المطلقة",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_16_c4",
     "question_id": "q_p1_16",
-    "choice_text": "خاصة بالأموال فقط",
+    "choice_text": "موانع التكليف",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_17_c1",
     "question_id": "q_p1_17",
-    "choice_text": "رفض العفو وإعدام الجاني حتماً",
-    "is_correct": false,
+    "choice_text": "التشريع الجنائي الإسلامي لعبد القادر عودة",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_17_c2",
     "question_id": "q_p1_17",
-    "choice_text": "إسقاط القصاص واستيفاء الدية أو التعزير بحسب مقتضى العفو",
-    "is_correct": true,
+    "choice_text": "المدونة لسحنون",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_17_c3",
     "question_id": "q_p1_17",
-    "choice_text": "معاقبة أولياء الدم بالسجن",
+    "choice_text": "فتح القدير لابن الهمام",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_17_c4",
     "question_id": "q_p1_17",
-    "choice_text": "إحالة القضية إلى محكمة أجنبية",
+    "choice_text": "الأم للإمام الشافعي",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_18_c1",
     "question_id": "q_p1_18",
-    "choice_text": "المادي",
-    "is_correct": false,
+    "choice_text": "أ.م.د. عبد الكريم محمد عبد الله الوظّاف",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_18_c2",
     "question_id": "q_p1_18",
-    "choice_text": "الشرعي",
-    "is_correct": true,
+    "choice_text": "أ.د. سعد إبراهيم العلوي",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_18_c3",
     "question_id": "q_p1_18",
-    "choice_text": "الأدبي",
+    "choice_text": "د. عبد الله محمد الدرسي",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_18_c4",
     "question_id": "q_p1_18",
-    "choice_text": "المدني",
+    "choice_text": "د. جميل اللاحجي",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_19_c1",
     "question_id": "q_p1_19",
-    "choice_text": "امتناعاً عن أمر مباح",
+    "choice_text": "الحدود",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_19_c2",
     "question_id": "q_p1_19",
-    "choice_text": "امتناعاً عن واجب شرعي أو قانوني يتعين على المكلف فعله",
-    "is_correct": true,
+    "choice_text": "القصاص والدية",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_19_c3",
     "question_id": "q_p1_19",
-    "choice_text": "امتناعاً قلبياً مجرداً",
-    "is_correct": false,
+    "choice_text": "التعازير",
+    "is_correct": true,
     "sort_order": 3
   },
   {
     "id": "q_p1_19_c4",
     "question_id": "q_p1_19",
-    "choice_text": "امتناعاً مصحوباً بالضرب",
+    "choice_text": "جميع الجرائم السابقة",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_20_c1",
     "question_id": "q_p1_20",
-    "choice_text": "المصالح الفردية البحتة",
-    "is_correct": false,
+    "choice_text": "الحدود",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_20_c2",
     "question_id": "q_p1_20",
-    "choice_text": "حقوق الله تعالى وحفظ النظام والمقاصد الضرورية للمجتمع",
-    "is_correct": true,
+    "choice_text": "القصاص والدية",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_20_c3",
     "question_id": "q_p1_20",
-    "choice_text": "خزينة الدولة وبيت المال فقط",
+    "choice_text": "التعازير",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_20_c4",
     "question_id": "q_p1_20",
-    "choice_text": "علاقات التجارة الخارجية",
+    "choice_text": "القتل شبه العمد",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_21_c1",
     "question_id": "q_p1_21",
-    "choice_text": "نعم يصح ويسقط الحد ما دام قبل رفع الأمر للحاكم",
-    "is_correct": true,
+    "choice_text": "سلطة مطلقة",
+    "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_21_c2",
     "question_id": "q_p1_21",
-    "choice_text": "لا يصح مطلقاً",
-    "is_correct": false,
+    "choice_text": "التنفيذ فقط",
+    "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_21_c3",
     "question_id": "q_p1_21",
-    "choice_text": "يجب جلده بدلاً من القطع",
+    "choice_text": "التخيير بين الجلد والغرامة",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_21_c4",
     "question_id": "q_p1_21",
-    "choice_text": "يتحول إلى قصاص",
+    "choice_text": "سقوط الحكم بالتقادم",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_22_c1",
     "question_id": "q_p1_22",
-    "choice_text": "الأموال فقط",
+    "choice_text": "كلاهما لا يدخل فيهما العفو",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_22_c2",
     "question_id": "q_p1_22",
-    "choice_text": "النفس وما دون النفس",
+    "choice_text": "كلاهما يدخل فيهما العفو (نعم)",
     "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_22_c3",
     "question_id": "q_p1_22",
-    "choice_text": "الأعراض والعفة فقط",
+    "choice_text": "العفو فيهما بيد القاضي حصراً",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_22_c4",
     "question_id": "q_p1_22",
-    "choice_text": "الدولة ونظام الحكم فقط",
+    "choice_text": "العفو فيهما باطل",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_23_c1",
     "question_id": "q_p1_23",
-    "choice_text": "كل معصية لا حد فيها ولا كفارة",
+    "choice_text": "فعل أو امتناع",
     "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_23_c2",
     "question_id": "q_p1_23",
-    "choice_text": "الجرائم المقدرة في القرآن فقط",
+    "choice_text": "نية أو هاجس",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_23_c3",
     "question_id": "q_p1_23",
-    "choice_text": "القتل العمد المحض فقط",
+    "choice_text": "قول فقط دون حركة",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_23_c4",
     "question_id": "q_p1_23",
-    "choice_text": "جرائم الردة فقط",
+    "choice_text": "رضا المجني عليه فقط",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_24_c1",
     "question_id": "q_p1_24",
-    "choice_text": "نعم لأن له سلطة مطلقة وينظر لشخصية الجاني والجريمة معاً",
-    "is_correct": true,
+    "choice_text": "الامتناع",
+    "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_24_c2",
     "question_id": "q_p1_24",
-    "choice_text": "لا لأن التعزير محدد بنص قطعي لا يتغير",
-    "is_correct": false,
+    "choice_text": "الفعل",
+    "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_24_c3",
     "question_id": "q_p1_24",
-    "choice_text": "يحق له التشديد بالقتل فقط",
+    "choice_text": "الركن الشرعي",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_24_c4",
     "question_id": "q_p1_24",
-    "choice_text": "التعزير ثابت لا يتدرج",
+    "choice_text": "الركن الأدبي",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_25_c1",
     "question_id": "q_p1_25",
-    "choice_text": "طعن المجني عليه بالسكين",
+    "choice_text": "الفعل الإيجابي",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_25_c2",
     "question_id": "q_p1_25",
-    "choice_text": "سريان السم في البدن وموت الضحية",
-    "is_correct": false,
+    "choice_text": "الامتناع",
+    "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_25_c3",
     "question_id": "q_p1_25",
-    "choice_text": "أهلية التكليف والقصد الجنائي والإدراك",
-    "is_correct": true,
+    "choice_text": "انتفاء الجريمة",
+    "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_25_c4",
     "question_id": "q_p1_25",
-    "choice_text": "نص آية تحريم القتل في القرآن",
+    "choice_text": "الركن الشرعي",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_26_c1",
     "question_id": "q_p1_26",
-    "choice_text": "التعازير",
+    "choice_text": "المادي",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_26_c2",
     "question_id": "q_p1_26",
-    "choice_text": "الحدود والقصاص قبل العفو",
+    "choice_text": "الشرعي",
     "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_26_c3",
     "question_id": "q_p1_26",
-    "choice_text": "المخالفات الإدارية",
+    "choice_text": "الأدبي",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_26_c4",
     "question_id": "q_p1_26",
-    "choice_text": "جرائم المرور",
+    "choice_text": "الوضعي",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_27_c1",
     "question_id": "q_p1_27",
-    "choice_text": "إطلاق الرصاص على إنسان",
-    "is_correct": false,
+    "choice_text": "أن يكون مسؤولاً عن الجريمة",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_27_c2",
     "question_id": "q_p1_27",
-    "choice_text": "إلقاء إنسان في البحر",
+    "choice_text": "أن يكون موظفاً في الدولة",
     "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_27_c3",
     "question_id": "q_p1_27",
-    "choice_text": "امتناع الحارس المكلف بحماية الغريق عن إنقاذه مع قدرته",
-    "is_correct": true,
+    "choice_text": "أن يكون لديه مال كافٍ",
+    "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_27_c4",
     "question_id": "q_p1_27",
-    "choice_text": "الضرب بالعصا الغليظة",
+    "choice_text": "أن يكون مدعياً بالحق المدني",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_28_c1",
     "question_id": "q_p1_28",
-    "choice_text": "الحدود تسقط بعفو الحاكم والقصاص لا يسقط",
+    "choice_text": "الشرعي",
     "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_28_c2",
     "question_id": "q_p1_28",
-    "choice_text": "القصاص يسقط بعفو أولياء الدم والحدود لا تسقط بالعفو بعد البلوغ للحاكم",
-    "is_correct": true,
+    "choice_text": "المادي",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_28_c3",
     "question_id": "q_p1_28",
-    "choice_text": "كلاهما يسقطان بالعفو مطلقاً",
-    "is_correct": false,
+    "choice_text": "الأدبي",
+    "is_correct": true,
     "sort_order": 3
   },
   {
     "id": "q_p1_28_c4",
     "question_id": "q_p1_28",
-    "choice_text": "كلاهما لا يقبلان العفو بحال",
+    "choice_text": "التنفيذي",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_29_c1",
     "question_id": "q_p1_29",
-    "choice_text": "عقوبة بديلة أو أصلية في جرائم الاعتداء على النفس وما دون النفس",
-    "is_correct": true,
+    "choice_text": "ركنان اثنان",
+    "is_correct": false,
     "sort_order": 1
   },
   {
     "id": "q_p1_29_c2",
     "question_id": "q_p1_29",
-    "choice_text": "عقوبة حدية في السرقة",
-    "is_correct": false,
+    "choice_text": "ثلاثة أركان (الشرعي، المادي، الأدبي)",
+    "is_correct": true,
     "sort_order": 2
   },
   {
     "id": "q_p1_29_c3",
     "question_id": "q_p1_29",
-    "choice_text": "عقوبة تعزيرية في الردة",
+    "choice_text": "أربعة أركان",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_29_c4",
     "question_id": "q_p1_29",
-    "choice_text": "كفارة خاصة بالصيام",
+    "choice_text": "خمسة أركان",
     "is_correct": false,
     "sort_order": 4
   },
   {
     "id": "q_p1_30_c1",
     "question_id": "q_p1_30",
-    "choice_text": "الصبي وحده",
-    "is_correct": false,
+    "choice_text": "أنواع الجرائم والفرق بينها، وتعداد أركان الجريمة، وذكر أنواع القتل",
+    "is_correct": true,
     "sort_order": 1
   },
   {
     "id": "q_p1_30_c2",
     "question_id": "q_p1_30",
-    "choice_text": "المحرض البالغ لتوفر الركن الأدبي والقصد لديه واستخدامه الصبي كأداة",
-    "is_correct": true,
+    "choice_text": "أحكام حد الرجم في الزنى",
+    "is_correct": false,
     "sort_order": 2
   },
   {
     "id": "q_p1_30_c3",
     "question_id": "q_p1_30",
-    "choice_text": "تسقط الجريمة عن الاثنين",
+    "choice_text": "شروط إحصان القذف",
     "is_correct": false,
     "sort_order": 3
   },
   {
     "id": "q_p1_30_c4",
     "question_id": "q_p1_30",
-    "choice_text": "يُحد الصبي ويُعفى البالغ",
+    "choice_text": "شروط الحرز في السرقة",
     "is_correct": false,
     "sort_order": 4
   },

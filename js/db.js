@@ -492,7 +492,12 @@ class DatabaseManager {
     if (typeof window !== 'undefined' && window.PENAL_LAW_CURRICULUM) {
       const pExam = window.PENAL_LAW_CURRICULUM.exams.find(e => e.id === examId);
       if (pExam) {
-        const user = window.authManager?.getUser() || { id: 'guest', fullName: 'طالب قسم القرآن الكريم' };
+        const user = window.authManager?.getUser();
+        if (!user || user.id === 'guest' || String(user.id).startsWith('usr_guest_')) {
+          alert('عذراً، يجب تسجيل الدخول بحساب طالب مسجل بالمنصة لتسليم الاختبار وتوثيق نتيجتك رسمياً.');
+          window.location.href = `auth.html?mode=login&redirect=exam.html?id=${encodeURIComponent(examId)}`;
+          throw new Error('تسليم الاختبار مقتصر على الطلاب المسجلين');
+        }
         const pQuestions = window.PENAL_LAW_CURRICULUM.questions.filter(q => q.exam_id === examId);
         const pChoices = window.PENAL_LAW_CURRICULUM.choices;
 
@@ -524,18 +529,22 @@ class DatabaseManager {
         const percentage = Math.round((earnedScore / (totalPoints || 1)) * 100);
         const passed = percentage >= (pExam?.passing_percentage || 50);
 
+        const telemetrySnapshot = (typeof window !== 'undefined' && window.telemetry) ? window.telemetry.getSnapshot() : null;
+
         const submission = {
           id: 'sub_' + Date.now(),
           exam_id: examId,
           user_id: user.id,
-          user_name: user.fullName,
+          user_name: user.fullName || user.username || 'طالب',
+          user_email: user.email || '',
           score: earnedScore,
           total_points: totalPoints,
           percentage: percentage,
           passed: passed,
           passing_percentage: pExam?.passing_percentage || 50,
           completed_at: new Date().toISOString(),
-          review_details: reviewDetails
+          review_details: reviewDetails,
+          telemetry: telemetrySnapshot
         };
 
         const submissions = JSON.parse(localStorage.getItem('edutest_demo_submissions') || '[]');
@@ -796,7 +805,8 @@ class DatabaseManager {
       const sb = subjects.find(sub => sub.id === ex?.subject_id);
       return {
         ...s,
-        profiles: { full_name: s.user_name || 'طالب', email: '' },
+        profiles: { full_name: s.user_name || 'طالب', email: s.user_email || '' },
+        telemetry: s.telemetry || null,
         exams: {
           title: ex?.title || 'نموذج اختباري',
           subjects: { title: sb?.title || 'مقرر تخصصي' }

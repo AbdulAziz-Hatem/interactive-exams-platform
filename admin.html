@@ -351,13 +351,13 @@
             <thead>
               <tr>
                 <th>اسم الطالب</th>
-                <th>النموذج الاختباري</th>
-                <th>المقرر</th>
-                <th>الدرجة</th>
-                <th>النسبة</th>
-                <th>الحالة</th>
+                <th>النموذج والمقرر</th>
+                <th>الدرجة والنسبة</th>
+                <th>الجهاز والمتصفح</th>
+                <th>مصدر الزيارة</th>
+                <th>مؤشر النزاهة</th>
                 <th>تاريخ الإنجاز</th>
-                <th>المراجعة الأكاديمية</th>
+                <th>رادار البيانات ℹ️</th>
               </tr>
             </thead>
             <tbody id="tbody-submissions">
@@ -453,6 +453,7 @@
   <script src="js/a11y.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/curriculum_penal_law.js"></script>
+  <script src="js/telemetry.js"></script>
   <script src="js/db.js"></script>
   <script>
     let activeAdminTab = 'subjects';
@@ -873,17 +874,46 @@
 
           return `
             <tr>
-              <td style="font-weight: 700;">${window.authManager.escapeHtml(studentName)}</td>
-              <td style="font-weight: 700;">${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</td>
-              <td style="color: var(--text-muted);">${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'عام')}</td>
-              <td>${sub.score} / ${sub.total_points}</td>
-              <td style="font-weight: 800; color: var(--primary);">${sub.percentage}%</td>
-              <td>${statusBadge}</td>
-              <td style="font-size: 0.85rem; color: var(--text-muted);">${dateStr}</td>
               <td>
-                <a href="result.html?submission_id=${sub.id}" class="btn-icon btn-icon-primary" aria-label="عرض مراجعة نتيجة ${window.authManager.escapeHtml(studentName)}">
-                  عرض المراجعة ❯
-                </a>
+                <strong style="color: var(--text-main); font-size: 1rem;">${window.authManager.escapeHtml(studentName)}</strong>
+                <div style="font-size: 0.8rem; color: var(--text-muted);" dir="ltr">${window.authManager.escapeHtml(sub.profiles?.email || sub.user_email || '—')}</div>
+              </td>
+              <td>
+                <strong style="font-size: 0.95rem;">${window.authManager.escapeHtml(sub.exams?.title || 'اختبار')}</strong>
+                <div style="font-size: 0.82rem; color: var(--primary);">${window.authManager.escapeHtml(sub.exams?.subjects?.title || 'عام')}</div>
+              </td>
+              <td>
+                <span style="font-weight: 800; color: var(--primary); font-size: 1.05rem;">${sub.percentage}%</span>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">(${sub.score} من ${sub.total_points}) ${statusBadge}</div>
+              </td>
+              <td>
+                <span class="badge badge-primary" style="font-size: 0.8rem;">
+                  📱 ${window.authManager.escapeHtml(sub.telemetry?.userAgent?.os || 'أندرويد')}
+                </span>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem;">
+                  ${window.authManager.escapeHtml(sub.telemetry?.userAgent?.browser || 'جوجل كروم')}
+                </div>
+              </td>
+              <td>
+                <span class="badge badge-secondary" style="font-size: 0.8rem;">
+                  🌐 ${window.authManager.escapeHtml(sub.telemetry?.traffic?.sourceName || 'دخول مباشر')}
+                </span>
+              </td>
+              <td>
+                <span class="badge ${sub.telemetry?.integrity?.flag === 'suspicious' ? 'badge-danger' : 'badge-success'}" style="font-size: 0.8rem;">
+                  ${window.authManager.escapeHtml(sub.telemetry?.integrity?.status || 'ملتزم بالجلسة 🟢')}
+                </span>
+              </td>
+              <td style="font-size: 0.82rem; color: var(--text-muted);" dir="ltr">${dateStr}</td>
+              <td>
+                <div style="display: flex; gap: 0.35rem; align-items: center;\ them;">
+                  <button type="button" class="btn btn-secondary btn-sm btn-telemetry-detail" data-sub="${encodeURIComponent(JSON.stringify(sub))}" aria-label="عرض التفاصيل الفنية الكاملة لجلسة ${window.authManager.escapeHtml(studentName)}">
+                    بيانات الزائر 🔍
+                  </button>
+                  <a href="result.html?submission_id=${sub.id}" class="btn btn-primary btn-sm" aria-label="عرض ورقة إجابات ${window.authManager.escapeHtml(studentName)}">
+                    المراجعة ❯
+                  </a>
+                </div>
               </td>
             </tr>
           `;
@@ -1019,5 +1049,129 @@
     }
   </script>
   <script src="js/pwa.js"></script>
+
+  <!-- نافذة رادار بيانات الزائر ونزاهة الجلسة الفنية (Telemetry Modal) للمشرف العام -->
+  <div id="telemetry-modal" class="modal-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 1.5rem;" role="dialog" aria-modal="true" aria-labelledby="modal-telemetry-title">
+    <div class="card" style="max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-top: 5px solid var(--primary);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; margin-bottom: 1.25rem;">
+        <div>
+          <span class="badge badge-primary" style="margin-bottom: 0.35rem;">الرصد الفني ونزاهة الاختبار</span>
+          <h2 id="modal-telemetry-title" style="font-size: 1.45rem; font-weight: 800; color: var(--text-main); margin: 0;">
+            تفاصيل جلسة الطالب ووكيل المستخدم
+          </h2>
+        </div>
+        <button type="button" id="btn-close-telemetry-modal" class="btn-icon" style="font-size: 1.25rem; font-weight: bold;" aria-label="إغلاق نافذة الرادار">✕</button>
+      </div>
+
+      <div id="telemetry-modal-body">
+        <!-- محتوى بطاقة الرادار ديناميكياً -->
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem; border-top: 1px solid var(--border-light); padding-top: 1rem;">
+        <button type="button" id="btn-close-telemetry-modal-2" class="btn btn-secondary">إغلاق النافذة</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ربط نافذة الرادار الفني بالجدول
+    function setupTelemetryModal() {
+      const modal = document.getElementById('telemetry-modal');
+      const modalBody = document.getElementById('telemetry-modal-body');
+      const closeBtn1 = document.getElementById('btn-close-telemetry-modal');
+      const closeBtn2 = document.getElementById('btn-close-telemetry-modal-2');
+
+      const closeModal = () => {
+        if (modal) modal.style.display = 'none';
+      };
+
+      closeBtn1?.addEventListener('click', closeModal);
+      closeBtn2?.addEventListener('click', closeModal);
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      document.querySelectorAll('.btn-telemetry-detail').forEach(btn => {
+        btn.addEventListener('click', () => {
+          try {
+            const sub = JSON.parse(decodeURIComponent(btn.getAttribute('data-sub')));
+            const tel = sub.telemetry || {};
+            const ua = tel.userAgent || {};
+            const env = tel.environment || {};
+            const traf = tel.traffic || {};
+            const integ = tel.integrity || {};
+
+            modalBody.innerHTML = `
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+                <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md);">
+                  <strong style="color: var(--text-muted); font-size: 0.85rem;">👤 هوية الطالب</strong>
+                  <div style="font-size: 1.05rem; font-weight: 800; margin-top: 0.35rem;">${window.authManager.escapeHtml(sub.profiles?.full_name || sub.user_name || 'طالب')}</div>
+                  <div style="font-size: 0.82rem; color: var(--primary);" dir="ltr">${window.authManager.escapeHtml(sub.profiles?.email || sub.user_email || '—')}</div>
+                </div>
+
+                <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md);">
+                  <strong style="color: var(--text-muted); font-size: 0.85rem;">🛡️ مؤشر النزاهة وسلوك الشاشة</strong>
+                  <div style="font-size: 0.98rem; font-weight: 800; margin-top: 0.35rem; color: ${integ.flag === 'suspicious' ? 'var(--danger)' : 'var(--success)'};">
+                    ${window.authManager.escapeHtml(integ.status || 'ملتزم بالجلسة 🟢')}
+                  </div>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">
+                    عدد مغادرات الصفحة: <strong>${integ.tabSwitchCount || 0}</strong> مرات | الوقت بالخارج: <strong>${integ.outOfFocusSeconds || 0}</strong> ثانية
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md);">
+                  <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem;">📱 بيانات الجهاز والمتصفح:</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.88rem; line-height: 1.8;">
+                    <li><strong>نوع الجهاز:</strong> ${window.authManager.escapeHtml(ua.deviceType || 'هاتف محمول')}</li>
+                    <li><strong>نظام التشغيل:</strong> ${window.authManager.escapeHtml(ua.os || 'أندرويد')}</li>
+                    <li><strong>المتصفح الدقيق:</strong> ${window.authManager.escapeHtml(ua.fullBrowser || ua.browser || 'جوجل كروم')}</li>
+                    <li><strong>دقة الشاشة:</strong> ${window.authManager.escapeHtml(env.resolution || 'غير محدد')}</li>
+                    <li><strong>أبعاد نافذة العرض:</strong> ${window.authManager.escapeHtml(env.viewport || 'غير محدد')}</li>
+                  </ul>
+                </div>
+
+                <div style="background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md);">
+                  <h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem;">🌐 مصدر الزيارة والشبكة:</h4>
+                  <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.88rem; line-height: 1.8;">
+                    <li><strong>مصدر الزيارة:</strong> <span class="badge badge-primary">${window.authManager.escapeHtml(traf.sourceName || 'دخول مباشر')}</span></li>
+                    <li><strong>الرابط المحيل:</strong> <span style="word-break: break-all; font-size: 0.8rem;" dir="ltr">${window.authManager.escapeHtml(traf.rawReferrer || 'رابط مباشر (Direct)')}</span></li>
+                    <li><strong>المنطقة الزمنية:</strong> ${window.authManager.escapeHtml(env.timezone || 'Asia/Aden (+03:00)')}</li>
+                    <li><strong>لغة النظام:</strong> ${window.authManager.escapeHtml(env.language || 'العربية (ar-YE)')}</li>
+                    <li><strong>حالة الاتصال:</strong> ${window.authManager.escapeHtml(env.onlineStatus || 'متصل 🟢')}</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div style="margin-top: 1rem; background: var(--surface-secondary); padding: 1rem; border-radius: var(--radius-md);">
+                <strong style="font-size: 0.88rem;">🔍 وكيل المستخدم الخام (Raw User-Agent):</strong>
+                <div style="background: var(--surface); padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); font-family: monospace; font-size: 0.78rem; word-break: break-all; margin-top: 0.4rem; color: var(--text-muted);" dir="ltr">
+                  ${window.authManager.escapeHtml(ua.raw || navigator.userAgent)}
+                </div>
+              </div>
+
+              <div style="margin-top: 1rem; font-size: 0.82rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                <span>معرف الزائر الفريد: <code dir="ltr">${window.authManager.escapeHtml(tel.visitorId || 'vid_local')}</code></span>
+                <span>معرف الجلسة: <code dir="ltr">${window.authManager.escapeHtml(tel.sessionId || 'ses_local')}</code></span>
+              </div>
+            `;
+
+            if (modal) modal.style.display = 'flex';
+          } catch (e) {
+            alert('تعذر استخراج التفاصيل الفنية: ' + e.message);
+          }
+        });
+      });
+    }
+
+    // ربطها بعد تحميل الجدول
+    const origLoadSubmissions = loadSubmissionsTable;
+    loadSubmissionsTable = async function() {
+      await origLoadSubmissions();
+      setupTelemetryModal();
+    };
+  </script>
+
 </body>
 </html>

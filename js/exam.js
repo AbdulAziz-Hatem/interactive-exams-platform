@@ -91,18 +91,10 @@ class ExamEngine {
 
     await window.authManager.init();
     if (!window.authManager.isAuthenticated()) {
-      // إسناد جلسة طالب تلقائياً دون إعاقة لخوض الاختبار فوراً
-      const guestStudent = {
-        id: 'usr_guest_' + Date.now(),
-        email: 'student@su.edu.ye',
-        username: 'student',
-        fullName: 'طالب قسم القرآن الكريم وعلومه',
-        role: 'student',
-        token: window.CONFIG.SUPABASE_ANON_KEY
-      };
-      localStorage.setItem('edutest_current_user', JSON.stringify(guestStudent));
-      window.authManager.currentUser = guestStudent;
-      window.authManager.updateNavUI();
+      window.a11y?.announce('تنبيه أكاديمي: خوض الاختبارات مقتصر حصرياً على الطلاب المسجلين بالمنصة لتوثيق الدرجات لدى المشرف العام.', 'assertive');
+      alert('تنبيه أكاديمي:\n\nخوض الاختبارات التخصصية مقتصر حصرياً على الطلاب المسجلين بالمنظومة؛ لتوثيق النتائج ورصد الإحصائيات الأكاديمية لدى المشرف العام.\n\nيرجى تسجيل الدخول بحسابك أو إنشاء حساب طالب جديد للبدء.');
+      window.location.href = `auth.html?mode=login&redirect=exam.html?id=${encodeURIComponent(this.examId)}`;
+      return;
     }
 
     window.db.init();
@@ -131,6 +123,7 @@ class ExamEngine {
       this.setupUI();
       this.setupKeyboardShortcuts();
       this.startTimer();
+      window.telemetry?.startExamTracking();
       this.renderQuestion(0);
     } catch (err) {
       console.error(err);
